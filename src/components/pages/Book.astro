@@ -1,0 +1,638 @@
+---
+import { FALLAS, type Locale } from '../../consts';
+import { pagePath } from '../../i18n/pages';
+import { dictFor, useT } from '../../i18n/ui';
+import { LAST_CHECKOUT } from '../../lib/booking';
+import PageHero from '../PageHero.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// Todas las cadenas book.* resueltas para este idioma → al cliente como JSON.
+const strings = Object.fromEntries(
+  Object.entries(dictFor(lang)).filter(([k]) => k.startsWith('book.')),
+);
+
+const config = {
+  locale: lang,
+  firstNight: FALLAS.saleStart,
+  lastNight: FALLAS.saleEnd,
+  lastCheckout: LAST_CHECKOUT,
+  minNights: FALLAS.minNights,
+  urls: {
+    terms: pagePath('terms', lang),
+    privacy: pagePath('privacy', lang),
+    home: pagePath('home', lang),
+  },
+};
+
+const stepKeys = ['dates', 'room', 'extras', 'details', 'done'] as const;
+---
+
+<PageHero eyebrow={t('book.eyebrow')} title={t('book.h1')} lead={t('book.lead')} />
+
+<section class="section">
+  <div class="container book">
+    <ol class="book-steps" aria-label="Progreso">
+      {stepKeys.map((s, i) => (
+        <li data-stepper={s} aria-current={s === 'dates' ? 'step' : undefined}>
+          <span class="n">{i + 1}</span>
+          <span class="l">{t(`book.step.${s}`)}</span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="book-grid">
+      <div class="book-main">
+        <!-- Paso 1 · Fechas -->
+        <div data-step="dates" class="panel">
+          <h2 tabindex="-1">{t('book.dates.title')}</h2>
+          <p class="hint">{t('book.dates.window').replace('{min}', String(FALLAS.minNights))}</p>
+          <div class="fields">
+            <label>
+              {t('book.dates.checkin')}
+              <input type="date" id="f-checkin" required />
+            </label>
+            <label>
+              {t('book.dates.checkout')}
+              <input type="date" id="f-checkout" required />
+            </label>
+            <label>
+              {t('book.dates.guests')}
+              <input type="number" id="f-guests" min="1" max="8" value="2" required />
+            </label>
+          </div>
+          <p class="err" data-err="dates" role="alert"></p>
+          <div class="actions">
+            <button type="button" class="btn btn-gold" id="dates-submit">{t('book.dates.submit')}</button>
+          </div>
+        </div>
+
+        <!-- Paso 2 · Habitación -->
+        <div data-step="room" class="panel" hidden>
+          <h2 tabindex="-1">{t('book.room.title')}</h2>
+          <div id="room-list" class="cards"></div>
+          <p class="err" data-err="room" role="alert"></p>
+          <div class="actions">
+            <button type="button" class="btn btn-ghost" data-nav="dates">{t('book.room.back')}</button>
+            <button type="button" class="btn btn-gold" id="room-next" disabled>{t('book.room.next')}</button>
+          </div>
+        </div>
+
+        <!-- Paso 3 · Catering -->
+        <div data-step="extras" class="panel" hidden>
+          <h2 tabindex="-1">{t('book.extras.title')}</h2>
+          <p class="hint">{t('book.extras.lead')}</p>
+          <div id="extras-list" class="cards"></div>
+          <div id="extras-people-wrap" hidden>
+            <label>
+              {t('book.extras.people')}
+              <input type="number" id="extras-people" min="1" />
+            </label>
+            <p class="hint" id="extras-min"></p>
+          </div>
+          <p class="err" data-err="extras" role="alert"></p>
+          <div class="actions">
+            <button type="button" class="btn btn-ghost" data-nav="room">{t('book.extras.back')}</button>
+            <button type="button" class="btn btn-gold" id="extras-next">{t('book.extras.next')}</button>
+          </div>
+        </div>
+
+        <!-- Paso 4 · Datos -->
+        <div data-step="details" class="panel" hidden>
+          <h2 tabindex="-1">{t('book.details.title')}</h2>
+          <form id="details-form" novalidate>
+            <div class="fields">
+              <label>
+                {t('book.details.first')}
+                <input type="text" name="firstName" autocomplete="given-name" required />
+              </label>
+              <label>
+                {t('book.details.last')}
+                <input type="text" name="lastName" autocomplete="family-name" required />
+              </label>
+              <label>
+                {t('book.details.email')}
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label>
+                {t('book.details.phone')}
+                <input type="tel" name="phone" autocomplete="tel" required />
+              </label>
+              <label>
+                {t('book.details.country')}
+                <input type="text" name="country" autocomplete="country-name" />
+              </label>
+            </div>
+            <label class="full">
+              {t('book.details.notes')}
+              <textarea name="notes" rows="3"></textarea>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="consent" />
+              <span set:html={t('book.details.consent')
+                .replace('{terms}', `<a href="${config.urls.terms}" target="_blank" rel="noopener">${t('book.details.consent.terms')}</a>`)
+                .replace('{privacy}', `<a href="${config.urls.privacy}" target="_blank" rel="noopener">${t('book.details.consent.privacy')}</a>`)} />
+            </label>
+            <p class="err" data-err="details" role="alert"></p>
+            <div class="actions">
+              <button type="button" class="btn btn-ghost" data-nav="extras">{t('book.details.back')}</button>
+              <button type="submit" class="btn btn-gold" id="details-submit">{t('book.details.submit')}</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Paso 5 · Hecho -->
+        <div data-step="done" class="panel" hidden>
+          <h2 tabindex="-1">{t('book.done.title')}</h2>
+          <p class="locator"><span>{t('book.done.locator')}</span><strong id="done-locator"></strong></p>
+          <p id="done-body"></p>
+          <p class="err" id="done-demo" hidden>{t('book.done.demo')}</p>
+          <div class="actions">
+            <a class="btn btn-gold" href={config.urls.home}>{t('book.done.home')}</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="book-summary" aria-live="polite">
+        <h2>{t('book.summary.title')}</h2>
+        <div id="summary-body"><p class="hint">{t('book.summary.empty')}</p></div>
+        <p class="hint pending">{t('book.summary.pending')}</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="book-config" set:html={JSON.stringify(config)}></script>
+<script type="application/json" id="book-i18n" set:html={JSON.stringify(strings)}></script>
+
+<script>
+  const cfg = JSON.parse(document.getElementById('book-config').textContent);
+  const T = JSON.parse(document.getElementById('book-i18n').textContent);
+
+  const fmt = (key, vars = {}) =>
+    (T[key] || key).replace(/\{(\w+)\}/g, (_, k) => (k in vars ? vars[k] : ''));
+  const money = (n) =>
+    new Intl.NumberFormat(cfg.locale, {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(n);
+  const nights = (n) => `${n} ${n === 1 ? T['book.night.one'] : T['book.night.other']}`;
+  const fdate = (d) =>
+    new Intl.DateTimeFormat(cfg.locale, { day: 'numeric', month: 'short' }).format(
+      new Date(d + 'T00:00:00'),
+    );
+  const desc = (o) => (cfg.locale === 'en' ? o.descriptionEn || o.descriptionEs : o.descriptionEs);
+  const $ = (sel, root = document) => root.querySelector(sel);
+
+  const state = {
+    from: '', to: '', nights: 0, guests: 2,
+    rooms: [], extras: [],
+    roomSlug: '', extraSlug: '', people: 0,
+    locator: '', persisted: true, quote: null,
+  };
+
+  const panels = {};
+  document.querySelectorAll('[data-step]').forEach((p) => (panels[p.dataset.step] = p));
+  const steppers = {};
+  document.querySelectorAll('[data-stepper]').forEach((s) => (steppers[s.dataset.stepper] = s));
+
+  function show(step) {
+    Object.entries(panels).forEach(([k, p]) => (p.hidden = k !== step));
+    Object.entries(steppers).forEach(([k, s]) => {
+      s.classList.toggle('is-done', order(k) < order(step));
+      s.classList.toggle('is-active', k === step);
+      if (k === step) s.setAttribute('aria-current', 'step');
+      else s.removeAttribute('aria-current');
+    });
+    const h = $('h2', panels[step]);
+    if (h) h.focus();
+    panels[step].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  const STEPS = ['dates', 'room', 'extras', 'details', 'done'];
+  const order = (s) => STEPS.indexOf(s);
+
+  function setErr(step, msg) {
+    const el = document.querySelector(`[data-err="${step}"]`);
+    if (el) el.textContent = msg || '';
+  }
+  function loading(btn, on, label) {
+    btn.disabled = on;
+    btn.dataset.label ??= btn.textContent;
+    btn.textContent = on ? label || btn.dataset.label : btn.dataset.label;
+  }
+
+  // ---- Paso fechas --------------------------------------------------------
+  const checkin = $('#f-checkin');
+  const checkout = $('#f-checkout');
+  const guestsEl = $('#f-guests');
+  checkin.min = cfg.firstNight;
+  checkin.max = cfg.lastNight;
+  checkout.min = addDay(cfg.firstNight);
+  checkout.max = cfg.lastCheckout;
+  checkin.addEventListener('change', () => {
+    if (checkin.value) checkout.min = addDay(checkin.value);
+    if (checkout.value && checkout.value <= checkin.value) checkout.value = '';
+  });
+  function addDay(d) {
+    const t = Date.parse(d + 'T00:00:00Z') + 86400000;
+    return new Date(t).toISOString().slice(0, 10);
+  }
+
+  $('#dates-submit').addEventListener('click', runAvailability);
+
+  async function runAvailability() {
+    setErr('dates', '');
+    const from = checkin.value;
+    const to = checkout.value;
+    const g = parseInt(guestsEl.value, 10) || 1;
+    if (!from || !to) return setErr('dates', T['book.dates.err.generic']);
+    if (to <= from) return setErr('dates', T['book.dates.err.order']);
+    if (from < cfg.firstNight || to > cfg.lastCheckout)
+      return setErr('dates', T['book.dates.err.range']);
+    const n = Math.round((Date.parse(to) - Date.parse(from)) / 86400000);
+    if (n < cfg.minNights)
+      return setErr('dates', fmt('book.dates.err.min', { min: cfg.minNights }));
+
+    const btn = $('#dates-submit');
+    loading(btn, true);
+    try {
+      const res = await fetch(`/api/availability?from=${from}&to=${to}`);
+      const data = await res.json();
+      if (!data.ok) return setErr('dates', mapError(data));
+      state.from = from;
+      state.to = to;
+      state.nights = data.stay.nights;
+      state.guests = g;
+      state.rooms = data.rooms;
+      state.extras = data.extras;
+      state.roomSlug = '';
+      renderRooms();
+      renderSummary();
+      show('room');
+    } catch {
+      setErr('dates', T['book.err.service']);
+    } finally {
+      loading(btn, false);
+    }
+  }
+
+  function mapError(data) {
+    if (data.error === 'fechas') {
+      return (
+        {
+          'fuera-de-ventana': T['book.dates.err.range'],
+          orden: T['book.dates.err.order'],
+          'minimo-noches': fmt('book.dates.err.min', { min: cfg.minNights }),
+        }[data.detail] || T['book.dates.err.generic']
+      );
+    }
+    if (data.error === 'servicio') return T['book.err.service'];
+    if (data.error === 'sin-disponibilidad') return T['book.err.availability'];
+    return T['book.err.generic'];
+  }
+
+  // ---- Paso habitación ---------------------------------------------------
+  function renderRooms() {
+    const list = $('#room-list');
+    list.innerHTML = '';
+    let anyUsable = false;
+    for (const room of state.rooms) {
+      const fits = room.capacity >= state.guests;
+      const usable = room.available && fits;
+      anyUsable = anyUsable || usable;
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'card';
+      card.disabled = !usable;
+      card.setAttribute('aria-pressed', String(state.roomSlug === room.slug));
+      let status = '';
+      if (!room.available) status = `<span class="tag tag-off">${T['book.room.unavailable']}</span>`;
+      else if (!fits)
+        status = `<span class="tag tag-off">${fmt('book.room.toosmall', { n: state.guests })}</span>`;
+      card.innerHTML = `
+        <div class="card-head">
+          <h3>${room.name}</h3>
+          ${room.plazaView ? `<span class="tag tag-plaza">${T['book.room.plaza']}</span>` : ''}
+        </div>
+        <p class="card-desc">${desc(room) || ''}</p>
+        <p class="card-meta">${fmt('book.room.capacity', { n: room.capacity })}</p>
+        <p class="card-price">
+          <strong>${fmt('book.room.total', { price: money(room.lodgingTotal), nights: nights(room.nights) })}</strong>
+          <span>${fmt('book.room.pernight', { price: money(room.pricePerNight) })}</span>
+        </p>
+        ${status}`;
+      if (usable)
+        card.addEventListener('click', () => {
+          state.roomSlug = state.roomSlug === room.slug ? '' : room.slug;
+          renderRooms();
+          renderSummary();
+          $('#room-next').disabled = !state.roomSlug;
+        });
+      list.appendChild(card);
+    }
+    if (!anyUsable) {
+      const p = document.createElement('p');
+      p.className = 'hint';
+      p.textContent = T['book.room.none'];
+      list.appendChild(p);
+    }
+    $('#room-next').disabled = !state.roomSlug;
+  }
+
+  $('#room-next').addEventListener('click', () => {
+    renderExtras();
+    show('extras');
+  });
+
+  // ---- Paso catering ----------------------------------------------------
+  function renderExtras() {
+    const list = $('#extras-list');
+    list.innerHTML = '';
+    const opts = [{ slug: '', name: T['book.extras.none'] }, ...state.extras];
+    for (const opt of opts) {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'card';
+      card.setAttribute('aria-pressed', String(state.extraSlug === opt.slug));
+      card.innerHTML = opt.slug
+        ? `<div class="card-head"><h3>${opt.name}</h3></div>
+           <p class="card-desc">${desc(opt) || ''}</p>
+           <p class="card-price"><strong>${fmt('book.extras.perperson', { price: money(opt.pricePerPerson) })}</strong></p>`
+        : `<div class="card-head"><h3>${opt.name}</h3></div>`;
+      card.addEventListener('click', () => {
+        state.extraSlug = opt.slug;
+        syncExtraPeople();
+        renderExtras();
+        renderSummary();
+      });
+      list.appendChild(card);
+    }
+    syncExtraPeople();
+  }
+
+  const peopleWrap = $('#extras-people-wrap');
+  const peopleEl = $('#extras-people');
+  peopleEl.addEventListener('input', () => {
+    state.people = parseInt(peopleEl.value, 10) || 0;
+    renderSummary();
+  });
+
+  function currentExtra() {
+    return state.extras.find((e) => e.slug === state.extraSlug) || null;
+  }
+  function syncExtraPeople() {
+    const ex = currentExtra();
+    peopleWrap.hidden = !ex;
+    if (!ex) {
+      state.people = 0;
+      return;
+    }
+    peopleEl.min = String(ex.minPeople || 1);
+    if (!state.people || state.people < (ex.minPeople || 1))
+      state.people = Math.max(ex.minPeople || 1, state.guests);
+    peopleEl.value = String(state.people);
+    $('#extras-min').textContent = ex.minPeople
+      ? fmt('book.extras.min', { n: ex.minPeople })
+      : '';
+  }
+
+  document.querySelectorAll('[data-nav]').forEach((b) =>
+    b.addEventListener('click', () => show(b.dataset.nav)),
+  );
+
+  $('#extras-next').addEventListener('click', () => {
+    setErr('extras', '');
+    const ex = currentExtra();
+    if (ex && state.people < (ex.minPeople || 1))
+      return setErr('extras', fmt('book.extras.min', { n: ex.minPeople }));
+    renderSummary();
+    show('details');
+  });
+
+  // ---- Paso datos -----------------------------------------------------
+  const form = $('#details-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setErr('details', '');
+    form.querySelectorAll('.invalid').forEach((el) => el.classList.remove('invalid'));
+
+    const fd = new FormData(form);
+    const payload = {
+      from: state.from,
+      to: state.to,
+      roomSlug: state.roomSlug,
+      guests: state.guests,
+      cateringSlug: state.extraSlug || undefined,
+      cateringPeople: state.extraSlug ? state.people : 0,
+      firstName: (fd.get('firstName') || '').trim(),
+      lastName: (fd.get('lastName') || '').trim(),
+      email: (fd.get('email') || '').trim(),
+      phone: (fd.get('phone') || '').trim(),
+      country: (fd.get('country') || '').trim(),
+      notes: (fd.get('notes') || '').trim(),
+      consent: fd.get('consent') === 'on',
+      lang: cfg.locale,
+    };
+
+    const bad = [];
+    if (!payload.firstName) bad.push('firstName');
+    if (!payload.lastName) bad.push('lastName');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(payload.email)) bad.push('email');
+    if (payload.phone.replace(/\D/g, '').length < 6) bad.push('phone');
+    if (bad.length) {
+      markInvalid(bad);
+      return setErr('details', T['book.details.err.fields']);
+    }
+    if (!payload.consent) return setErr('details', T['book.details.err.consent']);
+
+    const btn = $('#details-submit');
+    loading(btn, true, T['book.details.sending']);
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        state.locator = data.locator;
+        state.persisted = data.persisted;
+        state.quote = data.quote;
+        renderDone();
+        renderSummary();
+        show('done');
+        return;
+      }
+      if (data.error === 'datos') {
+        markInvalid(data.fields || []);
+        setErr('details', T['book.details.err.fields']);
+      } else if (data.error === 'sin-disponibilidad') {
+        setErr('details', T['book.err.availability']);
+      } else if (data.error === 'servicio') {
+        setErr('details', T['book.err.service']);
+      } else {
+        setErr('details', T['book.err.generic']);
+      }
+    } catch {
+      setErr('details', T['book.err.service']);
+    } finally {
+      loading(btn, false);
+    }
+  });
+
+  function markInvalid(names) {
+    for (const n of names) {
+      const el = form.querySelector(`[name="${n}"]`);
+      if (el) el.classList.add('invalid');
+    }
+  }
+
+  function renderDone() {
+    $('#done-locator').textContent = state.locator;
+    $('#done-body').textContent = fmt('book.done.body', {
+      email: new FormData(form).get('email') || '',
+    });
+    $('#done-demo').hidden = state.persisted;
+  }
+
+  // ---- Resumen -------------------------------------------------------
+  function renderSummary() {
+    const body = $('#summary-body');
+    if (!state.from) {
+      body.innerHTML = `<p class="hint">${T['book.summary.empty']}</p>`;
+      return;
+    }
+    const room = state.rooms.find((r) => r.slug === state.roomSlug) || null;
+    const ex = currentExtra();
+    const lodging = room ? room.lodgingTotal : 0;
+    const catering = ex ? ex.pricePerPerson * (state.people || 0) : 0;
+    const rows = [
+      row(T['book.summary.dates'], `${fdate(state.from)} → ${fdate(state.to)}`, nights(state.nights)),
+    ];
+    if (room) rows.push(row(T['book.summary.room'], room.name, money(lodging)));
+    if (ex) rows.push(row(T['book.summary.catering'], `${ex.name} × ${state.people}`, money(catering)));
+    let html = rows.join('');
+    if (room)
+      html += `<div class="sum-total"><span>${T['book.summary.total']}</span><strong>${money(lodging + catering)}</strong></div>`;
+    body.innerHTML = html;
+  }
+  function row(label, value, aside) {
+    return `<div class="sum-row"><span>${label}</span><span>${value}</span>${aside ? `<em>${aside}</em>` : ''}</div>`;
+  }
+
+  // ---- Prefill desde la URL (?room=&from=&to=&guests=) ----------------
+  const params = new URLSearchParams(location.search);
+  if (params.get('from')) checkin.value = params.get('from');
+  if (params.get('to')) checkout.value = params.get('to');
+  if (params.get('guests')) guestsEl.value = params.get('guests');
+  const prefRoom = params.get('room');
+  if (checkin.value && checkout.value) {
+    runAvailability().then(() => {
+      if (prefRoom && state.rooms.some((r) => r.slug === prefRoom && r.available)) {
+        state.roomSlug = prefRoom;
+        renderRooms();
+        renderSummary();
+        $('#room-next').disabled = false;
+      }
+    });
+  }
+</script>
+
+<!-- is:global + prefijo .book: las cards y el resumen se pintan desde JS y no
+     llevan el atributo de scope de Astro, así que los estilos scoped no las
+     alcanzan. El prefijo .book evita colisiones con el resto del sitio. -->
+<style is:global>
+  .book { max-width: 960px; }
+  .book .book-steps {
+    display: flex; flex-wrap: wrap; gap: 8px 4px; list-style: none;
+    padding: 0; margin: 0 0 40px;
+  }
+  .book .book-steps li {
+    display: flex; align-items: center; gap: 8px; flex: 1; min-width: 120px;
+    font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--text-soft);
+  }
+  .book .book-steps .n {
+    width: 26px; height: 26px; border-radius: 50%; flex: none;
+    display: grid; place-items: center;
+    border: 2px solid var(--cream-dark); font-family: var(--ff-body);
+  }
+  .book .book-steps li.is-active { color: var(--navy); }
+  .book .book-steps li.is-active .n { border-color: var(--gold); color: var(--navy); }
+  .book .book-steps li.is-done .n { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+  .book .book-grid { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
+  @media (max-width: 820px) { .book .book-grid { grid-template-columns: 1fr; } }
+
+  .book .panel h2 { font-size: 24px; margin-bottom: 6px; outline: none; }
+  .book .hint { color: var(--text-soft); font-size: 14px; }
+  .book .panel > .hint { margin-bottom: 20px; }
+
+  .book .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 520px) { .book .fields { grid-template-columns: 1fr; } }
+  .book label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-mid); }
+  .book label.full { margin-top: 16px; }
+  .book input, .book textarea {
+    font: inherit; padding: 11px 12px; border: 1px solid var(--cream-dark);
+    border-radius: var(--r); background: #fff; color: var(--text);
+  }
+  .book input:focus, .book textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+  .book input.invalid { border-color: #c0392b; background: #fdf3f2; }
+
+  .book label.check { flex-direction: row; align-items: flex-start; gap: 10px; margin-top: 18px; font-weight: 400; color: var(--text-mid); }
+  .book label.check input { margin-top: 3px; }
+  .book label.check a { color: var(--gold); text-decoration: underline; }
+
+  .book .cards { display: grid; gap: 14px; }
+  .book .card {
+    text-align: left; border: 1px solid var(--cream-dark); border-radius: var(--r-lg);
+    padding: 18px; background: #fff; display: block; width: 100%; color: inherit;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .book .card:not(:disabled):hover { border-color: var(--gold); }
+  .book .card[aria-pressed='true'] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); background: var(--gold-pale); }
+  .book .card:disabled { opacity: .55; cursor: not-allowed; }
+  .book .card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .book .card-head h3 { font-size: 17px; }
+  .book .card-desc { font-size: 13px; color: var(--text-mid); margin: 8px 0; }
+  .book .card-meta { font-size: 12px; color: var(--text-soft); }
+  .book .card-price { margin-top: 10px; display: flex; align-items: baseline; gap: 10px; }
+  .book .card-price strong { font-family: var(--ff-display); font-size: 17px; color: var(--navy); }
+  .book .card-price span { font-size: 12px; color: var(--text-soft); }
+
+  .book .tag {
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; padding: 3px 7px; border-radius: 3px; margin-top: 10px;
+  }
+  .book .tag-plaza { color: var(--gold); background: var(--gold-pale); margin-top: 0; }
+  .book .tag-off { color: #c0392b; background: #fdf3f2; }
+
+  .book #extras-people-wrap { margin-top: 18px; max-width: 200px; }
+  .book #extras-min { font-size: 12px; color: var(--text-soft); margin-top: 6px; }
+
+  .book .err { color: #c0392b; font-size: 13px; font-weight: 600; margin: 14px 0 0; }
+  .book .err:empty { display: none; }
+
+  .book .actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .book .actions .btn { padding: 13px 24px; }
+
+  .book .locator { display: flex; flex-direction: column; gap: 2px; margin: 8px 0 16px; }
+  .book .locator span { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-soft); }
+  .book .locator strong { font-family: var(--ff-display); font-size: 28px; color: var(--navy); letter-spacing: .04em; }
+
+  .book .book-summary {
+    background: var(--cream); border-radius: var(--r-lg); padding: 24px;
+    position: sticky; top: 96px;
+  }
+  .book .book-summary h2 { font-size: 16px; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; }
+  .book .sum-row { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; padding: 10px 0; border-bottom: 1px solid var(--cream-dark); font-size: 13px; }
+  .book .sum-row span:first-child { font-weight: 700; color: var(--text-mid); }
+  .book .sum-row span:nth-child(2) { text-align: right; color: var(--text); }
+  .book .sum-row em { grid-column: 1 / -1; text-align: right; font-style: normal; font-size: 12px; color: var(--text-soft); }
+  .book .sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; margin-top: 4px; }
+  .book .sum-total strong { font-family: var(--ff-display); font-size: 20px; color: var(--navy); }
+  .book .book-summary .pending { font-size: 12px; color: var(--text-soft); margin-top: 16px; }
+</style>

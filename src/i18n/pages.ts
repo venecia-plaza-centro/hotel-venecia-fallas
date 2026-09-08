@@ -12,6 +12,7 @@ export type PageId =
   | 'groups'
   | 'mascletas'
   | 'faq'
+  | 'book'
   | 'terms'
   | 'cancellation'
   | 'privacy';
@@ -47,6 +48,12 @@ export const PAGES: PageDef[] = [
     },
     inNav: true,
     inFooter: true,
+  },
+  {
+    id: 'book',
+    slug: { es: 'reservar', en: 'book', it: 'prenota', fr: 'reserver', de: 'buchen' },
+    inNav: false,
+    inFooter: false,
   },
   {
     id: 'mascletas',

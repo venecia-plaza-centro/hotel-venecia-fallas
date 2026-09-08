@@ -96,6 +96,95 @@ const es: Dict = {
   'faq.q4': '¿Puedo cancelar?',
   'faq.a4': 'Consulta la política de cancelación para las fechas de Fallas.',
 
+  // reserva (flujo del Hito 2)
+  'book.eyebrow': 'Fallas 2027',
+  'book.h1': 'Reserva tu habitación',
+  'book.lead':
+    'Elige fechas, habitación y catering. La reserva queda como solicitud; el hotel confirma la disponibilidad y te escribe por correo.',
+
+  'book.step.dates': 'Fechas',
+  'book.step.room': 'Habitación',
+  'book.step.extras': 'Catering',
+  'book.step.details': 'Tus datos',
+  'book.step.done': 'Confirmación',
+
+  'book.dates.title': 'Fechas de la estancia',
+  'book.dates.checkin': 'Entrada',
+  'book.dates.checkout': 'Salida',
+  'book.dates.guests': 'Huéspedes',
+  'book.dates.window': 'Noches del 1 al 19 de marzo de 2027. Mínimo {min} noches.',
+  'book.dates.submit': 'Buscar disponibilidad',
+  'book.dates.err.range': 'Las fechas deben estar entre el 1 y el 20 de marzo de 2027.',
+  'book.dates.err.order': 'La salida debe ser posterior a la entrada.',
+  'book.dates.err.min': 'La estancia mínima es de {min} noches.',
+  'book.dates.err.generic': 'Revisa las fechas.',
+
+  'book.room.title': 'Elige habitación',
+  'book.room.capacity': 'Hasta {n} personas',
+  'book.room.plaza': 'Vistas a la plaza',
+  'book.room.pernight': '{price} / noche',
+  'book.room.total': '{price} · {nights}',
+  'book.room.select': 'Elegir',
+  'book.room.selected': 'Elegida',
+  'book.room.unavailable': 'Sin disponibilidad para estas fechas',
+  'book.room.toosmall': 'No admite {n} huéspedes',
+  'book.room.none': 'No hay habitaciones disponibles para estas fechas.',
+  'book.room.back': 'Cambiar fechas',
+  'book.room.next': 'Continuar',
+
+  'book.extras.title': '¿Añadir catering?',
+  'book.extras.lead': 'Aperitivo valenciano servido antes de la mascletà. Es opcional.',
+  'book.extras.none': 'Sin catering',
+  'book.extras.perperson': '{price} / persona',
+  'book.extras.people': 'Comensales',
+  'book.extras.min': 'Mínimo {n} personas',
+  'book.extras.back': 'Atrás',
+  'book.extras.next': 'Continuar',
+
+  'book.details.title': 'Tus datos',
+  'book.details.first': 'Nombre',
+  'book.details.last': 'Apellidos',
+  'book.details.email': 'Email',
+  'book.details.phone': 'Teléfono',
+  'book.details.country': 'País (opcional)',
+  'book.details.notes': 'Peticiones (opcional)',
+  'book.details.consent': 'He leído y acepto las {terms} y la {privacy}.',
+  'book.details.consent.terms': 'condiciones de reserva',
+  'book.details.consent.privacy': 'política de privacidad',
+  'book.details.back': 'Atrás',
+  'book.details.submit': 'Enviar solicitud',
+  'book.details.sending': 'Enviando…',
+  'book.details.err.fields': 'Revisa los campos marcados.',
+  'book.details.err.consent': 'Tienes que aceptar las condiciones para continuar.',
+
+  'book.err.availability': 'Esa habitación ya no está disponible para estas fechas.',
+  'book.err.service':
+    'No hemos podido conectar con el sistema de reservas. Inténtalo en unos minutos o llámanos.',
+  'book.err.generic': 'Algo ha ido mal. Inténtalo de nuevo.',
+
+  'book.summary.title': 'Resumen',
+  'book.summary.dates': 'Fechas',
+  'book.summary.room': 'Habitación',
+  'book.summary.catering': 'Catering',
+  'book.summary.lodging': 'Alojamiento',
+  'book.summary.total': 'Total',
+  'book.summary.empty': 'Elige fechas para empezar.',
+  'book.summary.pending': 'El pago se añade más adelante. Ahora solo se envía la solicitud.',
+
+  'book.done.title': '¡Solicitud recibida!',
+  'book.done.locator': 'Localizador',
+  'book.done.body':
+    'Hemos enviado un correo a {email} con el resumen. El hotel confirmará la disponibilidad y te escribirá con los pasos para el pago.',
+  'book.done.demo': 'Modo demostración: la reserva no se ha guardado (falta conectar Airtable).',
+  'book.done.home': 'Volver al inicio',
+
+  'book.night.one': 'noche',
+  'book.night.other': 'noches',
+
+  'book.meta.title': 'Reservar · Hotel Venecia Plaza Centro · Fallas 2027',
+  'book.meta.desc':
+    'Reserva tu habitación en el Hotel Venecia Plaza Centro para las Fallas 2027 y vive la mascletà diaria desde la Plaza del Ayuntamiento.',
+
   // legal (marcadores)
   'legal.terms.h1': 'Condiciones de reserva',
   'legal.cancellation.h1': 'Política de cancelación',
@@ -186,6 +275,94 @@ const en: Dict = {
   'faq.q4': 'Can I cancel?',
   'faq.a4': 'See the cancellation policy for the Fallas dates.',
 
+  'book.eyebrow': 'Fallas 2027',
+  'book.h1': 'Book your room',
+  'book.lead':
+    'Pick your dates, room and catering. The booking is submitted as a request; the hotel confirms availability and gets back to you by email.',
+
+  'book.step.dates': 'Dates',
+  'book.step.room': 'Room',
+  'book.step.extras': 'Catering',
+  'book.step.details': 'Your details',
+  'book.step.done': 'Confirmation',
+
+  'book.dates.title': 'Stay dates',
+  'book.dates.checkin': 'Check-in',
+  'book.dates.checkout': 'Check-out',
+  'book.dates.guests': 'Guests',
+  'book.dates.window': 'Nights from 1 to 19 March 2027. Minimum {min} nights.',
+  'book.dates.submit': 'Check availability',
+  'book.dates.err.range': 'Dates must fall between 1 and 20 March 2027.',
+  'book.dates.err.order': 'Check-out must be after check-in.',
+  'book.dates.err.min': 'The minimum stay is {min} nights.',
+  'book.dates.err.generic': 'Please check the dates.',
+
+  'book.room.title': 'Choose a room',
+  'book.room.capacity': 'Up to {n} people',
+  'book.room.plaza': 'Square views',
+  'book.room.pernight': '{price} / night',
+  'book.room.total': '{price} · {nights}',
+  'book.room.select': 'Choose',
+  'book.room.selected': 'Chosen',
+  'book.room.unavailable': 'Not available for these dates',
+  'book.room.toosmall': "Doesn't fit {n} guests",
+  'book.room.none': 'No rooms available for these dates.',
+  'book.room.back': 'Change dates',
+  'book.room.next': 'Continue',
+
+  'book.extras.title': 'Add catering?',
+  'book.extras.lead': 'A Valencian aperitif served before the mascletà. Optional.',
+  'book.extras.none': 'No catering',
+  'book.extras.perperson': '{price} / person',
+  'book.extras.people': 'Guests',
+  'book.extras.min': 'Minimum {n} people',
+  'book.extras.back': 'Back',
+  'book.extras.next': 'Continue',
+
+  'book.details.title': 'Your details',
+  'book.details.first': 'First name',
+  'book.details.last': 'Last name',
+  'book.details.email': 'Email',
+  'book.details.phone': 'Phone',
+  'book.details.country': 'Country (optional)',
+  'book.details.notes': 'Requests (optional)',
+  'book.details.consent': 'I have read and accept the {terms} and the {privacy}.',
+  'book.details.consent.terms': 'booking terms',
+  'book.details.consent.privacy': 'privacy policy',
+  'book.details.back': 'Back',
+  'book.details.submit': 'Send request',
+  'book.details.sending': 'Sending…',
+  'book.details.err.fields': 'Please check the highlighted fields.',
+  'book.details.err.consent': 'You must accept the terms to continue.',
+
+  'book.err.availability': 'That room is no longer available for these dates.',
+  'book.err.service':
+    "We couldn't reach the booking system. Try again in a few minutes or give us a call.",
+  'book.err.generic': 'Something went wrong. Please try again.',
+
+  'book.summary.title': 'Summary',
+  'book.summary.dates': 'Dates',
+  'book.summary.room': 'Room',
+  'book.summary.catering': 'Catering',
+  'book.summary.lodging': 'Accommodation',
+  'book.summary.total': 'Total',
+  'book.summary.empty': 'Pick your dates to start.',
+  'book.summary.pending': 'Payment comes later. For now only the request is sent.',
+
+  'book.done.title': 'Request received!',
+  'book.done.locator': 'Reference',
+  'book.done.body':
+    "We've emailed a summary to {email}. The hotel will confirm availability and write to you with the payment steps.",
+  'book.done.demo': 'Demo mode: the booking was not saved (Airtable not connected yet).',
+  'book.done.home': 'Back to home',
+
+  'book.night.one': 'night',
+  'book.night.other': 'nights',
+
+  'book.meta.title': 'Book · Hotel Venecia Plaza Centro · Fallas 2027',
+  'book.meta.desc':
+    'Book a room at Hotel Venecia Plaza Centro for Fallas 2027 and experience the daily mascletà from Plaza del Ayuntamiento.',
+
   'legal.terms.h1': 'Booking terms',
   'legal.cancellation.h1': 'Cancellation policy',
   'legal.privacy.h1': 'Privacy policy',
@@ -208,4 +385,9 @@ const DICTS: Record<Locale, Dict> = {
 export function useT(lang: Locale) {
   const dict = DICTS[lang] ?? {};
   return (key: string): string => dict[key] ?? DICTS[DEFAULT_LOCALE][key] ?? key;
+}
+
+/** Diccionario completo de un idioma: ES como base + traducciones encima. */
+export function dictFor(lang: Locale): Dict {
+  return { ...DICTS[DEFAULT_LOCALE], ...(DICTS[lang] ?? {}) };
 }

@@ -1,48 +1,46 @@
 ---
 import { type Locale } from '../../consts';
+import { pagePath } from '../../i18n/pages';
 import { useT } from '../../i18n/ui';
+import { getRooms } from '../../lib/airtable';
 import PageHero from '../PageHero.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-// Contenido de ejemplo. TODO: sustituir por el cupo real del hotel
-// (tipos, cuáles dan a la Plaza del Ayuntamiento, capacidad, precio Fallas).
-const rooms = [
-  { name: 'Doble Vistas Plaza', plaza: true, capacity: 2, price: null },
-  { name: 'Triple Vistas Plaza', plaza: true, capacity: 3, price: null },
-  { name: 'Cuádruple', plaza: false, capacity: 4, price: null },
-  { name: 'Suite', plaza: true, capacity: 2, price: null },
-];
+// Se lee de Airtable en build. Sin credenciales, datos de ejemplo
+// (src/lib/fixtures.ts). El hotel edita precios/cupo sin tocar código.
+const rooms = await getRooms();
+const bookUrl = pagePath('book', lang);
+const money = (n: number) =>
+  new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  }).format(n);
 ---
 
 <PageHero eyebrow={t('rooms.eyebrow')} title={t('rooms.h1')} lead={t('rooms.lead')} />
 
 <section class="section">
   <div class="container">
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px">
+    <div class="rooms-grid">
       {rooms.map((r) => (
-        <article style="border:1px solid var(--cream-dark);border-radius:var(--r-lg);overflow:hidden">
-          <div style="aspect-ratio:16/9;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-size:13px">
-            foto
+        <article class="room">
+          <div class="room-photo">
+            {r.photo ? <img src={r.photo} alt={r.name} loading="lazy" /> : <span>foto</span>}
           </div>
-          <div style="padding:22px">
-            <h3 style="font-size:20px">{r.name}</h3>
-            {r.plaza && (
-              <p style="color:var(--gold);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:6px">
-                {t('rooms.viewsplaza')}
-              </p>
-            )}
-            <p style="color:var(--text-mid);font-size:14px;margin-top:8px">
-              {t('rooms.capacity')}: {r.capacity}
+          <div class="room-body">
+            <h3>{r.name}</h3>
+            {r.plazaView && <p class="room-plaza">{t('rooms.viewsplaza')}</p>}
+            <p class="room-cap">{t('rooms.capacity')}: {r.capacity}</p>
+            <p class="room-price">
+              {r.pricePerNight
+                ? `${t('rooms.from')} ${money(r.pricePerNight)}${t('rooms.night')}`
+                : t('rooms.tbd')}
             </p>
-            <p style="margin-top:14px;font-family:var(--ff-display);font-size:18px;color:var(--navy)">
-              {r.price ? `${t('rooms.from')} ${r.price} €${t('rooms.night')}` : t('rooms.tbd')}
-            </p>
-            <button class="btn btn-gold" style="margin-top:16px;width:100%" disabled>
-              {t('rooms.book')}
-            </button>
+            <a class="btn btn-gold" href={`${bookUrl}?room=${r.slug}`}>{t('rooms.book')}</a>
           </div>
         </article>
       ))}
@@ -51,7 +49,15 @@ const rooms = [
 </section>
 
 <style>
-  @media (max-width: 800px) {
-    section div[style*='grid-template-columns'] { grid-template-columns: 1fr !important; }
-  }
+  .rooms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  @media (max-width: 800px) { .rooms-grid { grid-template-columns: 1fr; } }
+  .room { border: 1px solid var(--cream-dark); border-radius: var(--r-lg); overflow: hidden; display: flex; flex-direction: column; }
+  .room-photo { aspect-ratio: 16 / 9; background: var(--cream-dark); display: grid; place-items: center; color: var(--text-soft); font-size: 13px; }
+  .room-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .room-body { padding: 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .room-body h3 { font-size: 20px; }
+  .room-plaza { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .room-cap { color: var(--text-mid); font-size: 14px; }
+  .room-price { font-family: var(--ff-display); font-size: 18px; color: var(--navy); margin-top: 2px; }
+  .room-body .btn { margin-top: auto; align-self: flex-start; }
 </style>

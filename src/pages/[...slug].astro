@@ -5,6 +5,7 @@ import Rooms from '../components/pages/Rooms.astro';
 import Groups from '../components/pages/Groups.astro';
 import Mascletas from '../components/pages/Mascletas.astro';
 import Faq from '../components/pages/Faq.astro';
+import Book from '../components/pages/Book.astro';
 import Legal from '../components/pages/Legal.astro';
 import { LOCALES, SITE, FALLAS, type Locale } from '../consts';
 import { PAGES, pagePath, type PageId } from '../i18n/pages';
@@ -31,6 +32,9 @@ let description: string;
 if (pageId === 'home') {
   title = t('meta.home.title');
   description = t('meta.home.desc');
+} else if (pageId === 'book') {
+  title = t('book.meta.title');
+  description = t('book.meta.desc');
 } else {
   const navKey = ['terms', 'cancellation', 'privacy'].includes(pageId)
     ? `legal.${pageId}.h1`
@@ -67,5 +71,6 @@ const jsonLd = pageId === 'home'
   {pageId === 'groups' && <Groups lang={lang} />}
   {pageId === 'mascletas' && <Mascletas lang={lang} />}
   {pageId === 'faq' && <Faq lang={lang} />}
+  {pageId === 'book' && <Book lang={lang} />}
   {['terms', 'cancellation', 'privacy'].includes(pageId) && <Legal lang={lang} pageId={pageId} />}
 </Base>

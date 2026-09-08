@@ -1,5 +1,6 @@
 ---
 import { type Locale } from '../../consts';
+import { pagePath } from '../../i18n/pages';
 import { useT } from '../../i18n/ui';
 import PageHero from '../PageHero.astro';
 
@@ -25,7 +26,7 @@ const steps = [
       </div>
     ))}
     <div style="text-align:center;margin-top:36px">
-      <button class="btn btn-gold" disabled>{t('groups.cta')}</button>
+      <a class="btn btn-gold" href={pagePath('book', lang)}>{t('groups.cta')}</a>
     </div>
   </div>
 </section>
