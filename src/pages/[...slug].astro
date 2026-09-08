@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import Home from '../components/pages/Home.astro';
+import Rooms from '../components/pages/Rooms.astro';
+import Groups from '../components/pages/Groups.astro';
+import Mascletas from '../components/pages/Mascletas.astro';
+import Faq from '../components/pages/Faq.astro';
+import Legal from '../components/pages/Legal.astro';
+import { LOCALES, SITE, FALLAS, type Locale } from '../consts';
+import { PAGES, pagePath, type PageId } from '../i18n/pages';
+import { useT } from '../i18n/ui';
+
+export function getStaticPaths() {
+  const paths: { params: { slug: string | undefined }; props: { lang: Locale; pageId: PageId } }[] = [];
+  for (const page of PAGES) {
+    for (const lang of LOCALES) {
+      const url = pagePath(page.id, lang); // '/', '/habitaciones/', '/en/rooms/'
+      const slug = url.replace(/^\/|\/$/g, '') || undefined; // '', 'habitaciones', 'en/rooms'
+      paths.push({ params: { slug }, props: { lang, pageId: page.id } });
+    }
+  }
+  return paths;
+}
+
+const { lang, pageId } = Astro.props;
+const t = useT(lang);
+
+// Título y descripción por página
+let title: string;
+let description: string;
+if (pageId === 'home') {
+  title = t('meta.home.title');
+  description = t('meta.home.desc');
+} else {
+  const navKey = ['terms', 'cancellation', 'privacy'].includes(pageId)
+    ? `legal.${pageId}.h1`
+    : `nav.${pageId}`;
+  title = `${t(navKey)} · ${SITE.name} · Fallas ${FALLAS.year}`;
+  description = t('meta.home.desc');
+}
+
+const noindex = ['terms', 'cancellation', 'privacy'].includes(pageId);
+
+// JSON-LD: Hotel + (en home) evento de las mascletàs
+const jsonLd = pageId === 'home'
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Hotel',
+      name: SITE.name,
+      url: SITE.mainSite,
+      telephone: SITE.phone,
+      email: SITE.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Plaza del Ayuntamiento, 3',
+        postalCode: '46002',
+        addressLocality: 'València',
+        addressCountry: 'ES',
+      },
+    })
+  : undefined;
+---
+
+<Base lang={lang} pageId={pageId} title={title} description={description} jsonLd={jsonLd} noindex={noindex}>
+  {pageId === 'home' && <Home lang={lang} />}
+  {pageId === 'rooms' && <Rooms lang={lang} />}
+  {pageId === 'groups' && <Groups lang={lang} />}
+  {pageId === 'mascletas' && <Mascletas lang={lang} />}
+  {pageId === 'faq' && <Faq lang={lang} />}
+  {['terms', 'cancellation', 'privacy'].includes(pageId) && <Legal lang={lang} pageId={pageId} />}
+</Base>

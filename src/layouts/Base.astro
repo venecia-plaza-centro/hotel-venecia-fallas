@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Fabs from '../components/Fabs.astro';
+import { SITE, LOCALES, OG_LOCALE, DEFAULT_LOCALE, type Locale } from '../consts';
+import { pagePath, type PageId } from '../i18n/pages';
+
+interface Props {
+  lang: Locale;
+  pageId: PageId;
+  title: string;
+  description: string;
+  /** JSON-LD ya serializado (opcional) */
+  jsonLd?: string;
+  noindex?: boolean;
+}
+
+const { lang, pageId, title, description, jsonLd, noindex = false } = Astro.props;
+
+const canonical = SITE.origin + pagePath(pageId, lang);
+const alternates = LOCALES.map((l) => ({ lang: l, href: SITE.origin + pagePath(pageId, l) }));
+const xDefault = SITE.origin + pagePath(pageId, DEFAULT_LOCALE);
+const ogImage = SITE.origin + '/assets/img/og-default.jpg'; // TODO imagen social real
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    {!noindex && alternates.map((a) => (
+      <link rel="alternate" hreflang={a.lang} href={a.href} />
+    ))}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={xDefault} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={OG_LOCALE[lang]} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+  </head>
+  <body>
+    <Nav lang={lang} pageId={pageId} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <Fabs lang={lang} />
+  </body>
+</html>

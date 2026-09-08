@@ -1,0 +1,42 @@
+---
+import { FALLAS, type Locale } from '../../consts';
+import { useT } from '../../i18n/ui';
+import PageHero from '../PageHero.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// 1–19 marzo 2027. Días con evento especial marcados.
+const special: Record<number, string> = {
+  15: 'Plantà',
+  16: 'Plantà',
+  17: 'Ofrena de flors',
+  18: 'Ofrena · Nit del Foc',
+  19: 'Sant Josep · Cremà',
+};
+const days = Array.from({ length: 19 }, (_, i) => i + 1);
+---
+
+<PageHero eyebrow={t('mascletas.eyebrow')} title={t('mascletas.h1')} lead={t('mascletas.lead')} />
+
+<section class="section">
+  <div class="container" style="max-width:760px">
+    <p style="text-align:center;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px">
+      {t('mascletas.daily')}
+    </p>
+    <h2 class="h2" style="text-align:center;margin-top:8px">{t('mascletas.march')}</h2>
+    <div class="gold-rule" style="margin:18px auto 40px"></div>
+    <ul style="list-style:none;display:grid;grid-template-columns:1fr;gap:2px">
+      {days.map((d) => (
+        <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
+          <span><strong>{d}</strong> {t('mascletas.march')}</span>
+          <span style="color:var(--text-soft)">
+            {FALLAS.mascletaTime}
+            {special[d] ? ` · ${special[d]}` : ''}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

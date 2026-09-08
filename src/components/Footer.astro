@@ -1,0 +1,36 @@
+---
+import { SITE, FALLAS, type Locale } from '../consts';
+import { pagePath } from '../i18n/pages';
+import { useT } from '../i18n/ui';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useT(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <strong style="font-family:var(--ff-display);font-size:17px;color:#fff;display:block;margin-bottom:6px">
+          {SITE.name}
+        </strong>
+        <p>{t('footer.tagline')}</p>
+        <p style="margin-top:10px">{SITE.address}</p>
+        <p><a href={SITE.phoneHref}>{SITE.phone}</a> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+      </div>
+      <div>
+        <p><a href={SITE.mainSite}>{t('footer.mainsite')}</a></p>
+        <p><a href={pagePath('mascletas', lang)}>{t('nav.mascletas')}</a></p>
+        <p><a href={pagePath('faq', lang)}>{t('nav.faq')}</a></p>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>© {year} {SITE.name} · Fallas {FALLAS.year}. {t('footer.rights')}</span>
+      <a href={pagePath('terms', lang)}>{t('footer.terms')}</a>
+      <a href={pagePath('cancellation', lang)}>{t('footer.cancellation')}</a>
+      <a href={pagePath('privacy', lang)}>{t('footer.privacy')}</a>
+    </div>
+  </div>
+</footer>

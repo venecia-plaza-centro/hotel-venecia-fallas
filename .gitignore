@@ -1,0 +1,25 @@
+# build output
+dist/
+.output/
+.vercel/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# env / secrets  (NUNCA commitear claves de Airtable, Stripe, etc.)
+.env
+.env.production
+.env.local
+*.local
+
+# logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# os
+.DS_Store

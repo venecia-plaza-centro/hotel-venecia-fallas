@@ -1,0 +1,150 @@
+/* ═══════════════════════════════════════════════════════════════
+   Hotel Venecia · Fallas 2027 — sistema de diseño
+   Portado de la web nueva (hotel-venecia) para mantener el mismo estilo.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── TOKENS ─── */
+:root {
+  --navy:        #1B2A4A;
+  --navy-light:  #243459;
+  --gold:        #C9A246;
+  --gold-light:  #E8C96A;
+  --gold-pale:   rgba(201, 162, 70, .12);
+  --white:       #FFFFFF;
+  --cream:       #F9F7F2;
+  --cream-dark:  #EDE9DF;
+  --text:        #1A1A2E;
+  --text-mid:    #4A5568;
+  --text-soft:   #718096;
+
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'Inter', system-ui, sans-serif;
+
+  --sh-sm: 0 2px 8px  rgba(27, 42, 74, .08);
+  --sh-md: 0 8px 24px rgba(27, 42, 74, .12);
+  --sh-lg: 0 20px 60px rgba(27, 42, 74, .18);
+
+  --r: 4px;
+  --r-lg: 12px;
+
+  --ease: cubic-bezier(.16, 1, .3, 1);
+
+  --maxw: 1200px;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; background: var(--white); }
+body {
+  font-family: var(--ff-body);
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ─── PRIMITIVAS ─── */
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+@media (max-width: 640px) { .container { padding: 0 20px; } }
+
+.section { padding: 96px 0; }
+.section-alt { background: var(--cream); }
+@media (max-width: 768px) { .section { padding: 64px 0; } }
+
+.eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--gold);
+}
+
+.gold-rule { width: 68px; height: 3px; background: var(--gold); border-radius: 2px; }
+
+h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15; color: var(--navy); }
+
+.h1 { font-size: clamp(34px, 5.5vw, 58px); }
+.h2 { font-size: clamp(28px, 4vw, 42px); }
+.lead { font-size: 18px; color: var(--text-mid); line-height: 1.7; }
+
+/* Botones */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 28px; border-radius: var(--r);
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  border: 2px solid var(--gold); transition: background .3s var(--ease), color .3s var(--ease);
+}
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: transparent; color: var(--gold); }
+.btn-ghost { background: transparent; color: var(--navy); border-color: var(--navy); }
+.btn-ghost:hover { background: var(--navy); color: #fff; }
+
+/* ─── PAGE HERO (mismo patrón que la web nueva) ─── */
+.page-hero {
+  background: var(--navy); color: #fff;
+  padding: 132px 0 76px; text-align: center; position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(201, 162, 70, .16) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-hero > .container { position: relative; }
+.page-hero .eyebrow { display: block; margin-bottom: 16px; }
+.page-hero h1 { color: #fff; font-size: clamp(34px, 5.5vw, 58px); max-width: 900px; margin: 0 auto; }
+.page-hero .gold-rule { margin: 24px auto 22px; }
+.page-hero .lead { color: rgba(255, 255, 255, .72); max-width: 620px; margin: 0 auto; }
+@media (max-width: 768px) { .page-hero { padding: 104px 0 48px; } }
+
+/* ─── NAV ─── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 0; background: rgba(255, 255, 255, .97); backdrop-filter: blur(12px);
+  box-shadow: var(--sh-sm);
+}
+.nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
+.nav-brand strong { font-family: var(--ff-display); font-size: 19px; color: var(--navy); }
+.nav-brand span { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.nav-links { display: flex; align-items: center; gap: 26px; }
+.nav-links a { font-size: 13px; font-weight: 600; color: var(--navy); }
+.nav-links a:hover { color: var(--gold); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.lang-menu { display: flex; gap: 8px; }
+.lang-menu a { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-soft); }
+.lang-menu a.is-active { color: var(--navy); }
+@media (max-width: 900px) { .nav-links { display: none; } }
+
+/* ─── FOOTER ─── */
+.footer { background: var(--navy); color: rgba(255, 255, 255, .7); padding: 56px 0 32px; font-size: 13px; }
+.footer a { color: rgba(255, 255, 255, .7); }
+.footer a:hover { color: var(--gold); }
+.footer-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; }
+.footer-legal { margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .12); display: flex; flex-wrap: wrap; gap: 18px; }
+
+/* ─── FABs (llamar + whatsapp), mismo patrón que la web nueva ─── */
+.fab-call, .fab-wa {
+  position: fixed; right: 24px; z-index: 999;
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 20px 13px 16px; border-radius: 50px;
+  font-size: 14px; font-weight: 600; color: #fff; text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.fab-wa { bottom: 24px; background: #25D366; box-shadow: 0 4px 20px rgba(37, 211, 102, .4); }
+.fab-call { bottom: 84px; background: var(--navy); box-shadow: 0 4px 20px rgba(27, 42, 74, .35); }
+.fab-call:hover, .fab-wa:hover { transform: translateY(-3px); }
+.fab-call svg, .fab-wa svg { width: 21px; height: 21px; flex-shrink: 0; }
+@media (max-width: 480px) {
+  .fab-call span, .fab-wa span { display: none; }
+  .fab-call, .fab-wa { padding: 14px; border-radius: 50%; }
+  .fab-call { bottom: 82px; }
+}
+
+/* ─── UTILIDADES ─── */
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

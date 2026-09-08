@@ -1,0 +1,19 @@
+---
+import { type Locale } from '../../consts';
+import { useT } from '../../i18n/ui';
+import type { PageId } from '../../i18n/pages';
+import PageHero from '../PageHero.astro';
+
+interface Props { lang: Locale; pageId: PageId; }
+const { lang, pageId } = Astro.props;
+const t = useT(lang);
+const h1 = t(`legal.${pageId}.h1`);
+---
+
+<PageHero title={h1} />
+
+<section class="section">
+  <div class="container" style="max-width:720px">
+    <p style="color:var(--text-mid)">{t('legal.placeholder')}</p>
+  </div>
+</section>

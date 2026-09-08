@@ -1,0 +1,37 @@
+---
+import { LOCALES, type Locale } from '../consts';
+import { PAGES, pagePath, type PageId } from '../i18n/pages';
+import { useT } from '../i18n/ui';
+
+interface Props { lang: Locale; pageId: PageId; }
+const { lang, pageId } = Astro.props;
+const t = useT(lang);
+
+const navItems = PAGES.filter((p) => p.inNav);
+---
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href={pagePath('home', lang)} aria-label={t('brand.name')}>
+      <strong>{t('brand.name')}</strong>
+      <span>{t('brand.sub')} · Fallas 2027</span>
+    </a>
+
+    <div class="nav-links">
+      {navItems.map((item) => (
+        <a href={pagePath(item.id, lang)}>{t(`nav.${item.id}`)}</a>
+      ))}
+    </div>
+
+    <div class="nav-right">
+      <div class="lang-menu">
+        {LOCALES.map((l) => (
+          <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>
+            {l}
+          </a>
+        ))}
+      </div>
+      <a class="btn btn-gold" href={pagePath('rooms', lang)}>{t('nav.book')}</a>
+    </div>
+  </div>
+</nav>

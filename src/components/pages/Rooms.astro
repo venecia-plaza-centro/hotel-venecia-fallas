@@ -1,0 +1,57 @@
+---
+import { type Locale } from '../../consts';
+import { useT } from '../../i18n/ui';
+import PageHero from '../PageHero.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// Contenido de ejemplo. TODO: sustituir por el cupo real del hotel
+// (tipos, cuáles dan a la Plaza del Ayuntamiento, capacidad, precio Fallas).
+const rooms = [
+  { name: 'Doble Vistas Plaza', plaza: true, capacity: 2, price: null },
+  { name: 'Triple Vistas Plaza', plaza: true, capacity: 3, price: null },
+  { name: 'Cuádruple', plaza: false, capacity: 4, price: null },
+  { name: 'Suite', plaza: true, capacity: 2, price: null },
+];
+---
+
+<PageHero eyebrow={t('rooms.eyebrow')} title={t('rooms.h1')} lead={t('rooms.lead')} />
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px">
+      {rooms.map((r) => (
+        <article style="border:1px solid var(--cream-dark);border-radius:var(--r-lg);overflow:hidden">
+          <div style="aspect-ratio:16/9;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-size:13px">
+            foto
+          </div>
+          <div style="padding:22px">
+            <h3 style="font-size:20px">{r.name}</h3>
+            {r.plaza && (
+              <p style="color:var(--gold);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:6px">
+                {t('rooms.viewsplaza')}
+              </p>
+            )}
+            <p style="color:var(--text-mid);font-size:14px;margin-top:8px">
+              {t('rooms.capacity')}: {r.capacity}
+            </p>
+            <p style="margin-top:14px;font-family:var(--ff-display);font-size:18px;color:var(--navy)">
+              {r.price ? `${t('rooms.from')} ${r.price} €${t('rooms.night')}` : t('rooms.tbd')}
+            </p>
+            <button class="btn btn-gold" style="margin-top:16px;width:100%" disabled>
+              {t('rooms.book')}
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 800px) {
+    section div[style*='grid-template-columns'] { grid-template-columns: 1fr !important; }
+  }
+</style>
