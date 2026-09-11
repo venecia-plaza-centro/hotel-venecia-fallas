@@ -22,10 +22,10 @@ const features = [
 ];
 
 const strip = [
-  { icon: 'clock' as const, t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
-  { icon: 'sparkle' as const, t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
-  { icon: 'key' as const, t: t('home.strip.private.t'), v: t('home.strip.private.v') },
-  { icon: 'gift' as const, t: t('home.strip.snack.t'), v: t('home.strip.snack.v') },
+  { icon: 'clock', t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
+  { icon: 'sparkle', t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
+  { icon: 'key', t: t('home.strip.private.t'), v: t('home.strip.private.v') },
+  { icon: 'tray-strip', t: t('home.strip.snack.t'), v: t('home.strip.snack.v') },
 ];
 ---
 
@@ -100,7 +100,7 @@ const strip = [
   <div class="container strip-grid">
     {strip.map((s) => (
       <div class="strip-item">
-        <Icon name={s.icon} size={22} />
+        <img class="strip-icon" src={`/icons/${s.icon}.png`} width="240" height="240" alt="" loading="lazy" />
         <div>
           <p class="strip-t">{s.t}</p>
           <p class="strip-v">{s.v}</p>
@@ -212,7 +212,7 @@ const strip = [
   .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
   @media (max-width: 760px) { .strip-grid { grid-template-columns: 1fr 1fr; } }
   .strip-item { display: flex; align-items: center; gap: 12px; color: #fff; }
-  .strip-item :global(svg) { color: var(--gold); flex-shrink: 0; }
+  .strip-icon { width: 34px; height: 34px; object-fit: contain; flex-shrink: 0; }
   .strip-t { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.6); }
   .strip-v { font-size: 14px; font-weight: 600; }
 </style>
