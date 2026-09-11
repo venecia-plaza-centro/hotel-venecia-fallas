@@ -1,48 +1,200 @@
 ---
-import { type Locale } from '../../consts';
+import { FALLAS, type Locale } from '../../consts';
 import { pagePath } from '../../i18n/pages';
 import { useT } from '../../i18n/ui';
-import PageHero from '../PageHero.astro';
+import { getRooms } from '../../lib/airtable';
+import Icon from '../Icon.astro';
+import RoomCard from '../RoomCard.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-const why = [
-  { t: t('home.why.location.t'), d: t('home.why.location.d') },
-  { t: t('home.why.whole.t'), d: t('home.why.whole.d') },
-  { t: t('home.why.groups.t'), d: t('home.why.groups.d') },
+const rooms = (await getRooms()).slice(0, 3);
+const roomsUrl = pagePath('rooms', lang);
+
+const features = [
+  { icon: 'binoculars' as const, t: t('home.feature1.t'), d: t('home.feature1.d') },
+  { icon: 'armchair' as const, t: t('home.feature2.t'), d: t('home.feature2.d') },
+  { icon: 'shower' as const, t: t('home.feature3.t'), d: t('home.feature3.d') },
+  { icon: 'gift' as const, t: t('home.feature4.t'), d: t('home.feature4.d') },
+];
+
+const strip = [
+  { icon: 'clock' as const, t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
+  { icon: 'sparkle' as const, t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
+  { icon: 'key' as const, t: t('home.strip.private.t'), v: t('home.strip.private.v') },
+  { icon: 'gift' as const, t: t('home.strip.snack.t'), v: t('home.strip.snack.v') },
 ];
 ---
 
-<PageHero eyebrow={t('home.eyebrow')} title={t('home.h1')} lead={t('home.lead')} />
-
-<section class="section" style="text-align:center">
-  <div class="container">
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-      <a class="btn btn-gold" href={pagePath('rooms', lang)}>{t('home.cta.rooms')}</a>
-      <a class="btn btn-ghost" href={pagePath('groups', lang)}>{t('home.cta.groups')}</a>
+<section class="hero">
+  <div class="hero-panel">
+    <span class="eyebrow">{t('home.eyebrow')}</span>
+    <h1>{t('home.h1.pre')} <em>{t('home.h1.accent')}</em></h1>
+    <p class="hero-kicker">{t('home.kicker')}</p>
+    <p>{t('home.p1')}</p>
+    <p>{t('home.p2')}</p>
+    <p class="hero-strong">{t('home.p3')}</p>
+    <a class="btn btn-gold" href={roomsUrl}>
+      {t('home.cta')}
+      <Icon name="arrow-right" size={16} />
+    </a>
+  </div>
+  <div class="hero-media">
+    <div class="hero-photo">
+      <span>{t('home.photo.hero.alt')}</span>
     </div>
+    <span class="hero-badge">{t('home.badge')}</span>
+    <span class="hero-tagline">{t('home.tagline')}</span>
   </div>
 </section>
 
-<section class="section section-alt">
+<section class="section section-alt features">
   <div class="container">
-    <h2 class="h2" style="text-align:center">{t('home.section.why')}</h2>
-    <div class="gold-rule" style="margin:20px auto 48px"></div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
-      {why.map((w) => (
-        <div style="background:#fff;border-radius:var(--r-lg);padding:28px;box-shadow:var(--sh-sm)">
-          <h3 style="font-size:19px;margin-bottom:10px">{w.t}</h3>
-          <p style="color:var(--text-mid);font-size:14px">{w.d}</p>
+    <div class="features-grid">
+      {features.map((f) => (
+        <div class="feature">
+          <Icon name={f.icon} size={30} />
+          <h3>{f.t}</h3>
+          <p>{f.d}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
 
+<section class="section tradicion">
+  <div class="container tradicion-grid">
+    <div class="tradicion-text">
+      <span class="eyebrow">{t('home.tradicion.eyebrow')}</span>
+      <h2>{t('home.tradicion.h2.pre')} <em>{t('home.tradicion.h2.accent')}</em></h2>
+      <p>{t('home.tradicion.p1')}</p>
+      <p class="tradicion-strong">{t('home.tradicion.p2')}</p>
+    </div>
+    <div class="tradicion-media">
+      <div class="tradicion-photo">
+        <span>{t('home.tradicion.photo.alt')}</span>
+      </div>
+      <span class="tradicion-tagline">{t('home.tradicion.tagline')}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt room-picker">
+  <div class="container">
+    <div class="room-picker-head">
+      <span class="eyebrow">{t('home.rooms.eyebrow')}</span>
+      <h2 class="h2">{t('home.rooms.h2')}</h2>
+      <p class="lead">{t('home.rooms.lead')}</p>
+    </div>
+    <div class="room-picker-list">
+      {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
+    </div>
+    <div class="room-picker-more">
+      <a class="btn btn-ghost" href={roomsUrl}>{t('home.rooms.seeall')}</a>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="container strip-grid">
+    {strip.map((s) => (
+      <div class="strip-item">
+        <Icon name={s.icon} size={22} />
+        <div>
+          <p class="strip-t">{s.t}</p>
+          <p class="strip-v">{s.v}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
 <style>
-  @media (max-width: 800px) {
-    section.section-alt div[style*='grid-template-columns'] { grid-template-columns: 1fr !important; }
+  /* ── hero ── */
+  .hero { display: grid; grid-template-columns: 5fr 7fr; min-height: 560px; }
+  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; min-height: 0; } }
+
+  .hero-panel {
+    background: var(--navy); color: rgba(255,255,255,.9);
+    padding: 148px 56px 56px; display: flex; flex-direction: column; gap: 16px;
   }
+  @media (max-width: 860px) { .hero-panel { padding: 128px 28px 40px; } }
+  .hero-panel .eyebrow { margin-bottom: 4px; }
+  .hero-panel h1 {
+    color: #fff; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; margin-bottom: 4px;
+  }
+  .hero-panel h1 em { font-style: italic; color: var(--gold-light); }
+  .hero-kicker { font-family: var(--ff-display); font-size: 18px; color: rgba(255,255,255,.92); }
+  .hero-panel p { font-size: 14.5px; line-height: 1.7; color: rgba(255,255,255,.72); }
+  .hero-strong { color: #fff !important; font-weight: 600; }
+  .hero-panel .btn { align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; gap: 10px; }
+
+  .hero-media { position: relative; background: var(--navy-light); }
+  .hero-photo {
+    position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 28px;
+    color: rgba(255,255,255,.5); font-size: 13px;
+    background:
+      radial-gradient(circle at 75% 20%, rgba(201,162,70,.28), transparent 45%),
+      radial-gradient(circle at 20% 80%, rgba(201,162,70,.16), transparent 50%),
+      linear-gradient(200deg, var(--navy-light), var(--navy) 80%);
+  }
+  .hero-badge {
+    position: absolute; top: 28px; right: 28px; width: 118px; height: 118px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.5); color: #fff; display: flex; align-items: center;
+    justify-content: center; text-align: center; font-size: 11px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase; padding: 14px;
+  }
+  .hero-tagline {
+    position: absolute; left: 28px; bottom: 24px; font-family: 'Caveat', cursive;
+    font-size: 30px; color: var(--gold-light); transform: rotate(-3deg);
+  }
+  @media (max-width: 860px) { .hero-media { min-height: 320px; } }
+
+  /* ── features ── */
+  .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+  @media (max-width: 760px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+  .feature { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .feature :global(svg) { color: var(--gold); }
+  .feature h3 { font-size: 15px; }
+  .feature p { font-size: 13px; color: var(--text-mid); }
+
+  /* ── tradición ── */
+  .tradicion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  @media (max-width: 860px) { .tradicion-grid { grid-template-columns: 1fr; } }
+  .tradicion-text h2 { margin: 12px 0 18px; font-size: clamp(26px, 3.4vw, 36px); }
+  .tradicion-text h2 em { font-style: italic; color: var(--gold); }
+  .tradicion-text p { color: var(--text-mid); font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
+  .tradicion-strong { color: var(--navy) !important; font-weight: 600; }
+
+  .tradicion-media { position: relative; }
+  .tradicion-photo {
+    aspect-ratio: 4/3; border-radius: var(--r-lg); overflow: hidden; display: flex;
+    align-items: flex-end; padding: 20px; color: rgba(255,255,255,.6); font-size: 12px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(201,162,70,.3), transparent 50%),
+      linear-gradient(160deg, var(--navy-light), var(--navy));
+  }
+  .tradicion-tagline {
+    position: absolute; right: 18px; bottom: -14px; font-family: 'Caveat', cursive;
+    font-size: 26px; color: var(--gold); background: #fff; padding: 4px 14px;
+    border-radius: 999px; box-shadow: var(--sh-sm); transform: rotate(2deg);
+  }
+
+  /* ── room picker ── */
+  .room-picker-head { max-width: 640px; margin: 0 auto 44px; text-align: center; }
+  .room-picker-head .eyebrow { display: block; margin-bottom: 10px; }
+  .room-picker-head .lead { margin-top: 14px; }
+  .room-picker-list { display: grid; gap: 28px; max-width: 980px; margin: 0 auto; }
+  .room-picker-more { text-align: center; margin-top: 36px; }
+
+  /* ── franja inferior ── */
+  .strip { background: var(--navy); padding: 32px 0; }
+  .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  @media (max-width: 760px) { .strip-grid { grid-template-columns: 1fr 1fr; } }
+  .strip-item { display: flex; align-items: center; gap: 12px; color: #fff; }
+  .strip-item :global(svg) { color: var(--gold); flex-shrink: 0; }
+  .strip-t { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.6); }
+  .strip-v { font-size: 14px; font-weight: 600; }
 </style>

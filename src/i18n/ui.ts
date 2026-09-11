@@ -30,35 +30,62 @@ const es: Dict = {
   'footer.privacy': 'Privacidad',
   'footer.rights': 'Todos los derechos reservados.',
 
-  // home
+  // home · hero
   'home.eyebrow': 'Fallas 2027',
-  'home.h1': 'Vive las mascletàs desde el Hotel Venecia',
-  'home.lead':
-    'Del 1 al 19 de marzo, la mascletà estalla cada día a las 14:00 en la Plaza del Ayuntamiento. Nuestro hotel está justo ahí. Reserva tu habitación —entera o para tu grupo, con catering— y siéntela desde dentro.',
-  'home.cta.rooms': 'Ver habitaciones',
-  'home.cta.groups': 'Reservas de grupo',
-  'home.section.why': 'Por qué reservar con nosotros',
-  'home.why.location.t': 'En la propia plaza',
-  'home.why.location.d':
-    'La mascletà se dispara en la Plaza del Ayuntamiento y el hotel está en el número 3. Algunas habitaciones dan directamente a la plaza.',
-  'home.why.whole.t': 'Habitaciones enteras',
-  'home.why.whole.d':
-    'Reserva la habitación completa para ti o tu familia, sin compartir. Precio cerrado por las noches de Fallas.',
-  'home.why.groups.t': 'Grupos con catering',
-  'home.why.groups.d':
-    'Varias habitaciones juntas y un paquete de catering para vivir la mascletà en grupo, con aperitivo valenciano.',
+  'home.h1.pre': 'Vive la mascletà desde tu',
+  'home.h1.accent': 'balcón privado',
+  'home.kicker': 'La Plaza del Ayuntamiento. Tu propio balcón. Y la mascletà justo delante.',
+  'home.p1':
+    'Durante Fallas, algunas de nuestras habitaciones se convierten durante unas horas en espacios privados para disfrutar de la mascletà desde primera línea, sin aglomeraciones y con todas las comodidades del hotel.',
+  'home.p2':
+    'Todos los espacios son habitaciones reales del Hotel Venecia, con su mobiliario habitual, baño privado y balcón o mirador con vistas a la Plaza del Ayuntamiento.',
+  'home.p3': 'Además, vuestra reserva incluye un Snack Pack para acompañar la experiencia.',
+  'home.cta': 'Ver habitaciones disponibles',
+  'home.tagline': 'Fallas, más cerca que nunca',
+  'home.badge': 'Una experiencia única en Valencia',
+  'home.photo.hero.alt': 'La mascletà vista desde un balcón del Hotel Venecia',
+
+  // home · fila de características
+  'home.feature1.t': 'Vistas privilegiadas',
+  'home.feature1.d': 'Balcón o mirador a la Plaza del Ayuntamiento',
+  'home.feature2.t': 'Espacio privado',
+  'home.feature2.d': 'Habitaciones reales del hotel con su mobiliario',
+  'home.feature3.t': 'Baño privado',
+  'home.feature3.d': 'Todas las habitaciones disponen de baño propio',
+  'home.feature4.t': 'Snack Pack',
+  'home.feature4.d': 'Incluido en tu reserva para disfrutar de la experiencia',
+
+  // home · tradición
+  'home.tradicion.eyebrow': 'Una tradición única',
+  'home.tradicion.h2.pre': 'Vive la esencia de las Fallas',
+  'home.tradicion.h2.accent': 'desde dentro.',
+  'home.tradicion.p1':
+    'Durante Fallas, algunas de nuestras habitaciones se convierten en espacios privados para disfrutar de la mascletà, sin aglomeraciones y con todas las comodidades del hotel.',
+  'home.tradicion.p2': 'Una forma diferente, cómoda y exclusiva de vivir la tradición.',
+  'home.tradicion.tagline': 'Valencia en estado puro',
+  'home.tradicion.photo.alt': 'Torre del Micalet y naranjos en València',
+
+  // home · elige tu balcón (adelanto de habitaciones)
+  'home.rooms.eyebrow': 'Elige tu balcón',
+  'home.rooms.h2': 'Habitaciones disponibles',
+  'home.rooms.lead': 'Selecciona la fecha, habitación y número de personas. Del resto nos encargamos nosotros.',
+  'home.rooms.seeall': 'Ver las 10 habitaciones',
+
+  // home · franja inferior
+  'home.strip.schedule.t': 'Horario de acceso',
+  'home.strip.schedule.v': '13:00 – 15:00 h',
+  'home.strip.mascleta.t': 'Mascletà',
+  'home.strip.mascleta.v': '14:00 h',
+  'home.strip.private.t': 'Espacio privado',
+  'home.strip.private.v': 'Solo para tu reserva',
+  'home.strip.snack.t': 'Snack Pack',
+  'home.strip.snack.v': 'Incluido',
 
   // rooms
   'rooms.eyebrow': 'Fallas 2027',
-  'rooms.h1': 'Habitaciones para las Fallas',
+  'rooms.h1': 'Elige tu balcón para la mascletà',
   'rooms.lead':
-    'Reserva la habitación entera para las noches de Fallas. Contenido de ejemplo — pendiente de datos reales del hotel (tipos, vistas a la plaza, capacidad y precios).',
-  'rooms.viewsplaza': 'Vistas a la Plaza del Ayuntamiento',
-  'rooms.capacity': 'Capacidad',
-  'rooms.from': 'Desde',
-  'rooms.night': '/ noche',
-  'rooms.book': 'Reservar esta habitación',
-  'rooms.tbd': 'Precio por confirmar',
+    'Las 10 habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
 
   // groups
   'groups.eyebrow': 'Fallas 2027',
@@ -86,60 +113,63 @@ const es: Dict = {
   'faq.eyebrow': 'Fallas 2027',
   'faq.h1': 'Preguntas frecuentes',
   'faq.lead': 'Contenido de ejemplo — se completará con la información real de reservas y catering.',
-  'faq.q1': '¿Qué fechas puedo reservar?',
-  'faq.a1': 'Las noches del 1 al 19 de marzo de 2027, con un mínimo de noches por confirmar.',
-  'faq.q2': '¿Las habitaciones tienen vistas a la mascletà?',
+  'faq.q1': '¿Qué días puedo reservar?',
+  'faq.a1':
+    'Cualquier día del 1 al 19 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletà de las 14:00 h.',
+  'faq.q2': '¿Todas las habitaciones tienen vistas a la mascletà?',
   'faq.a2':
-    'Algunas dan directamente a la Plaza del Ayuntamiento. Se indicará en cada habitación al reservar.',
-  'faq.q3': '¿Cómo funciona el catering de grupo?',
-  'faq.a3': 'Es un paquete opcional por persona que se añade a la reserva de grupo. Pendiente de detalle.',
+    'Sí: las 10 habitaciones que se ofrecen para Fallas tienen balcón o mirador con vistas a la Plaza del Ayuntamiento.',
+  'faq.q3': '¿Qué incluye el Snack Pack?',
+  'faq.a3':
+    'Va incluido en el precio de la habitación, sin coste extra. El detalle se confirma con el hotel antes de abrir las reservas.',
   'faq.q4': '¿Puedo cancelar?',
   'faq.a4': 'Consulta la política de cancelación para las fechas de Fallas.',
 
-  // reserva (flujo del Hito 2)
-  'book.eyebrow': 'Fallas 2027',
-  'book.h1': 'Reserva tu habitación',
-  'book.lead':
-    'Elige fechas, habitación y catering. La reserva queda como solicitud; el hotel confirma la disponibilidad y te escribe por correo.',
+  // tarjeta de habitación (Home + Habitaciones)
+  'roomcard.title': 'Habitación {n}',
+  'roomcard.capacity': 'Capacidad máxima: {n} personas',
+  'roomcard.bath': 'Baño privado',
+  'roomcard.balcony': 'Balcón con vistas a la mascletà',
+  'roomcard.snack': 'Snack Pack incluido',
+  'roomcard.hours': 'Disponible de {start} a {end} h',
+  'roomcard.private':
+    'La habitación se reserva completa y será exclusivamente para vuestro grupo durante toda la experiencia.',
+  'roomcard.from': 'Desde',
+  'roomcard.perroom': '/ habitación',
+  'roomcard.book': 'Reservar habitación {n}',
+  'roomcard.hint': 'Selecciona la fecha para consultar disponibilidad y precio.',
+  'roomcard.photopending': 'Foto pendiente',
 
-  'book.step.dates': 'Fechas',
+  // reserva (flujo del Hito 2: espacio privado por horas, no noches)
+  'book.eyebrow': 'Fallas 2027',
+  'book.h1': 'Reserva tu balcón para la mascletà',
+  'book.lead':
+    'Elige el día y la habitación. La reserva queda como solicitud; el hotel confirma la disponibilidad y te escribe por correo.',
+
+  'book.step.date': 'Fecha',
   'book.step.room': 'Habitación',
-  'book.step.extras': 'Catering',
   'book.step.details': 'Tus datos',
   'book.step.done': 'Confirmación',
 
-  'book.dates.title': 'Fechas de la estancia',
-  'book.dates.checkin': 'Entrada',
-  'book.dates.checkout': 'Salida',
-  'book.dates.guests': 'Huéspedes',
-  'book.dates.window': 'Noches del 1 al 19 de marzo de 2027. Mínimo {min} noches.',
-  'book.dates.submit': 'Buscar disponibilidad',
-  'book.dates.err.range': 'Las fechas deben estar entre el 1 y el 20 de marzo de 2027.',
-  'book.dates.err.order': 'La salida debe ser posterior a la entrada.',
-  'book.dates.err.min': 'La estancia mínima es de {min} noches.',
-  'book.dates.err.generic': 'Revisa las fechas.',
+  'book.date.title': '¿Qué día quieres vivir la mascletà?',
+  'book.date.date': 'Fecha',
+  'book.date.guests': 'Personas',
+  'book.date.window': 'Días del 1 al 19 de marzo de 2027. Acceso de {start} a {end} h, mascletà a las {mascleta} h.',
+  'book.date.submit': 'Buscar disponibilidad',
+  'book.date.err.range': 'La fecha debe estar entre el 1 y el 19 de marzo de 2027.',
+  'book.date.err.generic': 'Revisa la fecha.',
 
   'book.room.title': 'Elige habitación',
+  'book.room.number': 'Habitación {n}',
   'book.room.capacity': 'Hasta {n} personas',
-  'book.room.plaza': 'Vistas a la plaza',
-  'book.room.pernight': '{price} / noche',
-  'book.room.total': '{price} · {nights}',
+  'book.room.price': '{price} / habitación',
   'book.room.select': 'Elegir',
   'book.room.selected': 'Elegida',
-  'book.room.unavailable': 'Sin disponibilidad para estas fechas',
-  'book.room.toosmall': 'No admite {n} huéspedes',
-  'book.room.none': 'No hay habitaciones disponibles para estas fechas.',
-  'book.room.back': 'Cambiar fechas',
+  'book.room.unavailable': 'Ya reservada para ese día',
+  'book.room.toosmall': 'No admite {n} personas',
+  'book.room.none': 'No quedan habitaciones disponibles para ese día.',
+  'book.room.back': 'Cambiar fecha',
   'book.room.next': 'Continuar',
-
-  'book.extras.title': '¿Añadir catering?',
-  'book.extras.lead': 'Aperitivo valenciano servido antes de la mascletà. Es opcional.',
-  'book.extras.none': 'Sin catering',
-  'book.extras.perperson': '{price} / persona',
-  'book.extras.people': 'Comensales',
-  'book.extras.min': 'Mínimo {n} personas',
-  'book.extras.back': 'Atrás',
-  'book.extras.next': 'Continuar',
 
   'book.details.title': 'Tus datos',
   'book.details.first': 'Nombre',
@@ -157,19 +187,19 @@ const es: Dict = {
   'book.details.err.fields': 'Revisa los campos marcados.',
   'book.details.err.consent': 'Tienes que aceptar las condiciones para continuar.',
 
-  'book.err.availability': 'Esa habitación ya no está disponible para estas fechas.',
+  'book.err.availability': 'Esa habitación ya no está disponible para ese día.',
   'book.err.service':
     'No hemos podido conectar con el sistema de reservas. Inténtalo en unos minutos o llámanos.',
   'book.err.generic': 'Algo ha ido mal. Inténtalo de nuevo.',
 
   'book.summary.title': 'Resumen',
-  'book.summary.dates': 'Fechas',
+  'book.summary.date': 'Fecha',
   'book.summary.room': 'Habitación',
-  'book.summary.catering': 'Catering',
-  'book.summary.lodging': 'Alojamiento',
+  'book.summary.guests': 'Personas',
   'book.summary.total': 'Total',
-  'book.summary.empty': 'Elige fechas para empezar.',
+  'book.summary.empty': 'Elige una fecha para empezar.',
   'book.summary.pending': 'El pago se añade más adelante. Ahora solo se envía la solicitud.',
+  'book.summary.snack': 'Snack Pack incluido',
 
   'book.done.title': '¡Solicitud recibida!',
   'book.done.locator': 'Localizador',
@@ -178,12 +208,9 @@ const es: Dict = {
   'book.done.demo': 'Modo demostración: la reserva no se ha guardado (falta conectar Airtable).',
   'book.done.home': 'Volver al inicio',
 
-  'book.night.one': 'noche',
-  'book.night.other': 'noches',
-
-  'book.meta.title': 'Reservar · Hotel Venecia Plaza Centro · Fallas 2027',
+  'book.meta.title': 'Reservar balcón · Hotel Venecia Plaza Centro · Fallas 2027',
   'book.meta.desc':
-    'Reserva tu habitación en el Hotel Venecia Plaza Centro para las Fallas 2027 y vive la mascletà diaria desde la Plaza del Ayuntamiento.',
+    'Reserva tu balcón privado en el Hotel Venecia Plaza Centro para ver la mascletà de Fallas 2027 desde la Plaza del Ayuntamiento.',
 
   // legal (marcadores)
   'legal.terms.h1': 'Condiciones de reserva',
@@ -216,32 +243,55 @@ const en: Dict = {
   'footer.rights': 'All rights reserved.',
 
   'home.eyebrow': 'Fallas 2027',
-  'home.h1': 'Experience the mascletàs from Hotel Venecia',
-  'home.lead':
-    'From 1 to 19 March, the mascletà goes off every day at 2 pm on Plaza del Ayuntamiento. Our hotel is right there. Book your room — whole, or for your group with catering — and feel it from the inside.',
-  'home.cta.rooms': 'See rooms',
-  'home.cta.groups': 'Group bookings',
-  'home.section.why': 'Why book with us',
-  'home.why.location.t': 'On the square itself',
-  'home.why.location.d':
-    "The mascletà is fired on Plaza del Ayuntamiento and the hotel is at number 3. Some rooms face straight onto the square.",
-  'home.why.whole.t': 'Whole rooms',
-  'home.why.whole.d':
-    'Book the entire room for yourself or your family, no sharing. Fixed price for the Fallas nights.',
-  'home.why.groups.t': 'Groups with catering',
-  'home.why.groups.d':
-    'Several rooms together and a catering package to enjoy the mascletà as a group, with a Valencian aperitif.',
+  'home.h1.pre': 'Experience the mascletà from your',
+  'home.h1.accent': 'private balcony',
+  'home.kicker': 'Plaza del Ayuntamiento. Your own balcony. The mascletà right in front of you.',
+  'home.p1':
+    'During Fallas, some of our rooms become private spaces for a few hours so you can enjoy the mascletà front row, away from the crowds and with all the hotel’s comforts.',
+  'home.p2':
+    'Every space is a real room at Hotel Venecia, with its usual furniture, a private bathroom, and a balcony or viewpoint over Plaza del Ayuntamiento.',
+  'home.p3': 'Your booking also includes a Snack Pack to enjoy the experience.',
+  'home.cta': 'See available rooms',
+  'home.tagline': 'Fallas, closer than ever',
+  'home.badge': 'A unique experience in Valencia',
+  'home.photo.hero.alt': 'The mascletà seen from a Hotel Venecia balcony',
+
+  'home.feature1.t': 'Prime views',
+  'home.feature1.d': 'Balcony or viewpoint over Plaza del Ayuntamiento',
+  'home.feature2.t': 'Private space',
+  'home.feature2.d': 'Real hotel rooms with their usual furniture',
+  'home.feature3.t': 'Private bathroom',
+  'home.feature3.d': 'Every room has its own bathroom',
+  'home.feature4.t': 'Snack Pack',
+  'home.feature4.d': 'Included with your booking to enjoy the experience',
+
+  'home.tradicion.eyebrow': 'A unique tradition',
+  'home.tradicion.h2.pre': 'Experience the essence of Fallas',
+  'home.tradicion.h2.accent': 'from the inside.',
+  'home.tradicion.p1':
+    'During Fallas, some of our rooms become private spaces to enjoy the mascletà, away from the crowds and with all the hotel’s comforts.',
+  'home.tradicion.p2': 'A different, comfortable and exclusive way to experience the tradition.',
+  'home.tradicion.tagline': 'Valencia in its purest form',
+  'home.tradicion.photo.alt': 'The Micalet tower and orange trees in València',
+
+  'home.rooms.eyebrow': 'Choose your balcony',
+  'home.rooms.h2': 'Available rooms',
+  'home.rooms.lead': 'Pick a date, room and number of guests. We take care of the rest.',
+  'home.rooms.seeall': 'See all 10 rooms',
+
+  'home.strip.schedule.t': 'Access hours',
+  'home.strip.schedule.v': '1pm – 3pm',
+  'home.strip.mascleta.t': 'Mascletà',
+  'home.strip.mascleta.v': '2pm',
+  'home.strip.private.t': 'Private space',
+  'home.strip.private.v': 'Exclusively for your booking',
+  'home.strip.snack.t': 'Snack Pack',
+  'home.strip.snack.v': 'Included',
 
   'rooms.eyebrow': 'Fallas 2027',
-  'rooms.h1': 'Rooms for Fallas',
+  'rooms.h1': 'Choose your balcony for the mascletà',
   'rooms.lead':
-    "Book the whole room for the Fallas nights. Placeholder content — pending real hotel data (types, square views, capacity and prices).",
-  'rooms.viewsplaza': 'Views over Plaza del Ayuntamiento',
-  'rooms.capacity': 'Capacity',
-  'rooms.from': 'From',
-  'rooms.night': '/ night',
-  'rooms.book': 'Book this room',
-  'rooms.tbd': 'Price to be confirmed',
+    'All 10 Hotel Venecia rooms with a balcony or viewpoint over Plaza del Ayuntamiento. Pick a date, room and number of guests — we take care of the rest.',
 
   'groups.eyebrow': 'Fallas 2027',
   'groups.h1': 'Groups & catering',
@@ -266,58 +316,61 @@ const en: Dict = {
   'faq.eyebrow': 'Fallas 2027',
   'faq.h1': 'Frequently asked questions',
   'faq.lead': 'Placeholder content — to be completed with the real booking and catering information.',
-  'faq.q1': 'Which dates can I book?',
-  'faq.a1': 'Nights from 1 to 19 March 2027, with a minimum stay to be confirmed.',
-  'faq.q2': 'Do the rooms have views of the mascletà?',
-  'faq.a2': 'Some face straight onto Plaza del Ayuntamiento. This is shown for each room when booking.',
-  'faq.q3': 'How does the group catering work?',
-  'faq.a3': 'An optional per-person package added to the group booking. Details pending.',
+  'faq.q1': 'Which days can I book?',
+  'faq.a1':
+    'Any day from 1 to 19 March 2027. The room is booked by the hour, from 1pm to 3pm, to watch the 2pm mascletà.',
+  'faq.q2': 'Do all the rooms have views of the mascletà?',
+  'faq.a2':
+    'Yes: all 10 rooms offered for Fallas have a balcony or viewpoint over Plaza del Ayuntamiento.',
+  'faq.q3': "What's included in the Snack Pack?",
+  'faq.a3':
+    "It's included in the room price at no extra cost. The details will be confirmed with the hotel before bookings open.",
   'faq.q4': 'Can I cancel?',
   'faq.a4': 'See the cancellation policy for the Fallas dates.',
 
-  'book.eyebrow': 'Fallas 2027',
-  'book.h1': 'Book your room',
-  'book.lead':
-    'Pick your dates, room and catering. The booking is submitted as a request; the hotel confirms availability and gets back to you by email.',
+  'roomcard.title': 'Room {n}',
+  'roomcard.capacity': 'Maximum capacity: {n} people',
+  'roomcard.bath': 'Private bathroom',
+  'roomcard.balcony': 'Balcony overlooking the mascletà',
+  'roomcard.snack': 'Snack Pack included',
+  'roomcard.hours': 'Available from {start} to {end}',
+  'roomcard.private':
+    'The room is booked in full and is exclusively for your group for the whole experience.',
+  'roomcard.from': 'From',
+  'roomcard.perroom': '/ room',
+  'roomcard.book': 'Book room {n}',
+  'roomcard.hint': 'Pick a date to check availability and price.',
+  'roomcard.photopending': 'Photo coming soon',
 
-  'book.step.dates': 'Dates',
+  'book.eyebrow': 'Fallas 2027',
+  'book.h1': 'Book your balcony for the mascletà',
+  'book.lead':
+    'Pick the day and the room. The booking is submitted as a request; the hotel confirms availability and gets back to you by email.',
+
+  'book.step.date': 'Date',
   'book.step.room': 'Room',
-  'book.step.extras': 'Catering',
   'book.step.details': 'Your details',
   'book.step.done': 'Confirmation',
 
-  'book.dates.title': 'Stay dates',
-  'book.dates.checkin': 'Check-in',
-  'book.dates.checkout': 'Check-out',
-  'book.dates.guests': 'Guests',
-  'book.dates.window': 'Nights from 1 to 19 March 2027. Minimum {min} nights.',
-  'book.dates.submit': 'Check availability',
-  'book.dates.err.range': 'Dates must fall between 1 and 20 March 2027.',
-  'book.dates.err.order': 'Check-out must be after check-in.',
-  'book.dates.err.min': 'The minimum stay is {min} nights.',
-  'book.dates.err.generic': 'Please check the dates.',
+  'book.date.title': 'Which day do you want to experience the mascletà?',
+  'book.date.date': 'Date',
+  'book.date.guests': 'Guests',
+  'book.date.window': 'Days from 1 to 19 March 2027. Access from {start} to {end}, mascletà at {mascleta}.',
+  'book.date.submit': 'Check availability',
+  'book.date.err.range': 'The date must fall between 1 and 19 March 2027.',
+  'book.date.err.generic': 'Please check the date.',
 
   'book.room.title': 'Choose a room',
+  'book.room.number': 'Room {n}',
   'book.room.capacity': 'Up to {n} people',
-  'book.room.plaza': 'Square views',
-  'book.room.pernight': '{price} / night',
-  'book.room.total': '{price} · {nights}',
+  'book.room.price': '{price} / room',
   'book.room.select': 'Choose',
   'book.room.selected': 'Chosen',
-  'book.room.unavailable': 'Not available for these dates',
-  'book.room.toosmall': "Doesn't fit {n} guests",
-  'book.room.none': 'No rooms available for these dates.',
-  'book.room.back': 'Change dates',
+  'book.room.unavailable': 'Already booked for that day',
+  'book.room.toosmall': "Doesn't fit {n} people",
+  'book.room.none': 'No rooms left for that day.',
+  'book.room.back': 'Change date',
   'book.room.next': 'Continue',
-
-  'book.extras.title': 'Add catering?',
-  'book.extras.lead': 'A Valencian aperitif served before the mascletà. Optional.',
-  'book.extras.none': 'No catering',
-  'book.extras.perperson': '{price} / person',
-  'book.extras.people': 'Guests',
-  'book.extras.min': 'Minimum {n} people',
-  'book.extras.back': 'Back',
-  'book.extras.next': 'Continue',
 
   'book.details.title': 'Your details',
   'book.details.first': 'First name',
@@ -341,13 +394,13 @@ const en: Dict = {
   'book.err.generic': 'Something went wrong. Please try again.',
 
   'book.summary.title': 'Summary',
-  'book.summary.dates': 'Dates',
+  'book.summary.date': 'Date',
   'book.summary.room': 'Room',
-  'book.summary.catering': 'Catering',
-  'book.summary.lodging': 'Accommodation',
+  'book.summary.guests': 'Guests',
   'book.summary.total': 'Total',
-  'book.summary.empty': 'Pick your dates to start.',
+  'book.summary.empty': 'Pick a date to start.',
   'book.summary.pending': 'Payment comes later. For now only the request is sent.',
+  'book.summary.snack': 'Snack Pack included',
 
   'book.done.title': 'Request received!',
   'book.done.locator': 'Reference',
@@ -356,12 +409,9 @@ const en: Dict = {
   'book.done.demo': 'Demo mode: the booking was not saved (Airtable not connected yet).',
   'book.done.home': 'Back to home',
 
-  'book.night.one': 'night',
-  'book.night.other': 'nights',
-
-  'book.meta.title': 'Book · Hotel Venecia Plaza Centro · Fallas 2027',
+  'book.meta.title': 'Book your balcony · Hotel Venecia Plaza Centro · Fallas 2027',
   'book.meta.desc':
-    'Book a room at Hotel Venecia Plaza Centro for Fallas 2027 and experience the daily mascletà from Plaza del Ayuntamiento.',
+    'Book your private balcony at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletà from Plaza del Ayuntamiento.',
 
   'legal.terms.h1': 'Booking terms',
   'legal.cancellation.h1': 'Cancellation policy',

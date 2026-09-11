@@ -12,14 +12,20 @@ export const SITE = {
   address: 'Plaza del Ayuntamiento, 3 · 46002 València',
 } as const;
 
-/** Ventana de venta: Fallas 2027 = mascletàs diarias del 1 al 19 de marzo. */
+/**
+ * Ventana de venta: Fallas 2027 = mascletàs diarias del 1 al 19 de marzo.
+ * No es una reserva de noches: cada habitación se alquila por horas el día
+ * elegido, como espacio privado para ver la mascletà desde el balcón.
+ */
 export const FALLAS = {
   year: 2027,
-  saleStart: '2027-03-01', // primera noche reservable
-  saleEnd: '2027-03-19',   // última noche (Cremà la noche del 19)
+  saleStart: '2027-03-01', // primer día reservable
+  saleEnd: '2027-03-19',   // último día (Cremà)
   mascletaTime: '14:00',
   mascletaPlace: 'Plaza del Ayuntamiento',
-  minNights: 2, // TODO confirmar con el hotel
+  accessStart: '13:00', // apertura del espacio privado
+  accessEnd: '15:00',   // cierre
+  totalRooms: 10, // nº real de habitaciones que se ofrecen para Fallas
 } as const;
 
 export const LOCALES = ['es', 'en', 'it', 'fr', 'de'] as const;

@@ -5,18 +5,15 @@
  * correo se enviaría. En el Hito 3 (o antes, según decida el hotel) se enchufa
  * Resend / SMTP / automatización de Airtable rellenando `deliver()`.
  */
-import { SITE, type Locale } from '../consts';
-import type { Extra, Quote, Room } from './booking';
+import { FALLAS, SITE, type Locale } from '../consts';
+import type { Quote, Room } from './booking';
 
 export interface BookingEmail {
   locator: string;
   room: Room;
-  extra: Extra | null;
-  cateringPeople: number;
+  date: string;
   guests: number;
   quote: Quote;
-  from: string;
-  to: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -33,12 +30,9 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   const resumen = [
     `Localizador: ${data.locator}`,
     `Cliente: ${data.firstName} ${data.lastName} · ${data.email} · ${data.phone}`,
-    `Fechas: ${data.from} → ${data.to} (${data.quote.nights} noches)`,
-    `Habitación: ${data.room.name} · ${data.guests} huéspedes · ${money(data.quote.lodging)}`,
-    data.extra
-      ? `Catering: ${data.extra.name} × ${data.cateringPeople} · ${money(data.quote.catering)}`
-      : 'Catering: no',
-    `Total: ${money(data.quote.total)}`,
+    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
+    `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
+    `Total: ${money(data.quote.total)} · Snack Pack incluido`,
     data.notes ? `Notas: ${data.notes}` : null,
   ]
     .filter(Boolean)

@@ -1,6 +1,6 @@
 /** Utilidades compartidas por las rutas src/pages/api/*. */
 import { AirtableError } from './airtable';
-import type { Extra, RoomOffer } from './booking';
+import type { RoomOffer } from './booking';
 
 export function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -24,27 +24,14 @@ export function handleError(e: unknown): Response {
 export function serializeRoom(r: RoomOffer) {
   return {
     slug: r.slug,
-    name: r.name,
-    type: r.type,
+    roomNumber: r.roomNumber,
+    floor: r.floor,
     capacity: r.capacity,
-    plazaView: r.plazaView,
-    pricePerNight: r.pricePerNight,
+    bed: r.bed,
+    price: r.price,
     available: r.available,
-    nights: r.nights,
-    lodgingTotal: r.lodgingTotal,
     descriptionEs: r.descriptionEs,
     descriptionEn: r.descriptionEn,
-    photo: r.photo,
-  };
-}
-
-export function serializeExtra(e: Extra) {
-  return {
-    slug: e.slug,
-    name: e.name,
-    descriptionEs: e.descriptionEs,
-    descriptionEn: e.descriptionEn,
-    pricePerPerson: e.pricePerPerson,
-    minPeople: e.minPeople,
+    photos: r.photos,
   };
 }

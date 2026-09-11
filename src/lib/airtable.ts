@@ -1,20 +1,16 @@
 /**
- * Acceso a Airtable (REST v0). Tres tablas: Habitaciones, Extras catering,
- * Reservas. Esquema en docs/airtable-esquema.md.
+ * Acceso a Airtable (REST v0). Dos tablas: Habitaciones y Reservas.
+ * Esquema en docs/airtable-esquema.md.
+ *
+ * No es una reserva de noches: cada registro de Reservas es una habitación
+ * alquilada por horas un día concreto (ventana en FALLAS.accessStart/End).
  *
  * Sin AIRTABLE_TOKEN + AIRTABLE_BASE_ID la web cae a los datos de ejemplo
  * (src/lib/fixtures.ts) y `createBooking` solo registra por consola. Así el
  * flujo entero es probable en local sin cuenta de Airtable.
  */
-import {
-  buildQuote,
-  eachNight,
-  newLocator,
-  type Extra,
-  type Room,
-  type RoomOffer,
-} from './booking';
-import { FIXTURE_EXTRAS, FIXTURE_ROOMS } from './fixtures';
+import { newLocator, type Room, type RoomOffer } from './booking';
+import { FIXTURE_ROOMS } from './fixtures';
 import type { Locale } from '../consts';
 
 const TOKEN = import.meta.env.AIRTABLE_TOKEN ?? process.env.AIRTABLE_TOKEN;
@@ -22,7 +18,6 @@ const BASE_ID = import.meta.env.AIRTABLE_BASE_ID ?? process.env.AIRTABLE_BASE_ID
 
 const TABLE = {
   rooms: 'Habitaciones',
-  extras: 'Extras catering',
   bookings: 'Reservas',
 } as const;
 
@@ -93,33 +88,21 @@ const num = (v: unknown): number => (typeof v === 'number' && Number.isFinite(v)
 
 function mapRoom(r: AirtableRecord): Room {
   const f = r.fields;
-  const photo = Array.isArray(f['Foto']) && f['Foto'][0] ? (f['Foto'][0] as any).url ?? null : null;
+  const photos = Array.isArray(f['Fotos'])
+    ? (f['Fotos'] as any[]).map((a) => a?.url).filter((u): u is string => typeof u === 'string')
+    : [];
   return {
     id: r.id,
     slug: str(f['Slug']) ?? r.id,
-    name: str(f['Nombre']) ?? 'Habitación',
-    type: str(f['Tipo']) ?? 'doble',
+    roomNumber: str(f['Numero']) ?? '',
+    floor: str(f['Planta']) ?? '',
     capacity: num(f['Capacidad']),
-    plazaView: Boolean(f['Vistas a la plaza']),
-    pricePerNight: num(f['Precio noche']),
-    cupo: num(f['Cupo']),
+    bed: str(f['Cama']) ?? '',
+    price: num(f['Precio']),
+    cupo: num(f['Cupo']) || 1,
     descriptionEs: str(f['Descripcion ES']),
     descriptionEn: str(f['Descripcion EN']),
-    photo,
-    order: num(f['Orden']),
-  };
-}
-
-function mapExtra(r: AirtableRecord): Extra {
-  const f = r.fields;
-  return {
-    id: r.id,
-    slug: str(f['Slug']) ?? r.id,
-    name: str(f['Nombre']) ?? 'Extra',
-    descriptionEs: str(f['Descripcion ES']),
-    descriptionEn: str(f['Descripcion EN']),
-    pricePerPerson: num(f['Precio persona']),
-    minPeople: num(f['Minimo personas']),
+    photos,
     order: num(f['Orden']),
   };
 }
@@ -132,71 +115,45 @@ export async function getRooms(): Promise<Room[]> {
   return recs.map(mapRoom).sort(bySortOrder);
 }
 
-export async function getExtras(): Promise<Extra[]> {
-  if (!airtableEnabled()) return [...FIXTURE_EXTRAS].sort(bySortOrder);
-  const recs = await listAll(TABLE.extras, { filterByFormula: '{Activo}' });
-  return recs.map(mapExtra).sort(bySortOrder);
-}
+/** Reservas no canceladas para una habitación en esa fecha. Vacío en modo ejemplo. */
+async function countBookedForDate(date: string, roomIds: string[]): Promise<Map<string, number>> {
+  const counts = new Map<string, number>();
+  if (!airtableEnabled() || roomIds.length === 0) return counts;
 
-interface OverlappingReservation {
-  roomId: string;
-  from: string;
-  to: string;
-}
-
-/** Reservas no canceladas que solapan [from, to). Vacío en modo ejemplo. */
-async function getOverlappingReservations(
-  from: string,
-  to: string,
-): Promise<OverlappingReservation[]> {
-  if (!airtableEnabled()) return [];
-  const formula = `AND({Estado}!='cancelada', IS_BEFORE({Entrada}, '${to}'), IS_AFTER({Salida}, '${from}'))`;
+  const formula = `AND({Estado}!='cancelada', {Fecha}='${date}')`;
   const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
-  return recs
-    .map((r) => {
-      const f = r.fields;
-      const link = f['Habitacion'];
-      const roomId = Array.isArray(link) && link[0] ? String(link[0]) : '';
-      return { roomId, from: str(f['Entrada']) ?? '', to: str(f['Salida']) ?? '' };
-    })
-    .filter((r) => r.roomId && r.from && r.to);
+  for (const r of recs) {
+    const link = r.fields['Habitacion'];
+    const roomId = Array.isArray(link) && link[0] ? String(link[0]) : '';
+    if (!roomId) continue;
+    counts.set(roomId, (counts.get(roomId) ?? 0) + 1);
+  }
+  return counts;
 }
 
 /**
- * Habitaciones con disponibilidad y precio para un rango de fechas.
- * Disponible = en todas las noches del rango, reservas que cubren esa noche
- * < Cupo del tipo. Nunca vende por encima del cupo.
+ * Habitaciones con disponibilidad para una fecha. Disponible = reservas ya
+ * hechas para esa habitación en esa fecha < Cupo (normalmente 1: es una
+ * habitación real concreta, no un tipo).
  */
-export async function getRoomOffers(from: string, to: string): Promise<RoomOffer[]> {
-  const [rooms, reservations] = await Promise.all([
-    getRooms(),
-    getOverlappingReservations(from, to),
-  ]);
-  const nights = eachNight(from, to);
-
-  return rooms.map((room) => {
-    const forRoom = reservations.filter((r) => r.roomId === room.id);
-    const available =
-      room.cupo > 0 &&
-      nights.every(
-        (night) => forRoom.filter((r) => r.from <= night && night < r.to).length < room.cupo,
-      );
-    const quote = buildQuote(room, null, { from, to });
-    return { ...room, available, nights: quote.nights, lodgingTotal: quote.lodging };
-  });
+export async function getRoomOffers(date: string): Promise<RoomOffer[]> {
+  const rooms = await getRooms();
+  const booked = await countBookedForDate(
+    date,
+    rooms.map((r) => r.id),
+  );
+  return rooms.map((room) => ({
+    ...room,
+    available: (booked.get(room.id) ?? 0) < room.cupo,
+  }));
 }
 
 // --- Crear reserva --------------------------------------------------------
 
 export interface BookingCreate {
-  from: string;
-  to: string;
+  date: string;
   room: Room;
   guests: number;
-  extra: Extra | null;
-  cateringPeople: number;
-  lodging: number;
-  catering: number;
   total: number;
   firstName: string;
   lastName: string;
@@ -218,23 +175,18 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
   const fields: Record<string, unknown> = {
     Localizador: locator,
     Estado: 'solicitada',
-    Entrada: input.from,
-    Salida: input.to,
+    Fecha: input.date,
     Habitacion: [input.room.id],
     Huespedes: input.guests,
-    'Comensales catering': input.extra ? input.cateringPeople : 0,
     'Nombre cliente': input.firstName,
     'Apellidos cliente': input.lastName,
     Email: input.email,
     Telefono: input.phone,
     Idioma: input.lang,
-    'Importe alojamiento': input.lodging,
-    'Importe catering': input.catering,
     'Importe total': input.total,
     Pago: 'pendiente',
     Origen: 'web',
   };
-  if (input.extra) fields.Catering = [input.extra.id];
   if (input.country) fields.Pais = input.country;
   if (input.notes) fields.Notas = input.notes;
 

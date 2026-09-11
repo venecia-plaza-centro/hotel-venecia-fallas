@@ -1,30 +1,23 @@
 import type { APIRoute } from 'astro';
-import { validateStay } from '../../lib/booking';
-import { getExtras, getRoomOffers } from '../../lib/airtable';
-import { handleError, json, serializeExtra, serializeRoom } from '../../lib/api';
+import { validateDate } from '../../lib/booking';
+import { getRoomOffers } from '../../lib/airtable';
+import { handleError, json, serializeRoom } from '../../lib/api';
 
 export const prerender = false;
 
 /**
- * GET /api/availability?from=YYYY-MM-DD&to=YYYY-MM-DD
- * Habitaciones con disponibilidad y precio para la estancia, más el catálogo
- * de extras de catering.
+ * GET /api/availability?date=YYYY-MM-DD
+ * Habitaciones con disponibilidad para ese día de mascletà.
  */
 export const GET: APIRoute = async ({ url }) => {
-  const from = url.searchParams.get('from') ?? '';
-  const to = url.searchParams.get('to') ?? '';
+  const date = url.searchParams.get('date') ?? '';
 
-  const stay = validateStay(from, to);
-  if (!stay.ok) return json({ ok: false, error: 'fechas', detail: stay.error }, 400);
+  const check = validateDate(date);
+  if (!check.ok) return json({ ok: false, error: 'fecha', detail: check.error }, 400);
 
   try {
-    const [rooms, extras] = await Promise.all([getRoomOffers(from, to), getExtras()]);
-    return json({
-      ok: true,
-      stay: { from, to, nights: stay.nights },
-      rooms: rooms.map(serializeRoom),
-      extras: extras.map(serializeExtra),
-    });
+    const rooms = await getRoomOffers(date);
+    return json({ ok: true, date, rooms: rooms.map(serializeRoom) });
   } catch (e) {
     return handleError(e);
   }

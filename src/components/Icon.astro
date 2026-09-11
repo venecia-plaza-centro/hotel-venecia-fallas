@@ -1,0 +1,45 @@
+---
+/**
+ * Set mínimo de iconos de línea (24×24, stroke=currentColor) para no depender
+ * de una librería externa ni de fuentes de icono/emoji.
+ */
+type IconName =
+  'pin' | 'users' | 'bed' | 'shower' | 'sparkle' | 'gift' |
+  'key' | 'clock' | 'binoculars' | 'armchair' | 'arrow-right';
+
+interface Props { name: IconName; size?: number; }
+
+const { name, size = 24 } = Astro.props;
+
+const paths: Record<IconName, string> = {
+  pin: '<path d="M12 21s-7-6.3-7-11a7 7 0 1 1 14 0c0 4.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/>',
+  users:
+    '<circle cx="8.5" cy="8.2" r="3"/><path d="M2.8 19.5c0-3.2 2.6-5.3 5.7-5.3s5.7 2.1 5.7 5.3"/><circle cx="17" cy="9" r="2.3"/><path d="M15.6 14.6c2.4.4 4 2.2 4 4.9"/>',
+  bed: '<path d="M3 18.5v-5.8a1.8 1.8 0 0 1 1.8-1.8h14.4A1.8 1.8 0 0 1 21 12.7v5.8"/><path d="M3 18.5v2M21 18.5v2"/><path d="M3 12.9V8.6c0-.6.5-1.1 1.1-1.1h6.4c.6 0 1.1.5 1.1 1.1v2"/><path d="M13.4 9.6h6.5c.6 0 1.1.5 1.1 1.1v2.2"/>',
+  shower:
+    '<path d="M7 4.2a4 4 0 0 1 8 0"/><path d="M4 8.2h16"/><path d="M9 8.2v1.1M12 8.2v1.1M15 8.2v1.1"/><path d="M7.2 12.3v1.1M10.4 13.4v1.1M13.6 12.3v1.1M16.8 13.4v1.1M8.6 16.6v1.1M11.8 17.6v1.1M15 16.6v1.1"/>',
+  sparkle:
+    '<path d="M12 3v4.4M12 16.6V21M3 12h4.4M16.6 12H21M5.8 5.8l3.1 3.1M15.1 15.1l3.1 3.1M18.2 5.8l-3.1 3.1M8.9 15.1l-3.1 3.1"/>',
+  gift: '<rect x="4" y="9.2" width="16" height="10" rx="1.4"/><path d="M4 13.2h16"/><path d="M12 9.2v10"/><path d="M12 9.2c-1.9 0-3.2-1-3.2-2.4C8.8 5.5 9.7 4.5 11 4.5c1 0 1.9.9 1.9 2.1"/><path d="M12 9.2c1.9 0 3.2-1 3.2-2.4 0-1.3-.9-2.3-2.2-2.3-1 0-1.9.9-1.9 2.1"/>',
+  key: '<circle cx="7.3" cy="14.7" r="3.3"/><path d="M10.6 12.4 19 4"/><path d="M16.3 6.4 18.9 9"/><path d="M13.8 8.9l2.1 2.1"/>',
+  clock: '<circle cx="12" cy="12" r="8.3"/><path d="M12 7.6V12l2.8 1.9"/>',
+  binoculars:
+    '<path d="M9 8v9.2a2.4 2.4 0 1 1-4.8 0v-4.3L6.6 6H9v2Z"/><path d="M15 8v9.2a2.4 2.4 0 1 0 4.8 0v-4.3L17.4 6H15v2Z"/><path d="M9 11.2h6"/><path d="M7.2 6h9.6"/>',
+  armchair:
+    '<path d="M5.2 12V7.3a1.9 1.9 0 0 1 3.8 0V10"/><path d="M15 10V7.3a1.9 1.9 0 0 1 3.8 0V12"/><path d="M4 12h16v3.8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V12Z"/><path d="M5.2 17.8v1.8M18.8 17.8v1.8"/>',
+  'arrow-right': '<path d="M4 12h16"/><path d="M13 5.5 20.5 12 13 18.5"/>',
+};
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  set:html={paths[name]}
+/>

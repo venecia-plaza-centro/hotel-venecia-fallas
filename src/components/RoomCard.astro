@@ -1,0 +1,157 @@
+---
+import { FALLAS, type Locale } from '../consts';
+import { pagePath } from '../i18n/pages';
+import { useT } from '../i18n/ui';
+import type { Room } from '../lib/booking';
+import Icon from './Icon.astro';
+
+interface Props { room: Room; lang: Locale; }
+const { room, lang } = Astro.props;
+const t = useT(lang);
+const fmt = (key: string, vars: Record<string, string | number> = {}) =>
+  t(key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
+
+const bookUrl = pagePath('book', lang);
+const desc = lang === 'en' ? room.descriptionEn || room.descriptionEs : room.descriptionEs;
+const money = (n: number) =>
+  new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  }).format(n);
+---
+
+<article class="room-card">
+  <div class="room-card-media" data-photos={JSON.stringify(room.photos)} data-idx="0">
+    {room.photos.length > 0 ? (
+      <img class="room-card-img" src={room.photos[0]} alt={fmt('roomcard.title', { n: room.roomNumber })} loading="lazy" />
+    ) : (
+      <div class="room-card-placeholder">
+        <span>{fmt('roomcard.title', { n: room.roomNumber })}</span>
+        <small>{t('roomcard.photopending')}</small>
+      </div>
+    )}
+    {room.photos.length > 1 && (
+      <>
+        <button type="button" class="room-card-nav prev" data-dir="-1" aria-label="Anterior">
+          <Icon name="arrow-right" size={18} />
+        </button>
+        <button type="button" class="room-card-nav next" data-dir="1" aria-label="Siguiente">
+          <Icon name="arrow-right" size={18} />
+        </button>
+        <div class="room-card-dots">
+          {room.photos.map((_, i) => <span class={i === 0 ? 'is-active' : ''} data-dot={i}></span>)}
+        </div>
+      </>
+    )}
+  </div>
+
+  <div class="room-card-body">
+    <h3>{fmt('roomcard.title', { n: room.roomNumber })}</h3>
+    {desc && <p class="room-card-sub">{desc}</p>}
+
+    <ul class="room-card-facts">
+      <li><Icon name="pin" size={18} />{room.floor}</li>
+      <li><Icon name="users" size={18} />{fmt('roomcard.capacity', { n: room.capacity })}</li>
+      <li><Icon name="bed" size={18} />{room.bed}</li>
+      <li><Icon name="shower" size={18} />{t('roomcard.bath')}</li>
+      <li><Icon name="sparkle" size={18} />{t('roomcard.balcony')}</li>
+      <li><Icon name="gift" size={18} />{t('roomcard.snack')}</li>
+      <li><Icon name="clock" size={18} />{fmt('roomcard.hours', { start: FALLAS.accessStart, end: FALLAS.accessEnd })}</li>
+    </ul>
+
+    <p class="room-card-note">{t('roomcard.private')}</p>
+
+    <div class="room-card-footer">
+      <p class="room-card-price">
+        <span>{t('roomcard.from')}</span>
+        <strong>{money(room.price)}</strong>
+        <span>{t('roomcard.perroom')}</span>
+      </p>
+      <a class="btn btn-gold" href={`${bookUrl}?room=${room.slug}`}>
+        {fmt('roomcard.book', { n: room.roomNumber })}
+        <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+    <p class="room-card-hint">{t('roomcard.hint')}</p>
+  </div>
+</article>
+
+<script>
+  // Delegación de eventos: sirve para todas las .room-card de la página
+  // (Home puede mostrar varias, Habitaciones las diez).
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement)?.closest('.room-card-nav') as HTMLButtonElement | null;
+    if (!btn) return;
+    const media = btn.closest('.room-card-media') as HTMLElement | null;
+    if (!media) return;
+    const photos: string[] = JSON.parse(media.dataset.photos || '[]');
+    if (!photos.length) return;
+    let idx = parseInt(media.dataset.idx || '0', 10);
+    idx = (idx + Number(btn.dataset.dir) + photos.length) % photos.length;
+    media.dataset.idx = String(idx);
+    const img = media.querySelector('img');
+    if (img) img.src = photos[idx];
+    media.querySelectorAll('[data-dot]').forEach((d) => {
+      d.classList.toggle('is-active', d.getAttribute('data-dot') === String(idx));
+    });
+  });
+</script>
+
+<style is:global>
+  .room-card {
+    display: grid; grid-template-columns: minmax(280px, 42%) 1fr;
+    border: 1px solid var(--cream-dark); border-radius: var(--r-lg);
+    overflow: hidden; background: #fff; box-shadow: var(--sh-sm);
+  }
+  @media (max-width: 760px) { .room-card { grid-template-columns: 1fr; } }
+
+  .room-card-media { position: relative; aspect-ratio: 4 / 3; background: var(--navy); }
+  @media (min-width: 761px) { .room-card-media { aspect-ratio: auto; height: 100%; } }
+  .room-card-img { width: 100%; height: 100%; object-fit: cover; }
+  .room-card-placeholder {
+    width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 6px; color: rgba(255,255,255,.85);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(201,162,70,.35), transparent 45%),
+      radial-gradient(circle at 75% 70%, rgba(201,162,70,.2), transparent 50%),
+      var(--navy);
+  }
+  .room-card-placeholder span { font-family: var(--ff-display); font-size: 20px; }
+  .room-card-placeholder small { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+
+  .room-card-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 34px; height: 34px; border-radius: 50%; border: none;
+    background: rgba(255,255,255,.9); color: var(--navy); display: grid; place-items: center;
+  }
+  .room-card-nav.prev { left: 10px; }
+  .room-card-nav.prev svg { transform: rotate(180deg); }
+  .room-card-nav.next { right: 10px; }
+  .room-card-dots { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+  .room-card-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.5); }
+  .room-card-dots span.is-active { background: var(--gold); }
+
+  .room-card-body { padding: 28px; display: flex; flex-direction: column; }
+  .room-card-body h3 { font-size: 24px; }
+  .room-card-sub { color: var(--text-mid); font-size: 15px; margin-top: 4px; }
+
+  .room-card-facts {
+    list-style: none; margin: 18px 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px;
+  }
+  @media (max-width: 480px) { .room-card-facts { grid-template-columns: 1fr; } }
+  .room-card-facts li { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-mid); }
+  .room-card-facts li svg { color: var(--gold); flex-shrink: 0; }
+
+  .room-card-note { font-size: 13px; color: var(--text-soft); margin-top: 16px; }
+
+  .room-card-footer {
+    margin-top: auto; padding-top: 20px; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .room-card-price { display: flex; align-items: baseline; gap: 6px; font-size: 13px; color: var(--text-mid); }
+  .room-card-price strong { font-family: var(--ff-display); font-size: 26px; color: var(--navy); }
+  .room-card-footer .btn { display: inline-flex; align-items: center; gap: 8px; }
+  .room-card-hint { font-size: 12px; color: var(--text-soft); margin-top: 10px; }
+</style>

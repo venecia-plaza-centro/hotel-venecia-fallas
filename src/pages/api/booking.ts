@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { DEFAULT_LOCALE } from '../../consts';
-import { buildQuote, isLocale, validateStay } from '../../lib/booking';
-import { airtableEnabled, createBooking, getExtras, getRoomOffers } from '../../lib/airtable';
+import { buildQuote, isLocale, validateDate } from '../../lib/booking';
+import { airtableEnabled, createBooking, getRoomOffers } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
 import { handleError, json } from '../../lib/api';
 
@@ -12,7 +12,7 @@ const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
 
 /**
  * POST /api/booking
- * Crea la reserva. Revalida fechas, disponibilidad y precio en el servidor:
+ * Crea la reserva. Revalida fecha, disponibilidad y precio en el servidor:
  * nada de lo que manda el cliente se da por bueno salvo los datos de contacto.
  */
 export const POST: APIRoute = async ({ request }) => {
@@ -23,12 +23,9 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, error: 'json' }, 400);
   }
 
-  const from = str(body.from);
-  const to = str(body.to);
+  const date = str(body.date);
   const roomSlug = str(body.roomSlug);
-  const cateringSlug = str(body.cateringSlug);
   const guests = Number(body.guests);
-  const cateringPeople = Number(body.cateringPeople ?? 0);
   const lang = isLocale(body.lang) ? body.lang : DEFAULT_LOCALE;
 
   const firstName = str(body.firstName);
@@ -39,8 +36,8 @@ export const POST: APIRoute = async ({ request }) => {
   const notes = str(body.notes);
   const consent = body.consent === true;
 
-  const stay = validateStay(from, to);
-  if (!stay.ok) return json({ ok: false, error: 'fechas', detail: stay.error }, 400);
+  const check = validateDate(date);
+  if (!check.ok) return json({ ok: false, error: 'fecha', detail: check.error }, 400);
 
   const missing: string[] = [];
   if (!firstName) missing.push('firstName');
@@ -51,7 +48,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (missing.length) return json({ ok: false, error: 'datos', fields: missing }, 400);
 
   try {
-    const [offers, extras] = await Promise.all([getRoomOffers(from, to), getExtras()]);
+    const offers = await getRoomOffers(date);
 
     const room = offers.find((r) => r.slug === roomSlug);
     if (!room) return json({ ok: false, error: 'habitacion' }, 400);
@@ -61,27 +58,12 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ ok: false, error: 'huespedes', max: room.capacity }, 400);
     }
 
-    let extra = null;
-    if (cateringSlug) {
-      extra = extras.find((e) => e.slug === cateringSlug) ?? null;
-      if (!extra) return json({ ok: false, error: 'catering' }, 400);
-      if (!Number.isInteger(cateringPeople) || cateringPeople < extra.minPeople) {
-        return json({ ok: false, error: 'catering-min', min: extra.minPeople }, 400);
-      }
-      if (cateringPeople > 200) return json({ ok: false, error: 'catering-max' }, 400);
-    }
-
-    const quote = buildQuote(room, extra, { from, to, cateringPeople });
+    const quote = buildQuote(room);
 
     const { locator } = await createBooking({
-      from,
-      to,
+      date,
       room,
       guests,
-      extra,
-      cateringPeople: extra ? cateringPeople : 0,
-      lodging: quote.lodging,
-      catering: quote.catering,
       total: quote.total,
       firstName,
       lastName,
@@ -97,12 +79,9 @@ export const POST: APIRoute = async ({ request }) => {
     await sendBookingEmails({
       locator,
       room,
-      extra,
-      cateringPeople: extra ? cateringPeople : 0,
+      date,
       guests,
       quote,
-      from,
-      to,
       firstName,
       lastName,
       email,
@@ -116,9 +95,8 @@ export const POST: APIRoute = async ({ request }) => {
       ok: true,
       locator,
       persisted,
-      stay: { from, to, nights: quote.nights },
-      room: { name: room.name, slug: room.slug },
-      catering: extra ? { name: extra.name, people: cateringPeople } : null,
+      date,
+      room: { roomNumber: room.roomNumber, slug: room.slug },
       quote,
     });
   } catch (e) {
