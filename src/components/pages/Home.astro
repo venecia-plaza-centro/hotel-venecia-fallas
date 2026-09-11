@@ -124,8 +124,13 @@ const strip = [
     color: #fff; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; margin-bottom: 4px;
   }
   .hero-panel h1 em { font-style: italic; color: var(--gold-light); }
-  .hero-kicker { font-family: var(--ff-display); font-size: 18px; color: rgba(255,255,255,.92); }
   .hero-panel p { font-size: 14.5px; line-height: 1.7; color: rgba(255,255,255,.72); }
+  /* Selector más específico que ".hero-panel p" (línea de arriba) a propósito:
+     con la misma especificidad, la regla general la pisaría siempre. */
+  .hero-panel p.hero-kicker {
+    font-family: var(--ff-display); font-size: 20px; font-weight: 600;
+    line-height: 1.4; color: #fff;
+  }
   .hero-strong { color: #fff !important; font-weight: 600; }
   .hero-panel .btn { align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; gap: 10px; }
   /* Este bloque va DESPUÉS de las reglas base de arriba: con la misma
