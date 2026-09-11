@@ -212,6 +212,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .footer a { color: rgba(255, 255, 255, .7); }
 .footer a:hover { color: var(--gold); }
 .footer-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; }
+.footer-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 14px; }
 .footer-legal { margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .12); display: flex; flex-wrap: wrap; gap: 18px; }
 @media (max-width: 860px) {
   .footer-grid { flex-direction: column; align-items: center; text-align: center; }

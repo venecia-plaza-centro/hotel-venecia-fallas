@@ -13,10 +13,12 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer-grid">
       <div>
-        <img src="/img/logo-hotel-venecia.png" alt="" width="64" height="64" style="margin-bottom:14px" />
-        <strong style="font-family:var(--ff-display);font-size:17px;color:#fff;display:block;margin-bottom:6px">
-          {t('brand.name')} <span style="color:var(--gold)">{t('brand.sub')}</span>
-        </strong>
+        <div class="footer-brand">
+          <img src="/img/logo-hotel-venecia.png" alt="" width="64" height="64" />
+          <strong style="font-family:var(--ff-display);font-size:17px;color:#fff;display:block">
+            {t('brand.name')} <span style="color:var(--gold)">{t('brand.sub')}</span>
+          </strong>
+        </div>
         <p>{t('footer.tagline')}</p>
         <p style="margin-top:10px">{SITE.address}</p>
         <p><a href={SITE.phoneHref}>{SITE.phone}</a> · <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
