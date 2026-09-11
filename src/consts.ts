@@ -14,7 +14,7 @@ export const SITE = {
 
 /**
  * Ventana de venta de estas 10 habitaciones: del 1 al 12 de marzo de 2027
- * (subconjunto de las mascletàs de Fallas, que siguen hasta el 19).
+ * (subconjunto de las mascletás de Fallas, que siguen hasta el 19).
  * No es una reserva de noches: cada habitación se alquila por horas el día
  * elegido, como espacio privado para ver la mascletà desde el balcón.
  */

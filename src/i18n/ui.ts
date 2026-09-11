@@ -13,7 +13,7 @@ const es: Dict = {
   'brand.name': 'Hotel Venecia',
   'brand.sub': 'Plaza Centro',
   'nav.rooms': 'Habitaciones',
-  'nav.mascletas': 'Mascletàs',
+  'nav.mascletas': 'Mascletás',
   'nav.faq': 'Preguntas frecuentes',
   'nav.book': 'Reservar',
   'nav.menu': 'Menú',
@@ -24,7 +24,7 @@ const es: Dict = {
   'fab.call.aria': 'Llamar al hotel',
 
   // footer
-  'footer.tagline': 'En la Plaza del Ayuntamiento, donde se disparan las mascletàs.',
+  'footer.tagline': 'En la Plaza del Ayuntamiento, donde se disparan las mascletás.',
   'footer.mainsite': 'Web principal del hotel',
   'footer.terms': 'Condiciones de reserva',
   'footer.cancellation': 'Política de cancelación',
@@ -91,7 +91,7 @@ const es: Dict = {
 
   // mascletas
   'mascletas.eyebrow': 'Fallas 2027',
-  'mascletas.h1': 'Calendario de mascletàs',
+  'mascletas.h1': 'Calendario de mascletás',
   'mascletas.lead':
     'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento. El 18, Nit del Foc; el 19, la Cremà.',
   'mascletas.daily': 'Mascletà diaria · 14:00 · Plaza del Ayuntamiento',
@@ -215,7 +215,7 @@ const es: Dict = {
 
 const en: Dict = {
   'nav.rooms': 'Rooms',
-  'nav.mascletas': 'Mascletàs',
+  'nav.mascletas': 'Mascletás',
   'nav.faq': 'FAQ',
   'nav.book': 'Book now',
   'nav.menu': 'Menu',
@@ -224,7 +224,7 @@ const en: Dict = {
   'fab.call': 'Call',
   'fab.call.aria': 'Call the hotel',
 
-  'footer.tagline': "On Plaza del Ayuntamiento, where the mascletàs are set off.",
+  'footer.tagline': "On Plaza del Ayuntamiento, where the mascletás are set off.",
   'footer.mainsite': "Hotel's main website",
   'footer.terms': 'Booking terms',
   'footer.cancellation': 'Cancellation policy',

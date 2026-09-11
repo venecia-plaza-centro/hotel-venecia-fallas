@@ -135,7 +135,7 @@ ES y EN están redactados; IT, FR y DE están pendientes.
 | ☐ | Revisión de los textos en español | contenido | El hotel valida el contenido de ejemplo y lo ajusta a su tono. |
 | ☐ | Traducciones a IT, FR y DE | contenido | ¿Las aporta el hotel o las encargamos nosotros? Presupuesto aparte si es lo segundo. |
 | ☐ | Nombres oficiales de los tipos de habitación en cada idioma | contenido | Para que coincidan con el resto de canales del hotel. |
-| ☐ | Fotos del catering y de mascletàs vistas desde el hotel | contenido | Son las imágenes que más venden esta campaña. |
+| ☐ | Fotos del catering y de mascletás vistas desde el hotel | contenido | Son las imágenes que más venden esta campaña. |
 
 ## 10 · Operativa y notificaciones
 
