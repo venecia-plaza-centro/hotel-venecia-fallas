@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Home from '../components/pages/Home.astro';
 import Rooms from '../components/pages/Rooms.astro';
-import Groups from '../components/pages/Groups.astro';
 import Mascletas from '../components/pages/Mascletas.astro';
 import Faq from '../components/pages/Faq.astro';
 import Book from '../components/pages/Book.astro';
@@ -68,7 +67,6 @@ const jsonLd = pageId === 'home'
 <Base lang={lang} pageId={pageId} title={title} description={description} jsonLd={jsonLd} noindex={noindex}>
   {pageId === 'home' && <Home lang={lang} />}
   {pageId === 'rooms' && <Rooms lang={lang} />}
-  {pageId === 'groups' && <Groups lang={lang} />}
   {pageId === 'mascletas' && <Mascletas lang={lang} />}
   {pageId === 'faq' && <Faq lang={lang} />}
   {pageId === 'book' && <Book lang={lang} />}

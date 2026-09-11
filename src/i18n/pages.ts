@@ -9,7 +9,6 @@ import type { Locale } from '../consts';
 export type PageId =
   | 'home'
   | 'rooms'
-  | 'groups'
   | 'mascletas'
   | 'faq'
   | 'book'
@@ -34,18 +33,6 @@ export const PAGES: PageDef[] = [
   {
     id: 'rooms',
     slug: { es: 'habitaciones', en: 'rooms', it: 'camere', fr: 'chambres', de: 'zimmer' },
-    inNav: true,
-    inFooter: true,
-  },
-  {
-    id: 'groups',
-    slug: {
-      es: 'grupos-catering',
-      en: 'groups-catering',
-      it: 'gruppi-catering',
-      fr: 'groupes-traiteur',
-      de: 'gruppen-catering',
-    },
     inNav: true,
     inFooter: true,
   },
