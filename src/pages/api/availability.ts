@@ -7,7 +7,7 @@ export const prerender = false;
 
 /**
  * GET /api/availability?date=YYYY-MM-DD
- * Habitaciones con disponibilidad para ese día de mascletà.
+ * Habitaciones con disponibilidad para ese día de mascletá.
  */
 export const GET: APIRoute = async ({ url }) => {
   const date = url.searchParams.get('date') ?? '';

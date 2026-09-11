@@ -2,7 +2,7 @@
 
 > **Actualizado tras la reunión con el cliente (2026-09-11):** no es una reserva
 > de noches. Cada habitación se alquila por horas (13:00–15:00 h) el día de
-> mascletà elegido, como espacio privado. Son **10 habitaciones reales** del
+> mascletá elegido, como espacio privado. Son **10 habitaciones reales** del
 > hotel (no tipos), precio plano por habitación, Snack Pack incluido de serie.
 
 Base que gestiona el hotel. Dos tablas: **Habitaciones** y **Reservas**.
@@ -49,7 +49,7 @@ como `solicitada`.
 |---|---|---|
 | `Localizador` | Single line text (**campo principal**) | _(lo rellena la web)_ Código corto, ej.: `FAL-7Q3KD`. |
 | `Estado` | Single select | `solicitada` · `confirmada` · `cancelada`. Nueva reserva = `solicitada`. |
-| `Fecha` | Date | _(lo rellena la web)_ Día de mascletà elegido (acceso 13:00–15:00 h). |
+| `Fecha` | Date | _(lo rellena la web)_ Día de mascletá elegido (acceso 13:00–15:00 h). |
 | `Habitacion` | Link → `Habitaciones` (single) | _(lo rellena la web)_ |
 | `Huespedes` | Number (entero) | _(lo rellena la web)_ |
 | `Nombre cliente` | Single line text | _(lo rellena la web)_ |

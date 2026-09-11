@@ -30,7 +30,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   const resumen = [
     `Localizador: ${data.locator}`,
     `Cliente: ${data.firstName} ${data.lastName} · ${data.email} · ${data.phone}`,
-    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
+    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`,
     `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
     `Total: ${money(data.quote.total)} · Snack Pack incluido`,
     data.notes ? `Notas: ${data.notes}` : null,

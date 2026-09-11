@@ -4,7 +4,7 @@
  * las reales las pone el hotel en Airtable sin tocar código.
  *
  * Son las 10 habitaciones reales del hotel que se ofrecen como espacio
- * privado para ver la mascletà desde el balcón (ver docs/airtable-esquema.md).
+ * privado para ver la mascletá desde el balcón (ver docs/airtable-esquema.md).
  */
 import type { Room } from './booking';
 
@@ -18,8 +18,8 @@ export const FIXTURE_ROOMS: Room[] = [
     bed: 'Cama doble',
     price: 160,
     cupo: 1,
-    descriptionEs: 'Balcón directo a la Plaza del Ayuntamiento, en primera línea de la mascletà.',
-    descriptionEn: 'Balcony right onto Plaza del Ayuntamiento, front row for the mascletà.',
+    descriptionEs: 'Balcón directo a la Plaza del Ayuntamiento, en primera línea de la mascletá.',
+    descriptionEn: 'Balcony right onto Plaza del Ayuntamiento, front row for the mascletá.',
     photos: [],
     order: 1,
   },
@@ -144,8 +144,8 @@ export const FIXTURE_ROOMS: Room[] = [
     bed: 'Cama doble',
     price: 240,
     cupo: 1,
-    descriptionEs: 'Ático con terraza privada, íntimo y en primera línea de la mascletà.',
-    descriptionEn: 'Top-floor room with a private terrace, intimate and front row for the mascletà.',
+    descriptionEs: 'Ático con terraza privada, íntimo y en primera línea de la mascletá.',
+    descriptionEn: 'Top-floor room with a private terrace, intimate and front row for the mascletá.',
     photos: [],
     order: 10,
   },

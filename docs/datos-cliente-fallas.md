@@ -73,20 +73,20 @@ Definen qué combinaciones de fechas puede elegir el cliente.
 | ✔ | Punto | Bloquea | Detalle |
 |---|---|---|---|
 | ☐ | Mínimo de noches para las fechas de Fallas | reserva | Ahora en el código está a 2, sin confirmar. ¿Y máximo? |
-| ☐ | Horas de check-in y check-out | contenido | Y si el día de mascletà pueden llegar antes de las 14:00 y dejar equipaje. |
+| ☐ | Horas de check-in y check-out | contenido | Y si el día de mascletá pueden llegar antes de las 14:00 y dejar equipaje. |
 | ☐ | ¿Se reserva noche a noche o por paquetes de fechas cerradas? | reserva | Cambia por completo el diseño del selector de fechas. |
 | ☐ | ¿Se admite la noche del 28 de febrero (víspera)? | reserva | La ventana actual es 1–19 de marzo. |
 
 ## 05 · Grupos y catering
 
-Varias habitaciones juntas más un paquete de aperitivo valenciano antes de la mascletà.
+Varias habitaciones juntas más un paquete de aperitivo valenciano antes de la mascletá.
 
 | ✔ | Punto | Bloquea | Detalle |
 |---|---|---|---|
 | ☐ | En qué consiste el paquete de grupo | grupos | Número mínimo de habitaciones o de personas, qué se reserva junto. |
 | ☐ | Qué incluye el catering — lista exacta | grupos | Horchata, fartons, longaniza, embutidos, bebida… detalle de lo que se sirve. |
 | ☐ | Precio por persona del catering | grupos | Y si hay menús alternativos (con/sin alcohol, vegetariano, alérgenos). |
-| ☐ | Desde dónde se ve la mascletà en el paquete | contenido | Balcones de las habitaciones, terraza común, azotea… y aforo máximo de ese espacio. |
+| ☐ | Desde dónde se ve la mascletá en el paquete | contenido | Balcones de las habitaciones, terraza común, azotea… y aforo máximo de ese espacio. |
 | ☐ | Dónde se sirve el catering | contenido | En la habitación, en un salón, en la terraza. |
 | ☐ | ¿Se puede contratar catering sin reservar habitación? | grupos | Define si el catering es un extra de la reserva o un producto aparte. |
 | ☐ | Antelación mínima y forma de pago para grupos | grupos | ¿Señal o pago completo por adelantado? ¿Cuántos días antes hay que cerrarlo? |
@@ -99,7 +99,7 @@ Necesario antes de cobrar. Se muestra en el resumen de la reserva y en el correo
 |---|---|---|---|
 | ☐ | Política de cancelación exacta para Fallas | pago | Plazos y penalizaciones (%). ¿Tarifa reembolsable frente a no reembolsable? |
 | ☐ | Modificación de fechas | contenido | ¿Se permite? ¿Con coste? |
-| ☐ | Qué ocurre si se suspende la mascletà | contenido | Lluvia o motivos de seguridad. Aunque sea poco probable, conviene dejarlo por escrito. |
+| ☐ | Qué ocurre si se suspende la mascletá | contenido | Lluvia o motivos de seguridad. Aunque sea poco probable, conviene dejarlo por escrito. |
 | ☐ | Puntos para redactar las condiciones de reserva | contenido | Nos vale un borrador o una llamada para redactarlo nosotros y que lo valide su asesoría. |
 
 ## 07 · Textos legales
@@ -155,7 +155,7 @@ Confirmar la ventana de venta y las fechas señaladas.
 
 | ✔ | Punto | Bloquea | Detalle |
 |---|---|---|---|
-| ☐ | Confirmar ventana de venta | reserva | Ahora: noches del 1 al 19 de marzo de 2027, salida el 20. Mascletà diaria a las 14:00 en la Plaza del Ayuntamiento. |
+| ☐ | Confirmar ventana de venta | reserva | Ahora: noches del 1 al 19 de marzo de 2027, salida el 20. Mascletá diaria a las 14:00 en la Plaza del Ayuntamiento. |
 | ☐ | Fechas señaladas para el calendario | contenido | Plantà (15), Ofrenda (17–18), Nit del Foc (18), Cremà (19). Confirmar con el programa oficial cuando salga. |
 | ☐ | Fecha objetivo de publicación y apertura de reservas | planificación | Marca el ritmo de los tres hitos. |
 
