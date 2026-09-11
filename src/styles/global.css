@@ -108,16 +108,42 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   box-shadow: var(--sh-sm);
 }
 .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
-.nav-brand strong { font-family: var(--ff-display); font-size: 19px; color: var(--navy); }
-.nav-brand span { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.nav-brand { display: flex; flex-direction: row; align-items: center; gap: 10px; line-height: 1.1; }
+.nav-brand img { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
+.nav-brand-text { display: flex; flex-direction: column; }
+.nav-brand-text strong { font-family: var(--ff-display); font-size: 19px; color: var(--navy); }
+.nav-brand-text span { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
 .nav-links { display: flex; align-items: center; gap: 26px; }
-.nav-links a { font-size: 13px; font-weight: 600; color: var(--navy); }
+.nav-links a { font-size: 16px; font-weight: 600; color: var(--navy); }
 .nav-links a:hover { color: var(--gold); }
 .nav-right { display: flex; align-items: center; gap: 16px; }
-.lang-menu { display: flex; gap: 8px; }
-.lang-menu a { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-soft); }
-.lang-menu a.is-active { color: var(--navy); }
+
+/* ─── selector de idioma del header: desplegable, igual que hotelvenecia.com ─── */
+.lang-dd { position: relative; }
+.lang-dd-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: none; border: 1px solid rgba(27,42,74,.25); color: var(--navy);
+  font-family: var(--ff-body); font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  padding: 6px 9px; border-radius: 4px; cursor: pointer; transition: all .2s; line-height: 1;
+}
+.lang-dd-btn:hover { border-color: var(--gold); color: var(--gold); }
+.lang-dd-caret { width: 10px; height: 10px; transition: transform .25s var(--ease); }
+.lang-dd.open .lang-dd-caret { transform: rotate(180deg); }
+.lang-dd-menu {
+  position: absolute; top: calc(100% + 10px); right: 0; min-width: 132px;
+  background: #fff; border: 1px solid rgba(27,42,74,.08); border-radius: var(--r);
+  box-shadow: var(--sh-md); padding: 5px; z-index: 120;
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
+}
+.lang-dd.open .lang-dd-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.lang-dd-item {
+  display: block; padding: 8px 12px; border-radius: 4px;
+  font-size: 13px; color: var(--navy); text-decoration: none; white-space: nowrap;
+  transition: background .15s, color .15s;
+}
+.lang-dd-item:hover { background: var(--cream); }
+.lang-dd-item.is-active { color: var(--gold); font-weight: 600; }
 
 .hamburger {
   display: none; flex-direction: column; justify-content: center; gap: 5px;
@@ -177,7 +203,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .mobile-nav.open .mobile-nav-langs { animation-delay: .5s; }
 
 @media (max-width: 900px) {
-  .nav-links, .nav-right .lang-menu { display: none; }
+  .nav-links, .nav-right .lang-dd { display: none; }
   .hamburger { display: flex; }
 }
 

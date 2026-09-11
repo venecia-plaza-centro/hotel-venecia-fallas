@@ -1,5 +1,5 @@
 ---
-import { LOCALES, type Locale } from '../consts';
+import { LOCALES, LOCALE_NAMES, type Locale } from '../consts';
 import { PAGES, pagePath, type PageId } from '../i18n/pages';
 import { useT } from '../i18n/ui';
 
@@ -13,8 +13,11 @@ const navItems = PAGES.filter((p) => p.inNav);
 <nav class="nav">
   <div class="nav-inner">
     <a class="nav-brand" href={pagePath('home', lang)} aria-label={t('brand.name')}>
-      <strong>{t('brand.name')}</strong>
-      <span>{t('brand.sub')} · Fallas 2027</span>
+      <img src="/img/logo-hotel-venecia.png" alt="" width="44" height="44" />
+      <span class="nav-brand-text">
+        <strong>{t('brand.name')}</strong>
+        <span>{t('brand.sub')} · Fallas 2027</span>
+      </span>
     </a>
 
     <div class="nav-links">
@@ -24,12 +27,18 @@ const navItems = PAGES.filter((p) => p.inNav);
     </div>
 
     <div class="nav-right">
-      <div class="lang-menu">
-        {LOCALES.map((l) => (
-          <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>
-            {l}
-          </a>
-        ))}
+      <div class="lang-dd" id="lang-dd">
+        <button type="button" class="lang-dd-btn" aria-haspopup="true" aria-expanded="false" aria-label={t('nav.menu')}>
+          {lang.toUpperCase()}
+          <svg class="lang-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="lang-dd-menu" role="menu">
+          {LOCALES.map((l) => (
+            <a class={`lang-dd-item${l === lang ? ' is-active' : ''}`} href={pagePath(pageId, l)} hreflang={l} lang={l} role="menuitem">
+              {LOCALE_NAMES[l]}
+            </a>
+          ))}
+        </div>
       </div>
       <a class="btn btn-gold" href={pagePath('book', lang)}>{t('nav.book')}</a>
       <button type="button" class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-nav" aria-label={t('nav.menu')}>
@@ -61,6 +70,26 @@ const navItems = PAGES.filter((p) => p.inNav);
 </div>
 
 <script>
+  const langDd = document.getElementById('lang-dd');
+  if (langDd) {
+    const btn = langDd.querySelector('.lang-dd-btn');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = langDd.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('click', () => {
+      langDd.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        langDd.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   const hamburger = document.getElementById('hamburger');
   const closeBtn = document.getElementById('mobile-nav-close');
   const overlay = document.getElementById('mobile-nav');
