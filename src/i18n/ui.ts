@@ -17,6 +17,7 @@ const es: Dict = {
   'nav.faq': 'Preguntas frecuentes',
   'nav.book': 'Reservar',
   'nav.menu': 'Menú',
+  'nav.close': 'Cerrar menú',
 
   // fabs
   'fab.call': 'Llamar',
@@ -218,6 +219,7 @@ const en: Dict = {
   'nav.faq': 'FAQ',
   'nav.book': 'Book now',
   'nav.menu': 'Menu',
+  'nav.close': 'Close menu',
 
   'fab.call': 'Call',
   'fab.call.aria': 'Call the hotel',
