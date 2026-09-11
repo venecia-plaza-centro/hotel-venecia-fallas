@@ -208,6 +208,10 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   .fab-call span, .fab-wa span { display: none; }
   .fab-call, .fab-wa { padding: 14px; border-radius: 50%; }
   .fab-call { bottom: 82px; }
+  /* Los FABs redondos tapan la flecha de los botones dorados anchos
+     (hero, tarjetas de habitación) en pantallas muy estrechas. El
+     texto del botón sigue siendo legible; se quita solo el icono. */
+  .hero-panel .btn svg, .room-card-footer .btn svg { display: none; }
 }
 
 /* ─── UTILIDADES ─── */

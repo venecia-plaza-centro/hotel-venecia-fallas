@@ -27,7 +27,7 @@ const days = Array.from({ length: 19 }, (_, i) => i + 1);
     </p>
     <h2 class="h2" style="text-align:center;margin-top:8px">{t('mascletas.march')}</h2>
     <div class="gold-rule" style="margin:18px auto 40px"></div>
-    <ul style="list-style:none;display:grid;grid-template-columns:1fr;gap:2px">
+    <ul class="mascletas-list" style="list-style:none;display:grid;grid-template-columns:1fr;gap:2px">
       {days.map((d) => (
         <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
           <span><strong>{d}</strong> {t('mascletas.march')}</span>
@@ -40,3 +40,11 @@ const days = Array.from({ length: 19 }, (_, i) => i + 1);
     </ul>
   </div>
 </section>
+
+<style>
+  /* Deja hueco a la derecha para que la hora no quede debajo de los
+     FABs de llamar/WhatsApp (fijos en esa esquina) al hacer scroll. */
+  @media (max-width: 480px) {
+    .mascletas-list { padding-right: 60px; }
+  }
+</style>
