@@ -17,14 +17,21 @@ const navItems = PAGES.filter((p) => p.inNav);
       <span>{t('brand.sub')} · Fallas 2027</span>
     </a>
 
-    <div class="nav-links">
+    <div class="nav-links" id="nav-links">
       {navItems.map((item) => (
         <a href={pagePath(item.id, lang)}>{t(`nav.${item.id}`)}</a>
       ))}
+      <div class="lang-menu lang-menu-mobile">
+        {LOCALES.map((l) => (
+          <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>
+            {l}
+          </a>
+        ))}
+      </div>
     </div>
 
     <div class="nav-right">
-      <div class="lang-menu">
+      <div class="lang-menu lang-menu-desktop">
         {LOCALES.map((l) => (
           <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>
             {l}
@@ -32,6 +39,35 @@ const navItems = PAGES.filter((p) => p.inNav);
         ))}
       </div>
       <a class="btn btn-gold" href={pagePath('book', lang)}>{t('nav.book')}</a>
+      <button
+        type="button"
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="nav-links"
+        aria-label={t('nav.menu')}
+      >
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.classList.toggle('is-open', open);
+    });
+    links.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        links.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.classList.remove('is-open');
+      }),
+    );
+  }
+</script>

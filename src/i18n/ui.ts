@@ -16,6 +16,7 @@ const es: Dict = {
   'nav.mascletas': 'Mascletàs',
   'nav.faq': 'Preguntas frecuentes',
   'nav.book': 'Reservar',
+  'nav.menu': 'Menú',
 
   // fabs
   'fab.call': 'Llamar',
@@ -101,7 +102,7 @@ const es: Dict = {
   'faq.lead': 'Contenido de ejemplo — se completará con la información real de la reserva.',
   'faq.q1': '¿Qué días puedo reservar?',
   'faq.a1':
-    'Cualquier día del 1 al 19 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletà de las 14:00 h.',
+    'Cualquier día del 1 al 12 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletà de las 14:00 h.',
   'faq.q2': '¿Todas las habitaciones tienen vistas a la mascletà?',
   'faq.a2':
     'Sí: las 10 habitaciones que se ofrecen para Fallas tienen balcón o mirador con vistas a la Plaza del Ayuntamiento.',
@@ -140,9 +141,9 @@ const es: Dict = {
   'book.date.title': '¿Qué día quieres vivir la mascletà?',
   'book.date.date': 'Fecha',
   'book.date.guests': 'Personas',
-  'book.date.window': 'Días del 1 al 19 de marzo de 2027. Acceso de {start} a {end} h, mascletà a las {mascleta} h.',
+  'book.date.window': 'Días del 1 al 12 de marzo de 2027. Acceso de {start} a {end} h, mascletà a las {mascleta} h.',
   'book.date.submit': 'Buscar disponibilidad',
-  'book.date.err.range': 'La fecha debe estar entre el 1 y el 19 de marzo de 2027.',
+  'book.date.err.range': 'La fecha debe estar entre el 1 y el 12 de marzo de 2027.',
   'book.date.err.generic': 'Revisa la fecha.',
 
   'book.room.title': 'Elige habitación',
@@ -216,6 +217,7 @@ const en: Dict = {
   'nav.mascletas': 'Mascletàs',
   'nav.faq': 'FAQ',
   'nav.book': 'Book now',
+  'nav.menu': 'Menu',
 
   'fab.call': 'Call',
   'fab.call.aria': 'Call the hotel',
@@ -290,7 +292,7 @@ const en: Dict = {
   'faq.lead': 'Placeholder content — to be completed with the real booking information.',
   'faq.q1': 'Which days can I book?',
   'faq.a1':
-    'Any day from 1 to 19 March 2027. The room is booked by the hour, from 1pm to 3pm, to watch the 2pm mascletà.',
+    'Any day from 1 to 12 March 2027. The room is booked by the hour, from 1pm to 3pm, to watch the 2pm mascletà.',
   'faq.q2': 'Do all the rooms have views of the mascletà?',
   'faq.a2':
     'Yes: all 10 rooms offered for Fallas have a balcony or viewpoint over Plaza del Ayuntamiento.',
@@ -327,9 +329,9 @@ const en: Dict = {
   'book.date.title': 'Which day do you want to experience the mascletà?',
   'book.date.date': 'Date',
   'book.date.guests': 'Guests',
-  'book.date.window': 'Days from 1 to 19 March 2027. Access from {start} to {end}, mascletà at {mascleta}.',
+  'book.date.window': 'Days from 1 to 12 March 2027. Access from {start} to {end}, mascletà at {mascleta}.',
   'book.date.submit': 'Check availability',
-  'book.date.err.range': 'The date must fall between 1 and 19 March 2027.',
+  'book.date.err.range': 'The date must fall between 1 and 12 March 2027.',
   'book.date.err.generic': 'Please check the date.',
 
   'book.room.title': 'Choose a room',

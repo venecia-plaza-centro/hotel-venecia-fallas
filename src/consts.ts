@@ -13,14 +13,15 @@ export const SITE = {
 } as const;
 
 /**
- * Ventana de venta: Fallas 2027 = mascletàs diarias del 1 al 19 de marzo.
+ * Ventana de venta de estas 10 habitaciones: del 1 al 12 de marzo de 2027
+ * (subconjunto de las mascletàs de Fallas, que siguen hasta el 19).
  * No es una reserva de noches: cada habitación se alquila por horas el día
  * elegido, como espacio privado para ver la mascletà desde el balcón.
  */
 export const FALLAS = {
   year: 2027,
   saleStart: '2027-03-01', // primer día reservable
-  saleEnd: '2027-03-19',   // último día (Cremà)
+  saleEnd: '2027-03-12',   // último día reservable para estas habitaciones
   mascletaTime: '14:00',
   mascletaPlace: 'Plaza del Ayuntamiento',
   accessStart: '13:00', // apertura del espacio privado
