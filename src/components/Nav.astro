@@ -50,7 +50,7 @@ const navItems = PAGES.filter((p) => p.inNav);
   {navItems.map((item) => (
     <a href={pagePath(item.id, lang)}>{t(`nav.${item.id}`)}</a>
   ))}
-  <a href={pagePath('book', lang)}>{t('nav.book')}</a>
+  <a href={pagePath('book', lang)} class="mobile-nav-cta">{t('nav.book')}</a>
   <div class="mobile-nav-langs">
     {LOCALES.map((l) => (
       <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>

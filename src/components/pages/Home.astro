@@ -119,10 +119,6 @@ const strip = [
     background: var(--navy); color: rgba(255,255,255,.9);
     padding: 148px 56px 56px; display: flex; flex-direction: column; gap: 16px;
   }
-  @media (max-width: 860px) {
-    .hero-panel { padding: 128px 28px 40px; align-items: center; text-align: center; }
-    .hero-panel .btn { align-self: center; }
-  }
   .hero-panel .eyebrow { margin-bottom: 4px; }
   .hero-panel h1 {
     color: #fff; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.15; margin-bottom: 4px;
@@ -132,6 +128,12 @@ const strip = [
   .hero-panel p { font-size: 14.5px; line-height: 1.7; color: rgba(255,255,255,.72); }
   .hero-strong { color: #fff !important; font-weight: 600; }
   .hero-panel .btn { align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; gap: 10px; }
+  /* Este bloque va DESPUÉS de las reglas base de arriba: con la misma
+     especificidad, si fuera antes el flex-start de línea 134 lo pisaría. */
+  @media (max-width: 860px) {
+    .hero-panel { padding: 128px 28px 40px; align-items: center; text-align: center; }
+    .hero-panel .btn { align-self: center; }
+  }
 
   .hero-media { position: relative; background: var(--navy-light); }
   .hero-photo {
