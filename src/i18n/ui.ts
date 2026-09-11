@@ -124,8 +124,9 @@ const es: Dict = {
     'La habitación se reserva completa y será exclusivamente para vuestro grupo durante toda la experiencia.',
   'roomcard.from': 'Desde',
   'roomcard.perroom': '/ habitación',
+  'roomcard.priceNote': 'Precio para 2 personas; sube para 3 o 4.',
   'roomcard.book': 'Reservar habitación {n}',
-  'roomcard.hint': 'Selecciona la fecha para consultar disponibilidad y precio.',
+  'roomcard.hint': 'Selecciona la fecha y el número de personas para consultar disponibilidad y precio.',
   'roomcard.photopending': 'Foto pendiente',
 
   // reserva (flujo del Hito 2: espacio privado por horas, no noches)
@@ -142,6 +143,7 @@ const es: Dict = {
   'book.date.title': '¿Qué día quieres vivir la mascletá?',
   'book.date.date': 'Fecha',
   'book.date.guests': 'Personas',
+  'book.date.guestsHint': 'El precio de la habitación depende del número de personas.',
   'book.date.window': 'Días del 1 al 12 de marzo de 2027. Acceso de {start} a {end} h, mascletá a las {mascleta} h.',
   'book.date.submit': 'Buscar disponibilidad',
   'book.date.err.range': 'La fecha debe estar entre el 1 y el 12 de marzo de 2027.',
@@ -314,8 +316,9 @@ const en: Dict = {
     'The room is booked in full and is exclusively for your group for the whole experience.',
   'roomcard.from': 'From',
   'roomcard.perroom': '/ room',
+  'roomcard.priceNote': 'Price for 2 guests; more for 3 or 4.',
   'roomcard.book': 'Book room {n}',
-  'roomcard.hint': 'Pick a date to check availability and price.',
+  'roomcard.hint': 'Pick a date and number of guests to check availability and price.',
   'roomcard.photopending': 'Photo coming soon',
 
   'book.eyebrow': 'Fallas 2027',
@@ -331,6 +334,7 @@ const en: Dict = {
   'book.date.title': 'Which day do you want to experience the mascletá?',
   'book.date.date': 'Date',
   'book.date.guests': 'Guests',
+  'book.date.guestsHint': 'The room price depends on the number of guests.',
   'book.date.window': 'Days from 1 to 12 March 2027. Access from {start} to {end}, mascletá at {mascleta}.',
   'book.date.submit': 'Check availability',
   'book.date.err.range': 'The date must fall between 1 and 12 March 2027.',

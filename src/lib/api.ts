@@ -1,6 +1,6 @@
 /** Utilidades compartidas por las rutas src/pages/api/*. */
 import { AirtableError } from './airtable';
-import type { RoomOffer } from './booking';
+import { priceForGuests, type GuestCount, type RoomOffer } from './booking';
 
 export function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -21,14 +21,14 @@ export function handleError(e: unknown): Response {
   return json({ ok: false, error: 'interno' }, 500);
 }
 
-export function serializeRoom(r: RoomOffer) {
+/** `guests` decide qué precio de `r.prices` se manda: el cliente nunca lo elige. */
+export function serializeRoom(r: RoomOffer, guests: GuestCount) {
   return {
     slug: r.slug,
     roomNumber: r.roomNumber,
     floor: r.floor,
     capacity: r.capacity,
-    bed: r.bed,
-    price: r.price,
+    price: priceForGuests(r, guests),
     available: r.available,
     descriptionEs: r.descriptionEs,
     descriptionEn: r.descriptionEn,

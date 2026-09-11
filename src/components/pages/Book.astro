@@ -62,9 +62,14 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
             </label>
             <label>
               {t('book.date.guests')}
-              <input type="number" id="f-guests" min="1" max="8" value="2" required />
+              <select id="f-guests" required>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
             </label>
           </div>
+          <p class="hint">{t('book.date.guestsHint')}</p>
           <p class="err" data-err="date" role="alert"></p>
           <div class="actions">
             <button type="button" class="btn btn-gold" id="date-submit">{t('book.date.submit')}</button>
@@ -218,14 +223,14 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   async function runAvailability() {
     setErr('date', '');
     const date = dateEl.value;
-    const g = parseInt(guestsEl.value, 10) || 1;
+    const g = parseInt(guestsEl.value, 10) || 2;
     if (!date) return setErr('date', T['book.date.err.generic']);
     if (date < cfg.firstDay || date > cfg.lastDay) return setErr('date', T['book.date.err.range']);
 
     const btn = $('#date-submit');
     loading(btn, true);
     try {
-      const res = await fetch(`/api/availability?date=${date}`);
+      const res = await fetch(`/api/availability?date=${date}&guests=${g}`);
       const data = await res.json();
       if (!data.ok) return setErr('date', mapError(data));
       state.date = date;
@@ -452,11 +457,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   @media (max-width: 520px) { .book .fields { grid-template-columns: 1fr; } }
   .book label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-mid); }
   .book label.full { margin-top: 16px; }
-  .book input, .book textarea {
+  .book input, .book textarea, .book select {
     font: inherit; padding: 11px 12px; border: 1px solid var(--cream-dark);
     border-radius: var(--r); background: #fff; color: var(--text);
   }
-  .book input:focus, .book textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+  .book input:focus, .book textarea:focus, .book select:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
   .book input.invalid { border-color: #c0392b; background: #fdf3f2; }
 
   .book label.check { flex-direction: row; align-items: flex-start; gap: 10px; margin-top: 18px; font-weight: 400; color: var(--text-mid); }

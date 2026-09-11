@@ -53,7 +53,6 @@ const money = (n: number) =>
     <ul class="room-card-facts">
       <li><Icon name="pin" size={18} />{room.floor}</li>
       <li><Icon name="users" size={18} />{fmt('roomcard.capacity', { n: room.capacity })}</li>
-      <li><Icon name="bed" size={18} />{room.bed}</li>
       <li><Icon name="shower" size={18} />{t('roomcard.bath')}</li>
       <li><Icon name="sparkle" size={18} />{t('roomcard.balcony')}</li>
       <li><Icon name="gift" size={18} />{t('roomcard.snack')}</li>
@@ -65,7 +64,7 @@ const money = (n: number) =>
     <div class="room-card-footer">
       <p class="room-card-price">
         <span>{t('roomcard.from')}</span>
-        <strong>{money(room.price)}</strong>
+        <strong>{money(room.prices[2])}</strong>
         <span>{t('roomcard.perroom')}</span>
       </p>
       <a class="btn btn-gold" href={`${bookUrl}?room=${room.slug}`}>
@@ -73,6 +72,7 @@ const money = (n: number) =>
         <Icon name="arrow-right" size={16} />
       </a>
     </div>
+    <p class="room-card-note">{t('roomcard.priceNote')}</p>
     <p class="room-card-hint">{t('roomcard.hint')}</p>
   </div>
 </article>

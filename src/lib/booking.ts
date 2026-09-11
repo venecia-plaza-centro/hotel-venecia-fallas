@@ -4,10 +4,19 @@
  *
  * No es una reserva de noches: cada habitación se alquila por horas (ver
  * FALLAS.accessStart/accessEnd en src/consts.ts) el día elegido dentro de la
- * ventana de Fallas. El precio es plano por habitación y ya incluye el Snack
- * Pack; no hay noches ni extras que sumar.
+ * ventana de Fallas. El Snack Pack va incluido siempre; no hay noches ni
+ * extras que sumar. Las 10 habitaciones admiten hasta 4 personas, y el precio
+ * depende de cuántas se apunten (2, 3 o 4): ver `Room.prices`.
  */
 import { FALLAS, LOCALES, type Locale } from '../consts';
+
+/** Nº de personas admitidos: solo estos tres valores tienen precio. */
+export const GUEST_OPTIONS = [2, 3, 4] as const;
+export type GuestCount = (typeof GUEST_OPTIONS)[number];
+
+export function isGuestCount(n: unknown): n is GuestCount {
+  return (GUEST_OPTIONS as readonly unknown[]).includes(n);
+}
 
 export interface Room {
   id: string;
@@ -17,9 +26,8 @@ export interface Room {
   /** Planta, ej. "3ª planta". */
   floor: string;
   capacity: number;
-  /** Descripción de la cama, ej. "Cama doble o dos camas". */
-  bed: string;
-  price: number;
+  /** Precio de la experiencia según personas (2, 3 o 4). Snack Pack incluido. */
+  prices: Record<GuestCount, number>;
   /** Cuántas unidades de esta habitación exacta hay (normalmente 1). */
   cupo: number;
   descriptionEs: string | null;
@@ -68,9 +76,13 @@ export function isLocale(x: unknown): x is Locale {
 
 // --- Importes --------------------------------------------------------------
 
-/** Precio de la experiencia: plano por habitación, Snack Pack incluido. */
-export function buildQuote(room: Room): Quote {
-  return { total: room.price, currency: 'EUR' };
+/** Precio de la habitación para ese nº de personas (Snack Pack incluido). */
+export function priceForGuests(room: Room, guests: GuestCount): number {
+  return room.prices[guests];
+}
+
+export function buildQuote(room: Room, guests: GuestCount): Quote {
+  return { total: priceForGuests(room, guests), currency: 'EUR' };
 }
 
 /** Localizador corto tipo `FAL-7Q3KD` (sin caracteres ambiguos). */

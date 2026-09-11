@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { DEFAULT_LOCALE } from '../../consts';
-import { buildQuote, isLocale, validateDate } from '../../lib/booking';
+import { buildQuote, isGuestCount, isLocale, validateDate } from '../../lib/booking';
 import { airtableEnabled, createBooking, getRoomOffers } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
 import { handleError, json } from '../../lib/api';
@@ -54,11 +54,11 @@ export const POST: APIRoute = async ({ request }) => {
     if (!room) return json({ ok: false, error: 'habitacion' }, 400);
     if (!room.available) return json({ ok: false, error: 'sin-disponibilidad' }, 409);
 
-    if (!Number.isInteger(guests) || guests < 1 || guests > room.capacity) {
-      return json({ ok: false, error: 'huespedes', max: room.capacity }, 400);
+    if (!isGuestCount(guests)) {
+      return json({ ok: false, error: 'huespedes' }, 400);
     }
 
-    const quote = buildQuote(room);
+    const quote = buildQuote(room, guests);
 
     const { locator } = await createBooking({
       date,

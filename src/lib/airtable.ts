@@ -97,8 +97,11 @@ function mapRoom(r: AirtableRecord): Room {
     roomNumber: str(f['Numero']) ?? '',
     floor: str(f['Planta']) ?? '',
     capacity: num(f['Capacidad']),
-    bed: str(f['Cama']) ?? '',
-    price: num(f['Precio']),
+    prices: {
+      2: num(f['Precio 2p']),
+      3: num(f['Precio 3p']),
+      4: num(f['Precio 4p']),
+    },
     cupo: num(f['Cupo']) || 1,
     descriptionEs: str(f['Descripcion ES']),
     descriptionEn: str(f['Descripcion EN']),

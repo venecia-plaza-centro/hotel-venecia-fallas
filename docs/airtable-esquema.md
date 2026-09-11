@@ -3,7 +3,11 @@
 > **Actualizado tras la reunión con el cliente (2026-09-11):** no es una reserva
 > de noches. Cada habitación se alquila por horas (13:00–15:00 h) el día de
 > mascletá elegido, como espacio privado. Son **10 habitaciones reales** del
-> hotel (no tipos), precio plano por habitación, Snack Pack incluido de serie.
+> hotel (no tipos), Snack Pack incluido de serie.
+>
+> **Actualizado de nuevo:** las 10 habitaciones admiten hasta **4 personas**,
+> y el precio **varía según se apunten 2, 3 o 4** (ya no es un precio plano
+> único). Ver la tabla `Habitaciones` más abajo.
 
 Base que gestiona el hotel. Dos tablas: **Habitaciones** y **Reservas**.
 
@@ -30,9 +34,10 @@ Un registro por cada una de las 10 habitaciones reales que se ofrecen.
 | `Slug` | Single line text | Identificador estable que usa la web. Ej.: `habitacion-317`. **No cambiar** una vez publicado. |
 | `Numero` | Single line text | El número real de la habitación, ej. `317`. Es lo que ve el cliente. |
 | `Planta` | Single line text | Ej.: `3ª planta`. |
-| `Capacidad` | Number (entero) | Nº máximo de personas. |
-| `Cama` | Single line text | Ej.: `Cama doble o dos camas (según disponibilidad)`. |
-| `Precio` | Currency (EUR) | Precio plano de la experiencia, IVA incluido. Snack Pack ya incluido: no hay que sumar nada más. |
+| `Capacidad` | Number (entero) | Nº máximo de personas. Las 10 habitaciones admiten hasta `4`. |
+| `Precio 2p` | Currency (EUR) | Precio de la experiencia para 2 personas, IVA incluido. Snack Pack ya incluido. |
+| `Precio 3p` | Currency (EUR) | Precio para 3 personas. |
+| `Precio 4p` | Currency (EUR) | Precio para 4 personas. |
 | `Cupo` | Number (entero) | Normalmente `1` (una habitación física = una unidad). Solo se pondría más de 1 si dos habitaciones son intercambiables. |
 | `Descripcion ES` | Long text | Una frase de la ficha en español. |
 | `Descripcion EN` | Long text | Opcional. |
@@ -59,7 +64,7 @@ como `solicitada`.
 | `Pais` | Single line text | _(lo rellena la web)_ Opcional. |
 | `Notas` | Long text | _(lo rellena la web)_ Peticiones del cliente. |
 | `Idioma` | Single select | _(lo rellena la web)_ `es` · `en` · `it` · `fr` · `de` |
-| `Importe total` | Currency (EUR) | _(lo rellena la web)_ = `Precio` de la habitación elegida. |
+| `Importe total` | Currency (EUR) | _(lo rellena la web)_ = `Precio 2p`/`3p`/`4p` de la habitación según `Huespedes`. |
 | `Pago` | Single select | `pendiente` · `pagado`. Hito 3. Nueva reserva = `pendiente`. |
 | `Origen` | Single select | `web` · `telefono` · `email`. Nueva reserva web = `web`. |
 | `Creada` | Created time | Automático de Airtable. |
@@ -79,18 +84,20 @@ Para una fecha pedida:
 
 ## Datos de ejemplo (los que usa la web en local hasta tener la base real)
 
-| Nº | Planta | Capacidad | Cama | Precio |
+| Nº | Planta | 2 pers. | 3 pers. | 4 pers. |
 |---|---|---|---|---|
-| 214 | 2ª | 2 | Cama doble | 160 € |
-| 219 | 2ª | 3 | Cama doble y sofá cama | 190 € |
-| 305 | 3ª | 4 | Dos camas dobles | 210 € |
-| 317 | 3ª | 4 | Cama doble o dos camas | 200 € |
-| 322 | 3ª | 2 | Cama doble | 175 € |
-| 401 | 4ª | 6 | Habitación familiar, tres camas | 320 € |
-| 408 | 4ª | 4 | Dos camas dobles | 230 € |
-| 415 | 4ª | 2 | Cama doble | 190 € |
-| 502 | 5ª (ático) | 3 | Cama doble y cama nido | 260 € |
-| 510 | 5ª (ático) | 2 | Cama doble | 240 € |
+| 214 | 2ª | 150 € | 175 € | 200 € |
+| 219 | 2ª | 170 € | 195 € | 220 € |
+| 305 | 3ª | 190 € | 215 € | 240 € |
+| 317 | 3ª | 180 € | 205 € | 230 € |
+| 322 | 3ª | 160 € | 185 € | 210 € |
+| 401 | 4ª | 260 € | 290 € | 320 € |
+| 408 | 4ª | 210 € | 235 € | 260 € |
+| 415 | 4ª | 170 € | 195 € | 220 € |
+| 502 | 5ª (ático) | 230 € | 255 € | 280 € |
+| 510 | 5ª (ático) | 220 € | 245 € | 270 € |
+
+Todas admiten hasta 4 personas.
 
 > Números y habitaciones inventados para poder programar y probar el flujo.
 > Los reales (los 10 números de habitación, plantas, capacidades y precios que
