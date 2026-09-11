@@ -10,17 +10,17 @@ const t = useT(lang);
 const qa = [1, 2, 3, 4].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 ---
 
-<PageHero eyebrow={t('faq.eyebrow')} title={t('faq.h1')} lead={t('faq.lead')} />
+<PageHero eyebrow={t('faq.eyebrow')} title={t('faq.h1')} />
 
 <section class="section">
   <div class="container" style="max-width:720px">
     {qa.map((item) => (
-      <details style="border-bottom:1px solid var(--cream-dark);padding:18px 0">
-        <summary style="font-family:var(--ff-display);font-size:18px;color:var(--navy);cursor:pointer">
+      <div style="border-bottom:1px solid var(--cream-dark);padding:18px 0">
+        <h2 style="font-family:var(--ff-display);font-size:18px;color:var(--navy)">
           {item.q}
-        </summary>
+        </h2>
         <p style="color:var(--text-mid);font-size:15px;margin-top:10px">{item.a}</p>
-      </details>
+      </div>
     ))}
   </div>
 </section>

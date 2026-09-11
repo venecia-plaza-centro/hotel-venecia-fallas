@@ -100,7 +100,6 @@ const es: Dict = {
   // faq
   'faq.eyebrow': 'Fallas 2027',
   'faq.h1': 'Preguntas frecuentes',
-  'faq.lead': 'Contenido de ejemplo — se completará con la información real de la reserva.',
   'faq.q1': '¿Qué días puedo reservar?',
   'faq.a1':
     'Cualquier día del 1 al 12 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletá de las 14:00 h.',
@@ -293,7 +292,6 @@ const en: Dict = {
 
   'faq.eyebrow': 'Fallas 2027',
   'faq.h1': 'Frequently asked questions',
-  'faq.lead': 'Placeholder content — to be completed with the real booking information.',
   'faq.q1': 'Which days can I book?',
   'faq.a1':
     'Any day from 1 to 12 March 2027. The room is booked by the hour, from 1pm to 3pm, to watch the 2pm mascletá.',
