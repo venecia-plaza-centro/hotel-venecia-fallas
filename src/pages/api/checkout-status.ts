@@ -34,6 +34,8 @@ export const GET: APIRoute = async ({ url }) => {
       room: { roomNumber: m.roomNumber ?? '', slug: m.roomSlug ?? '' },
       quote: { total: (session.amount_total ?? 0) / 100, currency: 'EUR' },
       email: m.email ?? '',
+      phone: m.phone ?? '',
+      confirmVia: m.confirmVia === 'phone' ? 'phone' : 'email',
     });
   } catch (e) {
     return handleError(e);

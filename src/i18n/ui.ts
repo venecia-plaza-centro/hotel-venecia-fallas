@@ -132,7 +132,7 @@ const es: Dict = {
   'book.eyebrow': 'Fallas 2027',
   'book.h1': 'Reserva tu balcón para la mascletá',
   'book.lead':
-    'Elige el día y la habitación. La reserva queda como solicitud; el hotel confirma la disponibilidad y te escribe por correo.',
+    'Elige el día, la habitación y paga online: tu reserva queda confirmada al momento.',
 
   'book.step.date': 'Fecha',
   'book.step.room': 'Habitación',
@@ -170,6 +170,9 @@ const es: Dict = {
   'book.details.phone': 'Teléfono',
   'book.details.country': 'País (opcional)',
   'book.details.notes': 'Peticiones (opcional)',
+  'book.details.confirmVia': '¿Cómo quieres recibir la confirmación?',
+  'book.details.confirmVia.email': 'Por email',
+  'book.details.confirmVia.phone': 'Por teléfono (SMS)',
   'book.details.consent': 'He leído y acepto las {terms} y la {privacy}.',
   'book.details.consent.terms': 'condiciones de reserva',
   'book.details.consent.privacy': 'política de privacidad',
@@ -194,13 +197,12 @@ const es: Dict = {
   'book.summary.pending': 'El siguiente paso es el pago, con tarjeta o Bizum.',
   'book.summary.snack': 'Snack Pack incluido',
 
-  'book.done.title': '¡Solicitud recibida!',
-  'book.done.title.paid': '¡Reserva confirmada!',
+  'book.done.title': '¡Reserva confirmada!',
   'book.done.locator': 'Localizador',
-  'book.done.body':
-    'Te hemos enviado un resumen a {email}. El hotel confirmará la disponibilidad y se pondrá en contacto contigo por email o por teléfono con los pasos para el pago.',
-  'book.done.body.paid':
+  'book.done.body.email':
     'Te hemos enviado la confirmación a {email}. Te esperamos en el hotel el día de tu reserva.',
+  'book.done.body.phone':
+    'Te hemos enviado la confirmación por SMS al {phone}. Te esperamos en el hotel el día de tu reserva.',
   'book.done.demo': 'Modo demostración: la reserva no se ha guardado (falta conectar Airtable).',
   'book.done.demo.payment': 'Modo demostración: no se ha realizado ningún cobro real (falta conectar una pasarela de pago).',
   'book.done.home': 'Volver al inicio',
@@ -213,7 +215,7 @@ const es: Dict = {
   'legal.nav.aria': 'Otras páginas legales',
   'legal.terms.h1': 'Condiciones de reserva',
   'legal.terms.intro':
-    'Estas condiciones regulan la reserva de balcón privado para la mascletá de Fallas 2027 en el Hotel Venecia Plaza Centro. Al enviar tu solicitud desde esta web aceptas los términos que se describen a continuación.',
+    'Estas condiciones regulan la reserva de balcón privado para la mascletá de Fallas 2027 en el Hotel Venecia Plaza Centro. Al completar el pago desde esta web aceptas los términos que se describen a continuación.',
   'legal.terms.s1.h': 'Qué incluye la reserva',
   'legal.terms.s1.p':
     'Reservas el uso privado de una de las 10 habitaciones reales del hotel durante la franja de 13:00 a 15:00 h del día de mascletá que elijas, con vistas a la Plaza del Ayuntamiento y Snack Pack incluido. No es una reserva de alojamiento ni incluye pernoctación.',
@@ -259,7 +261,7 @@ const es: Dict = {
 
   'legal.privacy.h1': 'Política de privacidad',
   'legal.privacy.intro':
-    'En el Hotel Venecia Plaza Centro tratamos tus datos personales para gestionar tu solicitud de balcón privado en Fallas 2027. Esta página resume cómo lo hacemos.',
+    'En el Hotel Venecia Plaza Centro tratamos tus datos personales para gestionar tu reserva de balcón privado en Fallas 2027. Esta página resume cómo lo hacemos.',
   'legal.privacy.s1.h': 'Responsable del tratamiento',
   'legal.privacy.s1.p': 'Hotel Venecia Plaza Centro, con domicilio en Plaza del Ayuntamiento, 3 · 46002 València.',
   'legal.privacy.s2.h': 'Qué datos recogemos',
@@ -270,7 +272,7 @@ const es: Dict = {
     'Usamos estos datos únicamente para gestionar y confirmar tu reserva, contactar contigo si es necesario y atender tus consultas.',
   'legal.privacy.s4.h': 'Base legal',
   'legal.privacy.s4.p':
-    'El tratamiento se basa en la ejecución de la relación precontractual y contractual derivada de tu solicitud de reserva.',
+    'El tratamiento se basa en la ejecución de la relación contractual derivada de tu reserva.',
   'legal.privacy.s5.h': 'Conservación',
   'legal.privacy.s5.p':
     'Conservamos tus datos mientras dure la relación con el hotel y, después, durante los plazos legalmente exigibles.',
@@ -398,7 +400,7 @@ const en: Dict = {
   'book.eyebrow': 'Fallas 2027',
   'book.h1': 'Book your balcony for the mascletá',
   'book.lead':
-    'Pick the day and the room. The booking is submitted as a request; the hotel confirms availability and gets back to you by email.',
+    'Pick the day and the room, then pay online: your booking is confirmed straight away.',
 
   'book.step.date': 'Date',
   'book.step.room': 'Room',
@@ -436,6 +438,9 @@ const en: Dict = {
   'book.details.phone': 'Phone',
   'book.details.country': 'Country (optional)',
   'book.details.notes': 'Requests (optional)',
+  'book.details.confirmVia': 'How would you like to receive your confirmation?',
+  'book.details.confirmVia.email': 'By email',
+  'book.details.confirmVia.phone': 'By phone (SMS)',
   'book.details.consent': 'I have read and accept the {terms} and the {privacy}.',
   'book.details.consent.terms': 'booking terms',
   'book.details.consent.privacy': 'privacy policy',
@@ -460,12 +465,10 @@ const en: Dict = {
   'book.summary.pending': 'The next step is payment, by card or Bizum.',
   'book.summary.snack': 'Snack Pack included',
 
-  'book.done.title': 'Request received!',
-  'book.done.title.paid': 'Booking confirmed!',
+  'book.done.title': 'Booking confirmed!',
   'book.done.locator': 'Reference',
-  'book.done.body':
-    "We've emailed a summary to {email}. The hotel will confirm availability and contact you by email or phone with the payment steps.",
-  'book.done.body.paid': "We've emailed your confirmation to {email}. See you at the hotel on the day of your booking.",
+  'book.done.body.email': "We've emailed your confirmation to {email}. See you at the hotel on the day of your booking.",
+  'book.done.body.phone': "We've texted your confirmation to {phone}. See you at the hotel on the day of your booking.",
   'book.done.demo': 'Demo mode: the booking was not saved (Airtable not connected yet).',
   'book.done.demo.payment': 'Demo mode: no real charge was made (no payment provider connected yet).',
   'book.done.home': 'Back to home',
@@ -477,7 +480,7 @@ const en: Dict = {
   'legal.nav.aria': 'Other legal pages',
   'legal.terms.h1': 'Booking terms',
   'legal.terms.intro':
-    'These terms govern the booking of a private balcony to watch the Fallas 2027 mascletá at Hotel Venecia Plaza Centro. By submitting your request through this website you accept the terms described below.',
+    'These terms govern the booking of a private balcony to watch the Fallas 2027 mascletá at Hotel Venecia Plaza Centro. By completing payment through this website you accept the terms described below.',
   'legal.terms.s1.h': 'What the booking includes',
   'legal.terms.s1.p':
     'You are booking private use of one of the hotel’s 10 real rooms during the 13:00–15:00 window on the mascletá day you choose, with views over Plaza del Ayuntamiento and a Snack Pack included. This is not an overnight stay and does not include lodging.',
@@ -522,7 +525,7 @@ const en: Dict = {
 
   'legal.privacy.h1': 'Privacy policy',
   'legal.privacy.intro':
-    'At Hotel Venecia Plaza Centro we process your personal data to manage your private balcony request for Fallas 2027. This page summarises how we do it.',
+    'At Hotel Venecia Plaza Centro we process your personal data to manage your private balcony booking for Fallas 2027. This page summarises how we do it.',
   'legal.privacy.s1.h': 'Data controller',
   'legal.privacy.s1.p': 'Hotel Venecia Plaza Centro, at Plaza del Ayuntamiento, 3 · 46002 València, Spain.',
   'legal.privacy.s2.h': 'What data we collect',
@@ -533,7 +536,7 @@ const en: Dict = {
     'We use this data only to manage and confirm your booking, contact you if needed, and answer your questions.',
   'legal.privacy.s4.h': 'Legal basis',
   'legal.privacy.s4.p':
-    'Processing is based on the performance of the pre-contractual and contractual relationship arising from your booking request.',
+    'Processing is based on the performance of the contractual relationship arising from your booking.',
   'legal.privacy.s5.h': 'Retention',
   'legal.privacy.s5.p': 'We keep your data for as long as our relationship with the hotel lasts, and afterwards for the legally required periods.',
   'legal.privacy.s6.h': 'Who we share it with',

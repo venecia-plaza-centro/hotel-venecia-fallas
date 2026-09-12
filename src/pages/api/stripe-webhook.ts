@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { isGuestCount, isLocale, priceForGuests } from '../../lib/booking';
+import { isConfirmChannel, isGuestCount, isLocale, priceForGuests } from '../../lib/booking';
 import { createBooking, getRoomOffers } from '../../lib/airtable';
 import { sendBookingEmails, sendPaymentRefundedNotice } from '../../lib/email';
 import { getStripe, WEBHOOK_SECRET } from '../../lib/stripe';
@@ -43,6 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
   const roomSlug = m.roomSlug ?? '';
   const guests = Number(m.guests);
   const lang = isLocale(m.lang) ? m.lang : DEFAULT_LOCALE;
+  const confirmVia = isConfirmChannel(m.confirmVia) ? m.confirmVia : 'email';
 
   try {
     const offers = await getRoomOffers(date);
@@ -78,6 +79,7 @@ export const POST: APIRoute = async ({ request }) => {
       country: m.country || undefined,
       notes: m.notes || undefined,
       lang,
+      confirmVia,
       locator: m.locator,
       paid: true,
     });
@@ -94,6 +96,7 @@ export const POST: APIRoute = async ({ request }) => {
       phone: m.phone ?? '',
       notes: m.notes || undefined,
       lang,
+      confirmVia,
       paid: true,
     });
 

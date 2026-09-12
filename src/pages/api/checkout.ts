@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { DEFAULT_LOCALE } from '../../consts';
 import { pagePath } from '../../i18n/pages';
-import { buildQuote, isGuestCount, isLocale, newLocator, validateDate } from '../../lib/booking';
+import { buildQuote, isConfirmChannel, isGuestCount, isLocale, newLocator, validateDate } from '../../lib/booking';
 import { airtableEnabled, createBooking, getRoomOffers } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
 import { getStripe, stripeEnabled } from '../../lib/stripe';
@@ -43,6 +43,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   const country = str(body.country);
   const notes = str(body.notes);
   const consent = body.consent === true;
+  const confirmVia = isConfirmChannel(body.confirmVia) ? body.confirmVia : 'email';
 
   const check = validateDate(date);
   if (!check.ok) return json({ ok: false, error: 'fecha', detail: check.error }, 400);
@@ -82,6 +83,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         country: country || undefined,
         notes: notes || undefined,
         lang,
+        confirmVia,
         paid: false,
       });
 
@@ -99,6 +101,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         phone,
         notes: notes || undefined,
         lang,
+        confirmVia,
         paid: false,
       }).catch((err) => console.error('[checkout] fallo al enviar correos', err));
 
@@ -108,6 +111,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         locator,
         persisted,
         paid: false,
+        confirmVia,
         date,
         room: { roomNumber: room.roomNumber, slug: room.slug },
         quote,
@@ -152,6 +156,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         country,
         notes,
         lang,
+        confirmVia,
       },
     });
 

@@ -123,6 +123,17 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
               {t('book.details.notes')}
               <textarea name="notes" rows="3"></textarea>
             </label>
+            <fieldset class="confirm-via">
+              <legend>{t('book.details.confirmVia')}</legend>
+              <label class="radio">
+                <input type="radio" name="confirmVia" value="email" checked />
+                {t('book.details.confirmVia.email')}
+              </label>
+              <label class="radio">
+                <input type="radio" name="confirmVia" value="phone" />
+                {t('book.details.confirmVia.phone')}
+              </label>
+            </fieldset>
             <label class="check">
               <input type="checkbox" name="consent" />
               <span set:html={t('book.details.consent')
@@ -195,7 +206,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     date: '', guests: 2,
     rooms: [],
     roomSlug: '',
-    locator: '', persisted: true, paid: false, quote: null, email: '',
+    locator: '', persisted: true, paid: false, quote: null, email: '', phone: '', confirmVia: 'email',
   };
 
   const panels = {};
@@ -419,6 +430,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       phone: (fd.get('phone') || '').trim(),
       country: (fd.get('country') || '').trim(),
       notes: (fd.get('notes') || '').trim(),
+      confirmVia: fd.get('confirmVia') || 'email',
       consent: fd.get('consent') === 'on',
       lang: cfg.locale,
     };
@@ -453,6 +465,8 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
         state.paid = data.paid;
         state.quote = data.quote;
         state.email = payload.email;
+        state.phone = payload.phone;
+        state.confirmVia = payload.confirmVia;
         renderDone();
         renderSummary();
         show('done');
@@ -484,9 +498,10 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   function renderDone() {
     $('#done-locator').textContent = state.locator;
-    $('#done-title').textContent = T[state.paid ? 'book.done.title.paid' : 'book.done.title'];
-    $('#done-body').textContent = fmt(state.paid ? 'book.done.body.paid' : 'book.done.body', {
+    $('#done-title').textContent = T['book.done.title'];
+    $('#done-body').textContent = fmt(state.confirmVia === 'phone' ? 'book.done.body.phone' : 'book.done.body.email', {
       email: state.email,
+      phone: state.phone,
     });
     $('#done-demo').hidden = state.persisted;
     $('#done-demo-payment').hidden = state.paid;
@@ -566,6 +581,8 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       state.paid = true;
       state.quote = data.quote;
       state.email = data.email;
+      state.phone = data.phone;
+      state.confirmVia = data.confirmVia;
       renderDone();
       renderSummary();
       history.replaceState(null, '', location.pathname);
@@ -643,6 +660,13 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book label.check { flex-direction: row; align-items: flex-start; gap: 10px; margin-top: 18px; font-weight: 400; color: var(--text-mid); }
   .book label.check input { margin-top: 3px; }
   .book label.check a { color: var(--gold); text-decoration: underline; }
+
+  .book .confirm-via { border: 0; padding: 0; margin: 18px 0 0; }
+  .book .confirm-via legend { font-size: 13px; font-weight: 600; color: var(--text-mid); padding: 0 0 8px; }
+  .book .confirm-via .radio {
+    flex-direction: row; align-items: center; gap: 8px; font-weight: 400;
+    color: var(--text-mid); display: inline-flex; margin-right: 20px;
+  }
 
   .book .cards { display: grid; gap: 14px; }
   .book .card {

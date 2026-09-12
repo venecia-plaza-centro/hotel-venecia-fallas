@@ -74,6 +74,7 @@ crea en Airtable cuando Stripe confirma el cobro (ver
 | `Idioma` | Single select | _(lo rellena la web)_ `es` · `en` · `it` · `fr` · `de` |
 | `Importe total` | Currency (EUR) | _(lo rellena la web)_ = `Precio 2p`/`3p`/`4p` de la habitación según `Huespedes`. |
 | `Pago` | Single select | `pendiente` · `pagado`. Reserva pagada por Stripe = `pagado`. |
+| `Confirmar por` | Single select | `email` · `telefono`. Elegido por el cliente en el formulario: por dónde quiere recibir la confirmación (email o SMS). |
 | `Origen` | Single select | `web` · `telefono` · `email`. Nueva reserva web = `web`. |
 | `Creada` | Created time | Automático de Airtable. |
 
