@@ -222,10 +222,10 @@ const es: Dict = {
     'Preséntate en la recepción del hotel dentro de la franja horaria reservada, con un documento de identidad válido. Si te retrasas, el tiempo de acceso restante no se amplía.',
   'legal.terms.s5.h': 'Cambios y cancelaciones',
   'legal.terms.s5.p':
-    'Las condiciones de cambio y cancelación, incluido el carácter no reembolsable del importe abonado, se detallan en nuestra Política de cancelación.',
+    'Las condiciones de cambio y cancelación, incluido el carácter no reembolsable del importe abonado, se detallan en nuestra {cancellationLink}.',
   'legal.terms.s6.h': 'Circunstancias ajenas al hotel',
   'legal.terms.s6.p':
-    'La mascletá la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la Política de cancelación.',
+    'La mascletá la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la {cancellationLink}.',
   'legal.terms.s7.h': 'Uso del espacio',
   'legal.terms.s7.p':
     'La habitación reservada es un espacio real del hotel puesto a tu disposición durante la experiencia. Te pedimos que cuides el mobiliario y las instalaciones; el hotel podrá repercutir el coste de daños causados durante tu franja de acceso.',
@@ -481,10 +481,10 @@ const en: Dict = {
     'Please arrive at the hotel reception within your booked time window with a valid ID. Late arrival does not extend your remaining access time.',
   'legal.terms.s5.h': 'Changes and cancellations',
   'legal.terms.s5.p':
-    'Change and cancellation terms, including the non-refundable nature of the amount paid, are detailed in our Cancellation policy.',
+    'Change and cancellation terms, including the non-refundable nature of the amount paid, are detailed in our {cancellationLink}.',
   'legal.terms.s6.h': 'Circumstances beyond the hotel’s control',
   'legal.terms.s6.p':
-    'The mascletá is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the Cancellation policy applies.',
+    'The mascletá is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the {cancellationLink} applies.',
   'legal.terms.s7.h': 'Use of the space',
   'legal.terms.s7.p':
     'The booked room is a real space of the hotel made available to you for the experience. Please take care of the furniture and facilities; the hotel may charge for damage caused during your access window.',
