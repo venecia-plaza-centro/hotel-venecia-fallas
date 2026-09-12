@@ -222,7 +222,11 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 /* Regla de móvil DESPUÉS de la base de arriba, para poder pisar
    el text-align/align-items de escritorio con la misma especificidad. */
 @media (max-width: 860px) {
-  .footer-grid { flex-direction: column; align-items: center; }
+  /* En columna, "flex: 1 1 260px" de arriba pasaría a repartir ALTO
+     (no ancho) entre los dos bloques, dejando un hueco enorme entre
+     ellos: se resetea a la altura natural del contenido. */
+  .footer-grid { flex-direction: column; align-items: center; gap: 40px; }
+  .footer-grid > div { flex: none; }
   .footer-legal { justify-content: center; text-align: center; }
 }
 
