@@ -33,6 +33,16 @@ const linkify = (text: string) =>
 
 <PageHero title={h1} />
 
+<section class="section" style="padding-bottom:0">
+  <nav class="container legal-tabs" style="max-width:720px" aria-label={t('legal.nav.aria')}>
+    {(['terms', 'cancellation', 'privacy'] as const).map((id) => (
+      <a href={LEGAL_LINKS[id].href} class={id === pageId ? 'is-active' : ''} aria-current={id === pageId ? 'page' : undefined}>
+        {LEGAL_LINKS[id].label}
+      </a>
+    ))}
+  </nav>
+</section>
+
 <section class="section">
   <div class="container" style="max-width:720px">
     <p style="color:var(--text-mid);font-size:16px;margin-bottom:32px">{t(`legal.${pageId}.intro`)}</p>
@@ -48,3 +58,13 @@ const linkify = (text: string) =>
     </p>
   </div>
 </section>
+
+<style>
+  .legal-tabs { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 32px; }
+  .legal-tabs a {
+    padding: 8px 16px; border: 1px solid var(--cream-dark); border-radius: 999px;
+    font-size: 13px; font-weight: 600; color: var(--text-mid);
+  }
+  .legal-tabs a:hover { border-color: var(--gold); color: var(--navy); }
+  .legal-tabs a.is-active { background: var(--navy); border-color: var(--navy); color: #fff; }
+</style>

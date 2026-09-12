@@ -205,6 +205,7 @@ const es: Dict = {
     'Reserva tu balcón privado en el Hotel Venecia Plaza Centro para ver la mascletá de Fallas 2027 desde la Plaza del Ayuntamiento.',
 
   // legal
+  'legal.nav.aria': 'Otras páginas legales',
   'legal.terms.h1': 'Condiciones de reserva',
   'legal.terms.intro':
     'Estas condiciones regulan la reserva de balcón privado para la mascletá de Fallas 2027 en el Hotel Venecia Plaza Centro. Al enviar tu solicitud desde esta web aceptas los términos que se describen a continuación.',
@@ -464,6 +465,7 @@ const en: Dict = {
   'book.meta.desc':
     'Book your private balcony at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletá from Plaza del Ayuntamiento.',
 
+  'legal.nav.aria': 'Other legal pages',
   'legal.terms.h1': 'Booking terms',
   'legal.terms.intro':
     'These terms govern the booking of a private balcony to watch the Fallas 2027 mascletá at Hotel Venecia Plaza Centro. By submitting your request through this website you accept the terms described below.',
