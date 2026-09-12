@@ -151,6 +151,23 @@ export async function getRoomOffers(date: string): Promise<RoomOffer[]> {
   }));
 }
 
+/**
+ * Nº de habitaciones libres por fecha, para pintar el calendario de
+ * disponibilidad antes de elegir día (no depende del nº de personas: la
+ * disponibilidad es "¿está ya reservada esa habitación ese día?", ajeno a
+ * cuántos huéspedes se apunten).
+ */
+export async function getAvailabilitySummary(dates: string[]): Promise<Record<string, number>> {
+  const rooms = await getRooms();
+  const roomIds = rooms.map((r) => r.id);
+  const summary: Record<string, number> = {};
+  for (const date of dates) {
+    const booked = await countBookedForDate(date, roomIds);
+    summary[date] = rooms.filter((r) => (booked.get(r.id) ?? 0) < r.cupo).length;
+  }
+  return summary;
+}
+
 // --- Crear reserva --------------------------------------------------------
 
 export interface BookingCreate {

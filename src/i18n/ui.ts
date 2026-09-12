@@ -147,6 +147,9 @@ const es: Dict = {
   'book.date.submit': 'Buscar disponibilidad',
   'book.date.err.range': 'La fecha debe estar entre el 1 y el 12 de marzo de 2027.',
   'book.date.err.generic': 'Revisa la fecha.',
+  'book.date.legend.available': 'Disponible',
+  'book.date.legend.full': 'Completo',
+  'book.date.sold_out': 'Sin habitaciones libres ese día',
 
   'book.room.title': 'Elige habitación',
   'book.room.number': 'Habitación {n}',
@@ -404,6 +407,9 @@ const en: Dict = {
   'book.date.submit': 'Check availability',
   'book.date.err.range': 'The date must fall between 1 and 12 March 2027.',
   'book.date.err.generic': 'Please check the date.',
+  'book.date.legend.available': 'Available',
+  'book.date.legend.full': 'Fully booked',
+  'book.date.sold_out': 'No rooms left that day',
 
   'book.room.title': 'Choose a room',
   'book.room.number': 'Room {n}',

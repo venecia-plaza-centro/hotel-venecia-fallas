@@ -55,11 +55,17 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
               .replace('{end}', config.accessEnd)
               .replace('{mascleta}', config.mascletaTime)}
           </p>
+          <span class="cal-label">{t('book.date.date')}</span>
+          <div id="calendar" class="calendar">
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+          <p class="cal-legend">
+            <span><i class="dot dot-free"></i>{t('book.date.legend.available')}</span>
+            <span><i class="dot dot-full"></i>{t('book.date.legend.full')}</span>
+          </p>
+          <input type="hidden" id="f-date" />
+
           <div class="fields">
-            <label>
-              {t('book.date.date')}
-              <input type="date" id="f-date" required />
-            </label>
             <label>
               {t('book.date.guests')}
               <select id="f-guests" required>
@@ -215,8 +221,86 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   // ---- Paso fecha ---------------------------------------------------------
   const dateEl = $('#f-date');
   const guestsEl = $('#f-guests');
-  dateEl.min = cfg.firstDay;
-  dateEl.max = cfg.lastDay;
+
+  // Todas las fechas de la ventana de venta, para pintar el calendario.
+  // Todo en UTC (fecha ISO, día de la semana, día del mes): si se mezclara
+  // con horas locales, en un huso adelantado a UTC (p.ej. Europa) el primer
+  // día se calcularía mal por culpa del cambio de zona horaria.
+  const SALE_DAYS = [];
+  {
+    const d = new Date(`${cfg.firstDay}T00:00:00Z`);
+    const last = new Date(`${cfg.lastDay}T00:00:00Z`);
+    while (d <= last) {
+      SALE_DAYS.push(d.toISOString().slice(0, 10));
+      d.setUTCDate(d.getUTCDate() + 1);
+    }
+  }
+  const weekdayFmt = new Intl.DateTimeFormat(cfg.locale, { weekday: 'short', timeZone: 'UTC' });
+  const availability = {}; // fecha ISO → nº de habitaciones libres (undefined = aún no se sabe)
+
+  function renderCalendar() {
+    const grid = $('#cal-grid');
+    grid.innerHTML = '';
+    const firstDate = new Date(`${cfg.firstDay}T00:00:00Z`);
+    const startDow = (firstDate.getUTCDay() + 6) % 7; // lunes = 0
+
+    for (let i = 0; i < 7; i++) {
+      const ref = new Date(firstDate);
+      ref.setUTCDate(firstDate.getUTCDate() - startDow + i);
+      const h = document.createElement('div');
+      h.className = 'cal-dow';
+      h.textContent = weekdayFmt.format(ref);
+      grid.appendChild(h);
+    }
+    for (let i = 0; i < startDow; i++) {
+      const blank = document.createElement('div');
+      blank.className = 'cal-day is-empty';
+      grid.appendChild(blank);
+    }
+    for (const iso of SALE_DAYS) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cal-day';
+      btn.textContent = String(new Date(`${iso}T00:00:00Z`).getUTCDate());
+      const count = availability[iso];
+      if (count === 0) {
+        btn.classList.add('is-full');
+        btn.disabled = true;
+        btn.title = T['book.date.sold_out'];
+      } else if (count > 0) {
+        btn.classList.add('is-free');
+      } else {
+        btn.classList.add('is-pending');
+      }
+      if (iso === state.date) btn.classList.add('is-selected');
+      btn.addEventListener('click', () => {
+        state.date = iso;
+        dateEl.value = iso;
+        setErr('date', '');
+        renderCalendar();
+      });
+      grid.appendChild(btn);
+    }
+    const trailing = (7 - ((startDow + SALE_DAYS.length) % 7)) % 7;
+    for (let i = 0; i < trailing; i++) {
+      const blank = document.createElement('div');
+      blank.className = 'cal-day is-empty';
+      grid.appendChild(blank);
+    }
+  }
+  renderCalendar();
+
+  fetch('/api/availability-summary')
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data.ok) return;
+      for (const d of data.days) availability[d.date] = d.available;
+      renderCalendar();
+    })
+    .catch(() => {
+      // Sin resumen previo, el cliente puede igualmente elegir un día y
+      // comprobar disponibilidad al pulsar "Buscar disponibilidad".
+    });
 
   $('#date-submit').addEventListener('click', runAvailability);
 
@@ -411,7 +495,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   // ---- Prefill desde la URL (?room=&date=&guests=) ----------------
   const params = new URLSearchParams(location.search);
-  if (params.get('date')) dateEl.value = params.get('date');
+  if (params.get('date')) {
+    dateEl.value = params.get('date');
+    state.date = dateEl.value;
+    renderCalendar();
+  }
   if (params.get('guests')) guestsEl.value = params.get('guests');
   const prefRoom = params.get('room');
   if (dateEl.value) {
@@ -455,6 +543,27 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   .book .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   @media (max-width: 520px) { .book .fields { grid-template-columns: 1fr; } }
+
+  .book .cal-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 8px; }
+  .book .calendar { max-width: 360px; margin-bottom: 10px; }
+  .book .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .book .cal-dow { text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-soft); padding-bottom: 4px; }
+  .book .cal-day {
+    aspect-ratio: 1; border-radius: var(--r); border: 1px solid var(--cream-dark);
+    background: #fff; font: inherit; font-size: 14px; color: var(--text);
+    display: grid; place-items: center; transition: border-color .2s, background .2s;
+  }
+  .book .cal-day.is-empty { visibility: hidden; }
+  .book .cal-day:not(:disabled):hover { border-color: var(--gold); }
+  .book .cal-day.is-free { border-color: var(--gold-light); }
+  .book .cal-day.is-pending { color: var(--text-soft); }
+  .book .cal-day.is-full { color: var(--text-soft); text-decoration: line-through; opacity: .5; cursor: not-allowed; }
+  .book .cal-day.is-selected { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .book .cal-legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-soft); margin: 10px 0 20px; }
+  .book .cal-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .book .cal-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .book .dot-free { background: var(--gold-light); }
+  .book .dot-full { background: var(--cream-dark); }
   .book label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-mid); }
   .book label.full { margin-top: 16px; }
   .book input, .book textarea, .book select {

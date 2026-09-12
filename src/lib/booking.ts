@@ -70,6 +70,18 @@ export function validateDate(date: string): DateValidation {
   return { ok: true };
 }
 
+/** Todas las fechas ISO de la ventana de venta, de FIRST_DAY a LAST_DAY. */
+export function allSaleDays(): string[] {
+  const days: string[] = [];
+  const d = new Date(`${FIRST_DAY}T00:00:00Z`);
+  const last = new Date(`${LAST_DAY}T00:00:00Z`);
+  while (d <= last) {
+    days.push(d.toISOString().slice(0, 10));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return days;
+}
+
 export function isLocale(x: unknown): x is Locale {
   return typeof x === 'string' && (LOCALES as readonly string[]).includes(x);
 }
