@@ -226,4 +226,11 @@ const strip = [
     .strip-item { flex-direction: column; text-align: center; gap: 8px; }
   }
   @media (max-width: 760px) { .strip-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* En móvil muy estrecho, los párrafos en negrita (texto centrado a
+     ancho casi completo) pueden quedar tapados por los FABs de Llamar
+     y WhatsApp; se acortan un poco las líneas con este padding lateral. */
+  @media (max-width: 480px) {
+    .hero-strong, .tradicion-strong { padding: 0 60px; }
+  }
 </style>

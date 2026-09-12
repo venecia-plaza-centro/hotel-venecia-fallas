@@ -154,4 +154,11 @@ const money = (n: number) =>
   .room-card-price strong { font-family: var(--ff-display); font-size: 26px; color: var(--navy); }
   .room-card-footer .btn { display: inline-flex; align-items: center; gap: 8px; }
   .room-card-hint { font-size: 12px; color: var(--text-soft); margin-top: 10px; }
+
+  /* En móvil muy estrecho el aviso de reserva completa puede quedar
+     tapado por los FABs de Llamar/WhatsApp; se le da un margen extra
+     a la derecha para que no se solape con ellos. */
+  @media (max-width: 480px) {
+    .room-card-note, .room-card-facts { padding-right: 56px; }
+  }
 </style>
