@@ -22,29 +22,52 @@ export interface BookingEmail {
   phone: string;
   notes?: string;
   lang: Locale;
-  persisted: boolean;
+  /** true = pago ya cobrado de verdad en Stripe: la reserva queda
+   *  confirmada de inmediato, no hay "solicitud" que el hotel deba
+   *  aprobar. false = modo demostración sin pasarela conectada. */
+  paid: boolean;
 }
 
-const EMAIL_COPY: Record<string, Record<string, string>> = {
+const EMAIL_COPY: Record<string, Record<'paid' | 'demo', Record<string, string>>> = {
   es: {
-    subject: 'Solicitud de reserva {locator} · Fallas 2027',
-    preheader: 'Hemos recibido tu solicitud de balcón privado para la mascletá.',
-    greeting: 'Hola {firstName},',
-    intro:
-      'Hemos recibido tu solicitud de balcón privado para la mascletá de Fallas 2027. Esto es lo que nos has pedido:',
-    next:
-      'El hotel confirmará la disponibilidad y se pondrá en contacto contigo por email o por teléfono con los pasos para el pago. El importe no se ha cobrado todavía.',
-    contact: '¿Alguna duda? Escríbenos o llámanos:',
+    paid: {
+      subject: 'Reserva confirmada {locator} · Fallas 2027',
+      preheader: 'Tu balcón privado para la mascletá está confirmado.',
+      greeting: 'Hola {firstName},',
+      intro: 'Hemos recibido tu pago y tu balcón privado para la mascletá de Fallas 2027 queda confirmado:',
+      next: 'Te esperamos en el hotel el día de tu reserva, dentro de la franja horaria indicada. Si necesitas cambiar algo, escríbenos con tu localizador.',
+      contact: '¿Alguna duda? Escríbenos o llámanos:',
+    },
+    demo: {
+      subject: 'Solicitud de reserva {locator} · Fallas 2027',
+      preheader: 'Hemos recibido tu solicitud de balcón privado para la mascletá.',
+      greeting: 'Hola {firstName},',
+      intro:
+        'Hemos recibido tu solicitud de balcón privado para la mascletá de Fallas 2027. Esto es lo que nos has pedido:',
+      next:
+        'El hotel confirmará la disponibilidad y se pondrá en contacto contigo por email o por teléfono con los pasos para el pago. El importe no se ha cobrado todavía.',
+      contact: '¿Alguna duda? Escríbenos o llámanos:',
+    },
   },
   en: {
-    subject: 'Booking request {locator} · Fallas 2027',
-    preheader: "We've received your private balcony request for the mascletá.",
-    greeting: 'Hi {firstName},',
-    intro:
-      "We've received your private balcony request for the Fallas 2027 mascletá. Here's what you asked for:",
-    next:
-      'The hotel will confirm availability and contact you by email or phone with the payment steps. No payment has been taken yet.',
-    contact: 'Any questions? Write or call us:',
+    paid: {
+      subject: 'Booking confirmed {locator} · Fallas 2027',
+      preheader: 'Your private balcony for the mascletá is confirmed.',
+      greeting: 'Hi {firstName},',
+      intro: "We've received your payment and your private balcony for the Fallas 2027 mascletá is confirmed:",
+      next: "We'll see you at the hotel on the day of your booking, within the time window shown. Need to change anything? Write to us with your reference.",
+      contact: 'Any questions? Write or call us:',
+    },
+    demo: {
+      subject: 'Booking request {locator} · Fallas 2027',
+      preheader: "We've received your private balcony request for the mascletá.",
+      greeting: 'Hi {firstName},',
+      intro:
+        "We've received your private balcony request for the Fallas 2027 mascletá. Here's what you asked for:",
+      next:
+        'The hotel will confirm availability and contact you by email or phone with the payment steps. No payment has been taken yet.',
+      contact: 'Any questions? Write or call us:',
+    },
   },
 };
 
@@ -67,7 +90,7 @@ function formatDate(iso: string, lang: Locale) {
 /** HTML con el estilo de la web (navy + dorado), a base de tablas: así se ve
  *  bien en la mayoría de clientes de correo, que no soportan flexbox/grid. */
 function buildCustomerEmailHtml(data: BookingEmail): string {
-  const copy = EMAIL_COPY[data.lang] ?? EMAIL_COPY.es;
+  const copy = (EMAIL_COPY[data.lang] ?? EMAIL_COPY.es)[data.paid ? 'paid' : 'demo'];
   const t = dictFor(data.lang);
   const fmt = (s: string, vars: Record<string, string>) =>
     s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
@@ -102,7 +125,7 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
           </td></tr>
           <tr><td style="padding:40px 32px 8px;text-align:center">
             <div style="width:56px;height:56px;border-radius:50%;border:2px solid #C9A246;color:#C9A246;font-size:28px;line-height:52px;margin:0 auto 20px">✓</div>
-            <h1 style="margin:0 0 16px;font-size:24px;color:#1B2A4A">${t['book.done.title']}</h1>
+            <h1 style="margin:0 0 16px;font-size:24px;color:#1B2A4A">${t[data.paid ? 'book.done.title.paid' : 'book.done.title']}</h1>
             <p style="margin:0 0 4px;font-size:15px;color:#1B2A4A;font-weight:bold">${fmt(copy.greeting, { firstName: data.firstName })}</p>
             <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#4A5568">${copy.intro}</p>
           </td></tr>
@@ -150,7 +173,7 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
 }
 
 function buildCustomerEmailText(data: BookingEmail): string {
-  const copy = EMAIL_COPY[data.lang] ?? EMAIL_COPY.es;
+  const copy = (EMAIL_COPY[data.lang] ?? EMAIL_COPY.es)[data.paid ? 'paid' : 'demo'];
   return [
     copy.greeting.replace('{firstName}', data.firstName),
     '',
@@ -170,7 +193,7 @@ function buildCustomerEmailText(data: BookingEmail): string {
 }
 
 export async function sendBookingEmails(data: BookingEmail): Promise<void> {
-  const copy = EMAIL_COPY[data.lang] ?? EMAIL_COPY.es;
+  const copy = (EMAIL_COPY[data.lang] ?? EMAIL_COPY.es)[data.paid ? 'paid' : 'demo'];
   const subject = copy.subject.replace('{locator}', data.locator);
 
   const hotelSummary = [
@@ -193,8 +216,35 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
 
   await deliver({
     to: SITE.email,
-    subject: `[Nueva solicitud web] ${subject}`,
+    subject: `[${data.paid ? 'Reserva pagada' : 'Solicitud web'}] ${subject}`,
     text: hotelSummary,
+  });
+}
+
+/**
+ * Caso raro: dos personas pagan la misma habitación/fecha casi a la vez y
+ * una se queda sin sitio cuando el webhook revalida disponibilidad. Se
+ * reembolsa automáticamente (ver stripe-webhook.ts) y se avisa por aquí.
+ */
+export async function sendPaymentRefundedNotice(input: {
+  email: string;
+  firstName: string;
+  roomNumber: string;
+  date: string;
+  lang: Locale;
+}): Promise<void> {
+  const es = input.lang !== 'en';
+  const subject = es
+    ? 'Tu balcón privado ya no está disponible — reembolso en curso'
+    : 'Your private balcony is no longer available — refund on its way';
+  const text = es
+    ? `Hola ${input.firstName},\n\nLo sentimos mucho: justo cuando se completaba tu pago, la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a tu método de pago en los próximos días.\n\nPuedes elegir otra habitación o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y te ayudamos.`
+    : `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another room or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`;
+  await deliver({ to: input.email, subject, text });
+  await deliver({
+    to: SITE.email,
+    subject: `[Reembolso automático] ${input.roomNumber} · ${input.date}`,
+    text: `Doble reserva evitada por el webhook de Stripe. Reembolsado automáticamente.\nCliente: ${input.firstName} · ${input.email}\nHabitación: ${input.roomNumber}\nFecha: ${input.date}`,
   });
 }
 

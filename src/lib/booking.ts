@@ -97,10 +97,9 @@ export function buildQuote(room: Room, guests: GuestCount): Quote {
   return { total: priceForGuests(room, guests), currency: 'EUR' };
 }
 
-/** Localizador corto tipo `FAL-7Q3KD` (sin caracteres ambiguos). */
+/** Localizador corto tipo `FAL-482913`: solo dígitos, fácil de leer o
+ *  dictar por teléfono (sin letras que se puedan confundir con números). */
 export function newLocator(): string {
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let s = '';
-  for (let i = 0; i < 5; i++) s += alphabet[Math.floor(Math.random() * alphabet.length)];
-  return `FAL-${s}`;
+  const n = Math.floor(100000 + Math.random() * 900000);
+  return `FAL-${n}`;
 }

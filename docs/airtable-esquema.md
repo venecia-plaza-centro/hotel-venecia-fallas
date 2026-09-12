@@ -47,13 +47,21 @@ Un registro por cada una de las 10 habitaciones reales que se ofrecen.
 
 ## Tabla `Reservas`
 
-Un registro por solicitud de reserva. Mientras no haya pago (Hito 2) entra
-como `solicitada`.
+Un registro por reserva. **No hay "solicitud" que el hotel deba aprobar**:
+el pago online es lo que confirma la reserva, así que el registro solo se
+crea en Airtable cuando Stripe confirma el cobro (ver
+`src/pages/api/stripe-webhook.ts`) y entra directamente como `confirmada` /
+`pagado`.
+
+> Sin Stripe conectado, la web cae a un modo de demostración
+> (`src/pages/api/checkout.ts`) que crea el registro sin cobrar nada, como
+> `solicitada` / `pendiente` — solo para poder probar el flujo sin cuenta de
+> pago. En producción, con Stripe conectado, ese caso no debería darse.
 
 | Campo | Tipo Airtable | Notas |
 |---|---|---|
 | `Localizador` | Single line text (**campo principal**) | _(lo rellena la web)_ Código corto, ej.: `FAL-7Q3KD`. |
-| `Estado` | Single select | `solicitada` · `confirmada` · `cancelada`. Nueva reserva = `solicitada`. |
+| `Estado` | Single select | `solicitada` · `confirmada` · `cancelada`. Reserva pagada = `confirmada`. |
 | `Fecha` | Date | _(lo rellena la web)_ Día de mascletá elegido (acceso 13:00–15:00 h). |
 | `Habitacion` | Link → `Habitaciones` (single) | _(lo rellena la web)_ |
 | `Huespedes` | Number (entero) | _(lo rellena la web)_ |
@@ -65,7 +73,7 @@ como `solicitada`.
 | `Notas` | Long text | _(lo rellena la web)_ Peticiones del cliente. |
 | `Idioma` | Single select | _(lo rellena la web)_ `es` · `en` · `it` · `fr` · `de` |
 | `Importe total` | Currency (EUR) | _(lo rellena la web)_ = `Precio 2p`/`3p`/`4p` de la habitación según `Huespedes`. |
-| `Pago` | Single select | `pendiente` · `pagado`. Hito 3. Nueva reserva = `pendiente`. |
+| `Pago` | Single select | `pendiente` · `pagado`. Reserva pagada por Stripe = `pagado`. |
 | `Origen` | Single select | `web` · `telefono` · `email`. Nueva reserva web = `web`. |
 | `Creada` | Created time | Automático de Airtable. |
 

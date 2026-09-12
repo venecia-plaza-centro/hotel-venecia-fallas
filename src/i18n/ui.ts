@@ -174,8 +174,8 @@ const es: Dict = {
   'book.details.consent.terms': 'condiciones de reserva',
   'book.details.consent.privacy': 'política de privacidad',
   'book.details.back': 'Atrás',
-  'book.details.submit': 'Enviar solicitud',
-  'book.details.sending': 'Enviando…',
+  'book.details.submit': 'Ir al pago',
+  'book.details.sending': 'Redirigiendo…',
   'book.details.err.fields': 'Revisa los campos marcados.',
   'book.details.err.consent': 'Tienes que aceptar las condiciones para continuar.',
 
@@ -183,6 +183,7 @@ const es: Dict = {
   'book.err.service':
     'No hemos podido conectar con el sistema de reservas. Inténtalo en unos minutos o llámanos.',
   'book.err.generic': 'Algo ha ido mal. Inténtalo de nuevo.',
+  'book.err.canceled': 'El pago se ha cancelado. Puedes intentarlo de nuevo cuando quieras.',
 
   'book.summary.title': 'Resumen',
   'book.summary.date': 'Fecha',
@@ -190,14 +191,18 @@ const es: Dict = {
   'book.summary.guests': 'Personas',
   'book.summary.total': 'Total',
   'book.summary.empty': 'Elige una fecha para empezar.',
-  'book.summary.pending': 'El pago se añade más adelante. Ahora solo se envía la solicitud.',
+  'book.summary.pending': 'El siguiente paso es el pago, con tarjeta o Bizum.',
   'book.summary.snack': 'Snack Pack incluido',
 
   'book.done.title': '¡Solicitud recibida!',
+  'book.done.title.paid': '¡Reserva confirmada!',
   'book.done.locator': 'Localizador',
   'book.done.body':
     'Te hemos enviado un resumen a {email}. El hotel confirmará la disponibilidad y se pondrá en contacto contigo por email o por teléfono con los pasos para el pago.',
+  'book.done.body.paid':
+    'Te hemos enviado la confirmación a {email}. Te esperamos en el hotel el día de tu reserva.',
   'book.done.demo': 'Modo demostración: la reserva no se ha guardado (falta conectar Airtable).',
+  'book.done.demo.payment': 'Modo demostración: no se ha realizado ningún cobro real (falta conectar una pasarela de pago).',
   'book.done.home': 'Volver al inicio',
 
   'book.meta.title': 'Reservar balcón · Hotel Venecia Plaza Centro · Fallas 2027',
@@ -217,7 +222,7 @@ const es: Dict = {
     'Cada habitación admite hasta 4 personas. El precio mostrado depende del número de huéspedes indicado en el momento de la reserva (2, 3 o 4) y se calcula siempre por el hotel, nunca lo indica el cliente.',
   'legal.terms.s3.h': 'Confirmación de la reserva',
   'legal.terms.s3.p':
-    'Tu solicitud queda registrada como «solicitada» en cuanto la envías. El hotel la confirma por email o teléfono en un plazo máximo de 48 horas. La reserva se considera definitiva únicamente tras esa confirmación.',
+    'Tu reserva se confirma en el momento en que se completa el pago online. Solo puedes reservar habitaciones que el sistema muestra como disponibles en ese instante: no hay una solicitud previa que el hotel deba aprobar más tarde.',
   'legal.terms.s4.h': 'Acceso el día de la experiencia',
   'legal.terms.s4.p':
     'Preséntate en la recepción del hotel dentro de la franja horaria reservada, con un documento de identidad válido. Si te retrasas, el tiempo de acceso restante no se amplía.',
@@ -435,8 +440,8 @@ const en: Dict = {
   'book.details.consent.terms': 'booking terms',
   'book.details.consent.privacy': 'privacy policy',
   'book.details.back': 'Back',
-  'book.details.submit': 'Send request',
-  'book.details.sending': 'Sending…',
+  'book.details.submit': 'Continue to payment',
+  'book.details.sending': 'Redirecting…',
   'book.details.err.fields': 'Please check the highlighted fields.',
   'book.details.err.consent': 'You must accept the terms to continue.',
 
@@ -444,6 +449,7 @@ const en: Dict = {
   'book.err.service':
     "We couldn't reach the booking system. Try again in a few minutes or give us a call.",
   'book.err.generic': 'Something went wrong. Please try again.',
+  'book.err.canceled': 'Payment was canceled. You can try again whenever you like.',
 
   'book.summary.title': 'Summary',
   'book.summary.date': 'Date',
@@ -451,14 +457,17 @@ const en: Dict = {
   'book.summary.guests': 'Guests',
   'book.summary.total': 'Total',
   'book.summary.empty': 'Pick a date to start.',
-  'book.summary.pending': 'Payment comes later. For now only the request is sent.',
+  'book.summary.pending': 'The next step is payment, by card or Bizum.',
   'book.summary.snack': 'Snack Pack included',
 
   'book.done.title': 'Request received!',
+  'book.done.title.paid': 'Booking confirmed!',
   'book.done.locator': 'Reference',
   'book.done.body':
     "We've emailed a summary to {email}. The hotel will confirm availability and contact you by email or phone with the payment steps.",
+  'book.done.body.paid': "We've emailed your confirmation to {email}. See you at the hotel on the day of your booking.",
   'book.done.demo': 'Demo mode: the booking was not saved (Airtable not connected yet).',
+  'book.done.demo.payment': 'Demo mode: no real charge was made (no payment provider connected yet).',
   'book.done.home': 'Back to home',
 
   'book.meta.title': 'Book your balcony · Hotel Venecia Plaza Centro · Fallas 2027',
@@ -477,7 +486,7 @@ const en: Dict = {
     'Each room takes up to 4 people. The price shown depends on the number of guests selected at the time of booking (2, 3 or 4) and is always calculated by the hotel, never entered by the guest.',
   'legal.terms.s3.h': 'Booking confirmation',
   'legal.terms.s3.p':
-    'Your request is logged as "requested" as soon as you submit it. The hotel confirms it by email or phone within 48 hours. The booking is only final once the hotel has confirmed it.',
+    'Your booking is confirmed the moment your online payment goes through. You can only book rooms the system shows as available at that instant: there is no prior request for the hotel to approve later.',
   'legal.terms.s4.h': 'Access on the day',
   'legal.terms.s4.p':
     'Please arrive at the hotel reception within your booked time window with a valid ID. Late arrival does not extend your remaining access time.',

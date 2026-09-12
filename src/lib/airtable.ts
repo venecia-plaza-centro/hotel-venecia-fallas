@@ -182,6 +182,16 @@ export interface BookingCreate {
   country?: string;
   notes?: string;
   lang: Locale;
+  /** Ya generado antes de cobrar (p.ej. al crear la sesión de Stripe), para
+   *  poder mostrárselo al cliente en cuanto vuelve del pago. Si no se pasa,
+   *  se genera uno nuevo aquí (modo demo, sin pasarela). */
+  locator?: string;
+  /**
+   * true = el pago ya se ha completado en Stripe antes de llamar aquí (esto
+   * solo lo crea el webhook tras cobrar: no hay "solicitud" sin pagar).
+   * false = modo demostración sin Stripe conectado, no se ha cobrado nada.
+   */
+  paid: boolean;
 }
 
 export interface BookingResult {
@@ -190,11 +200,11 @@ export interface BookingResult {
 }
 
 export async function createBooking(input: BookingCreate): Promise<BookingResult> {
-  const locator = newLocator();
+  const locator = input.locator ?? newLocator();
 
   const fields: Record<string, unknown> = {
     Localizador: locator,
-    Estado: 'solicitada',
+    Estado: input.paid ? 'confirmada' : 'solicitada',
     Fecha: input.date,
     Habitacion: [input.room.id],
     Huespedes: input.guests,
@@ -204,7 +214,7 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     Telefono: input.phone,
     Idioma: input.lang,
     'Importe total': input.total,
-    Pago: 'pendiente',
+    Pago: input.paid ? 'pagado' : 'pendiente',
     Origen: 'web',
   };
   if (input.country) fields.Pais = input.country;
