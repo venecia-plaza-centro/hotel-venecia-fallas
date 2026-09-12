@@ -86,7 +86,7 @@ const es: Dict = {
   'rooms.eyebrow': 'Fallas 2027',
   'rooms.h1': 'Elige tu balcón para la mascletá',
   'rooms.lead':
-    'Las 10 habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
+    'Estas son las 10 habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
 
 
   // mascletas
