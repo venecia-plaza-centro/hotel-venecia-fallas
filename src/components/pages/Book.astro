@@ -86,6 +86,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
         <div data-step="room" class="panel" hidden>
           <h2 tabindex="-1">{t('book.room.title')}</h2>
           <div id="room-list" class="cards"></div>
+          <div id="room-selected" class="room-selected" hidden></div>
           <p class="err" data-err="room" role="alert"></p>
           <div class="actions">
             <button type="button" class="btn btn-ghost" data-nav="date">{t('book.room.back')}</button>
@@ -384,6 +385,31 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   function renderRooms() {
     const list = $('#room-list');
+    const selectedBox = $('#room-selected');
+
+    // Con una habitación ya elegida, se oculta la lista entera y solo queda
+    // el resumen + "cambiar fecha / continuar": así no hay 10 tarjetas
+    // alrededor de esos botones dando confusión sobre qué se ha elegido.
+    const chosen = state.rooms.find((r) => r.slug === state.roomSlug);
+    if (chosen) {
+      list.hidden = true;
+      selectedBox.hidden = false;
+      selectedBox.innerHTML = `
+        <p class="room-selected-label">${fmt('book.room.number', { n: chosen.roomNumber })}</p>
+        <button type="button" class="btn btn-ghost" id="room-change">${T['book.room.change']}</button>`;
+      $('#room-change').addEventListener('click', () => {
+        state.roomSlug = '';
+        renderRooms();
+        renderSummary();
+        $('#room-next').disabled = true;
+      });
+      $('#room-next').disabled = false;
+      return;
+    }
+    list.hidden = false;
+    selectedBox.hidden = true;
+    selectedBox.innerHTML = '';
+
     list.innerHTML = '';
     let anyUsable = false;
     for (const room of state.rooms) {
@@ -737,6 +763,16 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book .cards { display: grid; gap: 28px; }
   .book .room-card { cursor: default; }
   .book .room-select[disabled] { opacity: .6; cursor: not-allowed; }
+
+  /* Con habitación ya elegida se oculta la lista entera (#room-list) y solo
+     queda esta línea + los botones "cambiar fecha / continuar", para que no
+     haya 10 tarjetas alrededor generando confusión sobre qué se ha elegido. */
+  .book .room-selected {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 16px 0; border-bottom: 1px solid var(--cream-dark); margin-bottom: 4px;
+  }
+  .book .room-selected-label { font-family: var(--ff-display); font-size: 18px; color: var(--navy); }
+  .book .room-selected .btn { padding: 8px 16px; font-size: 12px; }
 
   .book .tag {
     display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .08em;
