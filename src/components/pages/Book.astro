@@ -559,6 +559,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book .cal-day.is-pending { color: var(--text-soft); }
   .book .cal-day.is-full { color: var(--text-soft); text-decoration: line-through; opacity: .5; cursor: not-allowed; }
   .book .cal-day.is-selected { background: var(--gold); border-color: var(--gold); color: #fff; }
+  /* En móvil muy estrecho la última columna (domingo) queda tapada por los
+     FABs de Llamar/WhatsApp; se acorta el calendario para que no se solape. */
+  @media (max-width: 480px) {
+    .book .calendar { padding-right: 56px; }
+  }
   .book .cal-legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-soft); margin: 10px 0 20px; }
   .book .cal-legend span { display: inline-flex; align-items: center; gap: 6px; }
   .book .cal-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
