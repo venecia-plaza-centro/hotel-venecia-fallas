@@ -201,12 +201,79 @@ const es: Dict = {
   'book.meta.desc':
     'Reserva tu balcón privado en el Hotel Venecia Plaza Centro para ver la mascletá de Fallas 2027 desde la Plaza del Ayuntamiento.',
 
-  // legal (marcadores)
+  // legal
   'legal.terms.h1': 'Condiciones de reserva',
+  'legal.terms.intro':
+    'Estas condiciones regulan la reserva de balcón privado para la mascletá de Fallas 2027 en el Hotel Venecia Plaza Centro. Al enviar tu solicitud desde esta web aceptas los términos que se describen a continuación.',
+  'legal.terms.s1.h': 'Qué incluye la reserva',
+  'legal.terms.s1.p':
+    'Reservas el uso privado de una de las 10 habitaciones reales del hotel durante la franja de 13:00 a 15:00 h del día de mascletá que elijas, con vistas a la Plaza del Ayuntamiento y Snack Pack incluido. No es una reserva de alojamiento ni incluye pernoctación.',
+  'legal.terms.s2.h': 'Ocupación y precio',
+  'legal.terms.s2.p':
+    'Cada habitación admite hasta 4 personas. El precio mostrado depende del número de huéspedes indicado en el momento de la reserva (2, 3 o 4) y se calcula siempre por el hotel, nunca lo indica el cliente.',
+  'legal.terms.s3.h': 'Confirmación de la reserva',
+  'legal.terms.s3.p':
+    'Tu solicitud queda registrada como «solicitada» en cuanto la envías. El hotel la confirma por email o teléfono en un plazo máximo de 48 horas. La reserva se considera definitiva únicamente tras esa confirmación.',
+  'legal.terms.s4.h': 'Acceso el día de la experiencia',
+  'legal.terms.s4.p':
+    'Preséntate en la recepción del hotel dentro de la franja horaria reservada, con un documento de identidad válido. Si te retrasas, el tiempo de acceso restante no se amplía.',
+  'legal.terms.s5.h': 'Cambios y cancelaciones',
+  'legal.terms.s5.p':
+    'Las condiciones de cambio y cancelación, incluido el carácter no reembolsable del importe abonado, se detallan en nuestra Política de cancelación.',
+  'legal.terms.s6.h': 'Circunstancias ajenas al hotel',
+  'legal.terms.s6.p':
+    'La mascletá la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la Política de cancelación.',
+  'legal.terms.s7.h': 'Uso del espacio',
+  'legal.terms.s7.p':
+    'La habitación reservada es un espacio real del hotel puesto a tu disposición durante la experiencia. Te pedimos que cuides el mobiliario y las instalaciones; el hotel podrá repercutir el coste de daños causados durante tu franja de acceso.',
+  'legal.terms.contact': '¿Dudas sobre estas condiciones? Escríbenos:',
+
   'legal.cancellation.h1': 'Política de cancelación',
+  'legal.cancellation.intro':
+    'Antes de confirmar tu reserva de balcón privado, ten en cuenta que se trata de una experiencia con plazas limitadas para un día y una franja horaria concretos.',
+  'legal.cancellation.s1.h': 'Pagos no reembolsables',
+  'legal.cancellation.s1.p':
+    'El importe abonado por la reserva de tu balcón privado no es reembolsable, sea cual sea el motivo o la antelación con la que se solicite la cancelación.',
+  'legal.cancellation.s2.h': 'Cambio de fecha',
+  'legal.cancellation.s2.p':
+    'Aunque no se admiten reembolsos, si necesitas cambiar el día reservado contacta con el hotel: intentaremos ofrecerte otra fecha disponible dentro del periodo de venta de Fallas 2027 (1 a 12 de marzo), sujeto a disponibilidad de la misma habitación u otra equivalente. No siempre será posible.',
+  'legal.cancellation.s3.h': 'Si no te presentas',
+  'legal.cancellation.s3.p':
+    'Si no acudes dentro de la franja horaria reservada (13:00–15:00 h), la reserva se considera consumida: no da derecho a reembolso ni a cambio de fecha.',
+  'legal.cancellation.s4.h': 'Cancelación por parte del hotel',
+  'legal.cancellation.s4.p':
+    'Si el hotel debe cancelar tu experiencia por causas ajenas a su voluntad (por ejemplo, la suspensión de la mascletá por el Ayuntamiento de València), te propondremos cambiar de fecha en cuanto sea posible.',
+  'legal.cancellation.s5.h': 'Cómo gestionar tu reserva',
+  'legal.cancellation.s5.p':
+    'Escríbenos indicando tu localizador de reserva y te ayudaremos con cualquier cambio.',
+  'legal.cancellation.contact': 'Contacto para gestionar tu reserva:',
+
   'legal.privacy.h1': 'Política de privacidad',
-  'legal.placeholder':
-    'Texto legal pendiente de redactar y revisar antes de abrir reservas y pagos.',
+  'legal.privacy.intro':
+    'En el Hotel Venecia Plaza Centro tratamos tus datos personales para gestionar tu solicitud de balcón privado en Fallas 2027. Esta página resume cómo lo hacemos.',
+  'legal.privacy.s1.h': 'Responsable del tratamiento',
+  'legal.privacy.s1.p': 'Hotel Venecia Plaza Centro, con domicilio en Plaza del Ayuntamiento, 3 · 46002 València.',
+  'legal.privacy.s2.h': 'Qué datos recogemos',
+  'legal.privacy.s2.p':
+    'Al enviar el formulario de reserva recogemos tu nombre, apellidos, email, teléfono, país (opcional), idioma, la habitación y fecha elegidas, el número de huéspedes y cualquier nota que nos indiques.',
+  'legal.privacy.s3.h': 'Para qué los usamos',
+  'legal.privacy.s3.p':
+    'Usamos estos datos únicamente para gestionar y confirmar tu reserva, contactar contigo si es necesario y atender tus consultas.',
+  'legal.privacy.s4.h': 'Base legal',
+  'legal.privacy.s4.p':
+    'El tratamiento se basa en la ejecución de la relación precontractual y contractual derivada de tu solicitud de reserva.',
+  'legal.privacy.s5.h': 'Conservación',
+  'legal.privacy.s5.p':
+    'Conservamos tus datos mientras dure la relación con el hotel y, después, durante los plazos legalmente exigibles.',
+  'legal.privacy.s6.h': 'Con quién los compartimos',
+  'legal.privacy.s6.p':
+    'Tus datos se almacenan en Airtable, que actúa como encargado del tratamiento, y la web se aloja en Vercel. No cedemos tus datos a terceros salvo obligación legal.',
+  'legal.privacy.s7.h': 'Tus derechos',
+  'legal.privacy.s7.p':
+    'Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiéndonos a la dirección de contacto indicada abajo.',
+  'legal.privacy.s8.h': 'Cookies',
+  'legal.privacy.s8.p': 'Esta web no utiliza cookies de analítica ni de publicidad de terceros.',
+  'legal.privacy.contact': '¿Dudas sobre tus datos? Escríbenos:',
 
   // meta
   'meta.home.title': 'Fallas 2027 · Reserva tu balcón en el Hotel Venecia y vive la mascletá — Plaza del Ayuntamiento, València',
@@ -392,9 +459,75 @@ const en: Dict = {
     'Book your private balcony at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletá from Plaza del Ayuntamiento.',
 
   'legal.terms.h1': 'Booking terms',
+  'legal.terms.intro':
+    'These terms govern the booking of a private balcony to watch the Fallas 2027 mascletá at Hotel Venecia Plaza Centro. By submitting your request through this website you accept the terms described below.',
+  'legal.terms.s1.h': 'What the booking includes',
+  'legal.terms.s1.p':
+    'You are booking private use of one of the hotel’s 10 real rooms during the 13:00–15:00 window on the mascletá day you choose, with views over Plaza del Ayuntamiento and a Snack Pack included. This is not an overnight stay and does not include lodging.',
+  'legal.terms.s2.h': 'Occupancy and price',
+  'legal.terms.s2.p':
+    'Each room takes up to 4 people. The price shown depends on the number of guests selected at the time of booking (2, 3 or 4) and is always calculated by the hotel, never entered by the guest.',
+  'legal.terms.s3.h': 'Booking confirmation',
+  'legal.terms.s3.p':
+    'Your request is logged as "requested" as soon as you submit it. The hotel confirms it by email or phone within 48 hours. The booking is only final once the hotel has confirmed it.',
+  'legal.terms.s4.h': 'Access on the day',
+  'legal.terms.s4.p':
+    'Please arrive at the hotel reception within your booked time window with a valid ID. Late arrival does not extend your remaining access time.',
+  'legal.terms.s5.h': 'Changes and cancellations',
+  'legal.terms.s5.p':
+    'Change and cancellation terms, including the non-refundable nature of the amount paid, are detailed in our Cancellation policy.',
+  'legal.terms.s6.h': 'Circumstances beyond the hotel’s control',
+  'legal.terms.s6.p':
+    'The mascletá is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the Cancellation policy applies.',
+  'legal.terms.s7.h': 'Use of the space',
+  'legal.terms.s7.p':
+    'The booked room is a real space of the hotel made available to you for the experience. Please take care of the furniture and facilities; the hotel may charge for damage caused during your access window.',
+  'legal.terms.contact': 'Questions about these terms? Write to us:',
+
   'legal.cancellation.h1': 'Cancellation policy',
+  'legal.cancellation.intro':
+    'Before confirming your private balcony booking, please note this is a limited-availability experience for one specific day and time window.',
+  'legal.cancellation.s1.h': 'Non-refundable payments',
+  'legal.cancellation.s1.p':
+    'The amount paid for your private balcony booking is non-refundable, regardless of the reason or notice given for the cancellation.',
+  'legal.cancellation.s2.h': 'Changing your date',
+  'legal.cancellation.s2.p':
+    'Although refunds are not available, if you need to change your booked day contact the hotel: we will try to offer another available date within the Fallas 2027 sale period (1–12 March), subject to availability of the same or an equivalent room. This may not always be possible.',
+  'legal.cancellation.s3.h': 'If you don’t show up',
+  'legal.cancellation.s3.p':
+    'If you do not arrive within your booked time window (13:00–15:00), the booking is considered used: it does not entitle you to a refund or a date change.',
+  'legal.cancellation.s4.h': 'Cancellation by the hotel',
+  'legal.cancellation.s4.p':
+    'If the hotel has to cancel your experience for reasons beyond its control (for example, the mascletá being suspended by the Valencia City Council), we will offer to change your date as soon as possible.',
+  'legal.cancellation.s5.h': 'Managing your booking',
+  'legal.cancellation.s5.p': 'Write to us with your booking locator and we will help with any change.',
+  'legal.cancellation.contact': 'Contact us to manage your booking:',
+
   'legal.privacy.h1': 'Privacy policy',
-  'legal.placeholder': 'Legal text pending drafting and review before opening bookings and payments.',
+  'legal.privacy.intro':
+    'At Hotel Venecia Plaza Centro we process your personal data to manage your private balcony request for Fallas 2027. This page summarises how we do it.',
+  'legal.privacy.s1.h': 'Data controller',
+  'legal.privacy.s1.p': 'Hotel Venecia Plaza Centro, at Plaza del Ayuntamiento, 3 · 46002 València, Spain.',
+  'legal.privacy.s2.h': 'What data we collect',
+  'legal.privacy.s2.p':
+    'When you submit the booking form we collect your first and last name, email, phone, country (optional), language, the chosen room and date, number of guests, and any notes you add.',
+  'legal.privacy.s3.h': 'What we use it for',
+  'legal.privacy.s3.p':
+    'We use this data only to manage and confirm your booking, contact you if needed, and answer your questions.',
+  'legal.privacy.s4.h': 'Legal basis',
+  'legal.privacy.s4.p':
+    'Processing is based on the performance of the pre-contractual and contractual relationship arising from your booking request.',
+  'legal.privacy.s5.h': 'Retention',
+  'legal.privacy.s5.p': 'We keep your data for as long as our relationship with the hotel lasts, and afterwards for the legally required periods.',
+  'legal.privacy.s6.h': 'Who we share it with',
+  'legal.privacy.s6.p':
+    'Your data is stored in Airtable, which acts as data processor, and the website is hosted on Vercel. We do not share your data with third parties except where legally required.',
+  'legal.privacy.s7.h': 'Your rights',
+  'legal.privacy.s7.p':
+    'You can exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to the contact address below.',
+  'legal.privacy.s8.h': 'Cookies',
+  'legal.privacy.s8.p': 'This website does not use third-party analytics or advertising cookies.',
+  'legal.privacy.contact': 'Questions about your data? Write to us:',
 
   'meta.home.title': 'Fallas 2027 · Book your balcony at Hotel Venecia and experience the mascletá — Plaza del Ayuntamiento, València',
   'meta.home.desc':

@@ -1,5 +1,5 @@
 ---
-import { type Locale } from '../../consts';
+import { SITE, type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
 import type { PageId } from '../../i18n/pages';
 import PageHero from '../PageHero.astro';
@@ -8,12 +8,28 @@ interface Props { lang: Locale; pageId: PageId; }
 const { lang, pageId } = Astro.props;
 const t = useT(lang);
 const h1 = t(`legal.${pageId}.h1`);
+
+const SECTION_COUNT: Record<string, number> = { terms: 7, cancellation: 5, privacy: 8 };
+const sections = Array.from({ length: SECTION_COUNT[pageId] ?? 0 }, (_, i) => i + 1).map((n) => ({
+  h: t(`legal.${pageId}.s${n}.h`),
+  p: t(`legal.${pageId}.s${n}.p`),
+}));
 ---
 
 <PageHero title={h1} />
 
 <section class="section">
   <div class="container" style="max-width:720px">
-    <p style="color:var(--text-mid)">{t('legal.placeholder')}</p>
+    <p style="color:var(--text-mid);font-size:16px;margin-bottom:32px">{t(`legal.${pageId}.intro`)}</p>
+    {sections.map((s) => (
+      <div style="margin-bottom:24px">
+        <h2 style="font-family:var(--ff-display);font-size:19px;color:var(--navy);margin-bottom:8px">{s.h}</h2>
+        <p style="color:var(--text-mid);font-size:15px;line-height:1.7">{s.p}</p>
+      </div>
+    ))}
+    <p style="color:var(--text-mid);font-size:15px;margin-top:32px">{t(`legal.${pageId}.contact`)}</p>
+    <p style="font-size:15px">
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a> · <a href={SITE.phoneHref}>{SITE.phone}</a>
+    </p>
   </div>
 </section>
