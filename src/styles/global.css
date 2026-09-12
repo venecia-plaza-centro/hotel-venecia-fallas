@@ -64,7 +64,8 @@ button { font: inherit; cursor: pointer; }
   text-transform: uppercase; color: var(--gold);
 }
 
-.gold-rule { width: 68px; height: 3px; background: var(--gold); border-radius: 2px; }
+.gold-rule { width: 72px; height: 14px; display: block; margin: 0 auto; overflow: visible; }
+.gold-rule path { fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; }
 
 h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15; color: var(--navy); }
 
@@ -234,8 +235,13 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   transition: transform .25s ease, box-shadow .25s ease;
 }
 .fab-wa { bottom: 24px; background: #25D366; box-shadow: 0 4px 20px rgba(37, 211, 102, .4); }
-.fab-call { bottom: 84px; background: var(--navy); box-shadow: 0 4px 20px rgba(27, 42, 74, .35); }
-.fab-call:hover, .fab-wa:hover { transform: translateY(-3px); }
+/* Aura blanca sutil, igual que la web principal: solo brillo difuso + sombra de profundidad. */
+.fab-call { bottom: 84px; background: var(--navy); box-shadow: 0 0 16px 3px rgba(255, 255, 255, .5), 0 6px 20px rgba(27, 42, 74, .35); }
+.fab-wa:hover { transform: translateY(-3px); }
+.fab-call:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, .6), 0 10px 28px rgba(27, 42, 74, .45);
+}
 .fab-call svg, .fab-wa svg { width: 21px; height: 21px; flex-shrink: 0; }
 @media (max-width: 480px) {
   .fab-call span, .fab-wa span { display: none; }

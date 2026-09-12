@@ -1,4 +1,6 @@
 ---
+import GoldRule from './GoldRule.astro';
+
 interface Props { eyebrow?: string; title: string; lead?: string; }
 const { eyebrow, title, lead } = Astro.props;
 ---
@@ -7,7 +9,7 @@ const { eyebrow, title, lead } = Astro.props;
   <div class="container">
     {eyebrow && <span class="eyebrow">{eyebrow}</span>}
     <h1>{title}</h1>
-    <div class="gold-rule"></div>
+    <GoldRule />
     {lead && <p class="lead">{lead}</p>}
   </div>
 </section>
