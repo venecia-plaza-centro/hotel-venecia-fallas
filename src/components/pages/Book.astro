@@ -11,7 +11,7 @@ const t = useT(lang);
 
 // Todas las cadenas book.* resueltas para este idioma → al cliente como JSON.
 const strings = Object.fromEntries(
-  Object.entries(dictFor(lang)).filter(([k]) => k.startsWith('book.')),
+  Object.entries(dictFor(lang)).filter(([k]) => k.startsWith('book.') || k.startsWith('roomcard.')),
 );
 
 const config = {
@@ -363,6 +363,23 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   }
 
   // ---- Paso habitación ---------------------------------------------------
+  // Mismos iconos de línea que Icon.astro (24×24, stroke=currentColor), para
+  // poder pintar la tarjeta .room-card desde JS sin depender del componente.
+  const ROOM_ICONS = {
+    pin: '<path d="M12 21s-7-6.3-7-11a7 7 0 1 1 14 0c0 4.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/>',
+    users:
+      '<circle cx="8.5" cy="8.2" r="3"/><path d="M2.8 19.5c0-3.2 2.6-5.3 5.7-5.3s5.7 2.1 5.7 5.3"/><circle cx="17" cy="9" r="2.3"/><path d="M15.6 14.6c2.4.4 4 2.2 4 4.9"/>',
+    shower:
+      '<path d="M7 20V7h7v2.4"/><path d="M5.3 11h1.7"/><circle cx="14" cy="11.6" r="2.5"/><path d="M11.4 15.6v1.3M14 15.8v1.6M16.6 15.6v1.3"/>',
+    sparkle:
+      '<path d="M12 3v4.4M12 16.6V21M3 12h4.4M16.6 12H21M5.8 5.8l3.1 3.1M15.1 15.1l3.1 3.1M18.2 5.8l-3.1 3.1M8.9 15.1l-3.1 3.1"/>',
+    gift: '<path d="M3.6 16.4h16.8"/><path d="M6.2 16.4a5.8 5.8 0 0 1 11.6 0"/><path d="M12 8.3V6.6"/><circle cx="12" cy="5.7" r="0.95"/>',
+    clock: '<circle cx="12" cy="12" r="8.3"/><path d="M12 7.6V12l2.8 1.9"/>',
+    'arrow-right': '<path d="M4 12h16"/><path d="M13 5.5 20.5 12 13 18.5"/>',
+  };
+  const roomIcon = (name, size = 18) =>
+    `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ROOM_ICONS[name]}</svg>`;
+
   function renderRooms() {
     const list = $('#room-list');
     list.innerHTML = '';
@@ -370,31 +387,59 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     for (const room of state.rooms) {
       const fits = room.capacity >= state.guests;
       const usable = room.available && fits;
+      const selected = state.roomSlug === room.slug;
       anyUsable = anyUsable || usable;
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'card';
-      card.disabled = !usable;
-      card.setAttribute('aria-pressed', String(state.roomSlug === room.slug));
+
+      const card = document.createElement('article');
+      card.className = `room-card${usable ? '' : ' is-disabled'}${selected ? ' is-selected' : ''}`;
+
+      const media =
+        room.photos && room.photos.length > 0
+          ? `<img class="room-card-img" src="${room.photos[0]}" alt="${fmt('roomcard.title', { n: room.roomNumber })}" loading="lazy" />`
+          : `<div class="room-card-placeholder"><span>${fmt('roomcard.title', { n: room.roomNumber })}</span><small>${T['roomcard.photopending']}</small></div>`;
+      const nav =
+        room.photos && room.photos.length > 1
+          ? `<button type="button" class="room-card-nav prev" data-dir="-1" aria-label="Anterior">${roomIcon('arrow-right')}</button>
+             <button type="button" class="room-card-nav next" data-dir="1" aria-label="Siguiente">${roomIcon('arrow-right')}</button>
+             <div class="room-card-dots">${room.photos.map((_, i) => `<span class="${i === 0 ? 'is-active' : ''}" data-dot="${i}"></span>`).join('')}</div>`
+          : '';
+
       let status = '';
       if (!room.available) status = `<span class="tag tag-off">${T['book.room.unavailable']}</span>`;
-      else if (!fits)
-        status = `<span class="tag tag-off">${fmt('book.room.toosmall', { n: state.guests })}</span>`;
+      else if (!fits) status = `<span class="tag tag-off">${fmt('book.room.toosmall', { n: state.guests })}</span>`;
+
       card.innerHTML = `
-        <div class="card-head">
+        <div class="room-card-media" data-photos='${JSON.stringify(room.photos || [])}' data-idx="0">${media}${nav}</div>
+        <div class="room-card-body">
           <h3>${fmt('book.room.number', { n: room.roomNumber })}</h3>
-        </div>
-        <p class="card-desc">${desc(room) || ''}</p>
-        <p class="card-meta">${room.floor} · ${fmt('book.room.capacity', { n: room.capacity })}</p>
-        <p class="card-price"><strong>${fmt('book.room.price', { price: money(room.price) })}</strong></p>
-        ${status}`;
-      if (usable)
-        card.addEventListener('click', () => {
+          ${desc(room) ? `<p class="room-card-sub">${desc(room)}</p>` : ''}
+          <ul class="room-card-facts">
+            <li>${roomIcon('pin')}${room.floor}</li>
+            <li>${roomIcon('users')}${fmt('book.room.capacity', { n: room.capacity })}</li>
+            <li>${roomIcon('shower')}${T['roomcard.bath']}</li>
+            <li>${roomIcon('sparkle')}${T['roomcard.balcony']}</li>
+            <li>${roomIcon('gift')}${T['roomcard.snack']}</li>
+            <li>${roomIcon('clock')}${fmt('roomcard.hours', { start: cfg.accessStart, end: cfg.accessEnd })}</li>
+          </ul>
+          <p class="room-card-note">${T['roomcard.private']}</p>
+          <div class="room-card-footer">
+            <p class="room-card-price"><strong>${fmt('book.room.price', { price: money(room.price) })}</strong></p>
+            ${
+              usable
+                ? `<button type="button" class="btn btn-gold room-select" aria-pressed="${selected}">${selected ? T['book.room.selected'] : T['book.room.select']}${roomIcon('arrow-right', 16)}</button>`
+                : status
+            }
+          </div>
+        </div>`;
+
+      if (usable) {
+        card.querySelector('.room-select').addEventListener('click', () => {
           state.roomSlug = state.roomSlug === room.slug ? '' : room.slug;
           renderRooms();
           renderSummary();
           $('#room-next').disabled = !state.roomSlug;
         });
+      }
       list.appendChild(card);
     }
     if (!anyUsable) {
@@ -411,6 +456,25 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   document.querySelectorAll('[data-nav]').forEach((b) =>
     b.addEventListener('click', () => show(b.dataset.nav)),
   );
+
+  // Carrusel de fotos de .room-card (misma delegación que RoomCard.astro,
+  // reimplementada aquí porque este script no la incluye).
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.room-card-nav');
+    if (!btn) return;
+    const media = btn.closest('.room-card-media');
+    if (!media) return;
+    const photos = JSON.parse(media.dataset.photos || '[]');
+    if (!photos.length) return;
+    let idx = parseInt(media.dataset.idx || '0', 10);
+    idx = (idx + Number(btn.dataset.dir) + photos.length) % photos.length;
+    media.dataset.idx = String(idx);
+    const img = media.querySelector('img');
+    if (img) img.src = photos[idx];
+    media.querySelectorAll('[data-dot]').forEach((d) => {
+      d.classList.toggle('is-active', d.getAttribute('data-dot') === String(idx));
+    });
+  });
 
   // ---- Paso datos -----------------------------------------------------
   const form = $('#details-form');
@@ -668,21 +732,9 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     color: var(--text-mid); display: inline-flex; margin-right: 20px;
   }
 
-  .book .cards { display: grid; gap: 14px; }
-  .book .card {
-    text-align: left; border: 1px solid var(--cream-dark); border-radius: var(--r-lg);
-    padding: 18px; background: #fff; display: block; width: 100%; color: inherit;
-    transition: border-color .2s, box-shadow .2s;
-  }
-  .book .card:not(:disabled):hover { border-color: var(--gold); }
-  .book .card[aria-pressed='true'] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); background: var(--gold-pale); }
-  .book .card:disabled { opacity: .55; cursor: not-allowed; }
-  .book .card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-  .book .card-head h3 { font-size: 17px; }
-  .book .card-desc { font-size: 13px; color: var(--text-mid); margin: 8px 0; }
-  .book .card-meta { font-size: 12px; color: var(--text-soft); }
-  .book .card-price { margin-top: 10px; }
-  .book .card-price strong { font-family: var(--ff-display); font-size: 17px; color: var(--navy); }
+  .book .cards { display: grid; gap: 28px; }
+  .book .room-card { cursor: default; }
+  .book .room-select[disabled] { opacity: .6; cursor: not-allowed; }
 
   .book .tag {
     display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .08em;
