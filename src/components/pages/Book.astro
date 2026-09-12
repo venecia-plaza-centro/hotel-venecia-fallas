@@ -139,9 +139,19 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
         <!-- Paso 4 · Hecho -->
         <div data-step="done" class="panel" hidden>
-          <h2 tabindex="-1">{t('book.done.title')}</h2>
-          <p class="locator"><span>{t('book.done.locator')}</span><strong id="done-locator"></strong></p>
-          <p id="done-body"></p>
+          <div class="done-card">
+            <svg class="done-check" viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="22" />
+              <path d="M14 24.5l6.5 6.5L34 17" />
+            </svg>
+            <h2 tabindex="-1">{t('book.done.title')}</h2>
+            <p class="done-lead" id="done-body"></p>
+            <div class="done-locator">
+              <span>{t('book.done.locator')}</span>
+              <strong id="done-locator"></strong>
+            </div>
+            <div class="done-summary" id="done-summary"></div>
+          </div>
           <p class="err" id="done-demo" hidden>{t('book.done.demo')}</p>
           <div class="actions">
             <a class="btn btn-gold" href={config.urls.home}>{t('book.done.home')}</a>
@@ -471,6 +481,13 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       email: new FormData(form).get('email') || '',
     });
     $('#done-demo').hidden = state.persisted;
+
+    const room = state.rooms.find((r) => r.slug === state.roomSlug) || null;
+    const rows = [row(T['book.summary.date'], fdate(state.date)), row(T['book.summary.guests'], String(state.guests))];
+    if (room) rows.push(row(T['book.summary.room'], fmt('book.room.number', { n: room.roomNumber })));
+    let html = rows.join('');
+    if (state.quote) html += `<div class="sum-total"><span>${T['book.summary.total']}</span><strong>${money(state.quote.total)}</strong></div>`;
+    $('#done-summary').innerHTML = html;
   }
 
   // ---- Resumen -------------------------------------------------------
@@ -609,10 +626,29 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   .book .actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
   .book .actions .btn { padding: 13px 24px; }
+  .book [data-step="done"] .actions { justify-content: center; }
+  .book [data-step="done"] .err { text-align: center; }
 
-  .book .locator { display: flex; flex-direction: column; gap: 2px; margin: 8px 0 16px; }
-  .book .locator span { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-soft); }
-  .book .locator strong { font-family: var(--ff-display); font-size: 28px; color: var(--navy); letter-spacing: .04em; }
+  .book .done-card {
+    background: var(--navy); color: #fff; border-radius: var(--r-lg);
+    padding: 44px 32px; text-align: center; margin-bottom: 20px;
+  }
+  .book .done-check { width: 60px; height: 60px; margin: 0 auto 20px; }
+  .book .done-check circle { fill: none; stroke: var(--gold); stroke-width: 2; }
+  .book .done-check path { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .book .done-card h2 { color: #fff; font-size: 26px; margin-bottom: 10px; }
+  .book .done-lead { color: rgba(255,255,255,.75); font-size: 15px; line-height: 1.6; max-width: 420px; margin: 0 auto 28px; }
+  .book .done-locator {
+    display: inline-flex; flex-direction: column; gap: 4px; padding: 14px 32px;
+    border: 1px solid rgba(232,201,106,.35); border-radius: var(--r); margin-bottom: 28px;
+  }
+  .book .done-locator span { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.55); }
+  .book .done-locator strong { font-family: var(--ff-display); font-size: 30px; color: var(--gold-light); letter-spacing: .05em; }
+  .book .done-summary { max-width: 300px; margin: 0 auto; text-align: left; }
+  .book .done-summary .sum-row { border-bottom-color: rgba(255,255,255,.15); }
+  .book .done-summary .sum-row span:first-child { color: rgba(255,255,255,.55); }
+  .book .done-summary .sum-row span:nth-child(2) { color: #fff; }
+  .book .done-summary .sum-total strong { color: var(--gold-light); }
 
   .book .book-summary {
     background: var(--cream); border-radius: var(--r-lg); padding: 24px;

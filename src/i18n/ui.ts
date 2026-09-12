@@ -196,7 +196,7 @@ const es: Dict = {
   'book.done.title': '¡Solicitud recibida!',
   'book.done.locator': 'Localizador',
   'book.done.body':
-    'Hemos enviado un correo a {email} con el resumen. El hotel confirmará la disponibilidad y te escribirá con los pasos para el pago.',
+    'Te hemos enviado un resumen a {email}. El hotel confirmará la disponibilidad y se pondrá en contacto contigo por email o por teléfono con los pasos para el pago.',
   'book.done.demo': 'Modo demostración: la reserva no se ha guardado (falta conectar Airtable).',
   'book.done.home': 'Volver al inicio',
 
@@ -457,7 +457,7 @@ const en: Dict = {
   'book.done.title': 'Request received!',
   'book.done.locator': 'Reference',
   'book.done.body':
-    "We've emailed a summary to {email}. The hotel will confirm availability and write to you with the payment steps.",
+    "We've emailed a summary to {email}. The hotel will confirm availability and contact you by email or phone with the payment steps.",
   'book.done.demo': 'Demo mode: the booking was not saved (Airtable not connected yet).',
   'book.done.home': 'Back to home',
 
