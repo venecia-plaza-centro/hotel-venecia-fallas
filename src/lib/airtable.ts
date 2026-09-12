@@ -9,7 +9,7 @@
  * (src/lib/fixtures.ts) y `createBooking` solo registra por consola. Así el
  * flujo entero es probable en local sin cuenta de Airtable.
  */
-import { newLocator, type ConfirmChannel, type Room, type RoomOffer } from './booking';
+import { type ConfirmChannel, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
 import type { Locale } from '../consts';
 
@@ -170,6 +170,21 @@ export async function getAvailabilitySummary(dates: string[]): Promise<Record<st
 
 // --- Crear reserva --------------------------------------------------------
 
+// Modo demo (sin Airtable): no hay dónde contar las reservas ya hechas, así
+// que se lleva la cuenta en memoria del propio proceso mientras dure.
+let demoLocatorCounter = 0;
+
+/** Localizador correlativo tipo `FAL-000123`: cuenta las reservas ya
+ *  creadas en Airtable y suma uno. Con muy poco volumen (10 habitaciones,
+ *  12 días) el riesgo de que dos pagos casi simultáneos cuenten el mismo
+ *  total y generen el mismo número es prácticamente nulo; si ocurriera, no
+ *  afecta a la reserva en sí (fecha/habitación/pago), solo se repetiría el
+ *  número de referencia. */
+export async function newLocator(): Promise<string> {
+  const n = airtableEnabled() ? (await listAll(TABLE.bookings)).length + 1 : ++demoLocatorCounter;
+  return `FAL-${String(n).padStart(6, '0')}`;
+}
+
 export interface BookingCreate {
   date: string;
   room: Room;
@@ -202,7 +217,7 @@ export interface BookingResult {
 }
 
 export async function createBooking(input: BookingCreate): Promise<BookingResult> {
-  const locator = input.locator ?? newLocator();
+  const locator = input.locator ?? (await newLocator());
 
   const fields: Record<string, unknown> = {
     Localizador: locator,

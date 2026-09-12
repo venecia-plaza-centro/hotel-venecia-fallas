@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
 import { DEFAULT_LOCALE } from '../../consts';
 import { pagePath } from '../../i18n/pages';
-import { buildQuote, isConfirmChannel, isGuestCount, isLocale, newLocator, validateDate } from '../../lib/booking';
-import { airtableEnabled, createBooking, getRoomOffers } from '../../lib/airtable';
+import { buildQuote, isConfirmChannel, isGuestCount, isLocale, validateDate } from '../../lib/booking';
+import { airtableEnabled, createBooking, getRoomOffers, newLocator } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
 import { getStripe, stripeEnabled } from '../../lib/stripe';
 import { handleError, json } from '../../lib/api';
@@ -121,7 +121,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     // Con Stripe: el localizador se genera ya para poder mostrarlo en cuanto
     // el cliente vuelve del pago (ver /api/checkout-status), y el webhook usa
     // este mismo localizador al crear la reserva definitiva.
-    const locator = newLocator();
+    const locator = await newLocator();
     const bookPath = pagePath('book', lang);
 
     const session = await getStripe().checkout.sessions.create({

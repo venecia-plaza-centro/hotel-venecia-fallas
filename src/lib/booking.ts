@@ -123,10 +123,3 @@ export function priceForGuests(room: Room, guests: GuestCount): number {
 export function buildQuote(room: Room, guests: GuestCount): Quote {
   return { total: priceForGuests(room, guests), currency: 'EUR' };
 }
-
-/** Localizador corto tipo `FAL-482913`: solo dígitos, fácil de leer o
- *  dictar por teléfono (sin letras que se puedan confundir con números). */
-export function newLocator(): string {
-  const n = Math.floor(100000 + Math.random() * 900000);
-  return `FAL-${n}`;
-}
