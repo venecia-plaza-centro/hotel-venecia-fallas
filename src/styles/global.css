@@ -64,8 +64,8 @@ button { font: inherit; cursor: pointer; }
   text-transform: uppercase; color: var(--gold);
 }
 
-.gold-rule { width: 72px; height: 14px; display: block; margin: 0 auto; overflow: visible; }
-.gold-rule path { fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; }
+.gold-rule { width: 72px; height: 12px; display: block; margin: 0 auto; overflow: visible; }
+.gold-rule path { fill: var(--gold); }
 
 h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15; color: var(--navy); }
 
