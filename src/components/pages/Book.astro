@@ -416,10 +416,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
           <ul class="room-card-facts">
             <li>${roomIcon('pin')}${room.floor}</li>
             <li>${roomIcon('users')}${fmt('book.room.capacity', { n: room.capacity })}</li>
-            <li>${roomIcon('shower')}${T['roomcard.bath']}</li>
-            <li>${roomIcon('sparkle')}${T['roomcard.balcony']}</li>
-            <li>${roomIcon('gift')}${T['roomcard.snack']}</li>
-            <li>${roomIcon('clock')}${fmt('roomcard.hours', { start: cfg.accessStart, end: cfg.accessEnd })}</li>
           </ul>
           <p class="room-card-note">${T['roomcard.private']}</p>
           <div class="room-card-footer">
