@@ -117,7 +117,8 @@ const es: Dict = {
   'roomcard.capacity': 'Capacidad máxima: {n} personas',
   'roomcard.bath': 'Baño privado',
   'roomcard.balcony': 'Balcón con vistas a la mascletá',
-  'roomcard.snack': 'Snack Pack incluido',
+  'roomcard.snack':
+    'Snack Pack incluido: patatas, mini fuet, aceitunas, frutos secos, 2 refrescos o cervezas y 1 agua por persona',
   'roomcard.hours': 'Disponible de {start} a {end} h',
   'roomcard.private':
     'La habitación se reserva completa y será exclusivamente para vuestro grupo durante toda la experiencia.',
@@ -387,7 +388,8 @@ const en: Dict = {
   'roomcard.capacity': 'Maximum capacity: {n} people',
   'roomcard.bath': 'Private bathroom',
   'roomcard.balcony': 'Balcony overlooking the mascletá',
-  'roomcard.snack': 'Snack Pack included',
+  'roomcard.snack':
+    'Snack Pack included: crisps, mini fuet sausage, olives, nuts, 2 soft drinks or beers and 1 water per person',
   'roomcard.hours': 'Available from {start} to {end}',
   'roomcard.private':
     'The room is booked in full and is exclusively for your group for the whole experience.',
