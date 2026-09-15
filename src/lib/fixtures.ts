@@ -20,6 +20,14 @@ const DESCRIPTION_EN =
 // 65 €, 55 € y 45 € por persona según sean 2, 3 o 4 huéspedes.
 const PRICES = { 2: 130, 3: 165, 4: 180 };
 
+/** Fotos reales por habitación (public/images/rooms/<numero>/): la
+ *  habitación, la vista desde el balcón y la fachada del hotel con la
+ *  ventana de esa habitación señalada. */
+function photosFor(roomNumber: string): string[] {
+  const base = `/images/rooms/${roomNumber}`;
+  return [`${base}/habitacion.webp`, `${base}/balcon.webp`, `${base}/fachada.webp`];
+}
+
 function room(roomNumber: string, floor: string, order: number): Room {
   return {
     id: `fix-${roomNumber}`,
@@ -31,7 +39,7 @@ function room(roomNumber: string, floor: string, order: number): Room {
     cupo: 1,
     descriptionEs: DESCRIPTION_ES,
     descriptionEn: DESCRIPTION_EN,
-    photos: [],
+    photos: photosFor(roomNumber),
     order,
   };
 }
