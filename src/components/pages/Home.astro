@@ -100,7 +100,7 @@ const strip = [
       <p class="lead">{t('home.rooms.lead')}</p>
     </div>
     <div class="room-picker-list">
-      {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
+      {rooms.map((r) => <RoomCard room={r} lang={lang} perPerson />)}
     </div>
     <div class="room-picker-more">
       <a class="btn btn-ghost" href={roomsUrl}>{t('home.rooms.seeall')}</a>
