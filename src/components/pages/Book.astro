@@ -204,6 +204,13 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     );
   const $ = (sel, root = document) => root.querySelector(sel);
 
+  // Viene de "Reservar habitación X" (Home/Habitaciones): esa habitación ya
+  // la quería el cliente, así que en cuanto elija fecha se comprueba
+  // disponibilidad al momento (sin el clic extra de "Buscar disponibilidad")
+  // y, si sigue libre, queda preseleccionada en el paso siguiente.
+  const params = new URLSearchParams(location.search);
+  const prefRoom = params.get('room');
+
   const state = {
     date: '', guests: 2,
     rooms: [],
@@ -302,6 +309,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
         dateEl.value = iso;
         setErr('date', '');
         renderCalendar();
+        if (prefRoom) runAvailability();
       });
       grid.appendChild(btn);
     }
@@ -344,7 +352,8 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       state.date = date;
       state.guests = g;
       state.rooms = data.rooms;
-      state.roomSlug = '';
+      const wanted = prefRoom && data.rooms.find((r) => r.slug === prefRoom);
+      state.roomSlug = wanted && wanted.available && wanted.capacity >= g ? prefRoom : '';
       renderRooms();
       renderSummary();
       show('room');
@@ -625,8 +634,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   }
 
   // ---- Vuelta de Stripe Checkout (?paid=1&session_id=…) ---------------
-  const params = new URLSearchParams(location.search);
-
   if (params.get('canceled')) {
     setErr('date', T['book.err.canceled']);
   }
@@ -638,23 +645,14 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     loadPaidBooking(params.get('session_id'));
   } else {
     // ---- Prefill desde la URL (?room=&date=&guests=) ----------------
+    // La preselección de "room" (si sigue disponible) la hace runAvailability.
     if (params.get('date')) {
       dateEl.value = params.get('date');
       state.date = dateEl.value;
       renderCalendar();
     }
     if (params.get('guests')) guestsEl.value = params.get('guests');
-    const prefRoom = params.get('room');
-    if (dateEl.value) {
-      runAvailability().then(() => {
-        if (prefRoom && state.rooms.some((r) => r.slug === prefRoom && r.available)) {
-          state.roomSlug = prefRoom;
-          renderRooms();
-          renderSummary();
-          $('#room-next').disabled = false;
-        }
-      });
-    }
+    if (dateEl.value) runAvailability();
   }
 
   async function loadPaidBooking(sessionId) {
