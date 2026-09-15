@@ -74,6 +74,7 @@ const minPerPerson = Math.min(...GUEST_OPTIONS.map((g) => room.prices[g] / g));
         <Icon name="arrow-right" size={16} />
       </a>
     </div>
+    <p class="room-card-note">{t('roomcard.priceNote')}</p>
     <p class="room-card-hint">{t('roomcard.hint')}</p>
   </div>
 </article>
