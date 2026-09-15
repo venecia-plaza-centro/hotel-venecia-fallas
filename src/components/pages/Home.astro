@@ -83,7 +83,7 @@ const strip = [
       <p class="tradicion-strong">{t('home.tradicion.p2')}</p>
     </div>
     <div class="tradicion-media">
-      <div class="tradicion-photo" role="img" aria-label={t('home.tradicion.photo.alt')}></div>
+      <img class="tradicion-photo" src="/images/home/tradicion.webp" alt={t('home.tradicion.photo.alt')} loading="lazy" />
       <span class="tradicion-tagline">{t('home.tradicion.tagline')}</span>
     </div>
   </div>
@@ -206,11 +206,8 @@ const strip = [
 
   .tradicion-media { position: relative; }
   .tradicion-photo {
-    aspect-ratio: 4/3; border-radius: var(--r-lg); overflow: hidden; display: flex;
-    align-items: flex-end; padding: 20px; color: rgba(255,255,255,.6); font-size: 12px;
-    background:
-      radial-gradient(circle at 30% 30%, rgba(201,162,70,.3), transparent 50%),
-      linear-gradient(160deg, var(--navy-light), var(--navy));
+    aspect-ratio: 4/3; width: 100%; display: block; border-radius: var(--r-lg);
+    object-fit: cover;
   }
   .tradicion-tagline {
     position: absolute; right: 18px; bottom: -14px; font-family: 'Caveat', cursive;
