@@ -18,6 +18,7 @@ const rooms = await getRooms();
 
 <section class="section">
   <div class="container">
+    <p class="rooms-intro">{t('rooms.intro')}</p>
     <div class="rooms-list">
       {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
     </div>
@@ -25,5 +26,6 @@ const rooms = await getRooms();
 </section>
 
 <style>
+  .rooms-intro { max-width: 720px; margin: 0 auto 36px; text-align: center; color: var(--text-mid); font-size: 16px; line-height: 1.7; }
   .rooms-list { display: grid; gap: 28px; max-width: 980px; margin: 0 auto; }
 </style>

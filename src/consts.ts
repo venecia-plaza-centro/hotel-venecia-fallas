@@ -13,7 +13,7 @@ export const SITE = {
 } as const;
 
 /**
- * Ventana de venta de estas 10 habitaciones: del 1 al 12 de marzo de 2027
+ * Ventana de venta de estas 9 habitaciones: del 1 al 12 de marzo de 2027
  * (subconjunto de las mascletás de Fallas, que siguen hasta el 19).
  * No es una reserva de noches: cada habitación se alquila por horas el día
  * elegido, como espacio privado para ver la mascletá desde el balcón.
@@ -26,7 +26,7 @@ export const FALLAS = {
   mascletaPlace: 'Plaza del Ayuntamiento',
   accessStart: '13:00', // apertura del espacio privado
   accessEnd: '15:00',   // cierre
-  totalRooms: 10, // nº real de habitaciones que se ofrecen para Fallas
+  totalRooms: 9, // nº real de habitaciones que se ofrecen para Fallas (confirmado por el hotel)
 } as const;
 
 export const LOCALES = ['es', 'en', 'it', 'fr', 'de'] as const;

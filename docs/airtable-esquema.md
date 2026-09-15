@@ -2,12 +2,17 @@
 
 > **Actualizado tras la reunión con el cliente (2026-09-11):** no es una reserva
 > de noches. Cada habitación se alquila por horas (13:00–15:00 h) el día de
-> mascletá elegido, como espacio privado. Son **10 habitaciones reales** del
+> mascletá elegido, como espacio privado. Son habitaciones reales del
 > hotel (no tipos), Snack Pack incluido de serie.
 >
-> **Actualizado de nuevo:** las 10 habitaciones admiten hasta **4 personas**,
+> **Actualizado de nuevo:** las habitaciones admiten hasta **4 personas**,
 > y el precio **varía según se apunten 2, 3 o 4** (ya no es un precio plano
 > único). Ver la tabla `Habitaciones` más abajo.
+>
+> **Datos reales del hotel (2026-09-15):** son **9 habitaciones** en total —
+> 317 (3ª planta), 409/410/411/412 (4ª planta) y 502/503/504/505 (5ª planta).
+> Descripción y precio son iguales en las 9 (130 €/165 €/180 € para 2/3/4
+> personas, Snack Pack incluido). Fotos pendientes de recibir.
 
 Base que gestiona el hotel. Dos tablas: **Habitaciones** y **Reservas**.
 
@@ -26,7 +31,7 @@ la base** (`app…`).
 
 ## Tabla `Habitaciones`
 
-Un registro por cada una de las 10 habitaciones reales que se ofrecen.
+Un registro por cada una de las 9 habitaciones reales que se ofrecen.
 
 | Campo | Tipo Airtable | Notas |
 |---|---|---|
@@ -34,7 +39,7 @@ Un registro por cada una de las 10 habitaciones reales que se ofrecen.
 | `Slug` | Single line text | Identificador estable que usa la web. Ej.: `habitacion-317`. **No cambiar** una vez publicado. |
 | `Numero` | Single line text | El número real de la habitación, ej. `317`. Es lo que ve el cliente. |
 | `Planta` | Single line text | Ej.: `3ª planta`. |
-| `Capacidad` | Number (entero) | Nº máximo de personas. Las 10 habitaciones admiten hasta `4`. |
+| `Capacidad` | Number (entero) | Nº máximo de personas. Las 9 habitaciones admiten hasta `4`. |
 | `Precio 2p` | Currency (EUR) | Precio de la experiencia para 2 personas, IVA incluido. Snack Pack ya incluido. |
 | `Precio 3p` | Currency (EUR) | Precio para 3 personas. |
 | `Precio 4p` | Currency (EUR) | Precio para 4 personas. |
@@ -109,5 +114,5 @@ Para una fecha pedida:
 Todas admiten hasta 4 personas.
 
 > Números y habitaciones inventados para poder programar y probar el flujo.
-> Los reales (los 10 números de habitación, plantas, capacidades y precios que
-> salgan de la reunión) van en Airtable y **no requieren tocar código**.
+> Los reales (los 9 números de habitación: 317, 409, 410, 411, 412, 502, 503,
+> 504, 505 — ver arriba) van en Airtable y **no requieren tocar código**.

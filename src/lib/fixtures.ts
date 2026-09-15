@@ -2,8 +2,8 @@
  * Datos de ejemplo que usa la web cuando NO hay credenciales de Airtable
  * (desarrollo local, previews sin secretos). Números de habitación, planta,
  * descripción y precio ya son los reales que pasó el hotel por email
- * (9 de septiembre de 2026); solo falta confirmar la 10ª habitación —
- * ver el comentario en esa entrada más abajo.
+ * (9 de septiembre de 2026): son 9 habitaciones en total, confirmado por
+ * el hotel (ver FALLAS.totalRooms en consts.ts).
  *
  * Descripción y precio son iguales en todas las habitaciones (así lo
  * indicó el hotel): balcón privado con vistas a la Plaza del Ayuntamiento,
@@ -45,8 +45,5 @@ export const FIXTURE_ROOMS: Room[] = [
   room('502', '5ª planta', 6),
   room('503', '5ª planta', 7),
   room('504', '5ª planta', 8),
-  // TODO: el hotel solo ha confirmado 9 habitaciones (317, 409-412, 502-505)
-  // y la web está montada para 10 (FALLAS.totalRooms). Falta que confirmen
-  // si hay una 10ª (p.ej. la 505 o similar) o si el total pasa a ser 9.
   room('505', '5ª planta', 9),
 ];

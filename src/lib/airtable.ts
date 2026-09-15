@@ -175,7 +175,7 @@ export async function getAvailabilitySummary(dates: string[]): Promise<Record<st
 let demoLocatorCounter = 0;
 
 /** Localizador correlativo tipo `FAL-000123`: cuenta las reservas ya
- *  creadas en Airtable y suma uno. Con muy poco volumen (10 habitaciones,
+ *  creadas en Airtable y suma uno. Con muy poco volumen (9 habitaciones,
  *  12 días) el riesgo de que dos pagos casi simultáneos cuenten el mismo
  *  total y generen el mismo número es prácticamente nulo; si ocurriera, no
  *  afecta a la reserva en sí (fecha/habitación/pago), solo se repetiría el

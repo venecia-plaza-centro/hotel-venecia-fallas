@@ -5,7 +5,7 @@
  * No es una reserva de noches: cada habitación se alquila por horas (ver
  * FALLAS.accessStart/accessEnd en src/consts.ts) el día elegido dentro de la
  * ventana de Fallas. El Snack Pack va incluido siempre; no hay noches ni
- * extras que sumar. Las 10 habitaciones admiten hasta 4 personas, y el precio
+ * extras que sumar. Las 9 habitaciones admiten hasta 4 personas, y el precio
  * depende de cuántas se apunten (2, 3 o 4): ver `Room.prices`.
  */
 import { FALLAS, LOCALES, type Locale } from '../consts';

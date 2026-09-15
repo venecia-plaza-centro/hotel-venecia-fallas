@@ -202,7 +202,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     new Intl.DateTimeFormat(cfg.locale, { weekday: 'short', day: 'numeric', month: 'long' }).format(
       new Date(d + 'T00:00:00'),
     );
-  const desc = (o) => (cfg.locale === 'en' ? o.descriptionEn || o.descriptionEs : o.descriptionEs);
   const $ = (sel, root = document) => root.querySelector(sel);
 
   const state = {
@@ -440,7 +439,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
         <div class="room-card-media" data-photos='${JSON.stringify(room.photos || [])}' data-idx="0">${media}${nav}</div>
         <div class="room-card-body">
           <h3>${fmt('book.room.number', { n: room.roomNumber })}</h3>
-          ${desc(room) ? `<p class="room-card-sub">${desc(room)}</p>` : ''}
           <ul class="room-card-facts">
             <li>${roomIcon('pin')}${room.floor}</li>
             <li>${roomIcon('users')}${fmt('book.room.capacity', { n: room.capacity })}</li>

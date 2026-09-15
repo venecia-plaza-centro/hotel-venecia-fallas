@@ -12,7 +12,6 @@ const fmt = (key: string, vars: Record<string, string | number> = {}) =>
   t(key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 
 const bookUrl = pagePath('book', lang);
-const desc = lang === 'en' ? room.descriptionEn || room.descriptionEs : room.descriptionEs;
 const money = (n: number) =>
   new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
     style: 'currency',
@@ -48,7 +47,6 @@ const money = (n: number) =>
 
   <div class="room-card-body">
     <h3>{fmt('roomcard.title', { n: room.roomNumber })}</h3>
-    {desc && <p class="room-card-sub">{desc}</p>}
 
     <ul class="room-card-facts">
       <li><Icon name="pin" size={18} />{room.floor}</li>
@@ -79,7 +77,7 @@ const money = (n: number) =>
 
 <script>
   // Delegación de eventos: sirve para todas las .room-card de la página
-  // (Home puede mostrar varias, Habitaciones las diez).
+  // (Home puede mostrar varias, Habitaciones las nueve).
   document.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement)?.closest('.room-card-nav') as HTMLButtonElement | null;
     if (!btn) return;
