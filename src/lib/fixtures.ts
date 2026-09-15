@@ -1,143 +1,52 @@
 /**
  * Datos de ejemplo que usa la web cuando NO hay credenciales de Airtable
- * (desarrollo local, previews sin secretos). Cifras y habitaciones inventadas:
- * las reales las pone el hotel en Airtable sin tocar código.
+ * (desarrollo local, previews sin secretos). Números de habitación, planta,
+ * descripción y precio ya son los reales que pasó el hotel por email
+ * (9 de septiembre de 2026); solo falta confirmar la 10ª habitación —
+ * ver el comentario en esa entrada más abajo.
  *
- * Son las 10 habitaciones reales del hotel que se ofrecen como espacio
- * privado para ver la mascletá desde el balcón (ver docs/airtable-esquema.md).
- * Las 10 admiten hasta 4 personas; el precio varía según cuántas se apunten.
+ * Descripción y precio son iguales en todas las habitaciones (así lo
+ * indicó el hotel): balcón privado con vistas a la Plaza del Ayuntamiento,
+ * baño privado, Snack Pack incluido. El precio total sale de la tarifa por
+ * persona que dio el hotel (65 €/55 €/45 € según sean 2, 3 o 4).
  */
 import type { Room } from './booking';
 
+const DESCRIPTION_ES =
+  'Vive las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderte ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de ti. Tú, tu reserva y las Fallas.';
+const DESCRIPTION_EN =
+  "Experience Fallas from the front row. Private rooms with a balcony right onto the square and spectacular views so you don't miss a moment. Private bathroom, exclusive spaces, and all the excitement of Fallas right in front of you. You, your booking, and Fallas.";
+
+// 65 €, 55 € y 45 € por persona según sean 2, 3 o 4 huéspedes.
+const PRICES = { 2: 130, 3: 165, 4: 180 };
+
+function room(roomNumber: string, floor: string, order: number): Room {
+  return {
+    id: `fix-${roomNumber}`,
+    slug: `habitacion-${roomNumber}`,
+    roomNumber,
+    floor,
+    capacity: 4,
+    prices: PRICES,
+    cupo: 1,
+    descriptionEs: DESCRIPTION_ES,
+    descriptionEn: DESCRIPTION_EN,
+    photos: [],
+    order,
+  };
+}
+
 export const FIXTURE_ROOMS: Room[] = [
-  {
-    id: 'fix-214',
-    slug: 'habitacion-214',
-    roomNumber: '214',
-    floor: '2ª planta',
-    capacity: 4,
-    prices: { 2: 150, 3: 175, 4: 200 },
-    cupo: 1,
-    descriptionEs: 'Balcón directo a la Plaza del Ayuntamiento, en primera línea de la mascletá.',
-    descriptionEn: 'Balcony right onto Plaza del Ayuntamiento, front row for the mascletá.',
-    photos: [],
-    order: 1,
-  },
-  {
-    id: 'fix-219',
-    slug: 'habitacion-219',
-    roomNumber: '219',
-    floor: '2ª planta',
-    capacity: 4,
-    prices: { 2: 170, 3: 195, 4: 220 },
-    cupo: 1,
-    descriptionEs: 'Balcón amplio a la plaza, ideal para ir en familia.',
-    descriptionEn: 'A wide balcony over the square, great for families.',
-    photos: [],
-    order: 2,
-  },
-  {
-    id: 'fix-305',
-    slug: 'habitacion-305',
-    roomNumber: '305',
-    floor: '3ª planta',
-    capacity: 4,
-    prices: { 2: 190, 3: 215, 4: 240 },
-    cupo: 1,
-    descriptionEs: 'Balcón a la plaza, pensada para grupos de amigos.',
-    descriptionEn: 'A balcony over the square, great for a group of friends.',
-    photos: [],
-    order: 3,
-  },
-  {
-    id: 'fix-317',
-    slug: 'habitacion-317',
-    roomNumber: '317',
-    floor: '3ª planta',
-    capacity: 4,
-    prices: { 2: 180, 3: 205, 4: 230 },
-    cupo: 1,
-    descriptionEs: 'Tu balcón privado en plena Plaza del Ayuntamiento.',
-    descriptionEn: 'Your private balcony right on Plaza del Ayuntamiento.',
-    photos: [],
-    order: 4,
-  },
-  {
-    id: 'fix-322',
-    slug: 'habitacion-322',
-    roomNumber: '322',
-    floor: '3ª planta',
-    capacity: 4,
-    prices: { 2: 160, 3: 185, 4: 210 },
-    cupo: 1,
-    descriptionEs: 'Mirador con vistas laterales a la plaza, más recogido.',
-    descriptionEn: 'A viewpoint room with a side view of the square, cosier.',
-    photos: [],
-    order: 5,
-  },
-  {
-    id: 'fix-401',
-    slug: 'habitacion-401',
-    roomNumber: '401',
-    floor: '4ª planta',
-    capacity: 4,
-    prices: { 2: 260, 3: 290, 4: 320 },
-    cupo: 1,
-    descriptionEs: 'La más grande de la casa: balcón amplio y sitio de sobra para todo el grupo.',
-    descriptionEn: 'The largest room in the hotel: a wide balcony and plenty of room for the whole group.',
-    photos: [],
-    order: 6,
-  },
-  {
-    id: 'fix-408',
-    slug: 'habitacion-408',
-    roomNumber: '408',
-    floor: '4ª planta',
-    capacity: 4,
-    prices: { 2: 210, 3: 235, 4: 260 },
-    cupo: 1,
-    descriptionEs: 'Buena altura sobre la plaza, con balcón.',
-    descriptionEn: 'A good height over the square, with a balcony.',
-    photos: [],
-    order: 7,
-  },
-  {
-    id: 'fix-415',
-    slug: 'habitacion-415',
-    roomNumber: '415',
-    floor: '4ª planta',
-    capacity: 4,
-    prices: { 2: 170, 3: 195, 4: 220 },
-    cupo: 1,
-    descriptionEs: 'Balcón amplio en una de las plantas más altas del hotel.',
-    descriptionEn: 'A wide balcony on one of the hotel’s highest floors.',
-    photos: [],
-    order: 8,
-  },
-  {
-    id: 'fix-502',
-    slug: 'habitacion-502',
-    roomNumber: '502',
-    floor: '5ª planta (ático)',
-    capacity: 4,
-    prices: { 2: 230, 3: 255, 4: 280 },
-    cupo: 1,
-    descriptionEs: 'Ático con terraza privada: la mejor vista de la plaza de todo el hotel.',
-    descriptionEn: 'Top-floor room with a private terrace: the best view of the square in the hotel.',
-    photos: [],
-    order: 9,
-  },
-  {
-    id: 'fix-510',
-    slug: 'habitacion-510',
-    roomNumber: '510',
-    floor: '5ª planta (ático)',
-    capacity: 4,
-    prices: { 2: 220, 3: 245, 4: 270 },
-    cupo: 1,
-    descriptionEs: 'Ático con terraza privada, íntimo y en primera línea de la mascletá.',
-    descriptionEn: 'Top-floor room with a private terrace, intimate and front row for the mascletá.',
-    photos: [],
-    order: 10,
-  },
+  room('317', '3ª planta', 1),
+  room('409', '4ª planta', 2),
+  room('410', '4ª planta', 3),
+  room('411', '4ª planta', 4),
+  room('412', '4ª planta', 5),
+  room('502', '5ª planta', 6),
+  room('503', '5ª planta', 7),
+  room('504', '5ª planta', 8),
+  // TODO: el hotel solo ha confirmado 9 habitaciones (317, 409-412, 502-505)
+  // y la web está montada para 10 (FALLAS.totalRooms). Falta que confirmen
+  // si hay una 10ª (p.ej. la 505 o similar) o si el total pasa a ser 9.
+  room('505', '5ª planta', 9),
 ];
