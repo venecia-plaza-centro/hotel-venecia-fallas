@@ -443,7 +443,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
             <li>${roomIcon('pin')}${room.floor}</li>
             <li>${roomIcon('users')}${fmt('book.room.capacity', { n: room.capacity })}</li>
           </ul>
-          <p class="room-card-note">${T['roomcard.private']}</p>
+          <p class="room-card-note room-card-private">${T['roomcard.private']}</p>
           <div class="room-card-footer">
             <p class="room-card-price"><strong>${fmt('book.room.price', { price: money(room.price) })}</strong></p>
             ${
