@@ -82,22 +82,59 @@ const minPerPerson = Math.min(...GUEST_OPTIONS.map((g) => room.prices[g] / g));
 <script>
   // Delegación de eventos: sirve para todas las .room-card de la página
   // (Home puede mostrar varias, Habitaciones las nueve).
-  document.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement)?.closest('.room-card-nav') as HTMLButtonElement | null;
-    if (!btn) return;
-    const media = btn.closest('.room-card-media') as HTMLElement | null;
-    if (!media) return;
+  function goToPhoto(media: HTMLElement, dir: number) {
     const photos: string[] = JSON.parse(media.dataset.photos || '[]');
     if (!photos.length) return;
     let idx = parseInt(media.dataset.idx || '0', 10);
-    idx = (idx + Number(btn.dataset.dir) + photos.length) % photos.length;
+    idx = (idx + dir + photos.length) % photos.length;
     media.dataset.idx = String(idx);
     const img = media.querySelector('img');
     if (img) img.src = photos[idx];
     media.querySelectorAll('[data-dot]').forEach((d) => {
       d.classList.toggle('is-active', d.getAttribute('data-dot') === String(idx));
     });
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement)?.closest('.room-card-nav') as HTMLButtonElement | null;
+    if (!btn) return;
+    const media = btn.closest('.room-card-media') as HTMLElement | null;
+    if (!media) return;
+    goToPhoto(media, Number(btn.dataset.dir));
   });
+
+  // Deslizar con el dedo en móvil, además de las flechas: los botones son
+  // pequeños para un gesto que en cualquier galería de fotos se espera
+  // poder hacer directamente arrastrando la imagen.
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchMedia: HTMLElement | null = null;
+  document.addEventListener(
+    'touchstart',
+    (e) => {
+      const media = (e.target as HTMLElement)?.closest('.room-card-media') as HTMLElement | null;
+      touchMedia = media;
+      if (!media) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    },
+    { passive: true },
+  );
+  document.addEventListener(
+    'touchend',
+    (e) => {
+      if (!touchMedia) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      // Solo cuenta como swipe si el movimiento es sobre todo horizontal
+      // (si no, sería un scroll vertical de la página).
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        goToPhoto(touchMedia, dx < 0 ? 1 : -1);
+      }
+      touchMedia = null;
+    },
+    { passive: true },
+  );
 </script>
 
 {/* Estilos de .room-card* en src/styles/global.css: los comparte con el

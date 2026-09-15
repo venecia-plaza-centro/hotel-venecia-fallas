@@ -492,24 +492,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     b.addEventListener('click', () => show(b.dataset.nav)),
   );
 
-  // Carrusel de fotos de .room-card (misma delegación que RoomCard.astro,
-  // reimplementada aquí porque este script no la incluye).
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.room-card-nav');
-    if (!btn) return;
-    const media = btn.closest('.room-card-media');
-    if (!media) return;
-    const photos = JSON.parse(media.dataset.photos || '[]');
-    if (!photos.length) return;
-    let idx = parseInt(media.dataset.idx || '0', 10);
-    idx = (idx + Number(btn.dataset.dir) + photos.length) % photos.length;
-    media.dataset.idx = String(idx);
-    const img = media.querySelector('img');
-    if (img) img.src = photos[idx];
-    media.querySelectorAll('[data-dot]').forEach((d) => {
-      d.classList.toggle('is-active', d.getAttribute('data-dot') === String(idx));
-    });
-  });
+  // El carrusel de fotos de .room-card (clic y swipe) NO se reimplementa
+  // aquí: RoomCard.astro ya registra esa delegación en `document`, y su
+  // script se carga en todas las páginas (se comprobó que iba x2 cuando
+  // esta página tenía su propia copia — cada clic/swipe avanzaba 2 fotos
+  // en vez de 1, una por cada delegación activa).
 
   // ---- Paso datos -----------------------------------------------------
   const form = $('#details-form');
