@@ -5,14 +5,8 @@ import { useT } from '../i18n/ui';
 import { GUEST_OPTIONS, type Room } from '../lib/booking';
 import Icon from './Icon.astro';
 
-interface Props {
-  room: Room;
-  lang: Locale;
-  /** Home (teaser) muestra "Desde X € / persona" (el mínimo, con 4 personas);
-   *  Habitaciones sigue mostrando "Desde X € / habitación" (precio para 2). */
-  perPerson?: boolean;
-}
-const { room, lang, perPerson = false } = Astro.props;
+interface Props { room: Room; lang: Locale; }
+const { room, lang } = Astro.props;
 const t = useT(lang);
 const fmt = (key: string, vars: Record<string, string | number> = {}) =>
   t(key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
@@ -25,8 +19,9 @@ const money = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 
+// "Desde X € / persona": el mínimo posible, que se da con 4 personas
+// (180 € / 4 = 45 €), ya que el precio total no baja al repartir entre más.
 const minPerPerson = Math.min(...GUEST_OPTIONS.map((g) => room.prices[g] / g));
-const displayPrice = perPerson ? minPerPerson : room.prices[2];
 ---
 
 <article class="room-card">
@@ -71,15 +66,14 @@ const displayPrice = perPerson ? minPerPerson : room.prices[2];
     <div class="room-card-footer">
       <p class="room-card-price">
         <span>{t('roomcard.from')}</span>
-        <strong>{money(displayPrice)}</strong>
-        <span>{perPerson ? t('roomcard.perperson') : t('roomcard.perroom')}</span>
+        <strong>{money(minPerPerson)}</strong>
+        <span>{t('roomcard.perperson')}</span>
       </p>
       <a class="btn btn-gold" href={`${bookUrl}?room=${room.slug}`}>
         {fmt('roomcard.book', { n: room.roomNumber })}
         <Icon name="arrow-right" size={16} />
       </a>
     </div>
-    {!perPerson && <p class="room-card-note">{t('roomcard.priceNote')}</p>}
     <p class="room-card-hint">{t('roomcard.hint')}</p>
   </div>
 </article>
