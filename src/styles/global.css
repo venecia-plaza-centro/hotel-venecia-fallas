@@ -313,7 +313,9 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 @media (max-width: 480px) {
   .room-card-body { padding: 28px 16px; text-align: center; }
 }
-.room-card-body h3 { font-size: 24px; }
+/* text-align:left explícito: en móvil el resto de .room-card-body se
+   centra, pero el título de la habitación se queda pegado a la izquierda. */
+.room-card-body h3 { font-size: 24px; text-align: left; }
 .room-card-sub { color: var(--text-mid); font-size: 15px; margin-top: 4px; }
 
 .room-card-facts {

@@ -458,7 +458,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
           </ul>
           <p class="room-card-note room-card-private">${T['roomcard.private']}</p>
           <div class="room-card-footer">
-            <p class="room-card-price"><strong>${fmt('book.room.price', { price: money(room.price) })}</strong></p>
+            <p class="room-card-price"><strong>${fmt('book.room.price', { price: money(room.price / state.guests) })}</strong></p>
             ${
               usable
                 ? `<button type="button" class="btn btn-gold room-select" aria-pressed="${selected}">${selected ? T['book.room.selected'] : T['book.room.select']}${roomIcon('arrow-right', 16)}</button>`
