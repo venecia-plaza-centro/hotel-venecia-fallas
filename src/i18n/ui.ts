@@ -83,7 +83,6 @@ const es: Dict = {
   'home.strip.snack.v': 'Incluido',
 
   // rooms
-  'rooms.eyebrow': 'Fallas 2027',
   'rooms.h1': 'Elige tu balcón para la mascletá',
   'rooms.lead':
     'Estas son las 9 habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
@@ -92,7 +91,6 @@ const es: Dict = {
 
 
   // mascletas
-  'mascletas.eyebrow': 'Fallas 2027',
   'mascletas.h1': 'Calendario de mascletás',
   'mascletas.lead':
     'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento. El 18, Nit del Foc; el 19, la Cremà.',
@@ -100,7 +98,6 @@ const es: Dict = {
   'mascletas.march': 'Marzo 2027',
 
   // faq
-  'faq.eyebrow': 'Fallas 2027',
   'faq.h1': 'Preguntas frecuentes',
   'faq.q1': '¿Qué días puedo reservar?',
   'faq.a1':
@@ -132,7 +129,6 @@ const es: Dict = {
   'roomcard.photopending': 'Foto pendiente',
 
   // reserva (flujo del Hito 2: espacio privado por horas, no noches)
-  'book.eyebrow': 'Fallas 2027',
   'book.h1': 'Reserva tu balcón para la mascletá',
   'book.lead':
     'Elige el día, la habitación y paga online: tu reserva queda confirmada al momento.',
@@ -360,21 +356,18 @@ const en: Dict = {
   'home.strip.snack.t': 'Snack Pack',
   'home.strip.snack.v': 'Included',
 
-  'rooms.eyebrow': 'Fallas 2027',
   'rooms.h1': 'Choose your balcony for the mascletá',
   'rooms.lead':
     'These are the 9 Hotel Venecia rooms with a balcony or viewpoint over Plaza del Ayuntamiento. Pick a date, room and number of guests — we take care of the rest.',
   'rooms.intro':
     "Experience Fallas from the front row. Private rooms with a balcony right onto the square and spectacular views so you don't miss a moment. Private bathroom, exclusive spaces, and all the excitement of Fallas right in front of you. You, your booking, and Fallas.",
 
-  'mascletas.eyebrow': 'Fallas 2027',
   'mascletas.h1': 'Mascletá calendar',
   'mascletas.lead':
     'From 1 to 19 March 2027, every day at 2 pm on Plaza del Ayuntamiento. On the 18th, Nit del Foc; on the 19th, the Cremà.',
   'mascletas.daily': 'Daily mascletá · 2 pm · Plaza del Ayuntamiento',
   'mascletas.march': 'March 2027',
 
-  'faq.eyebrow': 'Fallas 2027',
   'faq.h1': 'Frequently asked questions',
   'faq.q1': 'Which days can I book?',
   'faq.a1':
@@ -404,7 +397,6 @@ const en: Dict = {
   'roomcard.hint': 'Pick a date and number of guests to check availability and price.',
   'roomcard.photopending': 'Photo coming soon',
 
-  'book.eyebrow': 'Fallas 2027',
   'book.h1': 'Book your balcony for the mascletá',
   'book.lead':
     'Pick the day and the room, then pay online: your booking is confirmed straight away.',
