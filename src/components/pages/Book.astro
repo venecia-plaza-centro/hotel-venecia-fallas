@@ -55,16 +55,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
               .replace('{end}', config.accessEnd)
               .replace('{mascleta}', config.mascletaTime)}
           </p>
-          <span class="cal-label">{t('book.date.date')}</span>
-          <div id="calendar" class="calendar">
-            <div class="cal-grid" id="cal-grid"></div>
-          </div>
-          <p class="cal-legend">
-            <span><i class="dot dot-free"></i>{t('book.date.legend.available')}</span>
-            <span><i class="dot dot-full"></i>{t('book.date.legend.full')}</span>
-          </p>
-          <input type="hidden" id="f-date" />
-
           <div class="fields">
             <label>
               {t('book.date.guests')}
@@ -76,6 +66,16 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
             </label>
           </div>
           <p class="hint">{t('book.date.guestsHint')}</p>
+
+          <span class="cal-label">{t('book.date.date')}</span>
+          <div id="calendar" class="calendar">
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+          <p class="cal-legend">
+            <span><i class="dot dot-free"></i>{t('book.date.legend.available')}</span>
+            <span><i class="dot dot-full"></i>{t('book.date.legend.full')}</span>
+          </p>
+          <input type="hidden" id="f-date" />
           <p class="err" data-err="date" role="alert"></p>
           <div class="actions">
             <button type="button" class="btn btn-gold" id="date-submit">{t('book.date.submit')}</button>
