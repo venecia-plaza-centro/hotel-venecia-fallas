@@ -1,8 +1,12 @@
 ---
+// Balcón antiguo forjado, en el mismo estilo de línea dorada que los
+// iconos de public/icons/*.png: dos pasamanos y barrotes, con una voluta
+// central como las que se ven en los balcones reales del hotel.
 interface Props { style?: string }
 const { style } = Astro.props;
 ---
 
-<svg class="gold-rule" style={style} viewBox="0 0 72 12" aria-hidden="true">
-  <path d="M2,6 C12,3.4 22,4.4 36,4.6 C50,4.3 60,3.2 70,6 C60,8.7 50,7.6 36,7.4 C22,7.6 12,8.5 2,6 Z" />
+<svg class="gold-rule" style={style} viewBox="0 0 72 24" aria-hidden="true">
+  <path d="M3 5H69M3 19H69M10 5V19M20 5V19M30 5V19M42 5V19M52 5V19M62 5V19" />
+  <path class="gold-rule-scroll" d="M33 9c2-2.4 5-2.4 6 0 .8 2-1 4-3 4s-3.8-2-3-4Z" />
 </svg>
