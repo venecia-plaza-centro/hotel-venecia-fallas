@@ -2,7 +2,6 @@
 import { FALLAS, type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
 import PageHero from '../PageHero.astro';
-import GoldRule from '../GoldRule.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -26,8 +25,7 @@ const days = Array.from({ length: 19 }, (_, i) => i + 1);
     <p style="text-align:center;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px">
       {t('mascletas.daily')}
     </p>
-    <h2 class="h2" style="text-align:center;margin-top:8px">{t('mascletas.march')}</h2>
-    <GoldRule style="margin:18px auto 40px" />
+    <h2 class="h2" style="text-align:center;margin-top:8px;margin-bottom:32px">{t('mascletas.march')}</h2>
     <ul class="mascletas-list" style="list-style:none;display:grid;grid-template-columns:1fr;gap:2px">
       {days.map((d) => (
         <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
