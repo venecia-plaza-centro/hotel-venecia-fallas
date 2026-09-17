@@ -142,6 +142,22 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-home:not(.is-scrolled) .nav-right .lang-dd { display: none; }
 .nav-home:not(.is-scrolled) .hamburger { display: flex; }
 
+/* Cabecera de la página de reserva (.nav-minimal): a diferencia de Home,
+   aquí la marca se queda centrada SIEMPRE (no solo arriba del todo) y el
+   botón Reservar/enlaces nunca aparecen (ya estamos en esa página) — lo
+   único que cambia al hacer scroll es el fondo, de azul a blanco, igual
+   que en Home. */
+.nav-minimal .nav-inner { justify-content: center; position: relative; }
+.nav-minimal .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
+.nav-minimal .nav-right .btn,
+.nav-minimal .nav-links,
+.nav-minimal .nav-right .lang-dd { display: none; }
+.nav-minimal .hamburger { display: flex; }
+.nav-minimal:not(.is-scrolled) { background: var(--navy); box-shadow: none; }
+.nav-minimal:not(.is-scrolled) .nav-brand-text strong { color: #fff; }
+.nav-minimal:not(.is-scrolled) .nav-brand-text span { color: var(--gold-light); }
+.nav-minimal:not(.is-scrolled) .hamburger span { background: #fff; }
+
 /* ─── selector de idioma del header: desplegable, igual que hotelvenecia.com ─── */
 .lang-dd { position: relative; }
 .lang-dd-btn {
