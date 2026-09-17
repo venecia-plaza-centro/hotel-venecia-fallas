@@ -312,8 +312,6 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
    iconos queden en línea vertical (ver .room-card-facts más abajo). */
 @media (max-width: 480px) {
   .room-card-body { padding: 28px 16px; text-align: center; }
-  .room-card-footer { justify-content: center; }
-  .room-card-price { justify-content: center; }
 }
 .room-card-body h3 { font-size: 24px; }
 .room-card-sub { color: var(--text-mid); font-size: 15px; margin-top: 4px; }
@@ -331,7 +329,11 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 @media (max-width: 480px) {
   .room-card-facts { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; }
 }
-.room-card-facts li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-mid); }
+/* text-align:left explícito: si no, en móvil hereda el centrado de
+   .room-card-body y, en los datos que se parten en 2-3 líneas (Snack
+   Pack, capacidad, balcón...), las líneas más cortas quedan centradas en
+   vez de pegadas al icono como la primera línea. */
+.room-card-facts li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-mid); text-align: left; }
 .room-card-facts li svg { color: var(--gold); flex-shrink: 0; margin-top: 1px; }
 
 .room-card-note { font-size: 13px; color: var(--text-soft); margin-top: 16px; }
@@ -347,6 +349,12 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .room-card-price strong { font-family: var(--ff-display); font-size: 26px; color: var(--navy); }
 .room-card-footer .btn { display: inline-flex; align-items: center; gap: 8px; }
 .room-card-hint { font-size: 12px; color: var(--text-soft); margin-top: 10px; }
+/* Estas van DESPUÉS de las reglas base de arriba a propósito: con la misma
+   especificidad, si fueran antes las de arriba (justify-content:
+   space-between) las pisarían siempre, aunque el media query aplicara. */
+@media (max-width: 480px) {
+  .room-card-footer, .room-card-price { justify-content: center; }
+}
 
 /* Solo se usan en el picker de reserva (Book.astro): tarjeta elegida o
    descartada (no disponible / no admite el nº de huéspedes elegido). */
