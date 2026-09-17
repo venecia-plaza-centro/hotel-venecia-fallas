@@ -303,6 +303,10 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .room-card-dots span.is-active { background: var(--gold); }
 
 .room-card-body { padding: 28px; display: flex; flex-direction: column; }
+/* En móvil, menos margen a los lados para que el texto llegue más hacia la
+   derecha (28px a cada lado dejaba mucho hueco en blanco tras frases
+   cortas como "Baño privado"). */
+@media (max-width: 480px) { .room-card-body { padding: 28px 16px; } }
 .room-card-body h3 { font-size: 24px; }
 .room-card-sub { color: var(--text-mid); font-size: 15px; margin-top: 4px; }
 
