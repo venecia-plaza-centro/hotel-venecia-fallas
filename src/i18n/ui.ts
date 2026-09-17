@@ -63,7 +63,7 @@ const es: Dict = {
     'Durante Fallas, algunas de nuestras habitaciones se convierten en espacios privados para disfrutar de la mascletá, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.tradicion.p2': 'Una forma diferente, cómoda y exclusiva de vivir la tradición.',
   'home.tradicion.tagline': 'Valencia en estado puro',
-  'home.tradicion.photo.alt': 'Torre del Micalet y naranjos en València',
+  'home.tradicion.photo.alt': 'Vista aérea de una mascletá en la Plaza del Ayuntamiento',
 
   // home · elige tu balcón (adelanto de habitaciones)
   'home.rooms.eyebrow': 'Elige tu balcón',
@@ -339,7 +339,7 @@ const en: Dict = {
     'During Fallas, some of our rooms become private spaces to enjoy the mascletá, away from the crowds and with all the hotel’s comforts.',
   'home.tradicion.p2': 'A different, comfortable and exclusive way to experience the tradition.',
   'home.tradicion.tagline': 'Valencia in its purest form',
-  'home.tradicion.photo.alt': 'The Micalet tower and orange trees in València',
+  'home.tradicion.photo.alt': 'Aerial view of a mascletá in Plaza del Ayuntamiento',
 
   'home.rooms.eyebrow': 'Choose your balcony',
   'home.rooms.h2': 'Available rooms',
