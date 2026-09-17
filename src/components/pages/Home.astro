@@ -3,6 +3,7 @@ import { FALLAS, type Locale } from '../../consts';
 import { pagePath } from '../../i18n/pages';
 import { useT } from '../../i18n/ui';
 import { getRooms } from '../../lib/airtable';
+import GoldRule from '../GoldRule.astro';
 import Icon from '../Icon.astro';
 import RoomCard from '../RoomCard.astro';
 
@@ -37,6 +38,7 @@ const strip = [
 <section class="hero">
   <div class="hero-panel">
     <h1>{t('home.h1.pre')} <em>{t('home.h1.accent')}</em></h1>
+    <GoldRule style="margin:0 0 4px" />
     <p class="hero-kicker">{t('home.kicker')}</p>
     <p>{t('home.p1')}</p>
     <p>{t('home.p2')}</p>
