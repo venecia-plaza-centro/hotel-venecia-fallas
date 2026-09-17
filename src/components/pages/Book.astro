@@ -44,7 +44,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       ))}
     </ol>
 
-    <div class="book-grid">
+    <div class="book-grid no-summary">
       <div class="book-main">
         <!-- Paso 1 · Fecha -->
         <div data-step="date" class="panel">
@@ -168,7 +168,9 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
         </div>
       </div>
 
-      <aside class="book-summary" aria-live="polite">
+      <!-- Oculto en el paso Fecha (nada que resumir aún); show() lo
+           muestra a partir de Habitación. -->
+      <aside class="book-summary" aria-live="polite" hidden>
         <div class="book-summary-inner">
           <h2>{t('book.summary.title')}</h2>
           <div id="summary-body"><p class="hint">{t('book.summary.empty')}</p></div>
@@ -235,6 +237,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   const STEPS = ['date', 'room', 'details', 'done'];
   const order = (s) => STEPS.indexOf(s);
 
+  // En el paso Fecha el resumen no aporta nada todavía (ni fecha ni
+  // habitación elegidas): se oculta ahí y aparece a partir de Habitación,
+  // ya con datos reales que enseñar.
+  const summaryAside = document.querySelector('.book-summary');
+
   function show(step) {
     Object.entries(panels).forEach(([k, els]) => els.forEach((p) => (p.hidden = k !== step)));
     Object.entries(steppers).forEach(([k, s]) => {
@@ -243,6 +250,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       if (k === step) s.setAttribute('aria-current', 'step');
       else s.removeAttribute('aria-current');
     });
+    if (summaryAside) summaryAside.hidden = step === 'date';
+    // Sin el resumen, la columna de 300px que le reservaba sitio dejaba un
+    // hueco vacío a la derecha en escritorio: se quita esa columna mientras
+    // el resumen esté oculto.
+    document.querySelector('.book-grid')?.classList.toggle('no-summary', step === 'date');
     const mainPanel = panels[step][0];
     const h = $('h2', mainPanel);
     if (h) h.focus();
@@ -704,6 +716,9 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   .book .book-grid { display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
   @media (max-width: 820px) { .book .book-grid { grid-template-columns: 1fr; } }
+  /* Paso Fecha: sin resumen que mostrar todavía, así que tampoco se le
+     reserva la columna de 300px (quedaría un hueco vacío a la derecha). */
+  .book .book-grid.no-summary { grid-template-columns: 1fr; }
   /* Botones del paso Habitación: hijo directo de .book-grid (a propósito,
      ver el comentario en el HTML), no de .book-main, para que caigan
      debajo del resumen en vez de entre la lista de habitaciones y él. En
