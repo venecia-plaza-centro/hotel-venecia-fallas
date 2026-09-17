@@ -107,6 +107,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 18px 0; background: rgba(255, 255, 255, .97); backdrop-filter: blur(12px);
   box-shadow: var(--sh-sm);
+  transition: background .3s ease, box-shadow .3s ease;
 }
 .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .nav-brand { display: flex; flex-direction: row; align-items: center; gap: 10px; line-height: 1.1; }
@@ -118,6 +119,28 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-links a { font-size: 16px; font-weight: 600; color: var(--navy); }
 .nav-links a:hover { color: var(--gold); }
 .nav-right { display: flex; align-items: center; gap: 16px; }
+/* Botón "Reservar" del header, más pequeño que un .btn normal. */
+.nav-right .btn { padding: 10px 18px; font-size: 11px; }
+
+/* En Home, arriba del todo la cabecera va sobre el hero (fondo azul, marca
+   centrada, sin botón); ".is-scrolled" la pasa al nav normal de siempre. La
+   marca la centra dejando el hamburger/lang fuera del flujo (a la derecha),
+   ya que solo hay un elemento flex (.nav-brand) y "justify-content:center"
+   lo centra a él solo, no a toda la fila. */
+.nav-home:not(.is-scrolled) { background: var(--navy); box-shadow: none; }
+.nav-home:not(.is-scrolled) .nav-inner { justify-content: center; position: relative; }
+.nav-home:not(.is-scrolled) .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
+.nav-home:not(.is-scrolled) .nav-right .btn { display: none; }
+.nav-home:not(.is-scrolled) .nav-brand-text strong { color: #fff; }
+.nav-home:not(.is-scrolled) .nav-brand-text span { color: var(--gold-light); }
+.nav-home:not(.is-scrolled) .hamburger span { background: #fff; }
+/* En escritorio, .nav-links y .lang-dd normalmente solo se ocultan por
+   debajo de 900px (ver media query más abajo); arriba del todo en Home se
+   ocultan siempre (su color navy sería invisible sobre este fondo) y el
+   hamburger pasa a ser la única forma de abrir el menú hasta hacer scroll. */
+.nav-home:not(.is-scrolled) .nav-links,
+.nav-home:not(.is-scrolled) .nav-right .lang-dd { display: none; }
+.nav-home:not(.is-scrolled) .hamburger { display: flex; }
 
 /* ─── selector de idioma del header: desplegable, igual que hotelvenecia.com ─── */
 .lang-dd { position: relative; }
@@ -206,6 +229,20 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 @media (max-width: 900px) {
   .nav-links, .nav-right .lang-dd { display: none; }
   .hamburger { display: flex; }
+}
+
+/* En móvil, logo + "Hotel Venecia" + subtítulo + botón RESERVAR + hamburguesa
+   no caben en una fila: el subtítulo (mayúsculas con letter-spacing ancho)
+   se partía en 3-4 líneas rotas en vez de simplemente no caber. Se oculta
+   el subtítulo y se reduce todo lo demás para que quepa en una sola línea. */
+@media (max-width: 480px) {
+  .nav-inner { padding: 0 16px; gap: 10px; }
+  .nav-brand { gap: 8px; }
+  .nav-brand img { width: 34px; height: 34px; }
+  .nav-brand-text strong { font-size: 15px; }
+  .nav-brand-text span { display: none; }
+  .nav-right { gap: 10px; }
+  .nav-right .btn { padding: 10px 16px; font-size: 11px; }
 }
 
 /* ─── FOOTER ─── */

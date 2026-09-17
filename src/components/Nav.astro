@@ -8,9 +8,15 @@ const { lang, pageId } = Astro.props;
 const t = useT(lang);
 
 const navItems = PAGES.filter((p) => p.inNav);
+const isHome = pageId === 'home';
+// En Home, "Reservar" del header no salta directo al flujo de pago: baja a
+// la lista de habitaciones de la propia Home, para que el cliente empiece
+// a elegir desplazándose hacia abajo (cada ficha ya tiene su "Reservar
+// habitación X" que sí lleva al flujo real).
+const bookHref = isHome ? `${pagePath('home', lang)}#rooms` : pagePath('book', lang);
 ---
 
-<nav class="nav">
+<nav class={`nav${isHome ? ' nav-home' : ''}`}>
   <div class="nav-inner">
     <a class="nav-brand" href={pagePath('home', lang)} aria-label={t('brand.name')}>
       <img src="/img/logo-hotel-venecia.png" alt="" width="44" height="44" />
@@ -40,7 +46,7 @@ const navItems = PAGES.filter((p) => p.inNav);
           ))}
         </div>
       </div>
-      <a class="btn btn-gold" href={pagePath('book', lang)}>{t('nav.book')}</a>
+      <a class="btn btn-gold" href={bookHref}>{t('nav.book')}</a>
       <button type="button" class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-nav" aria-label={t('nav.menu')}>
         <span></span><span></span><span></span>
       </button>
@@ -59,7 +65,7 @@ const navItems = PAGES.filter((p) => p.inNav);
   {navItems.map((item) => (
     <a href={pagePath(item.id, lang)}>{t(`nav.${item.id}`)}</a>
   ))}
-  <a href={pagePath('book', lang)} class="mobile-nav-cta">{t('nav.book')}</a>
+  <a href={bookHref} class="mobile-nav-cta">{t('nav.book')}</a>
   <div class="mobile-nav-langs">
     {LOCALES.map((l) => (
       <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>
@@ -110,5 +116,15 @@ const navItems = PAGES.filter((p) => p.inNav);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
     });
+  }
+
+  // Cabecera especial de Home: arriba del todo va sobre el hero (fondo
+  // azul, marca centrada, sin botón); al bajar pasa al nav normal (blanco,
+  // marca a la izquierda, botón Reservar más pequeño a la derecha).
+  const navHome = document.querySelector('.nav.nav-home');
+  if (navHome) {
+    const onScroll = () => navHome.classList.toggle('is-scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 </script>

@@ -97,7 +97,7 @@ const strip = [
       <p class="lead">{t('rooms.intro')}</p>
       <p class="lead">{t('home.rooms.lead')}</p>
     </div>
-    <div class="room-picker-list">
+    <div class="room-picker-list" id="rooms">
       {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
     </div>
     <div class="room-picker-more">
@@ -219,7 +219,9 @@ const strip = [
   .room-picker-head { max-width: 640px; margin: 0 auto 44px; text-align: center; }
   .room-picker-head .eyebrow { display: block; margin-bottom: 10px; }
   .room-picker-head .lead { margin-top: 14px; }
-  .room-picker-list { display: grid; gap: 28px; max-width: 980px; margin: 0 auto; }
+  /* scroll-margin-top: el botón Reservar del header enlaza aquí (#rooms);
+     sin esto, el ancla quedaría tapada por el nav fijo. */
+  .room-picker-list { display: grid; gap: 28px; max-width: 980px; margin: 0 auto; scroll-margin-top: 96px; }
   .room-picker-more { text-align: center; margin-top: 36px; }
 
   /* ── franja inferior ── */
