@@ -12,7 +12,9 @@ const isHome = pageId === 'home';
 // En la propia página de reserva no tiene sentido un botón "Reservar" que
 // lleve... a la página en la que ya está el cliente. Cabecera minimalista:
 // solo marca centrada (igual que arriba del todo en Home) y el hamburger.
-const isBook = pageId === 'book';
+// Habitaciones usa la misma cabecera (pedido explícitamente: "igual que
+// la página reservar"), aunque ahí sí tendría sentido un botón "Reservar".
+const isBook = pageId === 'book' || pageId === 'rooms';
 // En Home, "Reservar" del header no salta directo al flujo de pago: baja a
 // la lista de habitaciones de la propia Home, para que el cliente empiece
 // a elegir desplazándose hacia abajo (cada ficha ya tiene su "Reservar
@@ -26,7 +28,8 @@ const bookHref = isHome ? `${pagePath('home', lang)}#rooms` : pagePath('book', l
       <img src="/img/logo-hotel-venecia.png" alt="" width="44" height="44" />
       <span class="nav-brand-text">
         <strong>{t('brand.name')}</strong>
-        <span>{t('brand.sub')} · Fallas 2027</span>
+        <span>{t('brand.sub')}</span>
+        <span class="nav-brand-fallas">Fallas 2027</span>
       </span>
     </a>
 

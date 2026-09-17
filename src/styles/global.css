@@ -115,6 +115,12 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-brand-text { display: flex; flex-direction: column; }
 .nav-brand-text strong { font-family: var(--ff-display); font-size: 19px; color: var(--navy); }
 .nav-brand-text span { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+/* "Fallas 2027" con un brillo dorado que va y viene, como una brasa. */
+@keyframes navFallasGlow {
+  0%, 100% { text-shadow: 0 0 4px rgba(232, 201, 106, .35); }
+  50% { text-shadow: 0 0 7px rgba(232, 201, 106, .95), 0 0 14px rgba(201, 162, 70, .6); }
+}
+.nav-brand-fallas { animation: navFallasGlow 2.4s ease-in-out infinite; }
 .nav-links { display: flex; align-items: center; gap: 26px; }
 .nav-links a { font-size: 16px; font-weight: 600; color: var(--navy); }
 .nav-links a:hover { color: var(--gold); }
@@ -259,6 +265,14 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   .nav-brand-text span { display: none; }
   .nav-right { gap: 10px; }
   .nav-right .btn { padding: 10px 16px; font-size: 11px; }
+
+  /* La marca centrada (Home arriba del todo, o siempre en .nav-minimal) no
+     compite por sitio con ningún botón, así que el subtítulo sí cabe y
+     puede volver a verse (en dorado claro, legible sobre el azul). */
+  .nav-home:not(.is-scrolled) .nav-brand-text span,
+  .nav-minimal .nav-brand-text span {
+    display: block;
+  }
 }
 
 /* ─── FOOTER ─── */
