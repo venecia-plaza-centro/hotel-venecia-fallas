@@ -32,7 +32,6 @@ const es: Dict = {
   'footer.rights': 'Todos los derechos reservados.',
 
   // home · hero
-  'home.eyebrow': 'Fallas 2027',
   'home.h1.pre': 'Vive la mascletá desde tu',
   'home.h1.accent': 'balcón privado',
   'home.kicker': 'La Plaza del Ayuntamiento. Tu propio balcón. Y la mascletá justo delante.',
@@ -311,7 +310,6 @@ const en: Dict = {
   'footer.privacy': 'Privacy',
   'footer.rights': 'All rights reserved.',
 
-  'home.eyebrow': 'Fallas 2027',
   'home.h1.pre': 'Experience the mascletá from your',
   'home.h1.accent': 'private balcony',
   'home.kicker': 'Plaza del Ayuntamiento. Your own balcony. The mascletá right in front of you.',
