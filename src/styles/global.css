@@ -115,12 +115,19 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-brand-text { display: flex; flex-direction: column; }
 .nav-brand-text strong { font-family: var(--ff-display); font-size: 19px; color: var(--navy); }
 .nav-brand-text span { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
-/* "Fallas 2027" con un brillo dorado que va y viene, como una brasa. */
-@keyframes navFallasGlow {
-  0%, 100% { text-shadow: 0 0 4px rgba(232, 201, 106, .35); }
-  50% { text-shadow: 0 0 7px rgba(232, 201, 106, .95), 0 0 14px rgba(201, 162, 70, .6); }
+/* "Fallas 2027" ardiendo: parpadeo irregular (no una pulsación suave)
+   entre tonos de fuego (rojo/naranja/amarillo), como una llama viva —
+   a juego con la cremà y con la llama del favicon. */
+@keyframes navFallasFire {
+  0%   { color: #ff7a1a; text-shadow: 0 0 4px #ff4500, 0 0 10px #ff8c00; }
+  20%  { color: #ffb347; text-shadow: 0 0 6px #ff6b00, 0 0 14px #ffae42, 0 0 20px #ff4500; }
+  35%  { color: #ff5e1a; text-shadow: 0 0 3px #ff2400, 0 0 8px #ff4500; }
+  50%  { color: #ffae42; text-shadow: 0 0 8px #ff8c00, 0 0 18px #ff5e1a, 0 0 26px #ff4500; }
+  65%  { color: #ff6a00; text-shadow: 0 0 4px #ff2400, 0 0 10px #ff6a00; }
+  80%  { color: #ffcf70; text-shadow: 0 0 7px #ff8c00, 0 0 16px #ff4500; }
+  100% { color: #ff7a1a; text-shadow: 0 0 4px #ff4500, 0 0 10px #ff8c00; }
 }
-.nav-brand-fallas { animation: navFallasGlow 2.4s ease-in-out infinite; }
+.nav-brand-fallas { animation: navFallasFire 1.6s ease-in-out infinite; }
 .nav-links { display: flex; align-items: center; gap: 26px; }
 .nav-links a { font-size: 16px; font-weight: 600; color: var(--navy); }
 .nav-links a:hover { color: var(--gold); }
