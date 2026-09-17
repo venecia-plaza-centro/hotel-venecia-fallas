@@ -99,6 +99,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .page-hero > .container { position: relative; }
 .page-hero .eyebrow { display: block; margin-bottom: 16px; }
 .page-hero h1 { color: #fff; font-size: clamp(34px, 5.5vw, 58px); max-width: 900px; margin: 0 auto; }
+.page-hero h1 em { font-style: italic; color: var(--gold-light); }
 .page-hero .gold-rule { margin: 24px auto 22px; }
 .page-hero .lead { color: rgba(255, 255, 255, .72); max-width: 620px; margin: 0 auto; }
 @media (max-width: 768px) { .page-hero { padding: 104px 0 48px; } }
@@ -140,35 +141,38 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 /* Botón "Reservar" del header, más pequeño que un .btn normal. */
 .nav-right .btn { padding: 10px 18px; font-size: 11px; }
 
-/* En Home, arriba del todo la cabecera va sobre el hero, marca centrada y
-   sin botón; ".is-scrolled" la pasa al nav normal de siempre (con enlaces,
-   idioma y botón). El fondo ya es azul en ambos casos (ver ".nav" arriba),
-   así que aquí solo cambian el layout y una sombra sutil de profundidad.
-   La marca se centra dejando el hamburger/lang fuera del flujo (a la
-   derecha), ya que solo hay un elemento flex (.nav-brand) y
-   "justify-content:center" lo centra a él solo, no a toda la fila. */
-.nav-home:not(.is-scrolled) { box-shadow: none; }
-.nav-home:not(.is-scrolled) .nav-inner { justify-content: center; position: relative; }
-.nav-home:not(.is-scrolled) .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
-.nav-home:not(.is-scrolled) .nav-right .btn { display: none; }
-/* En escritorio, .nav-links y .lang-dd normalmente solo se ocultan por
-   debajo de 900px (ver media query más abajo); arriba del todo en Home se
-   ocultan siempre y el hamburger pasa a ser la única forma de abrir el
-   menú hasta hacer scroll. */
-.nav-home:not(.is-scrolled) .nav-links,
-.nav-home:not(.is-scrolled) .nav-right .lang-dd { display: none; }
-.nav-home:not(.is-scrolled) .hamburger { display: flex; }
+/* La marca centrada y el hamburger-only (sin enlaces/botón visibles) son
+   solo para móvil/tablet (≤900px, mismo corte que el resto del nav
+   colapsado): en escritorio se deja el header de siempre — enlaces,
+   idioma y botón Reservar visibles, marca a la izquierda — con estos
+   mismos colores (azul marino / blanco) en vez de los de antes. */
+@media (max-width: 900px) {
+  /* En Home, arriba del todo la cabecera va sobre el hero, marca centrada
+     y sin botón; ".is-scrolled" la pasa al nav normal (enlaces, idioma y
+     botón). El fondo ya es azul en ambos casos (ver ".nav" arriba), así
+     que aquí solo cambian el layout y una sombra sutil de profundidad. La
+     marca se centra dejando el hamburger/lang fuera del flujo (a la
+     derecha), ya que solo hay un elemento flex (.nav-brand) y
+     "justify-content:center" lo centra a él solo, no a toda la fila. */
+  .nav-home:not(.is-scrolled) { box-shadow: none; }
+  .nav-home:not(.is-scrolled) .nav-inner { justify-content: center; position: relative; }
+  .nav-home:not(.is-scrolled) .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
+  .nav-home:not(.is-scrolled) .nav-right .btn { display: none; }
+  .nav-home:not(.is-scrolled) .nav-links,
+  .nav-home:not(.is-scrolled) .nav-right .lang-dd { display: none; }
+  .nav-home:not(.is-scrolled) .hamburger { display: flex; }
 
-/* Cabecera de la página de reserva y de Habitaciones (.nav-minimal): a
-   diferencia de Home, aquí la marca se queda centrada SIEMPRE (no solo
-   arriba del todo) y el botón Reservar/enlaces nunca aparecen. */
-.nav-minimal .nav-inner { justify-content: center; position: relative; }
-.nav-minimal .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
-.nav-minimal .nav-right .btn,
-.nav-minimal .nav-links,
-.nav-minimal .nav-right .lang-dd { display: none; }
-.nav-minimal .hamburger { display: flex; }
-.nav-minimal:not(.is-scrolled) { box-shadow: none; }
+  /* Cabecera de la página de reserva y de Habitaciones (.nav-minimal): a
+     diferencia de Home, aquí la marca se queda centrada SIEMPRE (no solo
+     arriba del todo) y el botón Reservar/enlaces nunca aparecen. */
+  .nav-minimal .nav-inner { justify-content: center; position: relative; }
+  .nav-minimal .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
+  .nav-minimal .nav-right .btn,
+  .nav-minimal .nav-links,
+  .nav-minimal .nav-right .lang-dd { display: none; }
+  .nav-minimal .hamburger { display: flex; }
+  .nav-minimal:not(.is-scrolled) { box-shadow: none; }
+}
 
 /* ─── selector de idioma del header: desplegable, igual que hotelvenecia.com ─── */
 .lang-dd { position: relative; }
