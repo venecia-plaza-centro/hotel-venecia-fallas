@@ -306,7 +306,15 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 /* En móvil, menos margen a los lados para que el texto llegue más hacia la
    derecha (28px a cada lado dejaba mucho hueco en blanco tras frases
    cortas como "Baño privado"). */
-@media (max-width: 480px) { .room-card-body { padding: 28px 16px; } }
+/* Todo centrado en móvil (título, notas, precio y botón); los datos con
+   icono son la excepción: van en su propio bloque centrado pero con cada
+   icono+texto alineado a la izquierda dentro de ese bloque, para que los
+   iconos queden en línea vertical (ver .room-card-facts más abajo). */
+@media (max-width: 480px) {
+  .room-card-body { padding: 28px 16px; text-align: center; }
+  .room-card-footer { justify-content: center; }
+  .room-card-price { justify-content: center; }
+}
 .room-card-body h3 { font-size: 24px; }
 .room-card-sub { color: var(--text-mid); font-size: 15px; margin-top: 4px; }
 
@@ -314,7 +322,15 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   list-style: none; margin: 18px 0 0; padding: 0;
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px;
 }
-@media (max-width: 480px) { .room-card-facts { grid-template-columns: 1fr; } }
+/* Centrado como bloque (no cada línea suelta, que descolocaría los
+   iconos): ancho fijo que cubre los datos cortos sin que se partan en dos
+   líneas, con margen automático a los lados. El Snack Pack, más largo que
+   ese ancho, sigue partiéndose en varias líneas igual que antes; el resto
+   de iconos quedan alineados en vertical al empezar todos en el mismo
+   punto de esa caja centrada. */
+@media (max-width: 480px) {
+  .room-card-facts { grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto; }
+}
 .room-card-facts li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-mid); }
 .room-card-facts li svg { color: var(--gold); flex-shrink: 0; margin-top: 1px; }
 
