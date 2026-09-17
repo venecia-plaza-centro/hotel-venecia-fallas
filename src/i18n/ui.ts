@@ -197,7 +197,7 @@ const es: Dict = {
   'book.summary.room': 'Habitación',
   'book.summary.guests': 'Personas',
   'book.summary.total': 'Total',
-  'book.summary.empty': 'Elige una fecha para empezar.',
+  'book.summary.empty': 'Elige número de personas y una fecha para empezar.',
   'book.summary.pending': 'El siguiente paso es el pago, con tarjeta o Bizum.',
   'book.summary.snack': 'Snack Pack incluido',
 
@@ -469,7 +469,7 @@ const en: Dict = {
   'book.summary.room': 'Room',
   'book.summary.guests': 'Guests',
   'book.summary.total': 'Total',
-  'book.summary.empty': 'Pick a date to start.',
+  'book.summary.empty': 'Choose the number of guests and a date to start.',
   'book.summary.pending': 'The next step is payment, by card or Bizum.',
   'book.summary.snack': 'Snack Pack included',
 
