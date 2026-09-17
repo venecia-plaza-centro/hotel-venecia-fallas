@@ -64,12 +64,9 @@ button { font: inherit; cursor: pointer; }
   text-transform: uppercase; color: var(--gold);
 }
 
-.gold-rule { width: 72px; height: 24px; display: block; margin: 0 auto; overflow: visible; }
-.gold-rule path {
-  fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-}
-/* La voluta central sí va rellena (como el rizo de un hierro forjado real). */
-.gold-rule path.gold-rule-scroll { fill: var(--gold); stroke: none; }
+/* Balcón forjado real (foto del cliente sin fondo); 304×209 de origen,
+   mostrado más pequeño manteniendo su proporción. */
+.gold-rule { width: 110px; height: auto; display: block; margin: 0 auto; }
 
 h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15; color: var(--navy); }
 
