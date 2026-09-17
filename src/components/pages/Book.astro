@@ -88,10 +88,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
           <div id="room-list" class="cards"></div>
           <div id="room-selected" class="room-selected" hidden></div>
           <p class="err" data-err="room" role="alert"></p>
-          <div class="actions">
-            <button type="button" class="btn btn-ghost" data-nav="date">{t('book.room.back')}</button>
-            <button type="button" class="btn btn-gold" id="room-next" disabled>{t('book.room.next')}</button>
-          </div>
         </div>
 
         <!-- Paso 3 · Datos -->
@@ -179,6 +175,13 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
           <p class="hint pending">{t('book.summary.pending')}</p>
         </div>
       </aside>
+
+      <!-- Botones del paso Habitación: debajo del resumen a propósito (ver
+           el resumen antes de decidir cambiar los datos o continuar). -->
+      <div data-step="room" class="actions" hidden>
+        <button type="button" class="btn btn-ghost" data-nav="date">{t('book.room.back')}</button>
+        <button type="button" class="btn btn-gold" id="room-next" disabled>{t('book.room.next')}</button>
+      </div>
     </div>
   </div>
 </section>
@@ -218,8 +221,14 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     locator: '', persisted: true, paid: false, quote: null, email: '', phone: '', confirmVia: 'email',
   };
 
+  // Un paso puede tener más de un elemento con el mismo data-step: el
+  // panel principal y, en "room", también sus botones (ver el comentario
+  // junto al <div data-step="room" class="actions"> en el HTML, movidos
+  // fuera de .book-main a propósito). Por eso panels[paso] es un array.
   const panels = {};
-  document.querySelectorAll('[data-step]').forEach((p) => (panels[p.dataset.step] = p));
+  document.querySelectorAll('[data-step]').forEach((p) => {
+    (panels[p.dataset.step] ??= []).push(p);
+  });
   const steppers = {};
   document.querySelectorAll('[data-stepper]').forEach((s) => (steppers[s.dataset.stepper] = s));
 
@@ -227,16 +236,17 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   const order = (s) => STEPS.indexOf(s);
 
   function show(step) {
-    Object.entries(panels).forEach(([k, p]) => (p.hidden = k !== step));
+    Object.entries(panels).forEach(([k, els]) => els.forEach((p) => (p.hidden = k !== step)));
     Object.entries(steppers).forEach(([k, s]) => {
       s.classList.toggle('is-done', order(k) < order(step));
       s.classList.toggle('is-active', k === step);
       if (k === step) s.setAttribute('aria-current', 'step');
       else s.removeAttribute('aria-current');
     });
-    const h = $('h2', panels[step]);
+    const mainPanel = panels[step][0];
+    const h = $('h2', mainPanel);
     if (h) h.focus();
-    panels[step].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    mainPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function setErr(step, msg) {
@@ -694,6 +704,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
   .book .book-grid { display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
   @media (max-width: 820px) { .book .book-grid { grid-template-columns: 1fr; } }
+  /* Botones del paso Habitación: hijo directo de .book-grid (a propósito,
+     ver el comentario en el HTML), no de .book-main, para que caigan
+     debajo del resumen en vez de entre la lista de habitaciones y él. En
+     escritorio ocupan las dos columnas para no quedar solo bajo la 1ª. */
+  .book .book-grid > .actions { grid-column: 1 / -1; }
 
   /* El nav es fixed y tapa la parte de arriba: sin este margen, al cambiar
      de paso scrollIntoView (block:'start') deja el título justo debajo,

@@ -164,7 +164,7 @@ const es: Dict = {
   'book.room.toosmall': 'No admite {n} personas',
   'book.room.none': 'No quedan habitaciones disponibles para ese día.',
   'book.room.change': 'Elegir otra habitación',
-  'book.room.back': 'Cambiar fecha',
+  'book.room.back': 'Cambiar datos',
   'book.room.next': 'Continuar',
 
   'book.details.title': 'Tus datos',
@@ -436,7 +436,7 @@ const en: Dict = {
   'book.room.toosmall': "Doesn't fit {n} people",
   'book.room.none': 'No rooms left for that day.',
   'book.room.change': 'Choose a different room',
-  'book.room.back': 'Change date',
+  'book.room.back': 'Change search',
   'book.room.next': 'Continue',
 
   'book.details.title': 'Your details',
