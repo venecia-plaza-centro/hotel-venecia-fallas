@@ -65,7 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ ok: true, refunded: true });
     }
 
-    const total = priceForGuests(room, guests);
+    const total = priceForGuests(room, guests, date);
 
     await createBooking({
       date,

@@ -6,7 +6,8 @@
  * FALLAS.accessStart/accessEnd en src/consts.ts) el día elegido dentro de la
  * ventana de Fallas. El Snack Pack va incluido siempre; no hay noches ni
  * extras que sumar. Las 9 habitaciones admiten hasta 4 personas, y el precio
- * depende de cuántas se apunten (2, 3 o 4): ver `Room.prices`.
+ * depende de cuántas se apunten (2, 3 o 4) Y de si el día elegido es entre
+ * semana o fin de semana (viernes, sábado o domingo): ver `Room.prices`.
  */
 import { FALLAS, LOCALES, type Locale } from '../consts';
 
@@ -26,8 +27,10 @@ export interface Room {
   /** Planta, ej. "3ª planta". */
   floor: string;
   capacity: number;
-  /** Precio de la experiencia según personas (2, 3 o 4). Snack Pack incluido. */
-  prices: Record<GuestCount, number>;
+  /** Precio de la experiencia según personas (2, 3 o 4) y tipo de día.
+   *  Snack Pack incluido siempre. Ver `isWeekend` para saber qué tabla
+   *  aplica a una fecha. */
+  prices: { weekday: Record<GuestCount, number>; weekend: Record<GuestCount, number> };
   /** Cuántas unidades de esta habitación exacta hay (normalmente 1). */
   cupo: number;
   descriptionEs: string | null;
@@ -113,13 +116,21 @@ export function isLocale(x: unknown): x is Locale {
   return typeof x === 'string' && (LOCALES as readonly string[]).includes(x);
 }
 
-// --- Importes --------------------------------------------------------------
-
-/** Precio de la habitación para ese nº de personas (Snack Pack incluido). */
-export function priceForGuests(room: Room, guests: GuestCount): number {
-  return room.prices[guests];
+/** Fin de semana = viernes, sábado o domingo (confirmado por el hotel).
+ *  Se calcula en UTC, como el resto de fechas de esta ventana. */
+export function isWeekend(date: string): boolean {
+  const day = new Date(`${date}T00:00:00Z`).getUTCDay(); // 0=domingo … 6=sábado
+  return day === 0 || day === 5 || day === 6;
 }
 
-export function buildQuote(room: Room, guests: GuestCount): Quote {
-  return { total: priceForGuests(room, guests), currency: 'EUR' };
+// --- Importes --------------------------------------------------------------
+
+/** Precio de la habitación para ese nº de personas y fecha (entre semana o
+ *  fin de semana). Snack Pack incluido. */
+export function priceForGuests(room: Room, guests: GuestCount, date: string): number {
+  return room.prices[isWeekend(date) ? 'weekend' : 'weekday'][guests];
+}
+
+export function buildQuote(room: Room, guests: GuestCount, date: string): Quote {
+  return { total: priceForGuests(room, guests, date), currency: 'EUR' };
 }

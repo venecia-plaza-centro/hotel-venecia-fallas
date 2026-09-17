@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     const rooms = await getRoomOffers(date);
-    return json({ ok: true, date, guests, rooms: rooms.map((r) => serializeRoom(r, guests)) });
+    return json({ ok: true, date, guests, rooms: rooms.map((r) => serializeRoom(r, guests, date)) });
   } catch (e) {
     return handleError(e);
   }

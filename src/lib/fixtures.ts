@@ -7,8 +7,9 @@
  *
  * Descripción y precio son iguales en todas las habitaciones (así lo
  * indicó el hotel): balcón privado con vistas a la Plaza del Ayuntamiento,
- * baño privado, Snack Pack incluido. El precio total sale de la tarifa por
- * persona que dio el hotel (65 €/55 €/45 € según sean 2, 3 o 4).
+ * baño privado, Snack Pack incluido. El precio por persona baja cuantos
+ * más seáis, y sube en fin de semana (viernes, sábado o domingo) frente a
+ * entre semana (actualizado tras el email del hotel del 17/09/2026).
  */
 import type { Room } from './booking';
 
@@ -17,8 +18,12 @@ const DESCRIPTION_ES =
 const DESCRIPTION_EN =
   "Experience Fallas from the front row. Private rooms with a balcony right onto the square and spectacular views so you don't miss a moment. Private bathroom, exclusive spaces, and all the excitement of Fallas right in front of you. You, your booking, and Fallas.";
 
-// 65 €, 55 € y 45 € por persona según sean 2, 3 o 4 huéspedes.
-const PRICES = { 2: 130, 3: 165, 4: 180 };
+// Entre semana: 60 €/50 €/40 € por persona según sean 2, 3 o 4 huéspedes.
+// Fin de semana (vie/sáb/dom): 70 €/60 €/50 € por persona.
+const PRICES = {
+  weekday: { 2: 120, 3: 150, 4: 160 },
+  weekend: { 2: 140, 3: 180, 4: 200 },
+};
 
 /** Fotos reales por habitación (public/images/rooms/<numero>/): la vista
  *  desde el balcón, la fachada del hotel con la ventana de esa habitación

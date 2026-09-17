@@ -19,9 +19,14 @@ const money = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 
-// "Desde X € / persona": el mínimo posible, que se da con 4 personas
-// (180 € / 4 = 45 €), ya que el precio total no baja al repartir entre más.
-const minPerPerson = Math.min(...GUEST_OPTIONS.map((g) => room.prices[g] / g));
+// "Desde X € / persona": el mínimo posible entre las dos tablas (entre
+// semana es más barato que fin de semana) y los tres aforos — se da entre
+// semana con 4 personas (160 € / 4 = 40 €), ya que el precio total no baja
+// al repartir entre más.
+const minPerPerson = Math.min(
+  ...GUEST_OPTIONS.map((g) => room.prices.weekday[g] / g),
+  ...GUEST_OPTIONS.map((g) => room.prices.weekend[g] / g),
+);
 ---
 
 <article class="room-card">

@@ -123,7 +123,8 @@ const es: Dict = {
     'La habitación se reserva completa y será exclusivamente para vuestro grupo durante toda la experiencia.',
   'roomcard.from': 'Desde',
   'roomcard.perperson': '/ persona',
-  'roomcard.priceNote': 'Precio con 4 personas; para 2 o 3, el precio por persona sube.',
+  'roomcard.priceNote':
+    'Precio entre semana con 4 personas; sube para 2 o 3 personas, y también en fin de semana (viernes, sábado y domingo).',
   'roomcard.book': 'Reservar habitación {n}',
   'roomcard.hint': 'Selecciona la fecha y el número de personas para consultar disponibilidad y precio.',
   'roomcard.photopending': 'Foto pendiente',
@@ -392,7 +393,8 @@ const en: Dict = {
     'The room is booked in full and is exclusively for your group for the whole experience.',
   'roomcard.from': 'From',
   'roomcard.perperson': '/ person',
-  'roomcard.priceNote': 'Price with 4 guests; for 2 or 3, the price per person is higher.',
+  'roomcard.priceNote':
+    'Weekday price with 4 guests; higher for 2 or 3 guests, and also on weekends (Friday, Saturday and Sunday).',
   'roomcard.book': 'Book room {n}',
   'roomcard.hint': 'Pick a date and number of guests to check availability and price.',
   'roomcard.photopending': 'Photo coming soon',

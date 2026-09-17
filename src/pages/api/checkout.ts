@@ -67,7 +67,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       return json({ ok: false, error: 'huespedes' }, 400);
     }
 
-    const quote = buildQuote(room, guests);
+    const quote = buildQuote(room, guests, date);
 
     if (!stripeEnabled()) {
       // Demo: sin pasarela conectada, se crea la reserva sin cobrar nada.

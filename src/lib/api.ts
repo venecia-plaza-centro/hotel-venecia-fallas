@@ -21,14 +21,15 @@ export function handleError(e: unknown): Response {
   return json({ ok: false, error: 'interno' }, 500);
 }
 
-/** `guests` decide qué precio de `r.prices` se manda: el cliente nunca lo elige. */
-export function serializeRoom(r: RoomOffer, guests: GuestCount) {
+/** `guests` y `date` deciden qué precio de `r.prices` se manda: el cliente
+ *  nunca elige el importe, solo cuántos van y qué día. */
+export function serializeRoom(r: RoomOffer, guests: GuestCount, date: string) {
   return {
     slug: r.slug,
     roomNumber: r.roomNumber,
     floor: r.floor,
     capacity: r.capacity,
-    price: priceForGuests(r, guests),
+    price: priceForGuests(r, guests, date),
     available: r.available,
     descriptionEs: r.descriptionEs,
     descriptionEn: r.descriptionEn,

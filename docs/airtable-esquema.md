@@ -11,8 +11,13 @@
 >
 > **Datos reales del hotel (2026-09-15):** son **9 habitaciones** en total —
 > 317 (3ª planta), 409/410/411/412 (4ª planta) y 502/503/504/505 (5ª planta).
-> Descripción y precio son iguales en las 9 (130 €/165 €/180 € para 2/3/4
-> personas, Snack Pack incluido). Fotos pendientes de recibir.
+> Descripción y precio son iguales en las 9, Snack Pack incluido. Fotos ya
+> recibidas y subidas a la web.
+>
+> **Precio entre semana / fin de semana (2026-09-17):** el precio por
+> persona ya no es fijo: es más barato entre semana y sube en fin de semana
+> (viernes, sábado y domingo). Cada habitación necesita 6 precios en vez de
+> 3 — ver la tabla `Habitaciones` más abajo.
 
 Base que gestiona el hotel. Dos tablas: **Habitaciones** y **Reservas**.
 
@@ -40,9 +45,12 @@ Un registro por cada una de las 9 habitaciones reales que se ofrecen.
 | `Numero` | Single line text | El número real de la habitación, ej. `317`. Es lo que ve el cliente. |
 | `Planta` | Single line text | Ej.: `3ª planta`. |
 | `Capacidad` | Number (entero) | Nº máximo de personas. Las 9 habitaciones admiten hasta `4`. |
-| `Precio 2p` | Currency (EUR) | Precio de la experiencia para 2 personas, IVA incluido. Snack Pack ya incluido. |
-| `Precio 3p` | Currency (EUR) | Precio para 3 personas. |
-| `Precio 4p` | Currency (EUR) | Precio para 4 personas. |
+| `Precio 2p entresemana` | Currency (EUR) | Precio de la experiencia para 2 personas entre semana (lunes a jueves), IVA y Snack Pack incluidos. |
+| `Precio 3p entresemana` | Currency (EUR) | Precio para 3 personas entre semana. |
+| `Precio 4p entresemana` | Currency (EUR) | Precio para 4 personas entre semana. |
+| `Precio 2p finde` | Currency (EUR) | Precio para 2 personas en fin de semana (viernes, sábado o domingo). |
+| `Precio 3p finde` | Currency (EUR) | Precio para 3 personas en fin de semana. |
+| `Precio 4p finde` | Currency (EUR) | Precio para 4 personas en fin de semana. |
 | `Cupo` | Number (entero) | Normalmente `1` (una habitación física = una unidad). Solo se pondría más de 1 si dos habitaciones son intercambiables. |
 | `Descripcion ES` | Long text | Una frase de la ficha en español. |
 | `Descripcion EN` | Long text | Opcional. |
@@ -77,7 +85,7 @@ crea en Airtable cuando Stripe confirma el cobro (ver
 | `Pais` | Single line text | _(lo rellena la web)_ Opcional. |
 | `Notas` | Long text | _(lo rellena la web)_ Peticiones del cliente. |
 | `Idioma` | Single select | _(lo rellena la web)_ `es` · `en` · `it` · `fr` · `de` |
-| `Importe total` | Currency (EUR) | _(lo rellena la web)_ = `Precio 2p`/`3p`/`4p` de la habitación según `Huespedes`. |
+| `Importe total` | Currency (EUR) | _(lo rellena la web)_ = precio de la habitación según `Huespedes` **y** si `Fecha` cae entre semana o en fin de semana (viernes, sábado o domingo). |
 | `Pago` | Single select | `pendiente` · `pagado`. Reserva pagada por Stripe = `pagado`. |
 | `Confirmar por` | Single select | `email` · `telefono`. Elegido por el cliente en el formulario: por dónde quiere recibir la confirmación (email o SMS). |
 | `Origen` | Single select | `web` · `telefono` · `email`. Nueva reserva web = `web`. |
@@ -98,21 +106,26 @@ Para una fecha pedida:
 
 ## Datos de ejemplo (los que usa la web en local hasta tener la base real)
 
-| Nº | Planta | 2 pers. | 3 pers. | 4 pers. |
-|---|---|---|---|---|
-| 214 | 2ª | 150 € | 175 € | 200 € |
-| 219 | 2ª | 170 € | 195 € | 220 € |
-| 305 | 3ª | 190 € | 215 € | 240 € |
-| 317 | 3ª | 180 € | 205 € | 230 € |
-| 322 | 3ª | 160 € | 185 € | 210 € |
-| 401 | 4ª | 260 € | 290 € | 320 € |
-| 408 | 4ª | 210 € | 235 € | 260 € |
-| 415 | 4ª | 170 € | 195 € | 220 € |
-| 502 | 5ª (ático) | 230 € | 255 € | 280 € |
-| 510 | 5ª (ático) | 220 € | 245 € | 270 € |
+Ya son los reales que ha dado el hotel — `src/lib/fixtures.ts`. Todas las
+habitaciones admiten hasta 4 personas y tienen el mismo precio:
 
-Todas admiten hasta 4 personas.
+| Personas | Entre semana | Fin de semana |
+|---|---|---|
+| 2 | 120 € (60 €/persona) | 140 € (70 €/persona) |
+| 3 | 150 € (50 €/persona) | 180 € (60 €/persona) |
+| 4 | 160 € (40 €/persona) | 200 € (50 €/persona) |
 
-> Números y habitaciones inventados para poder programar y probar el flujo.
-> Los reales (los 9 números de habitación: 317, 409, 410, 411, 412, 502, 503,
-> 504, 505 — ver arriba) van en Airtable y **no requieren tocar código**.
+| Nº | Planta |
+|---|---|
+| 317 | 3ª planta |
+| 409 | 4ª planta |
+| 410 | 4ª planta |
+| 411 | 4ª planta |
+| 412 | 4ª planta |
+| 502 | 5ª planta |
+| 503 | 5ª planta |
+| 504 | 5ª planta |
+| 505 | 5ª planta |
+
+> Fin de semana = viernes, sábado o domingo (confirmado por el hotel);
+> el resto de días cuenta como entre semana.
