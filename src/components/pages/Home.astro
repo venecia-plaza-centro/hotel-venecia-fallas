@@ -171,7 +171,7 @@ const strip = [
        de agua del vídeo (ya difuminada), así el sello la tapa del todo. */
     position: absolute; bottom: 24px; right: 24px; width: 128px; height: 128px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center; text-align: center;
-    padding: 16px; transform: rotate(-11deg);
+    padding: 16px; transform: rotate(11deg);
     color: var(--gold-light); font-size: 10.5px; font-weight: 700;
     letter-spacing: .05em; text-transform: uppercase;
     border: 1.5px solid var(--gold-light);
@@ -190,7 +190,17 @@ const strip = [
     position: absolute; left: 28px; bottom: 24px; font-family: 'Caveat', cursive;
     font-size: 30px; color: var(--gold-light); transform: rotate(-3deg);
   }
-  @media (max-width: 860px) { .hero-media { min-height: 320px; } }
+  @media (max-width: 860px) {
+    .hero-media { min-height: 320px; }
+    /* A caballo entre el vídeo y el panel de texto de debajo (apilados en
+       móvil/tablet): mitad sobre el vídeo, mitad sobre el fondo azul. Más
+       pequeño y pegado a la derecha para no tapar "Fallas, más cerca que
+       nunca". */
+    .hero-badge {
+      width: 92px; height: 92px; padding: 10px; font-size: 8.5px;
+      bottom: -46px; right: 16px; z-index: 1;
+    }
+  }
 
   /* ── features ── */
   .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
