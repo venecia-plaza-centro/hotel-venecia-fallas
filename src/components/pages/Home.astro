@@ -14,6 +14,9 @@ const t = useT(lang);
 const rooms = (await getRooms()).slice(0, 3);
 const roomsUrl = pagePath('rooms', lang);
 
+// Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
+const kickerHtml = t('home.kicker').replace(/\.\s+/g, '.<br />');
+
 // Vídeo real de una mascletá (marca de agua "FPM" quitada por difuminado
 // de esa esquina). Si se quita el archivo o se vacía esta ruta, vuelve a
 // verse el degradado de fondo de .hero-photo.
@@ -39,7 +42,7 @@ const strip = [
   <div class="hero-panel">
     <h1>{t('home.h1.pre')} <em>{t('home.h1.accent')}</em></h1>
     <GoldRule style="margin:0 0 4px" />
-    <p class="hero-kicker">{t('home.kicker')}</p>
+    <p class="hero-kicker" set:html={kickerHtml} />
     <p>{t('home.p1')}</p>
     <p>{t('home.p2')}</p>
     <p class="hero-strong">{t('home.p3')}</p>
