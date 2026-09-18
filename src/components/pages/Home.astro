@@ -124,7 +124,12 @@ const strip = [
 <style>
   /* ── hero ── */
   .hero { display: grid; grid-template-columns: 5fr 7fr; min-height: 560px; }
-  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; min-height: 0; } }
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; }
+    /* La foto va arriba del todo en móvil/tablet, antes que el texto. */
+    .hero-media { order: 1; }
+    .hero-panel { order: 2; }
+  }
 
   .hero-panel {
     background: var(--navy); color: rgba(255,255,255,.9);
