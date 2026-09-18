@@ -130,7 +130,11 @@ async function countBookedForDate(date: string, roomIds: string[]): Promise<Map<
   const counts = new Map<string, number>();
   if (!airtableEnabled() || roomIds.length === 0) return counts;
 
-  const formula = `AND({Estado}!='cancelada', {Fecha}='${date}')`;
+  // IS_SAME (no igualdad de texto): el campo Fecha es internamente una
+  // fecha/hora, y {Fecha}='YYYY-MM-DD' nunca coincide aunque se vea igual
+  // en la interfaz — esto dejaba la comprobación de disponibilidad rota
+  // para cualquier reserva real (todo parecía siempre libre).
+  const formula = `AND({Estado}!='cancelada', IS_SAME({Fecha}, '${date}', 'day'))`;
   const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
   for (const r of recs) {
     const link = r.fields['Habitacion'];
