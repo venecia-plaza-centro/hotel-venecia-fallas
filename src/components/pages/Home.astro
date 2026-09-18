@@ -14,10 +14,10 @@ const t = useT(lang);
 const rooms = (await getRooms()).slice(0, 3);
 const roomsUrl = pagePath('rooms', lang);
 
-// Cuando haya vídeo real del balcón/mascletá: subirlo a public/video/ y
-// poner aquí la ruta (ej. '/video/hero-mascleta.mp4'). Mientras esté vacío
-// se ve el degradado de fondo de .hero-photo, como ahora.
-const HERO_VIDEO = '';
+// Vídeo real de una mascletá (marca de agua "FPM" quitada por difuminado
+// de esa esquina). Si se quita el archivo o se vacía esta ruta, vuelve a
+// verse el degradado de fondo de .hero-photo.
+const HERO_VIDEO = '/video/hero-mascleta.mp4';
 
 // Iconos propios (public/icons/*.png, recortados de la lámina dorada del cliente).
 const features = [
