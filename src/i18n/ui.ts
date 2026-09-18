@@ -40,7 +40,7 @@ const es: Dict = {
   'home.p1':
     'Durante Fallas, algunas de nuestras habitaciones se convierten durante unas horas en espacios privados para disfrutar de la mascletá desde primera línea, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.p2':
-    'Todos los espacios son habitaciones reales del Hotel Venecia, con su mobiliario habitual, baño privado y balcón o mirador con vistas a la Plaza del Ayuntamiento.',
+    'Todos los espacios son habitaciones del Hotel Venecia, con su mobiliario habitual, baño privado y balcón o mirador con vistas a la Plaza del Ayuntamiento.',
   'home.p3': 'Además, vuestra reserva incluye un Snack Pack para acompañar la experiencia.',
   'home.cta': 'Ver habitaciones disponibles',
   'home.tagline': 'Fallas, más cerca que nunca',
@@ -88,7 +88,7 @@ const es: Dict = {
   'rooms.lead':
     'Estas son las habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
   'rooms.intro':
-    'Vive las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderte ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de ti. Tú, tu reserva y las Fallas.',
+    'Vive las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderte ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de ti. Tú, tu reserva y las mascletás.',
 
 
   // mascletas
