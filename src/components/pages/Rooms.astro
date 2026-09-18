@@ -14,11 +14,12 @@ const t = useT(lang);
 const rooms = await getRooms();
 ---
 
-<PageHero title={t('rooms.h1')} lead={t('rooms.lead')} />
+<PageHero title={t('rooms.h1')} lead={t('rooms.lead')} leadItalic>
+  <p class="rooms-intro">{t('rooms.intro')}</p>
+</PageHero>
 
 <section class="section">
   <div class="container">
-    <p class="rooms-intro">{t('rooms.intro')}</p>
     <div class="rooms-list">
       {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
     </div>
@@ -26,6 +27,10 @@ const rooms = await getRooms();
 </section>
 
 <style>
-  .rooms-intro { max-width: 720px; margin: 0 auto 36px; text-align: center; color: var(--text-mid); font-size: 16px; line-height: 1.7; }
-  .rooms-list { display: grid; gap: 28px; max-width: 980px; margin: 0 auto; }
+  .rooms-intro {
+    max-width: 620px; margin: 16px auto 0; text-align: center;
+    color: rgba(255, 255, 255, .72); font-size: 15.5px; line-height: 1.7;
+  }
+  .rooms-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 0 auto; }
+  @media (max-width: 760px) { .rooms-list { grid-template-columns: 1fr; } }
 </style>

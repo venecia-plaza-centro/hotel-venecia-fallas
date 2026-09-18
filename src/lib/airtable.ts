@@ -9,7 +9,7 @@
  * (src/lib/fixtures.ts) y `createBooking` solo registra por consola. Así el
  * flujo entero es probable en local sin cuenta de Airtable.
  */
-import { type ConfirmChannel, type Room, type RoomOffer } from './booking';
+import { allSaleDays, type ConfirmChannel, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
 import type { Locale } from '../consts';
 
@@ -173,6 +173,36 @@ export async function getAvailabilitySummary(dates: string[]): Promise<Record<st
     summary[date] = rooms.filter((r) => (booked.get(r.id) ?? 0) < r.cupo).length;
   }
   return summary;
+}
+
+/**
+ * Slugs de las habitaciones sin ningún día libre en toda la ventana de
+ * venta (1-12 de marzo): para avisarlo ya en Home/Habitaciones, en vez de
+ * que el cliente solo lo descubra al entrar en el flujo de reserva. Una
+ * sola consulta a Airtable (todas las reservas no canceladas) en vez de
+ * una por día. Vacío en modo ejemplo: sin Airtable no hay reservas reales
+ * que contar, así que ninguna habitación puede aparecer agotada.
+ */
+export async function getSoldOutRoomSlugs(): Promise<string[]> {
+  if (!airtableEnabled()) return [];
+  const rooms = await getRooms();
+  if (rooms.length === 0) return [];
+
+  const recs = await listAll(TABLE.bookings, { filterByFormula: "{Estado}!='cancelada'" });
+  const countByRoomDate = new Map<string, number>();
+  for (const r of recs) {
+    const link = r.fields['Habitacion'];
+    const roomId = Array.isArray(link) && link[0] ? String(link[0]) : '';
+    const date = str(r.fields['Fecha']);
+    if (!roomId || !date) continue;
+    const key = `${roomId}|${date}`;
+    countByRoomDate.set(key, (countByRoomDate.get(key) ?? 0) + 1);
+  }
+
+  const days = allSaleDays();
+  return rooms
+    .filter((room) => days.every((date) => (countByRoomDate.get(`${room.id}|${date}`) ?? 0) >= room.cupo))
+    .map((room) => room.slug);
 }
 
 // --- Crear reserva --------------------------------------------------------

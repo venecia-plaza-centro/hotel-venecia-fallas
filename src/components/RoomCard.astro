@@ -29,8 +29,9 @@ const minPerPerson = Math.min(
 );
 ---
 
-<article class="room-card">
+<article class="room-card room-card-grid" data-room-slug={room.slug}>
   <div class="room-card-media" data-photos={JSON.stringify(room.photos)} data-idx="0">
+    <span class="room-card-soldout-badge">{t('roomcard.soldout.badge')}</span>
     {room.photos.length > 0 ? (
       <img class="room-card-img" src={room.photos[0]} alt={fmt('roomcard.title', { n: room.roomNumber })} loading="lazy" />
     ) : (
@@ -80,11 +81,26 @@ const minPerPerson = Math.min(
       </a>
     </div>
     <p class="room-card-note">{t('roomcard.priceNote')}</p>
-    <p class="room-card-hint">{t('roomcard.hint')}</p>
+    <p class="room-card-soldout-note">{t('roomcard.soldout')}</p>
   </div>
 </article>
 
 <script>
+  // Home y Habitaciones son páginas estáticas: esto se consulta aparte,
+  // en el navegador, para que una habitación que se agota después del
+  // último despliegue se marque igualmente sin esperar a un rebuild.
+  fetch('/api/rooms-availability')
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.ok) return;
+      for (const slug of data.soldOut as string[]) {
+        document.querySelectorAll(`.room-card[data-room-slug="${slug}"]`).forEach((card) => {
+          card.classList.add('is-soldout');
+        });
+      }
+    })
+    .catch(() => {});
+
   // Delegación de eventos: sirve para todas las .room-card de la página
   // (Home puede mostrar varias, Habitaciones las nueve).
   function goToPhoto(media: HTMLElement, dir: number) {

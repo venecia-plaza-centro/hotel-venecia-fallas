@@ -20,8 +20,9 @@ const es: Dict = {
   'nav.close': 'Cerrar menú',
 
   // fabs
-  'fab.call': 'Llamar',
   'fab.call.aria': 'Llamar al hotel',
+  'fab.contact.aria': 'Contactar por teléfono o WhatsApp',
+  'fab.top.aria': 'Subir arriba',
 
   // footer
   'footer.tagline': 'En la Plaza del Ayuntamiento, donde se disparan las mascletás.',
@@ -49,7 +50,7 @@ const es: Dict = {
   'home.feature1.t': 'Vistas privilegiadas',
   'home.feature1.d': 'Balcón o mirador a la Plaza del Ayuntamiento',
   'home.feature2.t': 'Espacio privado',
-  'home.feature2.d': 'Habitaciones reales del hotel con su mobiliario',
+  'home.feature2.d': 'Habitaciones del hotel con su mobiliario',
   'home.feature3.t': 'Baño privado',
   'home.feature3.d': 'Todas las habitaciones disponen de baño propio',
   'home.feature4.t': 'Snack Pack',
@@ -60,7 +61,7 @@ const es: Dict = {
   'home.tradicion.h2.pre': 'Vive la esencia de las Fallas',
   'home.tradicion.h2.accent': 'desde dentro.',
   'home.tradicion.p1':
-    'Durante Fallas, algunas de nuestras habitaciones se convierten en espacios privados para disfrutar de la mascletá, sin aglomeraciones y con todas las comodidades del hotel.',
+    'Durante Fallas, nuestras habitaciones están listas para disfrutar de la mascletá, con tu balcón, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.tradicion.p2': 'Una forma diferente, cómoda y exclusiva de vivir la tradición.',
   'home.tradicion.tagline': 'Valencia en estado puro',
   'home.tradicion.photo.alt': 'Vista aérea de una mascletá en la Plaza del Ayuntamiento',
@@ -84,7 +85,7 @@ const es: Dict = {
   // rooms
   'rooms.h1': 'Elige tu balcón para la mascletá',
   'rooms.lead':
-    'Estas son las 9 habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
+    'Estas son las habitaciones del Hotel Venecia con balcón o mirador a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
   'rooms.intro':
     'Vive las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderte ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de ti. Tú, tu reserva y las Fallas.',
 
@@ -92,9 +93,9 @@ const es: Dict = {
   // mascletas
   'mascletas.h1': 'Calendario de mascletás',
   'mascletas.lead':
-    'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento. El 18, Nit del Foc; el 19, la Cremà.',
-  'mascletas.daily': 'Mascletá diaria · 14:00 · Plaza del Ayuntamiento',
+    'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento.',
   'mascletas.march': 'Marzo 2027',
+  'mascletas.month': 'Marzo',
 
   // faq
   'faq.h1': 'Preguntas frecuentes',
@@ -103,7 +104,7 @@ const es: Dict = {
     'Cualquier día del 1 al 12 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletá de las 14:00 h.',
   'faq.q2': '¿Todas las habitaciones tienen vistas a la mascletá?',
   'faq.a2':
-    'Sí: las 9 habitaciones que se ofrecen para Fallas tienen balcón o mirador con vistas a la Plaza del Ayuntamiento.',
+    'Sí: las habitaciones que se ofrecen para Fallas tienen balcón o mirador con vistas a la Plaza del Ayuntamiento.',
   'faq.q3': '¿Qué incluye el Snack Pack?',
   'faq.a3':
     'Va incluido en el precio de la habitación, sin coste extra: patatas, mini fuet, aceitunas, frutos secos, 2 refrescos o cervezas y 1 agua por persona.',
@@ -125,8 +126,9 @@ const es: Dict = {
   'roomcard.priceNote':
     'Precio entre semana con 4 personas; sube para 2 o 3 personas, y también en fin de semana (viernes, sábado y domingo).',
   'roomcard.book': 'Reservar habitación {n}',
-  'roomcard.hint': 'Selecciona la fecha y el número de personas para consultar disponibilidad y precio.',
   'roomcard.photopending': 'Foto pendiente',
+  'roomcard.soldout.badge': 'Completa',
+  'roomcard.soldout': 'Sin disponibilidad para estas fechas.',
 
   // reserva (flujo del Hito 2: espacio privado por horas, no noches)
   'book.h1': 'Reserva tu balcón para la mascletá',
@@ -170,9 +172,6 @@ const es: Dict = {
   'book.details.phone': 'Teléfono',
   'book.details.country': 'País (opcional)',
   'book.details.notes': 'Peticiones (opcional)',
-  'book.details.confirmVia': '¿Cómo quieres recibir la confirmación?',
-  'book.details.confirmVia.email': 'Por email',
-  'book.details.confirmVia.phone': 'Por teléfono (SMS)',
   'book.details.consent': 'He leído y acepto las {terms} y la {privacy}.',
   'book.details.consent.terms': 'condiciones de reserva',
   'book.details.consent.privacy': 'política de privacidad',
@@ -300,8 +299,9 @@ const en: Dict = {
   'nav.menu': 'Menu',
   'nav.close': 'Close menu',
 
-  'fab.call': 'Call',
   'fab.call.aria': 'Call the hotel',
+  'fab.contact.aria': 'Contact by phone or WhatsApp',
+  'fab.top.aria': 'Back to top',
 
   'footer.tagline': "On Plaza del Ayuntamiento, where the mascletás are set off.",
   'footer.mainsite': "Hotel's main website",
@@ -363,9 +363,9 @@ const en: Dict = {
 
   'mascletas.h1': 'Mascletá calendar',
   'mascletas.lead':
-    'From 1 to 19 March 2027, every day at 2 pm on Plaza del Ayuntamiento. On the 18th, Nit del Foc; on the 19th, the Cremà.',
-  'mascletas.daily': 'Daily mascletá · 2 pm · Plaza del Ayuntamiento',
+    'From 1 to 19 March 2027, every day at 2 pm on Plaza del Ayuntamiento.',
   'mascletas.march': 'March 2027',
+  'mascletas.month': 'March',
 
   'faq.h1': 'Frequently asked questions',
   'faq.q1': 'Which days can I book?',
@@ -394,8 +394,9 @@ const en: Dict = {
   'roomcard.priceNote':
     'Weekday price with 4 guests; higher for 2 or 3 guests, and also on weekends (Friday, Saturday and Sunday).',
   'roomcard.book': 'Book room {n}',
-  'roomcard.hint': 'Pick a date and number of guests to check availability and price.',
   'roomcard.photopending': 'Photo coming soon',
+  'roomcard.soldout.badge': 'Fully booked',
+  'roomcard.soldout': 'No availability for these dates.',
 
   'book.h1': 'Book your balcony for the mascletá',
   'book.lead':
@@ -438,9 +439,6 @@ const en: Dict = {
   'book.details.phone': 'Phone',
   'book.details.country': 'Country (optional)',
   'book.details.notes': 'Requests (optional)',
-  'book.details.confirmVia': 'How would you like to receive your confirmation?',
-  'book.details.confirmVia.email': 'By email',
-  'book.details.confirmVia.phone': 'By phone (SMS)',
   'book.details.consent': 'I have read and accept the {terms} and the {privacy}.',
   'book.details.consent.terms': 'booking terms',
   'book.details.consent.privacy': 'privacy policy',

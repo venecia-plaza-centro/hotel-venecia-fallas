@@ -120,17 +120,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
               {t('book.details.notes')}
               <textarea name="notes" rows="3"></textarea>
             </label>
-            <fieldset class="confirm-via">
-              <legend>{t('book.details.confirmVia')}</legend>
-              <label class="radio">
-                <input type="radio" name="confirmVia" value="email" checked />
-                {t('book.details.confirmVia.email')}
-              </label>
-              <label class="radio">
-                <input type="radio" name="confirmVia" value="phone" />
-                {t('book.details.confirmVia.phone')}
-              </label>
-            </fieldset>
             <label class="check">
               <input type="checkbox" name="consent" />
               <span set:html={t('book.details.consent')
@@ -192,6 +181,12 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 <script type="application/json" id="book-i18n" set:html={JSON.stringify(strings)}></script>
 
 <script>
+  // Astro empaqueta este script junto al de otros componentes (Nav, RoomCard...)
+  // en un único archivo compartido por todas las páginas; sin esta guarda, en
+  // cualquier página que no sea "Reservar" fallaría al no existir #book-config,
+  // y ese error interrumpiría también la ejecución del resto del archivo
+  // (menú hamburguesa, slider de fotos...) en todas las demás páginas.
+  if (document.getElementById('book-config')) {
   const cfg = JSON.parse(document.getElementById('book-config').textContent);
   const T = JSON.parse(document.getElementById('book-i18n').textContent);
 
@@ -691,6 +686,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       setErr('details', T['book.err.service']);
       show('date');
     }
+  }
   }
 </script>
 

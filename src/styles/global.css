@@ -91,17 +91,15 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   background: var(--navy); color: #fff;
   padding: 132px 0 76px; text-align: center; position: relative; overflow: hidden;
 }
-.page-hero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(201, 162, 70, .16) 0%, transparent 60%);
-  pointer-events: none;
-}
 .page-hero > .container { position: relative; }
 .page-hero .eyebrow { display: block; margin-bottom: 16px; }
 .page-hero h1 { color: #fff; font-size: clamp(34px, 5.5vw, 58px); max-width: 900px; margin: 0 auto; }
 .page-hero h1 em { font-style: italic; color: var(--gold-light); }
 .page-hero .gold-rule { margin: 24px auto 22px; }
 .page-hero .lead { color: rgba(255, 255, 255, .72); max-width: 620px; margin: 0 auto; }
+.page-hero .lead a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 2px; }
+.page-hero .lead a:hover { color: #fff; }
+.page-hero .lead-italic { font-style: italic; }
 @media (max-width: 768px) { .page-hero { padding: 104px 0 48px; } }
 
 /* ─── NAV ─── */
@@ -113,6 +111,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 18px 0; background: var(--navy); backdrop-filter: blur(12px);
   box-shadow: var(--sh-sm);
+  border-bottom: 1px solid rgba(201, 162, 70, .45);
   transition: background .3s ease, box-shadow .3s ease;
 }
 .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
@@ -265,24 +264,17 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 
 /* En móvil, logo + "Hotel Venecia" + subtítulo + botón RESERVAR + hamburguesa
    no caben en una fila: el subtítulo (mayúsculas con letter-spacing ancho)
-   se partía en 3-4 líneas rotas en vez de simplemente no caber. Se oculta
-   el subtítulo y se reduce todo lo demás para que quepa en una sola línea. */
+   se partía en 3-4 líneas rotas. En vez de ocultarlo, se reduce todo lo
+   demás para que quepa en una sola fila con el subtítulo siempre visible
+   (en dos líneas, Plaza Centro y Fallas 2027) — la marca no debe cambiar
+   de aspecto al hacer scroll ni entre páginas en móvil/tablet. */
 @media (max-width: 480px) {
   .nav-inner { padding: 0 16px; gap: 10px; }
   .nav-brand { gap: 8px; }
   .nav-brand img { width: 34px; height: 34px; }
   .nav-brand-text strong { font-size: 15px; }
-  .nav-brand-text span { display: none; }
   .nav-right { gap: 10px; }
   .nav-right .btn { padding: 10px 16px; font-size: 11px; }
-
-  /* La marca centrada (Home arriba del todo, o siempre en .nav-minimal) no
-     compite por sitio con ningún botón, así que el subtítulo sí cabe y
-     puede volver a verse (en dorado claro, legible sobre el azul). */
-  .nav-home:not(.is-scrolled) .nav-brand-text span,
-  .nav-minimal .nav-brand-text span {
-    display: block;
-  }
 }
 
 /* ─── FOOTER ─── */
@@ -318,6 +310,41 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 
 .room-card-media { position: relative; aspect-ratio: 4 / 3; background: var(--navy); }
 @media (min-width: 761px) { .room-card-media { aspect-ratio: auto; height: 100%; } }
+/* Variante "en cuadrícula" (Home y Habitaciones): igual contenido que
+   .room-card, pero con la foto arriba del texto (no al lado) para poder
+   caber varias tarjetas por fila, en vez de una tarjeta ancha por fila. */
+.room-card-grid { grid-template-columns: 1fr; }
+.room-card-grid .room-card-body { order: 2; text-align: center; }
+.room-card-grid .room-card-media { order: 1; aspect-ratio: 4 / 3; height: auto; }
+.room-card-grid .room-card-body h3 { text-align: center; }
+.room-card-grid .room-card-facts {
+  grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto;
+}
+.room-card-grid .room-card-footer,
+.room-card-grid .room-card-price { justify-content: center; }
+
+/* Si el nº de habitaciones NO es múltiplo de 3, la última se queda sola
+   al empezar una fila nueva de la cuadrícula (3 columnas) de la página
+   Habitaciones: en vez de una tarjeta compacta huérfana con hueco vacío
+   al lado, ocupa toda la fila en horizontal (foto al lado), como el
+   diseño original de .room-card. ":nth-child(3n+1):last-child" solo
+   selecciona la última tarjeta cuando además es la primera de su fila
+   (es decir, cuando de verdad se queda sola); si el total es múltiplo de
+   3 no coincide con ninguna tarjeta y no cambia nada. */
+@media (min-width: 761px) {
+  .rooms-list .room-card:nth-child(3n+1):last-child {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(280px, 42%) 1fr;
+  }
+  .rooms-list .room-card:nth-child(3n+1):last-child .room-card-body,
+  .rooms-list .room-card:nth-child(3n+1):last-child .room-card-body h3 { order: 0; text-align: left; }
+  .rooms-list .room-card:nth-child(3n+1):last-child .room-card-media { order: 0; aspect-ratio: auto; height: 100%; }
+  .rooms-list .room-card:nth-child(3n+1):last-child .room-card-facts {
+    grid-template-columns: repeat(2, 1fr); max-width: none; margin-left: 0; margin-right: 0;
+  }
+  .rooms-list .room-card:nth-child(3n+1):last-child .room-card-footer,
+  .rooms-list .room-card:nth-child(3n+1):last-child .room-card-price { justify-content: flex-start; }
+}
 .room-card-img { width: 100%; height: 100%; object-fit: cover; }
 .room-card-placeholder {
   width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center;
@@ -351,7 +378,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
    icono+texto alineado a la izquierda dentro de ese bloque, para que los
    iconos queden en línea vertical (ver .room-card-facts más abajo). */
 @media (max-width: 480px) {
-  .room-card-body { padding: 28px 16px; text-align: center; }
+  .room-card-body { padding: 28px; text-align: center; }
 }
 /* text-align:left explícito: en móvil el resto de .room-card-body se
    centra, pero el título de la habitación se queda pegado a la izquierda. */
@@ -398,43 +425,100 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   .room-card-footer, .room-card-price { justify-content: center; }
 }
 
+/* Aviso de "sin disponibilidad" (Home y Habitaciones, ver rooms-availability
+   en RoomCard.astro): se añade la clase .is-soldout por JS tras consultar
+   la API, así que todo esto empieza oculto y solo se muestra entonces. */
+.room-card-soldout-badge {
+  display: none; position: absolute; top: 14px; left: 14px; z-index: 2;
+  padding: 6px 12px; border-radius: 999px; background: var(--navy); color: #fff;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+}
+.room-card-soldout-note { display: none; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-top: 16px; }
+.room-card.is-soldout .room-card-soldout-badge,
+.room-card.is-soldout .room-card-soldout-note { display: block; }
+.room-card.is-soldout .room-card-media { opacity: .6; }
+.room-card.is-soldout .room-card-footer,
+.room-card.is-soldout .room-card-note:not(.room-card-soldout-note) { display: none; }
+
 /* Solo se usan en el picker de reserva (Book.astro): tarjeta elegida o
    descartada (no disponible / no admite el nº de huéspedes elegido). */
 .room-card.is-selected { border-color: var(--gold); box-shadow: inset 0 0 0 2px var(--gold); }
 .room-card.is-disabled { opacity: .55; }
 
-/* En móvil muy estrecho el aviso de reserva completa puede quedar
-   tapado por los FABs de Llamar/WhatsApp; se le da un margen extra
-   a la derecha para que no se solape con ellos. */
-@media (max-width: 480px) {
-  .room-card-note, .room-card-facts { padding-right: 56px; }
-}
 
-/* ─── FABs (llamar + whatsapp), mismo patrón que la web nueva ─── */
-.fab-call, .fab-wa {
-  position: fixed; right: 24px; z-index: 999;
-  display: flex; align-items: center; gap: 10px;
-  padding: 13px 20px 13px 16px; border-radius: 50px;
-  font-size: 14px; font-weight: 600; color: #fff; text-decoration: none;
+/* ─── FAB de contacto: un único círculo con los iconos de teléfono y
+   WhatsApp en miniatura (para que se vea a simple vista que hay dos
+   formas de contactar); al pulsarlo despliega ambas opciones por
+   separado, una encima de la otra. ─── */
+.fab-contact { position: fixed; right: 24px; bottom: 24px; z-index: 999; }
+
+.fab-contact-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 56px; height: 56px; border-radius: 50%; border: none;
+  background: var(--navy); cursor: pointer;
+  box-shadow: 0 0 16px 3px rgba(255, 255, 255, .5), 0 6px 20px rgba(27, 42, 74, .35);
   transition: transform .25s ease, box-shadow .25s ease;
 }
-.fab-wa { bottom: 24px; background: #25D366; box-shadow: 0 4px 20px rgba(37, 211, 102, .4); }
-/* Aura blanca sutil, igual que la web principal: solo brillo difuso + sombra de profundidad. */
-.fab-call { bottom: 84px; background: var(--navy); box-shadow: 0 0 16px 3px rgba(255, 255, 255, .5), 0 6px 20px rgba(27, 42, 74, .35); }
-.fab-wa:hover { transform: translateY(-3px); }
-.fab-call:hover {
+.fab-contact-toggle:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, .6), 0 10px 28px rgba(27, 42, 74, .45);
 }
-.fab-call svg, .fab-wa svg { width: 21px; height: 21px; flex-shrink: 0; }
+/* Teléfono en dorado (a juego con el botón "subir arriba") y WhatsApp en
+   su verde de marca, para distinguirse aun en miniatura. */
+.fab-contact-toggle-phone { width: 15px; height: 15px; color: var(--gold); flex-shrink: 0; }
+.fab-contact-toggle-wa { width: 15px; height: 15px; color: #25D366; flex-shrink: 0; }
+
+/* Opciones desplegadas: apiladas justo encima del botón, ocultas hasta
+   que se abre (visibility, no solo opacity, para que no se puedan
+   pulsar por accidente estando "cerradas"). */
+.fab-contact-options {
+  position: absolute; right: 0; bottom: calc(100% + 12px);
+  display: flex; flex-direction: column; gap: 12px;
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
+}
+.fab-contact.is-open .fab-contact-options { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.fab-contact-option {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 50%;
+  box-shadow: 0 6px 20px rgba(27, 42, 74, .35);
+  transition: transform .25s ease;
+}
+.fab-contact-option:hover { transform: translateY(-3px); }
+.fab-contact-call { background: var(--navy); color: var(--gold); }
+.fab-contact-wa { background: #25D366; color: #fff; }
+.fab-contact-option svg { width: 20px; height: 20px; flex-shrink: 0; }
+
 @media (max-width: 480px) {
-  .fab-call span, .fab-wa span { display: none; }
-  .fab-call, .fab-wa { padding: 14px; border-radius: 50%; }
-  .fab-call { bottom: 82px; }
-  /* Los FABs redondos tapan la flecha de los botones dorados anchos
+  .fab-contact-toggle { width: 50px; height: 50px; }
+  /* El FAB de contacto tapa la flecha de los botones dorados anchos
      (hero, tarjetas de habitación) en pantallas muy estrechas. El
      texto del botón sigue siendo legible; se quita solo el icono. */
   .hero-panel .btn svg, .room-card-footer .btn svg { display: none; }
+}
+
+/* Botón flotante "subir arriba", apilado justo encima del botón único de
+   llamar/WhatsApp (misma columna a la derecha), con el mismo halo blanco.
+   Si ese botón está desplegado, sube más para no tapar sus dos opciones
+   (ver ".fab-contact.is-open ~ .fab-top" más abajo). */
+.fab-top {
+  position: fixed; right: 24px; bottom: 92px; z-index: 999;
+  display: flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 50%; border: none;
+  background: var(--navy); color: var(--gold); cursor: pointer;
+  box-shadow: 0 0 16px 3px rgba(255, 255, 255, .5), 0 6px 20px rgba(27, 42, 74, .35);
+  transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease, bottom .25s var(--ease);
+}
+.fab-top svg { width: 20px; height: 20px; }
+.fab-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, .6), 0 10px 28px rgba(27, 42, 74, .45);
+}
+.fab-contact.is-open ~ .fab-top { bottom: 212px; }
+@media (max-width: 480px) {
+  .fab-top { bottom: 86px; }
+  .fab-contact.is-open ~ .fab-top { bottom: 206px; }
 }
 
 /* ─── UTILIDADES ─── */

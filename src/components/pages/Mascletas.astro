@@ -22,14 +22,11 @@ const days = Array.from({ length: 19 }, (_, i) => i + 1);
 
 <section class="section">
   <div class="container" style="max-width:760px">
-    <p style="text-align:center;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px">
-      {t('mascletas.daily')}
-    </p>
-    <h2 class="h2" style="text-align:center;margin-top:8px;margin-bottom:32px">{t('mascletas.march')}</h2>
+    <h2 class="h2" style="text-align:center;margin-bottom:32px">{t('mascletas.march')}</h2>
     <ul class="mascletas-list" style="list-style:none;display:grid;grid-template-columns:1fr;gap:2px">
       {days.map((d) => (
         <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
-          <span><strong>{d}</strong> {t('mascletas.march')}</span>
+          <span><strong>{d}</strong> {t('mascletas.month')}</span>
           <span style="color:var(--text-soft)">
             {FALLAS.mascletaTime}
             {special[d] ? ` · ${special[d]}` : ''}
@@ -40,10 +37,3 @@ const days = Array.from({ length: 19 }, (_, i) => i + 1);
   </div>
 </section>
 
-<style>
-  /* Deja hueco a la derecha para que la hora no quede debajo de los
-     FABs de llamar/WhatsApp (fijos en esa esquina) al hacer scroll. */
-  @media (max-width: 480px) {
-    .mascletas-list { padding-right: 60px; }
-  }
-</style>
