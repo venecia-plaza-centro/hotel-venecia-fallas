@@ -206,6 +206,8 @@ const strip = [
   }
 
   /* ── features ── */
+  /* Menos aire arriba/abajo que un .section normal, en todos los tamaños. */
+  .features { padding: 32px 0; }
   .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
   @media (max-width: 760px) { .features-grid { grid-template-columns: 1fr 1fr; } }
   .feature { display: flex; flex-direction: column; align-items: center; gap: 10px; }
