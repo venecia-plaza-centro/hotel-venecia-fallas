@@ -781,6 +781,28 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book .room-card { cursor: default; }
   .book .room-select[disabled] { opacity: .6; cursor: not-allowed; }
 
+  /* En tablets grandes y escritorio, mismo diseño que en Home: varias
+     tarjetas por fila (foto arriba, texto centrado) en vez de una columna
+     de tarjetas anchas. Sin el resumen tampoco: ya se ve la fecha/personas
+     elegidas (paso anterior) y el precio/estado de cada habitación en su
+     propia tarjeta, así que aquí solo quitaba sitio a la cuadrícula. */
+  @media (min-width: 821px) {
+    .book .book-summary { display: none; }
+    .book .book-grid,
+    .book .book-grid.no-summary { grid-template-columns: 1fr; }
+
+    .book .cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .book #room-list .room-card { grid-template-columns: 1fr; }
+    .book #room-list .room-card-media { order: 1; aspect-ratio: 4 / 3; height: auto; }
+    .book #room-list .room-card-body { order: 2; text-align: center; }
+    .book #room-list .room-card-body h3 { text-align: center; }
+    .book #room-list .room-card-facts {
+      grid-template-columns: 1fr; max-width: 280px; margin-left: auto; margin-right: auto;
+    }
+    .book #room-list .room-card-footer,
+    .book #room-list .room-card-price { justify-content: center; }
+  }
+
   /* Con habitación ya elegida se oculta la lista entera (#room-list) y solo
      queda esta línea + los botones "cambiar fecha / continuar", para que no
      haya 10 tarjetas alrededor generando confusión sobre qué se ha elegido. */
