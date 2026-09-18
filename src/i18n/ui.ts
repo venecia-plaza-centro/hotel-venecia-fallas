@@ -30,6 +30,7 @@ const es: Dict = {
   'footer.terms': 'Condiciones de reserva',
   'footer.cancellation': 'Política de cancelación',
   'footer.privacy': 'Privacidad',
+  'footer.videoCredit': 'Vídeo: Freakpyromaniacs (CC BY)',
   'footer.rights': 'Todos los derechos reservados.',
 
   // home · hero
@@ -308,6 +309,7 @@ const en: Dict = {
   'footer.terms': 'Booking terms',
   'footer.cancellation': 'Cancellation policy',
   'footer.privacy': 'Privacy',
+  'footer.videoCredit': 'Video: Freakpyromaniacs (CC BY)',
   'footer.rights': 'All rights reserved.',
 
   'home.h1.pre': 'Experience the mascletá from your',
