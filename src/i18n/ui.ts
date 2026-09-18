@@ -71,7 +71,7 @@ const es: Dict = {
   'home.rooms.eyebrow': 'Elige tu balcón',
   'home.rooms.h2': 'Habitaciones disponibles',
   'home.rooms.lead': 'Selecciona la fecha, habitación y número de personas. Del resto nos encargamos nosotros.',
-  'home.rooms.seeall': 'Ver las 9 habitaciones',
+  'home.rooms.seeall': 'Ver todas las habitaciones',
 
   // home · franja inferior
   'home.strip.schedule.t': 'Horario de acceso',
