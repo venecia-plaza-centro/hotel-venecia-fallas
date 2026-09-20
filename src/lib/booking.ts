@@ -50,15 +50,8 @@ export interface Quote {
   currency: 'EUR';
 }
 
-/** Cómo quiere el cliente que le llegue la confirmación de su reserva. */
-export type ConfirmChannel = 'email' | 'phone';
-
-export function isConfirmChannel(x: unknown): x is ConfirmChannel {
-  return x === 'email' || x === 'phone';
-}
-
-/** Datos de una reserva ya decidida, para avisar al cliente (email o SMS,
- *  según `confirmVia`) y al hotel. Compartido por email.ts y sms.ts. */
+/** Datos de una reserva ya decidida, para avisar al cliente por email y al
+ *  hotel. Compartido por email.ts. */
 export interface BookingNotification {
   locator: string;
   room: Room;
@@ -71,7 +64,6 @@ export interface BookingNotification {
   phone: string;
   notes?: string;
   lang: Locale;
-  confirmVia: ConfirmChannel;
   /** true = pago ya cobrado de verdad en Stripe. false = modo demostración
    *  sin pasarela conectada (no se ha cobrado nada realmente). */
   paid: boolean;

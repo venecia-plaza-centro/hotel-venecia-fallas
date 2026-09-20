@@ -201,8 +201,6 @@ const es: Dict = {
   'book.done.locator': 'Localizador',
   'book.done.body.email':
     'Te hemos enviado la confirmación a {email}. Te esperamos en el hotel el día de tu reserva.',
-  'book.done.body.phone':
-    'Te hemos enviado la confirmación por SMS al {phone}. Te esperamos en el hotel el día de tu reserva.',
   'book.done.demo': 'Modo demostración: la reserva no se ha guardado (falta conectar Airtable).',
   'book.done.demo.payment': 'Modo demostración: no se ha realizado ningún cobro real (falta conectar una pasarela de pago).',
   'book.done.home': 'Volver al inicio',
@@ -468,7 +466,6 @@ const en: Dict = {
   'book.done.title': 'Booking confirmed!',
   'book.done.locator': 'Reference',
   'book.done.body.email': "We've emailed your confirmation to {email}. See you at the hotel on the day of your booking.",
-  'book.done.body.phone': "We've texted your confirmation to {phone}. See you at the hotel on the day of your booking.",
   'book.done.demo': 'Demo mode: the booking was not saved (Airtable not connected yet).',
   'book.done.demo.payment': 'Demo mode: no real charge was made (no payment provider connected yet).',
   'book.done.home': 'Back to home',

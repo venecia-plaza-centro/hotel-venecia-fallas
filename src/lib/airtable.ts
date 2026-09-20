@@ -9,7 +9,7 @@
  * (src/lib/fixtures.ts) y `createBooking` solo registra por consola. Así el
  * flujo entero es probable en local sin cuenta de Airtable.
  */
-import { allSaleDays, type ConfirmChannel, type Room, type RoomOffer } from './booking';
+import { allSaleDays, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
 import type { Locale } from '../consts';
 
@@ -238,8 +238,6 @@ export interface BookingCreate {
   country?: string;
   notes?: string;
   lang: Locale;
-  /** Cómo quiere el cliente que le llegue la confirmación: email o teléfono. */
-  confirmVia: ConfirmChannel;
   /** Ya generado antes de cobrar (p.ej. al crear la sesión de Stripe), para
    *  poder mostrárselo al cliente en cuanto vuelve del pago. Si no se pasa,
    *  se genera uno nuevo aquí (modo demo, sin pasarela). */
@@ -274,7 +272,7 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     'Importe total': input.total,
     Pago: input.paid ? 'pagado' : 'pendiente',
     Origen: 'web',
-    'Confirmar por': input.confirmVia === 'phone' ? 'telefono' : 'email',
+    'Confirmar por': 'email',
   };
   if (input.country) fields.Pais = input.country;
   if (input.notes) fields.Notas = input.notes;

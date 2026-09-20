@@ -1,7 +1,6 @@
 /**
- * Confirmación de la reserva al cliente por email (si elige "teléfono" se
- * envía por SMS en su lugar, ver sms.ts) + aviso interno al hotel, siempre
- * por email.
+ * Confirmación de la reserva al cliente por email + aviso interno al hotel,
+ * también por email.
  *
  * Sin proveedor configurado: el HTML ya está listo con el estilo de la web
  * (útil en cuanto se conecte Resend / SMTP en `deliver()`); mientras tanto
@@ -11,7 +10,6 @@ import { FALLAS, SITE, type Locale } from '../consts';
 import { dictFor } from '../i18n/ui';
 import { pagePath } from '../i18n/pages';
 import type { BookingNotification } from './booking';
-import { sendBookingSms } from './sms';
 
 export type BookingEmail = BookingNotification;
 
@@ -155,11 +153,7 @@ function buildCustomerEmailText(data: BookingEmail): string {
   ].join('\n');
 }
 
-/**
- * Envía la confirmación al cliente por el canal que haya elegido (email o
- * SMS, ver sms.ts) y siempre avisa por email al hotel internamente, sea
- * cual sea esa elección.
- */
+/** Envía la confirmación al cliente por email y avisa por email al hotel. */
 export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   const copy = EMAIL_COPY[data.lang] ?? EMAIL_COPY.es;
   const subject = copy.subject.replace('{locator}', data.locator);
@@ -170,23 +164,18 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
     `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`,
     `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
-    `Confirmación elegida por el cliente: ${data.confirmVia === 'phone' ? 'teléfono (SMS)' : 'email'}`,
     data.notes ? `Notas: ${data.notes}` : null,
     !data.paid ? '⚠️ Modo demostración: no se ha cobrado nada de verdad.' : null,
   ]
     .filter(Boolean)
     .join('\n');
 
-  if (data.confirmVia === 'phone') {
-    await sendBookingSms(data);
-  } else {
-    await deliver({
-      to: data.email,
-      subject,
-      html: buildCustomerEmailHtml(data),
-      text: buildCustomerEmailText(data),
-    });
-  }
+  await deliver({
+    to: data.email,
+    subject,
+    html: buildCustomerEmailHtml(data),
+    text: buildCustomerEmailText(data),
+  });
 
   await deliver({
     to: SITE.email,
