@@ -233,9 +233,12 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   const order = (s) => STEPS.indexOf(s);
 
   // En el paso Fecha el resumen no aporta nada todavía (ni fecha ni
-  // habitación elegidas): se oculta ahí y aparece a partir de Habitación,
-  // ya con datos reales que enseñar.
+  // habitación elegidas): se oculta ahí y aparece a partir de Habitación.
+  // En Confirmación tampoco se muestra: el propio panel de "¡Reserva
+  // confirmada!" ya trae su resumen (localizador, fecha, habitación,
+  // total), así que repetirlo justo debajo sería duplicar la información.
   const summaryAside = document.querySelector('.book-summary');
+  const HIDE_SUMMARY_STEPS = ['date', 'done'];
 
   function show(step) {
     Object.entries(panels).forEach(([k, els]) => els.forEach((p) => (p.hidden = k !== step)));
@@ -245,11 +248,12 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       if (k === step) s.setAttribute('aria-current', 'step');
       else s.removeAttribute('aria-current');
     });
-    if (summaryAside) summaryAside.hidden = step === 'date';
+    const hideSummary = HIDE_SUMMARY_STEPS.includes(step);
+    if (summaryAside) summaryAside.hidden = hideSummary;
     // Sin el resumen, la columna de 300px que le reservaba sitio dejaba un
     // hueco vacío a la derecha en escritorio: se quita esa columna mientras
     // el resumen esté oculto.
-    document.querySelector('.book-grid')?.classList.toggle('no-summary', step === 'date');
+    document.querySelector('.book-grid')?.classList.toggle('no-summary', hideSummary);
     const mainPanel = panels[step][0];
     const h = $('h2', mainPanel);
     if (h) h.focus();
