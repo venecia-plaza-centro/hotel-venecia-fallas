@@ -11,7 +11,7 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-const rooms = (await getRooms()).slice(0, 3);
+const rooms = (await getRooms()).slice(0, 4);
 const roomsUrl = pagePath('rooms', lang);
 
 // Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
@@ -243,8 +243,13 @@ const strip = [
   /* scroll-margin-top: el botón Reservar del header enlaza aquí (#rooms);
      sin esto, el ancla quedaría tapada por el nav fijo. */
   .room-picker-list {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: grid; grid-template-columns: 1fr;
     gap: 28px; margin: 0 auto; scroll-margin-top: 96px;
+  }
+  /* 3 columnas a partir de aquí (tablets y escritorio); en móvil, apiladas
+     en 1 columna, si no las tarjetas quedan demasiado estrechas. */
+  @media (min-width: 600px) {
+    .room-picker-list { grid-template-columns: repeat(3, 1fr); }
   }
   .room-picker-more { text-align: center; margin-top: 36px; }
 
