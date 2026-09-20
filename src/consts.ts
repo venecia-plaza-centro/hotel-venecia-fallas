@@ -2,7 +2,11 @@
 
 export const SITE = {
   name: 'Hotel Venecia Plaza Centro',
-  origin: 'https://fallas.hotelvenecia.com',
+  // TODO: volver a 'https://fallas.hotelvenecia.com' en cuanto el DNS del
+  // dominio apunte a Vercel (hoy ni resuelve: NXDOMAIN). Mientras tanto,
+  // usa la URL de vercel.app para que el link compartido por WhatsApp/redes
+  // (og:image, og:url) apunte a una dirección real y se vea la vista previa.
+  origin: 'https://hotel-venecia-fallas.vercel.app',
   mainSite: 'https://hotelvenecia.com',
   phone: '+34 963 52 42 67',
   phoneHref: 'tel:+34963524267',
