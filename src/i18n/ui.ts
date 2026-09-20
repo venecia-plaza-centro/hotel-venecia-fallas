@@ -13,7 +13,7 @@ const es: Dict = {
   'brand.name': 'Hotel Venecia',
   'brand.sub': 'Plaza Centro',
   'nav.rooms': 'Habitaciones',
-  'nav.mascletas': 'Mascletás',
+  'nav.mascletas': 'Mascletàs',
   'nav.faq': 'Preguntas frecuentes',
   'nav.book': 'Reservar',
   'nav.menu': 'Menú',
@@ -25,7 +25,7 @@ const es: Dict = {
   'fab.top.aria': 'Subir arriba',
 
   // footer
-  'footer.tagline': 'En la Plaza del Ayuntamiento, donde se disparan las mascletás.',
+  'footer.tagline': 'En la Plaza del Ayuntamiento, donde se disparan las mascletàs.',
   'footer.mainsite': 'Web principal del hotel',
   'footer.terms': 'Condiciones de reserva',
   'footer.cancellation': 'Política de cancelación',
@@ -34,18 +34,18 @@ const es: Dict = {
   'footer.rights': 'Todos los derechos reservados.',
 
   // home · hero
-  'home.h1.pre': 'Vive la mascletá desde tu',
+  'home.h1.pre': 'Vive la mascletà desde tu',
   'home.h1.accent': 'balcón privado',
-  'home.kicker': 'La Plaza del Ayuntamiento. Tu propio balcón. Y la mascletá justo delante.',
+  'home.kicker': 'La Plaza del Ayuntamiento. Tu propio balcón. Y la mascletà justo delante.',
   'home.p1':
-    'Durante Fallas, algunas de nuestras habitaciones se convierten durante unas horas en espacios privados para disfrutar de la mascletá desde primera línea, sin aglomeraciones y con todas las comodidades del hotel.',
+    'Durante Fallas, algunas de nuestras habitaciones se convierten durante unas horas en espacios privados para disfrutar de la mascletà desde primera línea, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.p2':
     'Todos los espacios son habitaciones del Hotel Venecia, con su mobiliario habitual, baño privado y balcón o mirador con vistas a la Plaza del Ayuntamiento.',
   'home.p3': 'Además, vuestra reserva incluye un Snack Pack para acompañar la experiencia.',
   'home.cta': 'Ver habitaciones disponibles',
   'home.tagline': 'Fallas, más cerca que nunca',
   'home.badge': 'Una experiencia única en Valencia',
-  'home.photo.hero.alt': 'La mascletá vista desde un balcón del Hotel Venecia',
+  'home.photo.hero.alt': 'La mascletà vista desde un balcón del Hotel Venecia',
 
   // home · fila de características
   'home.feature1.t': 'Vistas privilegiadas',
@@ -62,10 +62,10 @@ const es: Dict = {
   'home.tradicion.h2.pre': 'Vive la esencia de las Fallas',
   'home.tradicion.h2.accent': 'desde dentro.',
   'home.tradicion.p1':
-    'Durante Fallas, nuestras habitaciones están listas para disfrutar de la mascletá, con tu balcón, sin aglomeraciones y con todas las comodidades del hotel.',
+    'Durante Fallas, nuestras habitaciones están listas para disfrutar de la mascletà, con tu balcón, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.tradicion.p2': 'Una forma diferente, cómoda y exclusiva de vivir la tradición.',
   'home.tradicion.tagline': 'Valencia en estado puro',
-  'home.tradicion.photo.alt': 'Vista aérea de una mascletá en la Plaza del Ayuntamiento',
+  'home.tradicion.photo.alt': 'Vista aérea de una mascletà en la Plaza del Ayuntamiento',
 
   // home · elige tu balcón (adelanto de habitaciones)
   'home.rooms.eyebrow': 'Elige tu balcón',
@@ -76,7 +76,7 @@ const es: Dict = {
   // home · franja inferior
   'home.strip.schedule.t': 'Horario de acceso',
   'home.strip.schedule.v': '13:00 – 15:00 h',
-  'home.strip.mascleta.t': 'Mascletá',
+  'home.strip.mascleta.t': 'Mascletà',
   'home.strip.mascleta.v': '14:00 h',
   'home.strip.private.t': 'Espacio privado',
   'home.strip.private.v': 'Solo para tu reserva',
@@ -84,16 +84,16 @@ const es: Dict = {
   'home.strip.snack.v': 'Incluido',
 
   // rooms
-  'rooms.h1': 'Elige tu balcón para la mascletá',
+  'rooms.h1': 'Elige tu balcón para la mascletà',
   'rooms.lead':
     'Estas son las habitaciones del Hotel Venecia con balcón a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
   'rooms.intro':
     'Vive las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderte ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de ti.',
-  'rooms.intro.highlight': 'Tú, tu balcón y la mascletá.',
+  'rooms.intro.highlight': 'Tú, tu balcón y la mascletà.',
 
 
   // mascletas
-  'mascletas.h1': 'Calendario de mascletás',
+  'mascletas.h1': 'Calendario de mascletàs',
   'mascletas.lead':
     'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento.',
   'mascletas.march': 'Marzo 2027',
@@ -103,8 +103,8 @@ const es: Dict = {
   'faq.h1': 'Preguntas frecuentes',
   'faq.q1': '¿Qué días puedo reservar?',
   'faq.a1':
-    'Cualquier día del 1 al 12 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletá de las 14:00 h.',
-  'faq.q2': '¿Todas las habitaciones tienen vistas a la mascletá?',
+    'Cualquier día del 1 al 12 de marzo de 2027. La habitación se reserva por horas, de 13:00 a 15:00 h, para ver la mascletà de las 14:00 h.',
+  'faq.q2': '¿Todas las habitaciones tienen vistas a la mascletà?',
   'faq.a2':
     'Sí: las habitaciones que se ofrecen para Fallas tienen balcón o mirador con vistas a la Plaza del Ayuntamiento.',
   'faq.q3': '¿Qué incluye el Snack Pack?',
@@ -117,7 +117,7 @@ const es: Dict = {
   'roomcard.title': 'Habitación {n}',
   'roomcard.capacity': 'Capacidad máxima: {n} personas',
   'roomcard.bath': 'Baño privado',
-  'roomcard.balcony': 'Balcón con vistas a la mascletá',
+  'roomcard.balcony': 'Balcón con vistas a la mascletà',
   'roomcard.snack':
     'Snack Pack incluido: patatas, mini fuet, aceitunas, frutos secos, 2 refrescos o cervezas y 1 agua por persona',
   'roomcard.hours': 'Disponible de {start} a {end} h',
@@ -133,7 +133,7 @@ const es: Dict = {
   'roomcard.soldout': 'Sin disponibilidad para estas fechas.',
 
   // reserva (flujo del Hito 2: espacio privado por horas, no noches)
-  'book.h1': 'Reserva tu balcón para la mascletá',
+  'book.h1': 'Reserva tu balcón para la mascletà',
   'book.lead':
     'Elige el día, la habitación y paga online: tu reserva queda confirmada al momento.',
 
@@ -142,11 +142,11 @@ const es: Dict = {
   'book.step.details': 'Tus datos',
   'book.step.done': 'Confirmación',
 
-  'book.date.title': '¿Qué día quieres vivir la mascletá?',
+  'book.date.title': '¿Qué día quieres vivir la mascletà?',
   'book.date.date': 'Fecha',
   'book.date.guests': 'Personas',
   'book.date.guestsHint': 'El precio de la habitación depende del número de personas.',
-  'book.date.window': 'Días del 1 al 12 de marzo de 2027. Acceso de {start} a {end} h, mascletá a las {mascleta} h.',
+  'book.date.window': 'Días del 1 al 12 de marzo de 2027. Acceso de {start} a {end} h, mascletà a las {mascleta} h.',
   'book.date.submit': 'Buscar disponibilidad',
   'book.date.err.range': 'La fecha debe estar entre el 1 y el 12 de marzo de 2027.',
   'book.date.err.generic': 'Revisa la fecha.',
@@ -208,16 +208,16 @@ const es: Dict = {
 
   'book.meta.title': 'Reservar balcón · Hotel Venecia Plaza Centro · Fallas 2027',
   'book.meta.desc':
-    'Reserva tu balcón privado en el Hotel Venecia Plaza Centro para ver la mascletá de Fallas 2027 desde la Plaza del Ayuntamiento.',
+    'Reserva tu balcón privado en el Hotel Venecia Plaza Centro para ver la mascletà de Fallas 2027 desde la Plaza del Ayuntamiento.',
 
   // legal
   'legal.nav.aria': 'Otras páginas legales',
   'legal.terms.h1': 'Condiciones de reserva',
   'legal.terms.intro':
-    'Estas condiciones regulan la reserva de balcón privado para la mascletá de Fallas 2027 en el Hotel Venecia Plaza Centro. Al completar el pago desde esta web aceptas los términos que se describen a continuación.',
+    'Estas condiciones regulan la reserva de balcón privado para la mascletà de Fallas 2027 en el Hotel Venecia Plaza Centro. Al completar el pago desde esta web aceptas los términos que se describen a continuación.',
   'legal.terms.s1.h': 'Qué incluye la reserva',
   'legal.terms.s1.p':
-    'Reservas el uso privado de una de las 9 habitaciones reales del hotel durante la franja de 13:00 a 15:00 h del día de mascletá que elijas, con vistas a la Plaza del Ayuntamiento y Snack Pack incluido. No es una reserva de alojamiento ni incluye pernoctación.',
+    'Reservas el uso privado de una de las 9 habitaciones reales del hotel durante la franja de 13:00 a 15:00 h del día de mascletà que elijas, con vistas a la Plaza del Ayuntamiento y Snack Pack incluido. No es una reserva de alojamiento ni incluye pernoctación.',
   'legal.terms.s2.h': 'Ocupación y precio',
   'legal.terms.s2.p':
     'Cada habitación admite hasta 4 personas. El precio mostrado depende del número de huéspedes indicado en el momento de la reserva (2, 3 o 4) y se calcula siempre por el hotel, nunca lo indica el cliente.',
@@ -232,7 +232,7 @@ const es: Dict = {
     'Las condiciones de cambio y cancelación, incluido el carácter no reembolsable del importe abonado, se detallan en nuestra {cancellationLink}.',
   'legal.terms.s6.h': 'Circunstancias ajenas al hotel',
   'legal.terms.s6.p':
-    'La mascletá la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la {cancellationLink}.',
+    'La mascletà la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la {cancellationLink}.',
   'legal.terms.s7.h': 'Uso del espacio',
   'legal.terms.s7.p':
     'La habitación reservada es un espacio real del hotel puesto a tu disposición durante la experiencia. Te pedimos que cuides el mobiliario y las instalaciones; el hotel podrá repercutir el coste de daños causados durante tu franja de acceso.',
@@ -252,7 +252,7 @@ const es: Dict = {
     'Si no acudes dentro de la franja horaria reservada (13:00–15:00 h), la reserva se considera consumida: no da derecho a reembolso ni a cambio de fecha.',
   'legal.cancellation.s4.h': 'Cancelación por parte del hotel',
   'legal.cancellation.s4.p':
-    'Si el hotel debe cancelar tu experiencia por causas ajenas a su voluntad (por ejemplo, la suspensión de la mascletá por el Ayuntamiento de València), te propondremos cambiar de fecha en cuanto sea posible.',
+    'Si el hotel debe cancelar tu experiencia por causas ajenas a su voluntad (por ejemplo, la suspensión de la mascletà por el Ayuntamiento de València), te propondremos cambiar de fecha en cuanto sea posible.',
   'legal.cancellation.s5.h': 'Cómo gestionar tu reserva',
   'legal.cancellation.s5.p':
     'Escríbenos indicando tu localizador de reserva y te ayudaremos con cualquier cambio.',
@@ -286,14 +286,14 @@ const es: Dict = {
   'legal.privacy.contact': '¿Dudas sobre tus datos? Escríbenos:',
 
   // meta
-  'meta.home.title': 'Fallas 2027 · Reserva tu balcón en el Hotel Venecia y vive la mascletá — Plaza del Ayuntamiento, València',
+  'meta.home.title': 'Fallas 2027 · Reserva tu balcón en el Hotel Venecia y vive la mascletà — Plaza del Ayuntamiento, València',
   'meta.home.desc':
-    'Reserva una habitación privada en el Hotel Venecia Plaza Centro para ver la mascletá de Fallas 2027 desde tu propio balcón en la Plaza del Ayuntamiento. Snack Pack incluido.',
+    'Reserva una habitación privada en el Hotel Venecia Plaza Centro para ver la mascletà de Fallas 2027 desde tu propio balcón en la Plaza del Ayuntamiento. Snack Pack incluido.',
 };
 
 const en: Dict = {
   'nav.rooms': 'Rooms',
-  'nav.mascletas': 'Mascletás',
+  'nav.mascletas': 'Mascletàs',
   'nav.faq': 'FAQ',
   'nav.book': 'Book now',
   'nav.menu': 'Menu',
@@ -303,7 +303,7 @@ const en: Dict = {
   'fab.contact.aria': 'Contact by phone or WhatsApp',
   'fab.top.aria': 'Back to top',
 
-  'footer.tagline': "On Plaza del Ayuntamiento, where the mascletás are set off.",
+  'footer.tagline': "On Plaza del Ayuntamiento, where the mascletàs are set off.",
   'footer.mainsite': "Hotel's main website",
   'footer.terms': 'Booking terms',
   'footer.cancellation': 'Cancellation policy',
@@ -311,18 +311,18 @@ const en: Dict = {
   'footer.videoCredit': 'Video: Freakpyromaniacs (CC BY)',
   'footer.rights': 'All rights reserved.',
 
-  'home.h1.pre': 'Experience the mascletá from your',
+  'home.h1.pre': 'Experience the mascletà from your',
   'home.h1.accent': 'private balcony',
-  'home.kicker': 'Plaza del Ayuntamiento. Your own balcony. The mascletá right in front of you.',
+  'home.kicker': 'Plaza del Ayuntamiento. Your own balcony. The mascletà right in front of you.',
   'home.p1':
-    'During Fallas, some of our rooms become private spaces for a few hours so you can enjoy the mascletá front row, away from the crowds and with all the hotel’s comforts.',
+    'During Fallas, some of our rooms become private spaces for a few hours so you can enjoy the mascletà front row, away from the crowds and with all the hotel’s comforts.',
   'home.p2':
     'Every space is a real room at Hotel Venecia, with its usual furniture, a private bathroom, and a balcony or viewpoint over Plaza del Ayuntamiento.',
   'home.p3': 'Your booking also includes a Snack Pack to enjoy the experience.',
   'home.cta': 'See available rooms',
   'home.tagline': 'Fallas, closer than ever',
   'home.badge': 'A unique experience in Valencia',
-  'home.photo.hero.alt': 'The mascletá seen from a Hotel Venecia balcony',
+  'home.photo.hero.alt': 'The mascletà seen from a Hotel Venecia balcony',
 
   'home.feature1.t': 'Prime views',
   'home.feature1.d': 'Balcony or viewpoint over Plaza del Ayuntamiento',
@@ -337,10 +337,10 @@ const en: Dict = {
   'home.tradicion.h2.pre': 'Experience the essence of Fallas',
   'home.tradicion.h2.accent': 'from the inside.',
   'home.tradicion.p1':
-    'During Fallas, some of our rooms become private spaces to enjoy the mascletá, away from the crowds and with all the hotel’s comforts.',
+    'During Fallas, some of our rooms become private spaces to enjoy the mascletà, away from the crowds and with all the hotel’s comforts.',
   'home.tradicion.p2': 'A different, comfortable and exclusive way to experience the tradition.',
   'home.tradicion.tagline': 'Valencia in its purest form',
-  'home.tradicion.photo.alt': 'Aerial view of a mascletá in Plaza del Ayuntamiento',
+  'home.tradicion.photo.alt': 'Aerial view of a mascletà in Plaza del Ayuntamiento',
 
   'home.rooms.eyebrow': 'Choose your balcony',
   'home.rooms.h2': 'Available rooms',
@@ -349,21 +349,21 @@ const en: Dict = {
 
   'home.strip.schedule.t': 'Access hours',
   'home.strip.schedule.v': '1pm – 3pm',
-  'home.strip.mascleta.t': 'Mascletá',
+  'home.strip.mascleta.t': 'Mascletà',
   'home.strip.mascleta.v': '2pm',
   'home.strip.private.t': 'Private space',
   'home.strip.private.v': 'Exclusively for your booking',
   'home.strip.snack.t': 'Snack Pack',
   'home.strip.snack.v': 'Included',
 
-  'rooms.h1': 'Choose your balcony for the mascletá',
+  'rooms.h1': 'Choose your balcony for the mascletà',
   'rooms.lead':
     'These are the 9 Hotel Venecia rooms with a balcony over Plaza del Ayuntamiento. Pick a date, room and number of guests — we take care of the rest.',
   'rooms.intro':
     "Experience Fallas from the front row. Private rooms with a balcony right onto the square and spectacular views so you don't miss a moment. Private bathroom, exclusive spaces, and all the excitement of Fallas right in front of you.",
-  'rooms.intro.highlight': 'You, your balcony, and the mascletá.',
+  'rooms.intro.highlight': 'You, your balcony, and the mascletà.',
 
-  'mascletas.h1': 'Mascletá calendar',
+  'mascletas.h1': 'Mascletà calendar',
   'mascletas.lead':
     'From 1 to 19 March 2027, every day at 2 pm on Plaza del Ayuntamiento.',
   'mascletas.march': 'March 2027',
@@ -372,8 +372,8 @@ const en: Dict = {
   'faq.h1': 'Frequently asked questions',
   'faq.q1': 'Which days can I book?',
   'faq.a1':
-    'Any day from 1 to 12 March 2027. The room is booked by the hour, from 1pm to 3pm, to watch the 2pm mascletá.',
-  'faq.q2': 'Do all the rooms have views of the mascletá?',
+    'Any day from 1 to 12 March 2027. The room is booked by the hour, from 1pm to 3pm, to watch the 2pm mascletà.',
+  'faq.q2': 'Do all the rooms have views of the mascletà?',
   'faq.a2':
     'Yes: all 9 rooms offered for Fallas have a balcony or viewpoint over Plaza del Ayuntamiento.',
   'faq.q3': "What's included in the Snack Pack?",
@@ -385,7 +385,7 @@ const en: Dict = {
   'roomcard.title': 'Room {n}',
   'roomcard.capacity': 'Maximum capacity: {n} people',
   'roomcard.bath': 'Private bathroom',
-  'roomcard.balcony': 'Balcony overlooking the mascletá',
+  'roomcard.balcony': 'Balcony overlooking the mascletà',
   'roomcard.snack':
     'Snack Pack included: crisps, mini fuet sausage, olives, nuts, 2 soft drinks or beers and 1 water per person',
   'roomcard.hours': 'Available from {start} to {end}',
@@ -400,7 +400,7 @@ const en: Dict = {
   'roomcard.soldout.badge': 'Fully booked',
   'roomcard.soldout': 'No availability for these dates.',
 
-  'book.h1': 'Book your balcony for the mascletá',
+  'book.h1': 'Book your balcony for the mascletà',
   'book.lead':
     'Pick the day and the room, then pay online: your booking is confirmed straight away.',
 
@@ -409,11 +409,11 @@ const en: Dict = {
   'book.step.details': 'Your details',
   'book.step.done': 'Confirmation',
 
-  'book.date.title': 'Which day do you want to experience the mascletá?',
+  'book.date.title': 'Which day do you want to experience the mascletà?',
   'book.date.date': 'Date',
   'book.date.guests': 'Guests',
   'book.date.guestsHint': 'The room price depends on the number of guests.',
-  'book.date.window': 'Days from 1 to 12 March 2027. Access from {start} to {end}, mascletá at {mascleta}.',
+  'book.date.window': 'Days from 1 to 12 March 2027. Access from {start} to {end}, mascletà at {mascleta}.',
   'book.date.submit': 'Check availability',
   'book.date.err.range': 'The date must fall between 1 and 12 March 2027.',
   'book.date.err.generic': 'Please check the date.',
@@ -474,15 +474,15 @@ const en: Dict = {
 
   'book.meta.title': 'Book your balcony · Hotel Venecia Plaza Centro · Fallas 2027',
   'book.meta.desc':
-    'Book your private balcony at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletá from Plaza del Ayuntamiento.',
+    'Book your private balcony at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletà from Plaza del Ayuntamiento.',
 
   'legal.nav.aria': 'Other legal pages',
   'legal.terms.h1': 'Booking terms',
   'legal.terms.intro':
-    'These terms govern the booking of a private balcony to watch the Fallas 2027 mascletá at Hotel Venecia Plaza Centro. By completing payment through this website you accept the terms described below.',
+    'These terms govern the booking of a private balcony to watch the Fallas 2027 mascletà at Hotel Venecia Plaza Centro. By completing payment through this website you accept the terms described below.',
   'legal.terms.s1.h': 'What the booking includes',
   'legal.terms.s1.p':
-    'You are booking private use of one of the hotel’s 9 real rooms during the 13:00–15:00 window on the mascletá day you choose, with views over Plaza del Ayuntamiento and a Snack Pack included. This is not an overnight stay and does not include lodging.',
+    'You are booking private use of one of the hotel’s 9 real rooms during the 13:00–15:00 window on the mascletà day you choose, with views over Plaza del Ayuntamiento and a Snack Pack included. This is not an overnight stay and does not include lodging.',
   'legal.terms.s2.h': 'Occupancy and price',
   'legal.terms.s2.p':
     'Each room takes up to 4 people. The price shown depends on the number of guests selected at the time of booking (2, 3 or 4) and is always calculated by the hotel, never entered by the guest.',
@@ -497,7 +497,7 @@ const en: Dict = {
     'Change and cancellation terms, including the non-refundable nature of the amount paid, are detailed in our {cancellationLink}.',
   'legal.terms.s6.h': 'Circumstances beyond the hotel’s control',
   'legal.terms.s6.p':
-    'The mascletá is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the {cancellationLink} applies.',
+    'The mascletà is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the {cancellationLink} applies.',
   'legal.terms.s7.h': 'Use of the space',
   'legal.terms.s7.p':
     'The booked room is a real space of the hotel made available to you for the experience. Please take care of the furniture and facilities; the hotel may charge for damage caused during your access window.',
@@ -517,7 +517,7 @@ const en: Dict = {
     'If you do not arrive within your booked time window (13:00–15:00), the booking is considered used: it does not entitle you to a refund or a date change.',
   'legal.cancellation.s4.h': 'Cancellation by the hotel',
   'legal.cancellation.s4.p':
-    'If the hotel has to cancel your experience for reasons beyond its control (for example, the mascletá being suspended by the Valencia City Council), we will offer to change your date as soon as possible.',
+    'If the hotel has to cancel your experience for reasons beyond its control (for example, the mascletà being suspended by the Valencia City Council), we will offer to change your date as soon as possible.',
   'legal.cancellation.s5.h': 'Managing your booking',
   'legal.cancellation.s5.p': 'Write to us with your booking locator and we will help with any change.',
   'legal.cancellation.contact': 'Contact us to manage your booking:',
@@ -548,9 +548,9 @@ const en: Dict = {
   'legal.privacy.s8.p': 'This website does not use third-party analytics or advertising cookies.',
   'legal.privacy.contact': 'Questions about your data? Write to us:',
 
-  'meta.home.title': 'Fallas 2027 · Book your balcony at Hotel Venecia and experience the mascletá — Plaza del Ayuntamiento, València',
+  'meta.home.title': 'Fallas 2027 · Book your balcony at Hotel Venecia and experience the mascletà — Plaza del Ayuntamiento, València',
   'meta.home.desc':
-    'Book a private room at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletá from your own balcony over Plaza del Ayuntamiento. Snack Pack included.',
+    'Book a private room at Hotel Venecia Plaza Centro to watch the Fallas 2027 mascletà from your own balcony over Plaza del Ayuntamiento. Snack Pack included.',
 };
 
 const DICTS: Record<Locale, Dict> = {

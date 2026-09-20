@@ -1,5 +1,5 @@
 /**
- * Lógica de la experiencia "balcón para la mascletá": tipos, fecha, validación
+ * Lógica de la experiencia "balcón para la mascletà": tipos, fecha, validación
  * y precio. Independiente de Airtable y de Astro.
  *
  * No es una reserva de noches: cada habitación se alquila por horas (ver
