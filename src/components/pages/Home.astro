@@ -11,7 +11,7 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-const rooms = (await getRooms()).slice(0, 4);
+const rooms = (await getRooms()).slice(0, 3);
 const roomsUrl = pagePath('rooms', lang);
 
 // Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
