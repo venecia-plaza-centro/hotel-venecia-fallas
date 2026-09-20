@@ -8,7 +8,7 @@ export const SITE = {
   phoneHref: 'tel:+34963524267',
   whatsapp: '+34 691 20 17 17',
   whatsappHref: 'https://wa.me/34691201717',
-  email: 'reservas@hotelvenecia.com',
+  email: 'fallas@hotelvenecia.com',
   address: 'Plaza del Ayuntamiento, 3 · 46002 València',
 } as const;
 
