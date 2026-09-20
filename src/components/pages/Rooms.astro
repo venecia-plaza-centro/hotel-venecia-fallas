@@ -16,6 +16,7 @@ const rooms = await getRooms();
 
 <PageHero title={t('rooms.h1')} lead={t('rooms.lead')} leadItalic>
   <p class="rooms-intro">{t('rooms.intro')}</p>
+  <p class="rooms-intro rooms-intro-highlight">{t('rooms.intro.highlight')}</p>
 </PageHero>
 
 <section class="section">
@@ -31,6 +32,7 @@ const rooms = await getRooms();
     max-width: 620px; margin: 16px auto 0; text-align: center;
     color: rgba(255, 255, 255, .72); font-size: 15.5px; line-height: 1.7;
   }
+  .rooms-intro-highlight { color: #fff; font-weight: 700; font-style: italic; }
   .rooms-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 0 auto; }
   @media (max-width: 760px) { .rooms-list { grid-template-columns: 1fr; } }
 </style>
