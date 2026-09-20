@@ -7,14 +7,7 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-// 1–19 marzo 2027. Días con evento especial marcados.
-const special: Record<number, string> = {
-  15: 'Plantà',
-  16: 'Plantà',
-  17: 'Ofrena de flors',
-  18: 'Ofrena · Nit del Foc',
-  19: 'Sant Josep · Cremà',
-};
+// 1–19 marzo 2027.
 const days = Array.from({ length: 19 }, (_, i) => i + 1);
 ---
 
@@ -27,10 +20,7 @@ const days = Array.from({ length: 19 }, (_, i) => i + 1);
       {days.map((d) => (
         <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
           <span><strong>{d}</strong> {t('mascletas.month')}</span>
-          <span style="color:var(--text-soft)">
-            {FALLAS.mascletaTime}
-            {special[d] ? ` · ${special[d]}` : ''}
-          </span>
+          <span style="color:var(--text-soft)">{FALLAS.mascletaTime}</span>
         </li>
       ))}
     </ul>
