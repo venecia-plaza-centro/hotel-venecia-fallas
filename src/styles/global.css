@@ -134,7 +134,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .nav-brand-fallas { animation: navFallasFire 3.6s ease-in-out infinite; }
 .nav-links { display: flex; align-items: center; gap: 26px; }
-.nav-links a { font-size: 16px; font-weight: 600; color: #fff; }
+.nav-links a { font-size: 16px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: .03em; }
 .nav-links a:hover { color: var(--gold); }
 .nav-right { display: flex; align-items: center; gap: 16px; }
 /* Botón "Reservar" del header, más pequeño que un .btn normal. */
