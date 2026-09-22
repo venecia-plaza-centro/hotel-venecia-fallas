@@ -101,6 +101,28 @@ const minPerPerson = Math.min(
     })
     .catch(() => {});
 
+  // Las fotos de Airtable llevan una URL firmada que caduca a las pocas
+  // horas: la que se guardó en el build de esta página estática puede
+  // llevar rato caducada. Se piden las vigentes y se sustituyen aquí.
+  fetch('/api/room-photos')
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.ok) return;
+      const photosBySlug = data.photos as Record<string, string[]>;
+      document.querySelectorAll<HTMLElement>('.room-card[data-room-slug]').forEach((card) => {
+        const slug = card.dataset.roomSlug || '';
+        const fresh = photosBySlug[slug];
+        if (!fresh || !fresh.length) return;
+        const media = card.querySelector<HTMLElement>('.room-card-media');
+        if (!media) return;
+        media.dataset.photos = JSON.stringify(fresh);
+        const idx = parseInt(media.dataset.idx || '0', 10);
+        const img = media.querySelector('img');
+        if (img) img.src = fresh[idx] ?? fresh[0];
+      });
+    })
+    .catch(() => {});
+
   // Delegación de eventos: sirve para todas las .room-card de la página
   // (Home puede mostrar varias, Habitaciones las nueve).
   function goToPhoto(media: HTMLElement, dir: number) {
