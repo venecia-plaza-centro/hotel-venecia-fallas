@@ -9,7 +9,7 @@ const { lang, pageId } = Astro.props;
 const t = useT(lang);
 const h1 = t(`legal.${pageId}.h1`);
 
-const SECTION_COUNT: Record<string, number> = { terms: 7, cancellation: 5, privacy: 8 };
+const SECTION_COUNT: Record<string, number> = { terms: 7, cancellation: 4, privacy: 8 };
 const sections = Array.from({ length: SECTION_COUNT[pageId] ?? 0 }, (_, i) => i + 1).map((n) => ({
   h: t(`legal.${pageId}.s${n}.h`),
   p: t(`legal.${pageId}.s${n}.p`),

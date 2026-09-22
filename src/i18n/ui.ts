@@ -234,18 +234,15 @@ const es: Dict = {
   'legal.cancellation.s1.h': 'Pagos no reembolsables',
   'legal.cancellation.s1.p':
     'El importe abonado por la reserva de tu balcón privado no es reembolsable, sea cual sea el motivo o la antelación con la que se solicite la cancelación.',
-  'legal.cancellation.s2.h': 'Cambio de fecha',
+  'legal.cancellation.s2.h': 'Fecha y habitación fijas',
   'legal.cancellation.s2.p':
-    'Aunque no se admiten reembolsos, si necesitas cambiar el día reservado contacta con el hotel: intentaremos ofrecerte otra fecha disponible dentro del periodo de venta de Fallas 2027 (1 a 12 de marzo), sujeto a disponibilidad de la misma habitación u otra equivalente. No siempre será posible.',
+    'Tu balcón privado queda reservado para la fecha y la habitación exactas que elegiste al confirmar: no se admiten cambios posteriores. Te pedimos elegir con calma antes de reservar, para que el día de la mascletà todo sea exactamente como lo imaginaste.',
   'legal.cancellation.s3.h': 'Si no te presentas',
   'legal.cancellation.s3.p':
     'Si no acudes dentro de la franja horaria reservada (13:00–15:00 h), la reserva se considera consumida: no da derecho a reembolso ni a cambio de fecha.',
-  'legal.cancellation.s4.h': 'Cancelación por parte del hotel',
+  'legal.cancellation.s4.h': 'Cómo gestionar tu reserva',
   'legal.cancellation.s4.p':
-    'Si el hotel debe cancelar tu experiencia por causas ajenas a su voluntad (por ejemplo, la suspensión de la mascletà por el Ayuntamiento de València), te propondremos cambiar de fecha en cuanto sea posible.',
-  'legal.cancellation.s5.h': 'Cómo gestionar tu reserva',
-  'legal.cancellation.s5.p':
-    'Escríbenos indicando tu localizador de reserva y te ayudaremos con cualquier cambio.',
+    'Escríbenos indicando tu localizador de reserva y te ayudaremos en lo que podamos.',
   'legal.cancellation.contact': 'Contacto para gestionar tu reserva:',
 
   'legal.privacy.h1': 'Política de privacidad',
@@ -488,17 +485,14 @@ const en: Dict = {
   'legal.cancellation.s1.h': 'Non-refundable payments',
   'legal.cancellation.s1.p':
     'The amount paid for your private balcony booking is non-refundable, regardless of the reason or notice given for the cancellation.',
-  'legal.cancellation.s2.h': 'Changing your date',
+  'legal.cancellation.s2.h': 'Fixed date and room',
   'legal.cancellation.s2.p':
-    'Although refunds are not available, if you need to change your booked day contact the hotel: we will try to offer another available date within the Fallas 2027 sale period (1–12 March), subject to availability of the same or an equivalent room. This may not always be possible.',
+    'Your private balcony is booked for the exact date and room you chose when confirming: no changes are possible afterwards. We ask you to choose carefully before booking, so that on the day of the mascletà everything is exactly as you pictured it.',
   'legal.cancellation.s3.h': 'If you don’t show up',
   'legal.cancellation.s3.p':
     'If you do not arrive within your booked time window (13:00–15:00), the booking is considered used: it does not entitle you to a refund or a date change.',
-  'legal.cancellation.s4.h': 'Cancellation by the hotel',
-  'legal.cancellation.s4.p':
-    'If the hotel has to cancel your experience for reasons beyond its control (for example, the mascletà being suspended by the Valencia City Council), we will offer to change your date as soon as possible.',
-  'legal.cancellation.s5.h': 'Managing your booking',
-  'legal.cancellation.s5.p': 'Write to us with your booking locator and we will help with any change.',
+  'legal.cancellation.s4.h': 'Managing your booking',
+  'legal.cancellation.s4.p': 'Write to us with your booking locator and we will help however we can.',
   'legal.cancellation.contact': 'Contact us to manage your booking:',
 
   'legal.privacy.h1': 'Privacy policy',
