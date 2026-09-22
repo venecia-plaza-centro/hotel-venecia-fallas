@@ -99,7 +99,7 @@ const es: Dict = {
   'faq.a3':
     'Va incluido en el precio de la habitación, sin coste extra: patatas, mini fuet, aceitunas, frutos secos, 2 refrescos o cervezas y 1 agua por persona.',
   'faq.q4': '¿Puedo cancelar?',
-  'faq.a4': 'Consulta la política de cancelación para las fechas de Fallas.',
+  'faq.a4': 'Consulta la {cancellationLink} para las fechas de las mascletás.',
 
   // tarjeta de habitación (Home + Habitaciones)
   'roomcard.title': 'Habitación {n}',
@@ -352,7 +352,7 @@ const en: Dict = {
   'faq.a3':
     "It's included in the room price at no extra cost: crisps, mini fuet sausage, olives, nuts, 2 soft drinks or beers and 1 water per person.",
   'faq.q4': 'Can I cancel?',
-  'faq.a4': 'See the cancellation policy for the Fallas dates.',
+  'faq.a4': 'See the {cancellationLink} for the Fallas dates.',
 
   'roomcard.title': 'Room {n}',
   'roomcard.capacity': 'Maximum capacity: {n} people',

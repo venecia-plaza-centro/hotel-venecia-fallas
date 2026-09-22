@@ -1,6 +1,7 @@
 ---
 import { type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
+import { pagePath } from '../../i18n/pages';
 import PageHero from '../PageHero.astro';
 
 interface Props { lang: Locale; }
@@ -8,6 +9,16 @@ const { lang } = Astro.props;
 const t = useT(lang);
 
 const qa = [1, 2, 3, 4].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
+
+// La respuesta sobre cancelación mete un marcador {cancellationLink} que
+// aquí se convierte en un enlace real a esa página (mismo patrón que en
+// Legal.astro).
+const cancellationUrl = pagePath('cancellation', lang);
+const linkify = (text: string) =>
+  text.replace(
+    '{cancellationLink}',
+    `<a href="${cancellationUrl}" style="color:var(--gold);text-decoration:underline">${t('legal.cancellation.h1')}</a>`,
+  );
 ---
 
 <PageHero title={t('faq.h1')} />
@@ -19,7 +30,7 @@ const qa = [1, 2, 3, 4].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
         <h2 style="font-family:var(--ff-display);font-size:18px;color:var(--navy)">
           {item.q}
         </h2>
-        <p style="color:var(--text-mid);font-size:15px;margin-top:10px">{item.a}</p>
+        <p style="color:var(--text-mid);font-size:15px;margin-top:10px" set:html={linkify(item.a)} />
       </div>
     ))}
   </div>
