@@ -62,7 +62,7 @@ const es: Dict = {
   'home.tradicion.h2.pre': 'Vive la esencia de las Fallas',
   'home.tradicion.h2.accent': 'desde dentro.',
   'home.tradicion.p1':
-    'Durante Fallas, nuestras habitaciones están listas para disfrutar de la mascletà, con tu balcón, sin aglomeraciones y con todas las comodidades del hotel.',
+    'Del 1 al 19 de marzo, nuestras habitaciones están listas para disfrutar de la mascletà, con tu balcón, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.tradicion.p2': 'Una forma diferente, cómoda y exclusiva de vivir la tradición.',
   'home.tradicion.tagline': 'Valencia en estado puro',
   'home.tradicion.photo.alt': 'Vista aérea de una mascletà en la Plaza del Ayuntamiento',
