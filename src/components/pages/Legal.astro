@@ -40,6 +40,7 @@ const linkify = (text: string) =>
         {LEGAL_LINKS[id].label}
       </a>
     ))}
+    <a href={pagePath('home', lang)} class="legal-tabs-home">{t('legal.home')}</a>
   </nav>
 </section>
 
@@ -67,4 +68,8 @@ const linkify = (text: string) =>
   }
   .legal-tabs a:hover { border-color: var(--gold); color: var(--navy); }
   .legal-tabs a.is-active { background: var(--navy); border-color: var(--navy); color: #fff; }
+  /* Separado a la derecha (margin-left:auto) y en dorado, para que
+     destaque de las pestañas y no parezca una página legal más. */
+  .legal-tabs-home { margin-left: auto; background: var(--gold); border-color: var(--gold); color: #fff; }
+  .legal-tabs-home:hover { background: transparent; border-color: var(--gold); color: var(--navy); }
 </style>
