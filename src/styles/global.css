@@ -87,9 +87,16 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .btn-ghost:hover { background: var(--navy); color: #fff; }
 
 /* ─── PAGE HERO (mismo patrón que la web nueva) ─── */
+/* El nav es fixed (~92px) y tapa parte del padding superior: sin
+   compensarlo, el hueco visible arriba queda mucho más corto que el de
+   abajo aunque el padding top/bottom se vea "distinto" a propósito. Mismo
+   ajuste que en el hero de Home: padding-top = alto del nav + hueco
+   deseado (40px), padding-bottom = ese hueco menos el margin-bottom
+   propio de .gold-rule (22px), para que ambos acaben midiendo 40px
+   visibles. */
 .page-hero {
   background: var(--navy); color: #fff;
-  padding: 132px 0 76px; text-align: center; position: relative; overflow: hidden;
+  padding: 132px 0 18px; text-align: center; position: relative; overflow: hidden;
 }
 .page-hero > .container { position: relative; }
 .page-hero .eyebrow { display: block; margin-bottom: 16px; }
@@ -100,7 +107,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .page-hero .lead a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 2px; }
 .page-hero .lead a:hover { color: #fff; }
 .page-hero .lead-italic { font-style: italic; }
-@media (max-width: 768px) { .page-hero { padding: 104px 0 48px; } }
+@media (max-width: 768px) { .page-hero { padding: 128px 0 18px; } }
 
 /* ─── NAV ─── */
 /* Fondo azul marino fijo en todas las páginas (antes era blanco y solo

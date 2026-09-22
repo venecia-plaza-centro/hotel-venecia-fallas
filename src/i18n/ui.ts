@@ -77,12 +77,8 @@ const es: Dict = {
 
   // rooms
   'rooms.h1': 'Elige tu balcón para la mascletà',
-  'rooms.lead':
-    'Estas son las habitaciones del Hotel Venecia con balcón a la Plaza del Ayuntamiento. Selecciona la fecha, habitación y número de personas: del resto nos encargamos nosotros.',
   'rooms.intro':
     'Vive las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderte ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de ti.',
-  'rooms.intro.highlight': 'Tú, tu balcón y la mascletà.',
-
 
   // mascletas
   'mascletas.h1': 'Calendario de mascletàs',
@@ -336,11 +332,8 @@ const en: Dict = {
   'home.rooms.seeall': 'See all 9 rooms',
 
   'rooms.h1': 'Choose your balcony for the mascletà',
-  'rooms.lead':
-    'These are the 9 Hotel Venecia rooms with a balcony over Plaza del Ayuntamiento. Pick a date, room and number of guests — we take care of the rest.',
   'rooms.intro':
     "Experience Fallas from the front row. Private rooms with a balcony right onto the square and spectacular views so you don't miss a moment. Private bathroom, exclusive spaces, and all the excitement of Fallas right in front of you.",
-  'rooms.intro.highlight': 'You, your balcony, and the mascletà.',
 
   'mascletas.h1': 'Mascletà calendar',
   'mascletas.lead':
