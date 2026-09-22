@@ -11,7 +11,7 @@ const titleHtml = title.replace(/\b(balcón|balcony)\b/i, '<em>$1</em>');
 
 // "Plaza del Ayuntamiento" enlaza a Google Maps (con destino ya puesto, para
 // que el móvil calcule la ruta desde la ubicación GPS del usuario) en los
-// leads que la mencionan (Habitaciones, Mascletàs).
+// leads que la mencionan (Habitaciones, Mascletás).
 const MAPS_URL = 'https://www.google.com/maps/dir/?api=1&destination=Plaza+del+Ayuntamiento,+Valencia';
 const leadHtml = lead?.replace(
   /Plaza del Ayuntamiento/i,

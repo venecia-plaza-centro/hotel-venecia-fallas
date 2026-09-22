@@ -16,17 +16,17 @@ export type BookingEmail = BookingNotification;
 const EMAIL_COPY: Record<string, Record<string, string>> = {
   es: {
     subject: 'Reserva confirmada {locator} · Fallas 2027',
-    preheader: 'Tu balcón privado para la mascletà está confirmado.',
+    preheader: 'Tu balcón privado para la mascletá está confirmado.',
     greeting: 'Hola {firstName},',
-    intro: 'Tu balcón privado para la mascletà de Fallas 2027 queda confirmado:',
+    intro: 'Tu balcón privado para la mascletá de Fallas 2027 queda confirmado:',
     next: 'Te esperamos en el hotel el día de tu reserva, dentro de la franja horaria indicada. Si necesitas cambiar algo, escríbenos con tu localizador.',
     contact: '¿Alguna duda? Escríbenos o llámanos:',
   },
   en: {
     subject: 'Booking confirmed {locator} · Fallas 2027',
-    preheader: 'Your private balcony for the mascletà is confirmed.',
+    preheader: 'Your private balcony for the mascletá is confirmed.',
     greeting: 'Hi {firstName},',
-    intro: 'Your private balcony for the Fallas 2027 mascletà is confirmed:',
+    intro: 'Your private balcony for the Fallas 2027 mascletá is confirmed:',
     next: "We'll see you at the hotel on the day of your booking, within the time window shown. Need to change anything? Write to us with your reference.",
     contact: 'Any questions? Write or call us:',
   },
@@ -161,7 +161,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   const hotelSummary = [
     `Localizador: ${data.locator}`,
     `Cliente: ${data.firstName} ${data.lastName} · ${data.email} · ${data.phone}`,
-    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
+    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`,
     `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
     data.notes ? `Notas: ${data.notes}` : null,
