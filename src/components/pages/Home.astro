@@ -30,12 +30,8 @@ const features = [
   { icon: 'tray', t: t('home.feature4.t'), d: t('home.feature4.d') },
 ];
 
-const strip = [
-  { icon: 'clock', t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
-  { icon: 'sparkle', t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
-  { icon: 'key', t: t('home.strip.private.t'), v: t('home.strip.private.v') },
-  { icon: 'tray-strip', t: t('home.strip.snack.t'), v: t('home.strip.snack.v') },
-];
+// (sección "strip" eliminada: se sustituyó por la de "features", movida
+// abajo del todo, en su lugar)
 ---
 
 <section class="hero">
@@ -61,20 +57,6 @@ const strip = [
     </div>
     <span class="hero-badge">{t('home.badge')}</span>
     <span class="hero-tagline">{t('home.tagline')}</span>
-  </div>
-</section>
-
-<section class="section section-alt features">
-  <div class="container">
-    <div class="features-grid">
-      {features.map((f) => (
-        <div class="feature">
-          <img class="feature-icon" src={`/icons/${f.icon}.png`} width="240" height="240" alt="" loading="lazy" />
-          <h3>{f.t}</h3>
-          <p>{f.d}</p>
-        </div>
-      ))}
-    </div>
   </div>
 </section>
 
@@ -110,17 +92,17 @@ const strip = [
   </div>
 </section>
 
-<section class="strip">
-  <div class="container strip-grid">
-    {strip.map((s) => (
-      <div class="strip-item">
-        <img class="strip-icon" src={`/icons/${s.icon}.png`} width="240" height="240" alt="" loading="lazy" />
-        <div>
-          <p class="strip-t">{s.t}</p>
-          <p class="strip-v">{s.v}</p>
+<section class="section section-alt features">
+  <div class="container">
+    <div class="features-grid">
+      {features.map((f) => (
+        <div class="feature">
+          <img class="feature-icon" src={`/icons/${f.icon}.png`} width="240" height="240" alt="" loading="lazy" />
+          <h3>{f.t}</h3>
+          <p>{f.d}</p>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 </section>
 
@@ -258,23 +240,6 @@ const strip = [
     .room-picker-list { grid-template-columns: repeat(3, 1fr); }
   }
   .room-picker-more { text-align: center; margin-top: 36px; }
-
-  /* ── franja inferior ── */
-  /* Línea para separarlo del footer: mismo navy que el footer, así que sin
-     ella parecían un único bloque en vez de dos secciones distintas. */
-  .strip { background: var(--navy); padding: 32px 0; border-bottom: 1px solid var(--gold); }
-  .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  .strip-item { display: flex; align-items: center; gap: 12px; color: #fff; }
-  .strip-icon { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
-  .strip-t { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.6); }
-  .strip-v { font-size: 14px; font-weight: 600; }
-  /* Estas dos reglas van DESPUÉS de las bases de arriba: con la misma
-     especificidad, si fueran antes las de arriba las pisarían siempre. */
-  @media (max-width: 860px) {
-    .strip-grid { justify-items: center; }
-    .strip-item { flex-direction: column; text-align: center; gap: 8px; }
-  }
-  @media (max-width: 760px) { .strip-grid { grid-template-columns: 1fr 1fr; } }
 
   /* En móvil muy estrecho, los párrafos en negrita (texto centrado a
      ancho casi completo) pueden quedar tapados por los FABs de Llamar
