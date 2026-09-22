@@ -118,8 +118,12 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-brand { display: flex; flex-direction: row; align-items: center; gap: 10px; line-height: 1.1; }
 .nav-brand img { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
 .nav-brand-text { display: flex; flex-direction: column; }
-.nav-brand-text strong { font-family: var(--ff-display); font-size: 19px; color: #fff; }
-.nav-brand-text span { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-light); }
+.nav-brand-text strong { font-family: var(--ff-display); font-size: 19px; font-weight: 700; color: #fff; }
+.nav-brand-gold { color: var(--gold); }
+.nav-brand-fallas {
+  margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase;
+}
 /* "Fallas 2027" ardiendo: parpadeo irregular (no una pulsación suave)
    entre tonos de fuego (rojo/naranja/amarillo), como una llama viva —
    a juego con la cremà y con la llama del favicon. */
