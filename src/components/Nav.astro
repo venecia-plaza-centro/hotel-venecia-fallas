@@ -27,7 +27,8 @@ const bookHref = isHome ? `${pagePath('home', lang)}#rooms` : pagePath('book', l
     <a class="nav-brand" href={pagePath('home', lang)} aria-label={t('brand.name')}>
       <img src="/img/logo-hotel-venecia.png" alt="" width="44" height="44" />
       <span class="nav-brand-text">
-        <strong>Hotel <span class="nav-brand-gold">Venecia</span> {t('brand.sub')}</strong>
+        <strong>Hotel <span class="nav-brand-gold">Venecia</span></strong>
+        <span class="nav-brand-sub">{t('brand.sub')}</span>
         <span class="nav-brand-fallas">Fallas 2027</span>
       </span>
     </a>
