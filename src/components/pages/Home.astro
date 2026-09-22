@@ -118,7 +118,12 @@ const features = [
 
   .hero-panel {
     background: var(--navy); color: rgba(255,255,255,.9);
-    padding: 112px 56px; display: flex; flex-direction: column;
+    /* El nav es fixed y se superpone (~92px) sobre el propio padding
+       superior del panel: sin compensarlo, el hueco visible arriba (una
+       vez tapado por el nav) queda mucho más corto que el de abajo, que sí
+       se ve entero. Se suma esa altura al padding-top para que ambos
+       huecos, ya visibles, midan lo mismo. */
+    padding: calc(92px + 40px) 56px 40px; display: flex; flex-direction: column;
     justify-content: center; align-items: center; text-align: center; gap: 16px;
   }
   .hero-panel .eyebrow { margin-bottom: 4px; }
