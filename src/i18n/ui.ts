@@ -231,7 +231,7 @@ const es: Dict = {
 
   'legal.cancellation.h1': 'Política de cancelación',
   'legal.cancellation.intro':
-    'Antes de confirmar tu reserva de balcón privado, ten en cuenta que se trata de una experiencia con plazas limitadas para un día y una franja horaria concretos.',
+    'Antes de confirmar tu reserva de balcón privado, ten en cuenta que se trata de una experiencia con plazas limitadas para un día y una franja horaria concreta.',
   'legal.cancellation.s1.h': 'Pagos no reembolsables',
   'legal.cancellation.s1.p':
     'El importe abonado por la reserva de tu balcón privado no es reembolsable, sea cual sea el motivo o la antelación con la que se solicite la cancelación.',
