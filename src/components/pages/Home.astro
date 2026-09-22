@@ -105,7 +105,10 @@ const features = [
 
 <style>
   /* ── hero ── */
-  .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 420px; }
+  /* Sin min-height a propósito: la fila del grid (y con ella el vídeo,
+     misma altura que su columna hermana) se ajusta al contenido real del
+     panel de texto, para que no sobre alto por debajo del botón dorado. */
+  .hero { display: grid; grid-template-columns: 1fr 1fr; }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; min-height: 0; }
     /* La foto va arriba del todo en móvil/tablet, antes que el texto. */
