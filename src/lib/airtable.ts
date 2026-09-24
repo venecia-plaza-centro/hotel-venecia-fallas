@@ -9,6 +9,7 @@
  * (src/lib/fixtures.ts) y `createBooking` solo registra por consola. Así el
  * flujo entero es probable en local sin cuenta de Airtable.
  */
+import { randomInt } from 'node:crypto';
 import { allSaleDays, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
 import { FALLAS, type Locale } from '../consts';
@@ -249,19 +250,25 @@ export async function getSoldOutRoomSlugs(): Promise<string[]> {
 
 // --- Crear reserva --------------------------------------------------------
 
-// Modo demo (sin Airtable): no hay dónde contar las reservas ya hechas, así
-// que se lleva la cuenta en memoria del propio proceso mientras dure.
-let demoLocatorCounter = 0;
+// Alfabeto del localizador: sin 0/O ni 1/I/L, para que no se confundan al
+// leerlo por teléfono o copiarlo del email.
+const LOCATOR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
-/** Localizador correlativo tipo `FAL-000123`: cuenta las reservas ya
- *  creadas en Airtable y suma uno. Con muy poco volumen (9 habitaciones,
- *  12 días) el riesgo de que dos pagos casi simultáneos cuenten el mismo
- *  total y generen el mismo número es prácticamente nulo; si ocurriera, no
- *  afecta a la reserva en sí (fecha/habitación/pago), solo se repetiría el
- *  número de referencia. */
+function randomLocator(): string {
+  let code = '';
+  for (let i = 0; i < 5; i++) code += LOCATOR_CHARS[randomInt(LOCATOR_CHARS.length)];
+  return `FAL-${code}`;
+}
+
+/** Localizador aleatorio tipo `FAL-7Q3KD` (5 caracteres, ~25 millones de
+ *  combinaciones). En Airtable se comprueba que no exista ya; en modo demo
+ *  (sin Airtable) no hay dónde comprobarlo. */
 export async function newLocator(): Promise<string> {
-  const n = airtableEnabled() ? (await listAll(TABLE.bookings)).length + 1 : ++demoLocatorCounter;
-  return `FAL-${String(n).padStart(6, '0')}`;
+  for (let i = 0; i < 8; i++) {
+    const locator = randomLocator();
+    if (!airtableEnabled() || !(await findBooking(locator))) return locator;
+  }
+  throw new AirtableError('No se ha podido generar un localizador único', 503);
 }
 
 export interface BookingCreate {
