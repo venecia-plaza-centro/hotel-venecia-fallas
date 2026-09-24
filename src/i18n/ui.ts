@@ -14,7 +14,7 @@ const es: Dict = {
   'brand.sub': 'Plaza Centro',
   'nav.rooms': 'Habitaciones',
   'nav.mascletas': 'Mascletás',
-  'nav.faq': 'Dudas',
+  'nav.faq': 'Preguntas frecuentes',
   'nav.gallery': 'Galería',
   'nav.contact': 'Contacto',
   'nav.book': 'Reservar',

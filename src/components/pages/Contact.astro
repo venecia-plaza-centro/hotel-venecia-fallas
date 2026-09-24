@@ -6,7 +6,6 @@ import PageHero from '../PageHero.astro';
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const c = CONTACT[lang];
-const errorText = c.error.replace('{email}', SITE.email);
 const waHref = SITE.whatsappHref;
 const telHref = SITE.phoneHref;
 ---
@@ -15,8 +14,6 @@ const telHref = SITE.phoneHref;
 
 <section class="section contact-section">
   <div class="container">
-    <p class="contact-intro" set:html={c.intro} />
-
     <div class="contact-grid">
       <div class="contact-list">
         <div class="contact-item">
@@ -60,45 +57,13 @@ const telHref = SITE.phoneHref;
           </div>
         </div>
       </div>
-
-      <form
-        class="contact-form"
-        action={`https://formsubmit.co/ajax/${SITE.email}`}
-        method="POST"
-        data-error={errorText}
-      >
-        <input type="hidden" name="_subject" value="Nuevo mensaje desde fallas.hotelvenecia.com" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="cf-name">{c.formName}</label>
-            <input id="cf-name" type="text" name="Nombre" class="form-input" required placeholder={c.phName} />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="cf-email">{c.formEmail}</label>
-            <input id="cf-email" type="email" name="Email" class="form-input" required placeholder={c.phEmail} />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="cf-subject">{c.formSubject}</label>
-          <input id="cf-subject" type="text" name="Asunto" class="form-input" placeholder={c.phSubject} />
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="cf-msg">{c.formMsg}</label>
-          <textarea id="cf-msg" name="Mensaje" class="form-input form-textarea" required placeholder={c.phMsg}></textarea>
-        </div>
-        <button type="submit" class="btn-send" data-sending={c.sending} data-sent={c.sent}>{c.send}</button>
-      </form>
     </div>
   </div>
 </section>
 
 <style>
   .contact-section { padding-top: 8px; }
-  .contact-intro { text-align: center; max-width: 620px; margin: 0 auto 48px; color: var(--text-mid); font-size: 16px; line-height: 1.7; }
-  .contact-intro :global(a) { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
-  .contact-grid { display: flex; flex-direction: column; align-items: center; gap: 52px; }
+  .contact-grid { display: flex; flex-direction: column; align-items: center; gap: 0; }
   .contact-list { display: flex; flex-flow: row wrap; justify-content: center; gap: 40px 44px; max-width: 900px; width: 100%; }
   .contact-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; width: 232px; }
   .contact-item > div:last-child { display: flex; flex-direction: column; align-items: center; }
@@ -111,52 +76,4 @@ const telHref = SITE.phoneHref;
   .contact-sub { font-size: 13px; color: var(--text-soft); margin-top: 1px; }
   .contact-sub a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; transition: color .2s; padding: 6px 2px; margin: -6px -2px; display: inline-flex; }
   .contact-sub a:hover { color: var(--gold); }
-  .contact-form { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 560px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .form-group { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
-  .form-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-mid); }
-  .form-input {
-    padding: 13px 15px; border: 1.5px solid var(--cream-dark); border-radius: var(--r);
-    font-family: var(--ff-body); font-size: 15px; color: var(--text); background: #fff;
-    transition: border-color .2s, box-shadow .2s; outline: none;
-    width: 100%; min-width: 0; box-sizing: border-box; appearance: none; -webkit-appearance: none;
-  }
-  .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,162,70,.1); }
-  .form-textarea { min-height: 130px; resize: vertical; }
-  .btn-send {
-    padding: 15px 28px; background: var(--gold); color: #fff; border: 0; border-radius: var(--r);
-    font-family: var(--ff-body); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    cursor: pointer; align-self: center; transition: background .2s, transform .2s, box-shadow .2s;
-  }
-  .btn-send:hover { background: var(--navy); transform: translateY(-2px); box-shadow: var(--sh-md); }
-  .btn-send:disabled { cursor: default; transform: none; }
-  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
 </style>
-
-<script>
-  document.querySelectorAll<HTMLFormElement>('.contact-form').forEach((form) => {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const b = form.querySelector<HTMLButtonElement>('.btn-send')!;
-      const orig = b.textContent;
-      b.disabled = true;
-      b.textContent = b.dataset.sending ?? '…';
-      b.style.background = '';
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: new FormData(form),
-        });
-        if (!res.ok) throw new Error('bad status');
-        b.textContent = b.dataset.sent ?? '✓';
-        b.style.background = '#1B2A4A';
-        form.reset();
-      } catch {
-        b.textContent = form.dataset.error ?? 'Error';
-        b.style.background = '#9b2c2c';
-      }
-      setTimeout(() => { b.textContent = orig; b.style.background = ''; b.disabled = false; }, 4000);
-    });
-  });
-</script>
