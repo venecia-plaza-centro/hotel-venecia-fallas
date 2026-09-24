@@ -111,9 +111,6 @@ const features = [
   .hero { display: grid; grid-template-columns: 1fr 1fr; }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; min-height: 0; }
-    /* La foto va arriba del todo en móvil/tablet, antes que el texto. */
-    .hero-media { order: 1; }
-    .hero-panel { order: 2; }
   }
 
   .hero-panel {
@@ -140,9 +137,6 @@ const features = [
   }
   .hero-strong { color: #fff !important; font-weight: 600; }
   .hero-panel .btn { align-self: center; margin-top: 10px; display: inline-flex; align-items: center; gap: 10px; }
-  @media (max-width: 860px) {
-    .hero-panel { padding: 56px 28px; }
-  }
 
   .hero-media { position: relative; background: var(--navy-light); }
   .hero-photo {
@@ -188,34 +182,37 @@ const features = [
     position: absolute; left: 28px; bottom: 24px; font-family: 'Caveat', cursive;
     font-size: 30px; color: var(--gold-light); transform: rotate(-3deg);
   }
-  /* Escritorio: el vídeo ocupa todo el hero, oscurecido, y el bloque de
-     texto va encima. Al quitarle el position a .hero-media, .hero-photo (y
-     con él el vídeo) se posiciona respecto a .hero entero en vez de solo
-     respecto a su mitad; el sello y la frase manuscrita siguen en la mitad
-     derecha. Más oscuro donde está el texto (izquierda) para que se lea
-     bien, y más claro a la derecha para que el vídeo se aprecie. En
-     móvil/tablet no se toca: ahí el vídeo va arriba y el texto debajo. */
-  @media (min-width: 861px) {
-    .hero { position: relative; }
-    .hero-media { position: static; background: transparent; }
-    .hero-photo { z-index: 0; }
-    .hero-photo::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(90deg, rgba(20,31,56,.9) 0%, rgba(20,31,56,.8) 50%, rgba(20,31,56,.5) 100%);
-    }
-    .hero-panel { position: relative; z-index: 1; background: transparent; }
-    .hero-panel h1, .hero-panel .hero-kicker { text-shadow: 0 2px 14px rgba(8,14,30,.55); }
-    .hero-tagline { left: calc(50% + 28px); }
+  /* El vídeo ocupa todo el hero, oscurecido, y el bloque de texto va
+     encima, centrado en vertical (mismo diseño en escritorio, tablet y
+     móvil). Al quitarle el position a .hero-media, .hero-photo (y con él
+     el vídeo) se posiciona respecto a .hero entero; el sello y la frase
+     manuscrita también. Escritorio: más oscuro a la izquierda, donde está
+     el texto, y más claro a la derecha para que el vídeo se aprecie. */
+  .hero { position: relative; }
+  .hero-media { position: static; background: transparent; }
+  .hero-photo { z-index: 0; overflow: hidden; }
+  .hero-video { object-position: center center; }
+  .hero-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(20,31,56,.9) 0%, rgba(20,31,56,.8) 50%, rgba(20,31,56,.5) 100%);
   }
+  .hero-panel { position: relative; z-index: 1; background: transparent; }
+  .hero-panel h1, .hero-panel .hero-kicker { text-shadow: 0 2px 14px rgba(8,14,30,.6); }
+  .hero-tagline { left: calc(50% + 28px); z-index: 1; }
   @media (max-width: 860px) {
-    .hero-media { min-height: 320px; }
-    /* A caballo entre el vídeo y el panel de texto de debajo (apilados en
-       móvil/tablet): mitad sobre el vídeo, mitad sobre el fondo azul. Más
-       pequeño y pegado a la derecha para no tapar "Fallas, más cerca que
-       nunca". */
+    /* Móvil/tablet: texto centrado sobre todo el vídeo, más oscuro y
+       uniforme para que se lea claro. Abajo se deja hueco (padding-bottom)
+       para la frase manuscrita y el sello, que no pisan ninguna palabra. */
+    .hero-photo::after {
+      background: linear-gradient(180deg, rgba(20,31,56,.82) 0%, rgba(20,31,56,.78) 100%);
+    }
+    .hero-panel { padding: calc(88px + 32px) 24px 96px; }
+    .hero-tagline { left: 20px; bottom: 22px; font-size: 26px; }
+    /* A caballo entre el vídeo y la sección siguiente. Más pequeño y
+       pegado a la derecha para no tapar "Fallas, más cerca que nunca". */
     .hero-badge {
       width: 92px; height: 92px; padding: 10px; font-size: 8.5px;
-      bottom: -46px; right: 16px; z-index: 1;
+      bottom: -46px; right: 16px; z-index: 2;
     }
   }
 
