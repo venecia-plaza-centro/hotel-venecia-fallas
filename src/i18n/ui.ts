@@ -77,6 +77,14 @@ const es: Dict = {
   'home.rooms.seeall': 'Ver todas las habitaciones',
 
   // home · franja inferior
+  'home.strip.schedule.t': 'Horario de acceso',
+  'home.strip.schedule.v': '13:00 – 15:00 h',
+  'home.strip.mascleta.t': 'Mascletá',
+  'home.strip.mascleta.v': '14:00 h',
+  'home.strip.private.t': 'Espacio privado',
+  'home.strip.private.v': 'Solo para tu reserva',
+  'home.strip.snack.t': 'Snack Pack',
+  'home.strip.snack.v': 'Incluido',
 
   // rooms
   'rooms.h1': 'Elige tu balcón para la mascletá',
@@ -344,6 +352,15 @@ const en: Dict = {
   'home.rooms.h2': 'Available rooms',
   'home.rooms.lead': 'Pick a date, room and number of guests. We take care of the rest.',
   'home.rooms.seeall': 'See all 9 rooms',
+
+  'home.strip.schedule.t': 'Access hours',
+  'home.strip.schedule.v': '1pm – 3pm',
+  'home.strip.mascleta.t': 'Mascletá',
+  'home.strip.mascleta.v': '2pm',
+  'home.strip.private.t': 'Private space',
+  'home.strip.private.v': 'Exclusively for your booking',
+  'home.strip.snack.t': 'Snack Pack',
+  'home.strip.snack.v': 'Included',
 
   'rooms.h1': 'Choose your balcony for the mascletá',
   'rooms.intro':
