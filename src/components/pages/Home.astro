@@ -21,6 +21,9 @@ const kickerHtml = t('home.kicker').replace(/\.\s+/g, '.<br />');
 // de esa esquina). Si se quita el archivo o se vacía esta ruta, vuelve a
 // verse el degradado de fondo de .hero-photo.
 const HERO_VIDEO = '/video/hero-mascleta.mp4';
+// Fotograma del vídeo: se ve mientras carga, o si el móvil no lo deja
+// reproducir (p. ej. modo ahorro de batería), en vez de un vídeo parado.
+const HERO_POSTER = '/video/hero-mascleta-poster.webp';
 
 // Franja beige justo debajo del hero. Iconos propios
 // (public/icons/*.png, recortados de la lámina dorada del cliente).
@@ -49,7 +52,20 @@ const strip = [
   <div class="hero-media">
     <div class="hero-photo" role="img" aria-label={t('home.photo.hero.alt')}>
       {HERO_VIDEO && (
-        <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          poster={HERO_POSTER}
+          disablepictureinpicture
+          disableremoteplayback
+          tabindex="-1"
+          aria-hidden="true"
+        >
           <source src={HERO_VIDEO} type="video/mp4" />
         </video>
       )}
@@ -151,7 +167,15 @@ const strip = [
   }
   /* Vídeo de fondo opcional (ver HERO_VIDEO arriba): cubre el degradado de
      .hero-photo sin tapar el sello ni la frase manuscrita, que van encima. */
-  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  /* Es un fondo decorativo: nunca debe verse el botón de PLAY ni ningún
+     control del navegador (Safari de iPhone lo pinta si no puede arrancar
+     solo). */
+  .hero-video::-webkit-media-controls,
+  .hero-video::-webkit-media-controls-start-playback-button,
+  .hero-video::-webkit-media-controls-overlay-play-button,
+  .hero-video::-webkit-media-controls-panel,
+  .hero-video::-webkit-media-controls-enclosure { display: none !important; opacity: 0 !important; -webkit-appearance: none; }
   .hero-badge {
     /* Esquina inferior derecha a propósito: ahí es donde estaba la marca
        de agua del vídeo (ya difuminada), así el sello la tapa del todo.
@@ -293,3 +317,31 @@ const strip = [
     .hero-strong, .tradicion-strong { padding: 0 60px; }
   }
 </style>
+
+<script>
+  // El vídeo de fondo debe estar siempre en marcha y en bucle. Algunos
+  // móviles (modo ahorro de batería, datos reducidos) bloquean el autoplay o
+  // pausan el vídeo: se reintenta al cargar, al volver a la pestaña, si se
+  // pausa por sí solo y, como último recurso, en el primer toque o scroll
+  // (ahí el navegador ya permite arrancarlo).
+  const video = document.querySelector<HTMLVideoElement>('.hero-video');
+  if (video) {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.controls = false;
+    const play = () => {
+      if (!video.paused && !video.ended) return;
+      video.play().catch(() => {});
+    };
+    play();
+    video.addEventListener('canplay', play);
+    video.addEventListener('pause', () => setTimeout(play, 150));
+    video.addEventListener('ended', () => { video.currentTime = 0; play(); });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) play(); });
+    window.addEventListener('pageshow', play);
+    for (const ev of ['touchstart', 'pointerdown', 'scroll', 'click', 'keydown'] as const) {
+      window.addEventListener(ev, play, { once: true, passive: true });
+    }
+  }
+</script>
