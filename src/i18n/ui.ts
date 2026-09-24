@@ -72,8 +72,8 @@ const es: Dict = {
   'home.tradicion.photo.alt': 'Vista aérea de una mascletá en la Plaza del Ayuntamiento',
 
   // home · elige tu balcón (adelanto de habitaciones)
-  'home.rooms.eyebrow': 'Elige tu balcón',
-  'home.rooms.h2': 'Habitaciones disponibles',
+  'home.rooms.h2.pre': 'Elige tu',
+  'home.rooms.h2.accent': 'balcón privado',
   'home.rooms.lead': 'Selecciona la fecha, habitación y número de personas. Del resto nos encargamos nosotros.',
   'home.rooms.seeall': 'Ver todas las habitaciones',
 
@@ -326,8 +326,8 @@ const en: Dict = {
   'home.tradicion.tagline': 'Valencia in its purest form',
   'home.tradicion.photo.alt': 'Aerial view of a mascletá in Plaza del Ayuntamiento',
 
-  'home.rooms.eyebrow': 'Choose your balcony',
-  'home.rooms.h2': 'Available rooms',
+  'home.rooms.h2.pre': 'Choose your',
+  'home.rooms.h2.accent': 'private balcony',
   'home.rooms.lead': 'Pick a date, room and number of guests. We take care of the rest.',
   'home.rooms.seeall': 'See all 9 rooms',
 

@@ -107,8 +107,7 @@ const strip = [
 <section class="section section-alt room-picker">
   <div class="container">
     <div class="room-picker-head">
-      <span class="eyebrow">{t('home.rooms.eyebrow')}</span>
-      <h2 class="h2">{t('home.rooms.h2')}</h2>
+      <h2 class="h2">{t('home.rooms.h2.pre')} <em>{t('home.rooms.h2.accent')}</em></h2>
       <p class="lead">{t('rooms.intro')}</p>
       <p class="lead">{t('home.rooms.lead')}</p>
     </div>
@@ -275,7 +274,7 @@ const strip = [
 
   /* ── room picker ── */
   .room-picker-head { max-width: 640px; margin: 0 auto 44px; text-align: center; }
-  .room-picker-head .eyebrow { display: block; margin-bottom: 10px; }
+  .room-picker-head h2 em { font-style: italic; color: var(--gold); }
   .room-picker-head .lead { margin-top: 14px; }
   /* scroll-margin-top: el botón Reservar del header enlaza aquí (#rooms);
      sin esto, el ancla quedaría tapada por el nav fijo. */
