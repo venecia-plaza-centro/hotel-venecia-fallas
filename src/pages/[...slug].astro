@@ -37,14 +37,14 @@ if (pageId === 'home') {
   title = t('book.meta.title');
   description = t('book.meta.desc');
 } else {
-  const navKey = ['terms', 'cancellation', 'privacy'].includes(pageId)
+  const navKey = ['terms', 'cancellation', 'privacy', 'legalnotice'].includes(pageId)
     ? `legal.${pageId}.h1`
     : `nav.${pageId}`;
   title = `${t(navKey)} · ${SITE.name} · Fallas ${FALLAS.year}`;
   description = t('meta.home.desc');
 }
 
-const noindex = ['terms', 'cancellation', 'privacy'].includes(pageId);
+const noindex = ['terms', 'cancellation', 'privacy', 'legalnotice'].includes(pageId);
 
 // JSON-LD: Hotel + (en home) evento de las mascletás
 const jsonLd = pageId === 'home'
@@ -74,5 +74,5 @@ const jsonLd = pageId === 'home'
   {pageId === 'gallery' && <Gallery lang={lang} />}
   {pageId === 'contact' && <Contact lang={lang} />}
   {pageId === 'book' && <Book lang={lang} />}
-  {['terms', 'cancellation', 'privacy'].includes(pageId) && <Legal lang={lang} pageId={pageId} />}
+  {['terms', 'cancellation', 'privacy', 'legalnotice'].includes(pageId) && <Legal lang={lang} pageId={pageId} />}
 </Base>

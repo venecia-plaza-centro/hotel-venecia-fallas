@@ -2,6 +2,7 @@
 import { SITE, type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
 import { pagePath, type PageId } from '../../i18n/pages';
+import { isLegalTextPage, legalText } from '../../i18n/legal-texts';
 import PageHero from '../PageHero.astro';
 
 interface Props { lang: Locale; pageId: PageId; }
@@ -9,11 +10,23 @@ const { lang, pageId } = Astro.props;
 const t = useT(lang);
 const h1 = t(`legal.${pageId}.h1`);
 
-const SECTION_COUNT: Record<string, number> = { terms: 7, cancellation: 4, privacy: 8 };
-const sections = Array.from({ length: SECTION_COUNT[pageId] ?? 0 }, (_, i) => i + 1).map((n) => ({
-  h: t(`legal.${pageId}.s${n}.h`),
-  p: t(`legal.${pageId}.s${n}.p`),
-}));
+// Condiciones y cancelación viven en ui.ts (un párrafo por sección);
+// Privacidad y Aviso legal vienen del hotel y viven en legal-texts.ts
+// (varios párrafos, listas y subtítulos por sección).
+const SECTION_COUNT: Record<string, number> = { terms: 7, cancellation: 4 };
+let intro: string[];
+let sections: { h: string; p: string[] }[];
+let contact: string;
+if (isLegalTextPage(pageId)) {
+  ({ intro, sections, contact } = legalText(lang, pageId));
+} else {
+  intro = [t(`legal.${pageId}.intro`)];
+  sections = Array.from({ length: SECTION_COUNT[pageId] ?? 0 }, (_, i) => i + 1).map((n) => ({
+    h: t(`legal.${pageId}.s${n}.h`),
+    p: [t(`legal.${pageId}.s${n}.p`)],
+  }));
+  contact = t(`legal.${pageId}.contact`);
+}
 
 // Cuando el texto de una sección menciona otra página legal (p.ej.
 // "Política de cancelación" en Condiciones de reserva), el diccionario
@@ -23,12 +36,33 @@ const LEGAL_LINKS: Record<string, { href: string; label: string }> = {
   terms: { href: pagePath('terms', lang), label: t('legal.terms.h1') },
   cancellation: { href: pagePath('cancellation', lang), label: t('legal.cancellation.h1') },
   privacy: { href: pagePath('privacy', lang), label: t('legal.privacy.h1') },
+  legalnotice: { href: pagePath('legalnotice', lang), label: t('legal.legalnotice.h1') },
 };
 const linkify = (text: string) =>
-  text.replace(/\{(terms|cancellation|privacy)Link\}/g, (_, id) => {
-    const l = LEGAL_LINKS[id];
-    return `<a href="${l.href}" style="color:var(--gold);text-decoration:underline">${l.label}</a>`;
-  });
+  text
+    .replace(/\{(terms|cancellation|privacy|legalnotice)Link\}/g, (_, id) => {
+      const l = LEGAL_LINKS[id];
+      return `<a href="${l.href}" style="color:var(--gold);text-decoration:underline">${l.label}</a>`;
+    })
+    // URLs sueltas (sin el punto o coma final) y emails → enlaces.
+    .replace(/(https?:\/\/[^\s<)]+?)([.,;]?)(?=[\s)]|$)/g, '<a href="$1" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;word-break:break-all">$1</a>$2')
+    .replace(/(?<![\w@>"])([\w.+-]+@[\w-]+\.[\w.]+\w)/g, '<a href="mailto:$1" style="color:var(--gold);text-decoration:underline">$1</a>');
+
+// Agrupa los párrafos de una sección en bloques: texto normal, subtítulo
+// ("## …") o lista ("• …" consecutivos).
+type Block = { kind: 'p' | 'h' | 'ul'; items: string[] };
+const toBlocks = (paras: string[]): Block[] => {
+  const blocks: Block[] = [];
+  for (const para of paras) {
+    if (para.startsWith('• ')) {
+      const last = blocks[blocks.length - 1];
+      if (last?.kind === 'ul') last.items.push(para.slice(2));
+      else blocks.push({ kind: 'ul', items: [para.slice(2)] });
+    } else if (para.startsWith('## ')) blocks.push({ kind: 'h', items: [para.slice(3)] });
+    else blocks.push({ kind: 'p', items: [para] });
+  }
+  return blocks;
+};
 ---
 
 <PageHero title={h1} />
@@ -36,7 +70,7 @@ const linkify = (text: string) =>
 <section class="section" style="padding-bottom:0">
   <nav class="container legal-tabs" style="max-width:720px" aria-label={t('legal.nav.aria')}>
     <a href={pagePath('home', lang)} class="legal-tabs-home">{t('legal.home')}</a>
-    {(['terms', 'cancellation', 'privacy'] as const).map((id) => (
+    {(['terms', 'cancellation', 'privacy', 'legalnotice'] as const).map((id) => (
       <a href={LEGAL_LINKS[id].href} class={id === pageId ? 'is-active' : ''} aria-current={id === pageId ? 'page' : undefined}>
         {LEGAL_LINKS[id].label}
       </a>
@@ -46,14 +80,24 @@ const linkify = (text: string) =>
 
 <section class="section">
   <div class="container" style="max-width:720px">
-    <p style="color:var(--text-mid);font-size:16px;margin-bottom:32px">{t(`legal.${pageId}.intro`)}</p>
+    {intro.map((para) => (
+      <p style="color:var(--text-mid);font-size:16px;margin-bottom:32px" set:html={linkify(para)} />
+    ))}
     {sections.map((s) => (
       <div style="margin-bottom:24px">
         <h2 style="font-family:var(--ff-display);font-size:19px;color:var(--navy);margin-bottom:8px">{s.h}</h2>
-        <p style="color:var(--text-mid);font-size:15px;line-height:1.7" set:html={linkify(s.p)} />
+        {toBlocks(s.p).map((b) =>
+          b.kind === 'ul' ? (
+            <ul class="legal-list">{b.items.map((i) => <li set:html={linkify(i)} />)}</ul>
+          ) : b.kind === 'h' ? (
+            <h3 class="legal-sub">{b.items[0]}</h3>
+          ) : (
+            <p class="legal-p" set:html={linkify(b.items[0])} />
+          ),
+        )}
       </div>
     ))}
-    <p style="color:var(--text-mid);font-size:15px;margin-top:32px">{t(`legal.${pageId}.contact`)}</p>
+    <p style="color:var(--text-mid);font-size:15px;margin-top:32px">{contact}</p>
     <p style="font-size:15px">
       <a href={`mailto:${SITE.email}`}>{SITE.email}</a> · <a href={SITE.phoneHref}>{SITE.phone}</a>
     </p>
@@ -61,6 +105,11 @@ const linkify = (text: string) =>
 </section>
 
 <style>
+  .legal-p { color: var(--text-mid); font-size: 15px; line-height: 1.7; margin-top: 10px; }
+  .legal-p:first-of-type { margin-top: 0; }
+  .legal-sub { font-family: var(--ff-display); font-size: 16px; color: var(--navy); margin: 16px 0 4px; }
+  .legal-list { margin: 10px 0 0; padding-left: 20px; color: var(--text-mid); font-size: 15px; line-height: 1.7; }
+  .legal-list li { margin-top: 4px; }
   .legal-tabs { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 32px; }
   .legal-tabs a {
     padding: 8px 16px; border: 1px solid var(--cream-dark); border-radius: 999px;

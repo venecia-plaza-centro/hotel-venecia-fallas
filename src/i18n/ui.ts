@@ -32,6 +32,7 @@ const es: Dict = {
   'footer.terms': 'Condiciones de reserva',
   'footer.cancellation': 'Política de cancelación',
   'footer.privacy': 'Privacidad',
+  'footer.legalnotice': 'Aviso legal',
   'footer.videoCredit': 'Vídeo: Freakpyromaniacs (CC BY)',
   'footer.rights': 'Todos los derechos reservados.',
 
@@ -262,31 +263,7 @@ const es: Dict = {
   'legal.cancellation.contact': 'Contacto para gestionar tu reserva:',
 
   'legal.privacy.h1': 'Política de privacidad',
-  'legal.privacy.intro':
-    'En el Hotel Venecia Plaza Centro tratamos tus datos personales para gestionar tu reserva de balcón privado en Fallas 2027. Esta página resume cómo lo hacemos.',
-  'legal.privacy.s1.h': 'Responsable del tratamiento',
-  'legal.privacy.s1.p': 'Hotel Venecia Plaza Centro, con domicilio en Plaza del Ayuntamiento, 3 · 46002 València.',
-  'legal.privacy.s2.h': 'Qué datos recogemos',
-  'legal.privacy.s2.p':
-    'Al enviar el formulario de reserva recogemos tu nombre, apellidos, email, teléfono, país (opcional), idioma, la habitación y fecha elegidas, el número de huéspedes y cualquier nota que nos indiques.',
-  'legal.privacy.s3.h': 'Para qué los usamos',
-  'legal.privacy.s3.p':
-    'Usamos estos datos únicamente para gestionar y confirmar tu reserva, contactar contigo si es necesario y atender tus consultas.',
-  'legal.privacy.s4.h': 'Base legal',
-  'legal.privacy.s4.p':
-    'El tratamiento se basa en la ejecución de la relación contractual derivada de tu reserva.',
-  'legal.privacy.s5.h': 'Conservación',
-  'legal.privacy.s5.p':
-    'Conservamos tus datos mientras dure la relación con el hotel y, después, durante los plazos legalmente exigibles.',
-  'legal.privacy.s6.h': 'Con quién los compartimos',
-  'legal.privacy.s6.p':
-    'Tus datos se almacenan en Airtable, que actúa como encargado del tratamiento, y la web se aloja en Vercel. No cedemos tus datos a terceros salvo obligación legal.',
-  'legal.privacy.s7.h': 'Tus derechos',
-  'legal.privacy.s7.p':
-    'Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiéndonos a la dirección de contacto indicada abajo.',
-  'legal.privacy.s8.h': 'Cookies',
-  'legal.privacy.s8.p': 'Esta web no utiliza cookies de analítica ni de publicidad de terceros.',
-  'legal.privacy.contact': '¿Dudas sobre tus datos? Escríbenos:',
+  'legal.legalnotice.h1': 'Aviso legal',
 
   // meta
   'meta.home.title': 'Fallas 2027 · Reserva tu balcón en el Hotel Venecia y vive la mascletá — Plaza del Ayuntamiento, València',
@@ -313,6 +290,7 @@ const en: Dict = {
   'footer.terms': 'Booking terms',
   'footer.cancellation': 'Cancellation policy',
   'footer.privacy': 'Privacy',
+  'footer.legalnotice': 'Legal notice',
   'footer.videoCredit': 'Video: Freakpyromaniacs (CC BY)',
   'footer.rights': 'All rights reserved.',
 
@@ -529,30 +507,7 @@ const en: Dict = {
   'legal.cancellation.contact': 'Contact us to manage your booking:',
 
   'legal.privacy.h1': 'Privacy policy',
-  'legal.privacy.intro':
-    'At Hotel Venecia Plaza Centro we process your personal data to manage your private balcony booking for Fallas 2027. This page summarises how we do it.',
-  'legal.privacy.s1.h': 'Data controller',
-  'legal.privacy.s1.p': 'Hotel Venecia Plaza Centro, at Plaza del Ayuntamiento, 3 · 46002 València, Spain.',
-  'legal.privacy.s2.h': 'What data we collect',
-  'legal.privacy.s2.p':
-    'When you submit the booking form we collect your first and last name, email, phone, country (optional), language, the chosen room and date, number of guests, and any notes you add.',
-  'legal.privacy.s3.h': 'What we use it for',
-  'legal.privacy.s3.p':
-    'We use this data only to manage and confirm your booking, contact you if needed, and answer your questions.',
-  'legal.privacy.s4.h': 'Legal basis',
-  'legal.privacy.s4.p':
-    'Processing is based on the performance of the contractual relationship arising from your booking.',
-  'legal.privacy.s5.h': 'Retention',
-  'legal.privacy.s5.p': 'We keep your data for as long as our relationship with the hotel lasts, and afterwards for the legally required periods.',
-  'legal.privacy.s6.h': 'Who we share it with',
-  'legal.privacy.s6.p':
-    'Your data is stored in Airtable, which acts as data processor, and the website is hosted on Vercel. We do not share your data with third parties except where legally required.',
-  'legal.privacy.s7.h': 'Your rights',
-  'legal.privacy.s7.p':
-    'You can exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to the contact address below.',
-  'legal.privacy.s8.h': 'Cookies',
-  'legal.privacy.s8.p': 'This website does not use third-party analytics or advertising cookies.',
-  'legal.privacy.contact': 'Questions about your data? Write to us:',
+  'legal.legalnotice.h1': 'Legal notice',
 
   'meta.home.title': 'Fallas 2027 · Book your balcony at Hotel Venecia and experience the mascletá — Plaza del Ayuntamiento, València',
   'meta.home.desc':

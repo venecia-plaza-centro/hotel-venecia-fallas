@@ -16,7 +16,8 @@ export type PageId =
   | 'book'
   | 'terms'
   | 'cancellation'
-  | 'privacy';
+  | 'privacy'
+  | 'legalnotice';
 
 export interface PageDef {
   id: PageId;
@@ -94,6 +95,18 @@ export const PAGES: PageDef[] = [
       it: 'privacy',
       fr: 'confidentialite',
       de: 'datenschutz',
+    },
+    inNav: false,
+    inFooter: true,
+  },
+  {
+    id: 'legalnotice',
+    slug: {
+      es: 'aviso-legal',
+      en: 'legal-notice',
+      it: 'note-legali',
+      fr: 'mentions-legales',
+      de: 'impressum',
     },
     inNav: false,
     inFooter: true,
