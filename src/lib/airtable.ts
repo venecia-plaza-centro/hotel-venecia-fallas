@@ -9,7 +9,6 @@
  * (src/lib/fixtures.ts) y `createBooking` solo registra por consola. Así el
  * flujo entero es probable en local sin cuenta de Airtable.
  */
-import { randomInt } from 'node:crypto';
 import { allSaleDays, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
 import { FALLAS, type Locale } from '../consts';
@@ -250,23 +249,29 @@ export async function getSoldOutRoomSlugs(): Promise<string[]> {
 
 // --- Crear reserva --------------------------------------------------------
 
-// Alfabeto del localizador: sin 0/O ni 1/I/L, para que no se confundan al
-// leerlo por teléfono o copiarlo del email.
-const LOCATOR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+// Modo demo (sin Airtable): no hay dónde mirar qué números existen ya, así
+// que se lleva la cuenta en memoria del propio proceso mientras dure.
+let demoLocatorCounter = 0;
 
-function randomLocator(): string {
-  let code = '';
-  for (let i = 0; i < 5; i++) code += LOCATOR_CHARS[randomInt(LOCATOR_CHARS.length)];
-  return `FAL-${code}`;
-}
+const formatLocator = (n: number) => `FAL-${String(n).padStart(3, '0')}`;
 
-/** Localizador aleatorio tipo `FAL-7Q3KD` (5 caracteres, ~25 millones de
- *  combinaciones). En Airtable se comprueba que no exista ya; en modo demo
- *  (sin Airtable) no hay dónde comprobarlo. */
+/** Localizador correlativo tipo `FAL-001`, `FAL-002`… (3 cifras; pasa a 4 al
+ *  llegar a 1000). Se toma el número más alto que exista en Airtable y se
+ *  suma uno, así no se repite aunque se cancelen o se borren reservas
+ *  intermedias. Si dos pagos casi simultáneos calcularan el mismo número,
+ *  se comprueba que no exista ya y se prueba con el siguiente. */
 export async function newLocator(): Promise<string> {
-  for (let i = 0; i < 8; i++) {
-    const locator = randomLocator();
-    if (!airtableEnabled() || !(await findBooking(locator))) return locator;
+  if (!airtableEnabled()) return formatLocator(++demoLocatorCounter);
+
+  const recs = await listAll(TABLE.bookings, { 'fields[]': 'Localizador' });
+  let max = 0;
+  for (const r of recs) {
+    const m = /^FAL-(\d+)$/.exec(str(r.fields['Localizador']) ?? '');
+    if (m) max = Math.max(max, Number(m[1]));
+  }
+  for (let n = max + 1; n <= max + 20; n++) {
+    const locator = formatLocator(n);
+    if (!(await findBooking(locator))) return locator;
   }
   throw new AirtableError('No se ha podido generar un localizador único', 503);
 }
