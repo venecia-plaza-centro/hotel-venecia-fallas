@@ -126,7 +126,7 @@ const strip = [
   /* Sin min-height a propósito: la fila del grid (y con ella el vídeo,
      misma altura que su columna hermana) se ajusta al contenido real del
      panel de texto, para que no sobre alto por debajo del botón dorado. */
-  .hero { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero { display: grid; grid-template-columns: 1fr; }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; min-height: 0; }
   }
@@ -223,19 +223,18 @@ const strip = [
      encima, centrado en vertical (mismo diseño en escritorio, tablet y
      móvil). Al quitarle el position a .hero-media, .hero-photo (y con él
      el vídeo) se posiciona respecto a .hero entero; el sello y la frase
-     manuscrita también. Escritorio: más oscuro a la izquierda, donde está
-     el texto, y más claro a la derecha para que el vídeo se aprecie. */
+     manuscrita también. El texto va centrado en todos los tamaños. */
   .hero { position: relative; }
   .hero-media { position: static; background: transparent; }
   .hero-photo { z-index: 0; overflow: hidden; }
   .hero-video { object-position: center center; }
   .hero-photo::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(20,31,56,.9) 0%, rgba(20,31,56,.8) 50%, rgba(20,31,56,.5) 100%);
+    background: linear-gradient(180deg, rgba(20,31,56,.78) 0%, rgba(20,31,56,.7) 100%);
   }
   .hero-panel { position: relative; z-index: 1; background: transparent; }
   .hero-panel h1, .hero-panel .hero-kicker { text-shadow: 0 2px 14px rgba(8,14,30,.6); }
-  .hero-tagline { left: calc(50% + 28px); z-index: 1; }
+  .hero-tagline { left: 28px; z-index: 1; }
   @media (max-width: 860px) {
     /* Móvil/tablet: texto centrado sobre todo el vídeo, más oscuro y
        uniforme para que se lea claro. Abajo se deja hueco (padding-bottom)
