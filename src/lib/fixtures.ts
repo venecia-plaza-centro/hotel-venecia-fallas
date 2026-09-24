@@ -27,20 +27,20 @@ const PRICES = {
 
 /** Fotos reales por habitación (public/images/rooms/<numero>/): la vista
  *  desde el balcón, la fachada del hotel con la ventana de esa habitación
- *  señalada, y la habitación en sí. */
-/** Fotos extra que solo tienen algunas habitaciones (además de las 3 de
- *  arriba), en el mismo orden que en Airtable. */
-const EXTRA_PHOTOS: Record<string, string[]> = {
-  '409': ['plaza.webp'],
+ *  señalada, y la habitación en sí. Algunas habitaciones tienen una foto
+ *  extra que va la primera (la 409: otra vista del balcón). */
+const FIRST_PHOTO: Record<string, string> = {
+  '409': 'plaza.webp',
 };
 
 function photosFor(roomNumber: string): string[] {
   const base = `/images/rooms/${roomNumber}`;
+  const first = FIRST_PHOTO[roomNumber];
   return [
+    ...(first ? [`${base}/${first}`] : []),
     `${base}/balcon.webp`,
     `${base}/fachada.webp`,
     `${base}/habitacion.webp`,
-    ...(EXTRA_PHOTOS[roomNumber] ?? []).map((f) => `${base}/${f}`),
   ];
 }
 
