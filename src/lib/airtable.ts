@@ -144,6 +144,24 @@ function activeBookingFormula(excludeLocator?: string): string {
   return parts.join(', ');
 }
 
+/**
+ * Reservas activas (ver activeBookingFormula) que cumplan `extra` (otra
+ * condición de fórmula, opcional). Si Airtable rechazara la fórmula de los
+ * bloqueos (p. ej. un cambio en la base), se cae a la comprobación simple
+ * "no cancelada" en vez de romper las reservas: en ese caso los bloqueos
+ * cuentan hasta que se cancelen a mano.
+ */
+async function listActiveBookings(extra?: string, excludeLocator?: string): Promise<AirtableRecord[]> {
+  const wrap = (cond: string) => `AND(${cond}${extra ? `, ${extra}` : ''})`;
+  try {
+    return await listAll(TABLE.bookings, { filterByFormula: wrap(activeBookingFormula(excludeLocator)) });
+  } catch (err) {
+    if (!(err instanceof AirtableError)) throw err;
+    console.error('[airtable] fórmula de bloqueos rechazada, uso la simple', err);
+    return listAll(TABLE.bookings, { filterByFormula: wrap(`{Estado}!='cancelada'`) });
+  }
+}
+
 /** Reservas activas para una habitación en esa fecha. Vacío en modo ejemplo. */
 async function countBookedForDate(
   date: string,
@@ -157,8 +175,7 @@ async function countBookedForDate(
   // fecha/hora, y {Fecha}='YYYY-MM-DD' nunca coincide aunque se vea igual
   // en la interfaz — esto dejaba la comprobación de disponibilidad rota
   // para cualquier reserva real (todo parecía siempre libre).
-  const formula = `AND(${activeBookingFormula(excludeLocator)}, IS_SAME({Fecha}, '${date}', 'day'))`;
-  const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
+  const recs = await listActiveBookings(`IS_SAME({Fecha}, '${date}', 'day')`, excludeLocator);
   for (const r of recs) {
     const link = r.fields['Habitacion'];
     const roomId = Array.isArray(link) && link[0] ? String(link[0]) : '';
@@ -216,7 +233,7 @@ export async function getSoldOutRoomSlugs(): Promise<string[]> {
   const rooms = await getRooms();
   if (rooms.length === 0) return [];
 
-  const recs = await listAll(TABLE.bookings, { filterByFormula: `AND(${activeBookingFormula()})` });
+  const recs = await listActiveBookings();
   const countByRoomDate = new Map<string, number>();
   for (const r of recs) {
     const link = r.fields['Habitacion'];
@@ -358,8 +375,7 @@ export async function placeHold(input: Omit<BookingCreate, 'paid' | 'hold'>): Pr
   const { locator } = await createBooking({ ...input, paid: false, hold: true });
   if (!airtableEnabled()) return true;
 
-  const formula = `AND(${activeBookingFormula()}, IS_SAME({Fecha}, '${input.date}', 'day'))`;
-  const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
+  const recs = await listActiveBookings(`IS_SAME({Fecha}, '${input.date}', 'day')`);
   const sameRoom = recs
     .filter((r) => {
       const link = r.fields['Habitacion'];
