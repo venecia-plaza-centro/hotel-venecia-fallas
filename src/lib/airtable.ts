@@ -226,6 +226,17 @@ export async function newLocator(): Promise<string> {
   return `FAL-${String(n).padStart(6, '0')}`;
 }
 
+/** ¿Ya existe una reserva con este localizador? Redsys puede repetir la
+ *  notificación de un mismo pago; así no se crea la reserva dos veces. */
+export async function bookingExists(locator: string): Promise<boolean> {
+  if (!airtableEnabled()) return false;
+  const safe = locator.replace(/["\\]/g, '');
+  const res = await airtable(encodeURIComponent(TABLE.bookings), {
+    query: { filterByFormula: `{Localizador}="${safe}"`, maxRecords: '1', 'fields[]': 'Localizador' },
+  });
+  return Array.isArray(res.records) && res.records.length > 0;
+}
+
 export interface BookingCreate {
   date: string;
   room: Room;
@@ -238,14 +249,14 @@ export interface BookingCreate {
   country?: string;
   notes?: string;
   lang: Locale;
-  /** Ya generado antes de cobrar (p.ej. al crear la sesión de Stripe), para
+  /** Ya generado antes de cobrar (al mandar al cliente al TPV), para
    *  poder mostrárselo al cliente en cuanto vuelve del pago. Si no se pasa,
    *  se genera uno nuevo aquí (modo demo, sin pasarela). */
   locator?: string;
   /**
-   * true = el pago ya se ha completado en Stripe antes de llamar aquí (esto
-   * solo lo crea el webhook tras cobrar: no hay "solicitud" sin pagar).
-   * false = modo demostración sin Stripe conectado, no se ha cobrado nada.
+   * true = el pago ya se ha completado en Redsys antes de llamar aquí (esto
+   * solo lo crea la notificación del banco: no hay "solicitud" sin pagar).
+   * false = modo demostración sin Redsys conectado, no se ha cobrado nada.
    */
   paid: boolean;
 }

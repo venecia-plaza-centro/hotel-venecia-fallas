@@ -64,8 +64,8 @@ export interface BookingNotification {
   phone: string;
   notes?: string;
   lang: Locale;
-  /** true = pago ya cobrado de verdad en Stripe. false = modo demostración
-   *  sin pasarela conectada (no se ha cobrado nada realmente). */
+  /** true = pago ya cobrado de verdad en Redsys. false = modo demostración
+   *  sin TPV conectado (no se ha cobrado nada realmente). */
   paid: boolean;
 }
 

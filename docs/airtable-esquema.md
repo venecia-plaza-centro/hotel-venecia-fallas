@@ -62,14 +62,14 @@ Un registro por cada una de las 9 habitaciones reales que se ofrecen.
 
 Un registro por reserva. **No hay "solicitud" que el hotel deba aprobar**:
 el pago online es lo que confirma la reserva, así que el registro solo se
-crea en Airtable cuando Stripe confirma el cobro (ver
-`src/pages/api/stripe-webhook.ts`) y entra directamente como `confirmada` /
+crea en Airtable cuando Redsys confirma el cobro (ver
+`src/pages/api/redsys-notification.ts`) y entra directamente como `confirmada` /
 `pagado`.
 
-> Sin Stripe conectado, la web cae a un modo de demostración
+> Sin Redsys conectado, la web cae a un modo de demostración
 > (`src/pages/api/checkout.ts`) que crea el registro sin cobrar nada, como
-> `solicitada` / `pendiente` — solo para poder probar el flujo sin cuenta de
-> pago. En producción, con Stripe conectado, ese caso no debería darse.
+> `solicitada` / `pendiente` — solo para poder probar el flujo sin TPV.
+> En producción, con Redsys conectado, ese caso no debería darse.
 
 | Campo | Tipo Airtable | Notas |
 |---|---|---|
@@ -86,7 +86,7 @@ crea en Airtable cuando Stripe confirma el cobro (ver
 | `Notas` | Long text | _(lo rellena la web)_ Peticiones del cliente. |
 | `Idioma` | Single select | _(lo rellena la web)_ `es` · `en` · `it` · `fr` · `de` |
 | `Importe total` | Currency (EUR) | _(lo rellena la web)_ = precio de la habitación según `Huespedes` **y** si `Fecha` cae entre semana o en fin de semana (viernes, sábado o domingo). |
-| `Pago` | Single select | `pendiente` · `pagado`. Reserva pagada por Stripe = `pagado`. |
+| `Pago` | Single select | `pendiente` · `pagado`. Reserva pagada por Redsys = `pagado`. |
 | `Confirmar por` | Single select | `email` · `telefono`. Elegido por el cliente en el formulario: por dónde quiere recibir la confirmación (email o SMS). |
 | `Origen` | Single select | `web` · `telefono` · `email`. Nueva reserva web = `web`. |
 | `Creada` | Created time | Automático de Airtable. |

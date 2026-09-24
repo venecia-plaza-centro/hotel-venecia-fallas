@@ -1,42 +1,34 @@
 import type { APIRoute } from 'astro';
-import { getStripe, stripeEnabled } from '../../lib/stripe';
+import { readReturnToken, redsysEnabled } from '../../lib/redsys';
 import { airtableEnabled } from '../../lib/airtable';
-import { handleError, json } from '../../lib/api';
+import { json } from '../../lib/api';
 
 export const prerender = false;
 
 /**
- * GET /api/checkout-status?session_id=...
- * Al volver del pago (success_url), la página necesita los datos de la
- * reserva para pintar la pantalla de confirmación. Se leen directamente de
- * los metadatos de la sesión de Stripe: no dependen de que el webhook ya
- * haya terminado de crear la reserva en Airtable.
+ * GET /api/checkout-status?r=...
+ * Al volver del TPV (URL OK), la página necesita los datos de la reserva
+ * para pintar la pantalla de confirmación. Vienen en un token firmado en la
+ * propia URL de vuelta (ver checkout.ts): no dependen de que la notificación
+ * del banco ya haya terminado de crear la reserva en Airtable, y no se
+ * pueden inventar sin la clave del comercio.
  */
 export const GET: APIRoute = async ({ url }) => {
-  if (!stripeEnabled()) return json({ ok: false, error: 'no-configurado' }, 400);
+  if (!redsysEnabled()) return json({ ok: false, error: 'no-configurado' }, 400);
 
-  const sessionId = url.searchParams.get('session_id') ?? '';
-  if (!sessionId) return json({ ok: false, error: 'falta-session' }, 400);
+  const token = url.searchParams.get('r') ?? '';
+  const m = token ? readReturnToken(token) : null;
+  if (!m) return json({ ok: false, error: 'token-invalido' }, 400);
 
-  try {
-    const session = await getStripe().checkout.sessions.retrieve(sessionId);
-    if (session.payment_status !== 'paid') {
-      return json({ ok: false, error: 'no-pagado' }, 409);
-    }
-
-    const m = session.metadata ?? {};
-    return json({
-      ok: true,
-      persisted: airtableEnabled(),
-      locator: m.locator ?? '',
-      date: m.date ?? '',
-      guests: Number(m.guests),
-      room: { roomNumber: m.roomNumber ?? '', slug: m.roomSlug ?? '' },
-      quote: { total: (session.amount_total ?? 0) / 100, currency: 'EUR' },
-      email: m.email ?? '',
-      phone: m.phone ?? '',
-    });
-  } catch (e) {
-    return handleError(e);
-  }
+  return json({
+    ok: true,
+    persisted: airtableEnabled(),
+    locator: String(m.locator ?? ''),
+    date: String(m.date ?? ''),
+    guests: Number(m.guests),
+    room: { roomNumber: String(m.roomNumber ?? ''), slug: String(m.roomSlug ?? '') },
+    quote: { total: Number(m.total), currency: 'EUR' },
+    email: String(m.email ?? ''),
+    phone: String(m.phone ?? ''),
+  });
 };

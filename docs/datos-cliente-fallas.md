@@ -37,7 +37,7 @@ Con estos cuatro puntos podemos empezar a construir el flujo de reserva. El rest
 | ☐ | Acceso al DNS de `hotelvenecia.com` | publicación | Panel del registrador o proveedor de DNS. Hace falta para el registro `CNAME` del subdominio `fallas` y para verificar el dominio de envío de correo. ¿Quién lo gestiona (el hotel, otra agencia)? |
 | ☐ | Servicio de correo transaccional | confirmaciones | Opción A — **Resend** (recomendado): cuenta + API key + añadir unos registros al DNS. Opción B — **SMTP** del hotel: host, puerto, usuario y contraseña de `reservas@hotelvenecia.com`. Opción C — que los correos los mande una automatización de Airtable (sin código, lo gestiona el hotel). |
 | ☐ | Cuenta de Vercel | publicación | ¿A nombre de la agencia o del hotel? Conectada a GitHub; el despliegue es automático. Aquí se cargan las variables de entorno. |
-| ☐ | Decisión y credenciales de pasarela de pago | Hito 3 | Stripe, Redsys o el motor que ya use la web principal (Green Channel). Si es **Redsys**: banco, código de comercio (FUC), número de terminal y clave secreta. Si es **Stripe**: ¿tienen cuenta ya? No bloquea la reserva, pero conviene decidirlo pronto. |
+| ☐ | Credenciales de Redsys (pasarela decidida) | Hito 3 | Banco, código de comercio (FUC), número de terminal, clave secreta SHA-256 y credenciales de pruebas (sandbox). Alta en su portal de la URL de notificación `https://fallas.hotelvenecia.com/api/redsys-notification`. |
 
 ## 02 · Habitaciones e inventario
 
@@ -165,7 +165,7 @@ Se enchufa en el paso de pago sin rehacer el resto del flujo. Conviene decidirlo
 
 | ✔ | Punto | Bloquea | Detalle |
 |---|---|---|---|
-| ☐ | Pasarela elegida y credenciales | pago | Stripe, Redsys o el motor de la web principal. Ver detalle en el punto 01. |
+| ☐ | Credenciales de Redsys | pago | Ver detalle en el punto 01. |
 | ☐ | ¿Cobro total o señal? | pago | Por ejemplo 30 % ahora y el resto a la llegada, o el 100 % por adelantado. |
 | ☐ | ¿Factura automática tras el pago? | pago | Y con qué serie y numeración. |
 

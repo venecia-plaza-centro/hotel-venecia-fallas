@@ -571,7 +571,19 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
       });
       const data = await res.json();
       if (data.ok && data.mode === 'redirect') {
-        window.location.href = data.url;
+        // Redsys: formulario POST firmado que lleva al cliente al TPV.
+        const f = document.createElement('form');
+        f.method = 'POST';
+        f.action = data.form.action;
+        for (const [name, value] of Object.entries(data.form.fields)) {
+          const i = document.createElement('input');
+          i.type = 'hidden';
+          i.name = name;
+          i.value = String(value);
+          f.appendChild(i);
+        }
+        document.body.appendChild(f);
+        f.submit();
         return;
       }
       if (data.ok) {
@@ -645,16 +657,16 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     return `<div class="sum-row"><span>${label}</span><span>${value}</span>${aside ? `<em>${aside}</em>` : ''}</div>`;
   }
 
-  // ---- Vuelta de Stripe Checkout (?paid=1&session_id=…) ---------------
+  // ---- Vuelta del TPV de Redsys (?paid=1&r=…) --------------------------
   if (params.get('canceled')) {
     setErr('date', T['book.err.canceled']);
   }
 
-  if (params.get('paid') && params.get('session_id')) {
+  if (params.get('paid') && params.get('r')) {
     show('done');
     $('#done-title').textContent = '';
     $('#done-body').textContent = '';
-    loadPaidBooking(params.get('session_id'));
+    loadPaidBooking(params.get('r'));
   } else {
     // ---- Prefill desde la URL (?room=&date=&guests=) ----------------
     // La preselección de "room" (si sigue disponible) la hace runAvailability.
@@ -667,9 +679,9 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     if (dateEl.value) runAvailability();
   }
 
-  async function loadPaidBooking(sessionId) {
+  async function loadPaidBooking(token) {
     try {
-      const res = await fetch(`/api/checkout-status?session_id=${encodeURIComponent(sessionId)}`);
+      const res = await fetch(`/api/checkout-status?r=${encodeURIComponent(token)}`);
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || 'error');
       state.date = data.date;

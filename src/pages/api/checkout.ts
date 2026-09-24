@@ -4,7 +4,7 @@ import { pagePath } from '../../i18n/pages';
 import { buildQuote, isGuestCount, isLocale, validateDate } from '../../lib/booking';
 import { airtableEnabled, createBooking, getRoomOffers, newLocator } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
-import { getStripe, stripeEnabled } from '../../lib/stripe';
+import { buildPayment, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
 import { handleError, json } from '../../lib/api';
 
 export const prerender = false;
@@ -17,11 +17,12 @@ const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
  * No hay "solicitud": lo que se reserva son habitaciones que el sistema ya
  * muestra como disponibles, así que el pago es lo que confirma la reserva.
  *
- * - Con Stripe conectado: crea una sesión de Checkout (tarjeta + Bizum) y
- *   devuelve la URL a la que redirigir al cliente. La reserva se crea en
- *   Airtable solo cuando Stripe confirma el pago (ver stripe-webhook.ts).
- * - Sin Stripe conectado (demo): crea la reserva directamente, sin cobrar
- *   nada, para poder probar el flujo entero sin cuenta de pago.
+ * - Con Redsys conectado: devuelve los campos firmados del formulario que
+ *   redirige al cliente al TPV (tarjeta, Bizum…). La reserva se crea en
+ *   Airtable solo cuando el banco confirma el pago (ver
+ *   redsys-notification.ts).
+ * - Sin Redsys conectado (demo): crea la reserva directamente, sin cobrar
+ *   nada, para poder probar el flujo entero sin TPV.
  */
 export const POST: APIRoute = async ({ request, url }) => {
   let body: Record<string, unknown>;
@@ -68,8 +69,8 @@ export const POST: APIRoute = async ({ request, url }) => {
 
     const quote = buildQuote(room, guests, date);
 
-    if (!stripeEnabled()) {
-      // Demo: sin pasarela conectada, se crea la reserva sin cobrar nada.
+    if (!redsysEnabled()) {
+      // Demo: sin TPV conectado, se crea la reserva sin cobrar nada.
       const { locator } = await createBooking({
         date,
         room,
@@ -114,50 +115,50 @@ export const POST: APIRoute = async ({ request, url }) => {
       });
     }
 
-    // Con Stripe: el localizador se genera ya para poder mostrarlo en cuanto
-    // el cliente vuelve del pago (ver /api/checkout-status), y el webhook usa
-    // este mismo localizador al crear la reserva definitiva.
+    // Con Redsys: el localizador se genera ya para poder mostrarlo en cuanto
+    // el cliente vuelve del pago (va firmado en la URL de vuelta), y la
+    // notificación del banco usa este mismo localizador al crear la reserva
+    // definitiva. Los datos de la reserva viajan en DS_MERCHANT_MERCHANTDATA
+    // (firmado por Redsys y devuelto tal cual al confirmar el pago).
     const locator = await newLocator();
+    const order = newOrder();
     const bookPath = pagePath('book', lang);
+    const cut = (v: string, n: number) => v.slice(0, n);
 
-    const session = await getStripe().checkout.sessions.create({
-      mode: 'payment',
-      payment_method_types: ['card', 'bizum'],
-      customer_email: email,
-      line_items: [
-        {
-          quantity: 1,
-          price_data: {
-            currency: 'eur',
-            unit_amount: Math.round(quote.total * 100),
-            product_data: {
-              name: `Balcón privado · Habitación ${room.roomNumber} · ${date}`,
-              description: 'Fallas 2027 · Snack Pack incluido',
-            },
-          },
-        },
-      ],
-      success_url: `${url.origin}${bookPath}?paid=1&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${url.origin}${bookPath}?canceled=1`,
-      metadata: {
+    const payment = buildPayment({
+      order,
+      amountEuros: quote.total,
+      lang,
+      description: `Balcón privado · Habitación ${room.roomNumber} · ${date}`,
+      holder: `${firstName} ${lastName}`.slice(0, 60),
+      data: {
         locator,
         date,
         roomSlug: room.slug,
-        roomNumber: room.roomNumber,
-        guests: String(guests),
-        firstName,
-        lastName,
-        email,
-        phone,
-        country,
-        notes,
+        guests,
+        firstName: cut(firstName, 60),
+        lastName: cut(lastName, 60),
+        email: cut(email, 100),
+        phone: cut(phone, 30),
+        country: cut(country, 40),
+        notes: cut(notes, 200),
         lang,
       },
+      notificationUrl: `${url.origin}/api/redsys-notification`,
+      okUrl: `${url.origin}${bookPath}?paid=1&r=${signReturnToken({
+        locator,
+        date,
+        guests,
+        roomNumber: room.roomNumber,
+        roomSlug: room.slug,
+        total: quote.total,
+        email,
+        phone,
+      })}`,
+      koUrl: `${url.origin}${bookPath}?canceled=1`,
     });
 
-    if (!session.url) throw new Error('Stripe no devolvió una URL de checkout');
-
-    return json({ ok: true, mode: 'redirect', url: session.url });
+    return json({ ok: true, mode: 'redirect', form: payment });
   } catch (e) {
     return handleError(e);
   }

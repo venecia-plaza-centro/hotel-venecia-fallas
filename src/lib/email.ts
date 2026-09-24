@@ -386,7 +386,7 @@ export const __previewEmails = { buildCustomerEmailHtml, buildHotelEmailHtml };
 /**
  * Caso raro: dos personas pagan la misma habitación/fecha casi a la vez y
  * una se queda sin sitio cuando el webhook revalida disponibilidad. Se
- * reembolsa automáticamente (ver stripe-webhook.ts) y se avisa por aquí.
+ * reembolsa automáticamente (ver redsys-notification.ts) y se avisa por aquí.
  */
 export async function sendPaymentRefundedNotice(input: {
   email: string;
@@ -394,6 +394,11 @@ export async function sendPaymentRefundedNotice(input: {
   roomNumber: string;
   date: string;
   lang: Locale;
+  /** true = el reembolso automático falló y el hotel debe hacerlo a mano
+   *  desde el portal de Redsys. */
+  manual?: boolean;
+  locator?: string;
+  order?: string;
 }): Promise<void> {
   const es = input.lang !== 'en';
   const subject = es
@@ -405,8 +410,12 @@ export async function sendPaymentRefundedNotice(input: {
   await deliver({ to: input.email, subject, text });
   await deliver({
     to: SITE.email,
-    subject: `[Reembolso automático] ${input.roomNumber} · ${input.date}`,
-    text: `Doble reserva evitada por el webhook de Stripe. Reembolsado automáticamente.\nCliente: ${input.firstName} · ${input.email}\nHabitación: ${input.roomNumber}\nFecha: ${input.date}`,
+    subject: `[${input.manual ? 'REEMBOLSO MANUAL' : 'Reembolso automático'}] ${input.roomNumber} · ${input.date}`,
+    text: `Doble reserva evitada (dos pagos para la misma habitación y fecha). ${
+      input.manual
+        ? '⚠️ EL REEMBOLSO AUTOMÁTICO HA FALLADO: hay que devolver el pago a mano desde el portal de Redsys.'
+        : 'Reembolsado automáticamente en Redsys.'
+    }\nCliente: ${input.firstName} · ${input.email}\nHabitación: ${input.roomNumber}\nFecha: ${input.date}${input.order ? `\nPedido Redsys: ${input.order}` : ''}${input.locator ? `\nLocalizador: ${input.locator}` : ''}`,
   });
 }
 
