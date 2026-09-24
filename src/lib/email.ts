@@ -402,10 +402,10 @@ export async function sendPaymentRefundedNotice(input: {
 }): Promise<void> {
   const es = input.lang !== 'en';
   const subject = es
-    ? 'Tu balcón privado ya no está disponible — reembolso en curso'
+    ? 'Su balcón privado ya no está disponible — reembolso en curso'
     : 'Your private balcony is no longer available — refund on its way';
   const text = es
-    ? `Hola ${input.firstName},\n\nLo sentimos mucho: justo cuando se completaba tu pago, la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a tu método de pago en los próximos días.\n\nPuedes elegir otra habitación o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y te ayudamos.`
+    ? `Estimado/a ${input.firstName}:\n\nLo sentimos mucho: justo cuando se completaba su pago, la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a su método de pago en los próximos días.\n\nPuede elegir otra habitación o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y le ayudaremos.`
     : `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another room or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`;
   await deliver({ to: input.email, subject, text });
   await deliver({
