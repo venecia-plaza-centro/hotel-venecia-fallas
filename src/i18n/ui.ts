@@ -15,6 +15,8 @@ const es: Dict = {
   'nav.rooms': 'Habitaciones',
   'nav.mascletas': 'Mascletás',
   'nav.faq': 'Dudas',
+  'nav.gallery': 'Galería',
+  'nav.contact': 'Contacto',
   'nav.book': 'Reservar',
   'nav.menu': 'Menú',
   'nav.close': 'Cerrar menú',
@@ -86,6 +88,14 @@ const es: Dict = {
     'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento.',
   'mascletas.march': 'Marzo 2027',
   'mascletas.month': 'Marzo',
+
+  // galería
+  'gallery.h1': 'Galería',
+  'gallery.alt': 'Hotel Venecia Plaza Centro, foto {n}',
+  'gallery.open': 'Ampliar foto {n}',
+  'gallery.close': 'Cerrar',
+  'gallery.prev': 'Foto anterior',
+  'gallery.next': 'Foto siguiente',
 
   // faq
   'faq.h1': 'Preguntas frecuentes',
@@ -279,6 +289,8 @@ const en: Dict = {
   'nav.rooms': 'Rooms',
   'nav.mascletas': 'Mascletás',
   'nav.faq': 'FAQ',
+  'nav.gallery': 'Gallery',
+  'nav.contact': 'Contact',
   'nav.book': 'Book now',
   'nav.menu': 'Menu',
   'nav.close': 'Close menu',
@@ -340,6 +352,13 @@ const en: Dict = {
     'From 1 to 19 March 2027, every day at 2 pm on Plaza del Ayuntamiento.',
   'mascletas.march': 'March 2027',
   'mascletas.month': 'March',
+
+  'gallery.h1': 'Photo gallery',
+  'gallery.alt': 'Hotel Venecia Plaza Centro, photo {n}',
+  'gallery.open': 'Enlarge photo {n}',
+  'gallery.close': 'Close',
+  'gallery.prev': 'Previous photo',
+  'gallery.next': 'Next photo',
 
   'faq.h1': 'Frequently asked questions',
   'faq.q1': 'Which days can I book?',

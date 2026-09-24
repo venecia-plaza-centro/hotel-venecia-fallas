@@ -188,6 +188,25 @@ const features = [
     position: absolute; left: 28px; bottom: 24px; font-family: 'Caveat', cursive;
     font-size: 30px; color: var(--gold-light); transform: rotate(-3deg);
   }
+  /* Escritorio: el vídeo ocupa todo el hero, oscurecido, y el bloque de
+     texto va encima. Al quitarle el position a .hero-media, .hero-photo (y
+     con él el vídeo) se posiciona respecto a .hero entero en vez de solo
+     respecto a su mitad; el sello y la frase manuscrita siguen en la mitad
+     derecha. Más oscuro donde está el texto (izquierda) para que se lea
+     bien, y más claro a la derecha para que el vídeo se aprecie. En
+     móvil/tablet no se toca: ahí el vídeo va arriba y el texto debajo. */
+  @media (min-width: 861px) {
+    .hero { position: relative; }
+    .hero-media { position: static; background: transparent; }
+    .hero-photo { z-index: 0; }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(20,31,56,.9) 0%, rgba(20,31,56,.8) 50%, rgba(20,31,56,.5) 100%);
+    }
+    .hero-panel { position: relative; z-index: 1; background: transparent; }
+    .hero-panel h1, .hero-panel .hero-kicker { text-shadow: 0 2px 14px rgba(8,14,30,.55); }
+    .hero-tagline { left: calc(50% + 28px); }
+  }
   @media (max-width: 860px) {
     .hero-media { min-height: 320px; }
     /* A caballo entre el vídeo y el panel de texto de debajo (apilados en

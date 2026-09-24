@@ -1,0 +1,162 @@
+---
+import { SITE, type Locale } from '../../consts';
+import { CONTACT } from '../../i18n/contact';
+import PageHero from '../PageHero.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = CONTACT[lang];
+const errorText = c.error.replace('{email}', SITE.email);
+const waHref = SITE.whatsappHref;
+const telHref = SITE.phoneHref;
+---
+
+<PageHero title={c.title} />
+
+<section class="section contact-section">
+  <div class="container">
+    <p class="contact-intro" set:html={c.intro} />
+
+    <div class="contact-grid">
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+          <div>
+            <div class="contact-tag">{c.addr}</div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Plaza+del+Ayuntamiento,+Valencia" target="_blank" rel="noopener" class="contact-val contact-link">Plaza del Ayuntamiento, 3</a>
+            <div class="contact-sub">46002 València, España</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+          <div>
+            <div class="contact-tag">{c.phone}</div>
+            <a href={telHref} class="contact-val contact-link">{SITE.phone}</a>
+            <div class="contact-sub">{c.hours}</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg></div>
+          <div>
+            <div class="contact-tag">WhatsApp</div>
+            <a href={waHref} target="_blank" rel="noopener" class="contact-val contact-link">{SITE.whatsapp}</a>
+            <div class="contact-sub">{c.hours}</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+          <div>
+            <div class="contact-tag">{c.email}</div>
+            <a href={`mailto:${SITE.email}`} class="contact-val contact-link">{SITE.email}</a>
+            <div class="contact-sub">{c.emailSub}</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 17V7h4a3 3 0 0 1 0 6H9"></path></svg></div>
+          <div>
+            <div class="contact-tag">{c.park}</div>
+            <div class="contact-val">{c.parkVal}</div>
+            <div class="contact-sub"><a href="https://maps.app.goo.gl/DfPaYouM8X5tkvQH6" target="_blank" rel="noopener">Avda. del Oeste, 34</a></div>
+          </div>
+        </div>
+      </div>
+
+      <form
+        class="contact-form"
+        action={`https://formsubmit.co/ajax/${SITE.email}`}
+        method="POST"
+        data-error={errorText}
+      >
+        <input type="hidden" name="_subject" value="Nuevo mensaje desde fallas.hotelvenecia.com" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">{c.formName}</label>
+            <input id="cf-name" type="text" name="Nombre" class="form-input" required placeholder={c.phName} />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">{c.formEmail}</label>
+            <input id="cf-email" type="email" name="Email" class="form-input" required placeholder={c.phEmail} />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-subject">{c.formSubject}</label>
+          <input id="cf-subject" type="text" name="Asunto" class="form-input" placeholder={c.phSubject} />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-msg">{c.formMsg}</label>
+          <textarea id="cf-msg" name="Mensaje" class="form-input form-textarea" required placeholder={c.phMsg}></textarea>
+        </div>
+        <button type="submit" class="btn-send" data-sending={c.sending} data-sent={c.sent}>{c.send}</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section { padding-top: 8px; }
+  .contact-intro { text-align: center; max-width: 620px; margin: 0 auto 48px; color: var(--text-mid); font-size: 16px; line-height: 1.7; }
+  .contact-intro :global(a) { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+  .contact-grid { display: flex; flex-direction: column; align-items: center; gap: 52px; }
+  .contact-list { display: flex; flex-flow: row wrap; justify-content: center; gap: 40px 44px; max-width: 900px; width: 100%; }
+  .contact-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; width: 232px; }
+  .contact-item > div:last-child { display: flex; flex-direction: column; align-items: center; }
+  .contact-icon { width: 46px; height: 46px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-icon svg { width: 21px; height: 21px; fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .contact-tag { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+  .contact-val { font-size: 15px; font-weight: 500; color: var(--text); }
+  .contact-link { text-decoration: none; transition: color .2s; }
+  .contact-link:hover { color: var(--gold); }
+  .contact-sub { font-size: 13px; color: var(--text-soft); margin-top: 1px; }
+  .contact-sub a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; transition: color .2s; padding: 6px 2px; margin: -6px -2px; display: inline-flex; }
+  .contact-sub a:hover { color: var(--gold); }
+  .contact-form { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 560px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .form-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-mid); }
+  .form-input {
+    padding: 13px 15px; border: 1.5px solid var(--cream-dark); border-radius: var(--r);
+    font-family: var(--ff-body); font-size: 15px; color: var(--text); background: #fff;
+    transition: border-color .2s, box-shadow .2s; outline: none;
+    width: 100%; min-width: 0; box-sizing: border-box; appearance: none; -webkit-appearance: none;
+  }
+  .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,162,70,.1); }
+  .form-textarea { min-height: 130px; resize: vertical; }
+  .btn-send {
+    padding: 15px 28px; background: var(--gold); color: #fff; border: 0; border-radius: var(--r);
+    font-family: var(--ff-body); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    cursor: pointer; align-self: center; transition: background .2s, transform .2s, box-shadow .2s;
+  }
+  .btn-send:hover { background: var(--navy); transform: translateY(-2px); box-shadow: var(--sh-md); }
+  .btn-send:disabled { cursor: default; transform: none; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.contact-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const b = form.querySelector<HTMLButtonElement>('.btn-send')!;
+      const orig = b.textContent;
+      b.disabled = true;
+      b.textContent = b.dataset.sending ?? '…';
+      b.style.background = '';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (!res.ok) throw new Error('bad status');
+        b.textContent = b.dataset.sent ?? '✓';
+        b.style.background = '#1B2A4A';
+        form.reset();
+      } catch {
+        b.textContent = form.dataset.error ?? 'Error';
+        b.style.background = '#9b2c2c';
+      }
+      setTimeout(() => { b.textContent = orig; b.style.background = ''; b.disabled = false; }, 4000);
+    });
+  });
+</script>

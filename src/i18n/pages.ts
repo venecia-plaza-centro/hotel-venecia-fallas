@@ -10,7 +10,9 @@ export type PageId =
   | 'home'
   | 'rooms'
   | 'mascletas'
+  | 'gallery'
   | 'faq'
+  | 'contact'
   | 'book'
   | 'terms'
   | 'cancellation'
@@ -49,8 +51,20 @@ export const PAGES: PageDef[] = [
     inFooter: true,
   },
   {
+    id: 'gallery',
+    slug: { es: 'galeria', en: 'gallery', it: 'galleria', fr: 'galerie', de: 'galerie' },
+    inNav: true,
+    inFooter: true,
+  },
+  {
     id: 'faq',
     slug: { es: 'faq', en: 'faq', it: 'faq', fr: 'faq', de: 'faq' },
+    inNav: true,
+    inFooter: true,
+  },
+  {
+    id: 'contact',
+    slug: { es: 'contacto', en: 'contact', it: 'contatto', fr: 'contact', de: 'kontakt' },
     inNav: true,
     inFooter: true,
   },

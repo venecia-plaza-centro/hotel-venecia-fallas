@@ -4,6 +4,8 @@ import Home from '../components/pages/Home.astro';
 import Rooms from '../components/pages/Rooms.astro';
 import Mascletas from '../components/pages/Mascletas.astro';
 import Faq from '../components/pages/Faq.astro';
+import Gallery from '../components/pages/Gallery.astro';
+import Contact from '../components/pages/Contact.astro';
 import Book from '../components/pages/Book.astro';
 import Legal from '../components/pages/Legal.astro';
 import { LOCALES, SITE, FALLAS, type Locale } from '../consts';
@@ -69,6 +71,8 @@ const jsonLd = pageId === 'home'
   {pageId === 'rooms' && <Rooms lang={lang} />}
   {pageId === 'mascletas' && <Mascletas lang={lang} />}
   {pageId === 'faq' && <Faq lang={lang} />}
+  {pageId === 'gallery' && <Gallery lang={lang} />}
+  {pageId === 'contact' && <Contact lang={lang} />}
   {pageId === 'book' && <Book lang={lang} />}
   {['terms', 'cancellation', 'privacy'].includes(pageId) && <Legal lang={lang} pageId={pageId} />}
 </Base>
