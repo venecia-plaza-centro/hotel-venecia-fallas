@@ -22,15 +22,8 @@ const kickerHtml = t('home.kicker').replace(/\.\s+/g, '.<br />');
 // verse el degradado de fondo de .hero-photo.
 const HERO_VIDEO = '/video/hero-mascleta.mp4';
 
-// Iconos propios (public/icons/*.png, recortados de la lámina dorada del cliente).
-const features = [
-  { icon: 'binoculars', t: t('home.feature1.t'), d: t('home.feature1.d') },
-  { icon: 'llave', t: t('home.feature2.t'), d: t('home.feature2.d') },
-  { icon: 'bano-privado', t: t('home.feature3.t'), d: t('home.feature3.d') },
-  { icon: 'tray', t: t('home.feature4.t'), d: t('home.feature4.d') },
-];
-
-// Franja azul inferior (justo antes del footer), debajo de "features".
+// Franja azul inferior (justo antes del footer). Iconos propios
+// (public/icons/*.png, recortados de la lámina dorada del cliente).
 const strip = [
   { icon: 'clock', t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
   { icon: 'sparkle', t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
@@ -94,20 +87,6 @@ const strip = [
     </div>
     <div class="room-picker-more">
       <a class="btn btn-ghost" href={roomsUrl}>{t('home.rooms.seeall')}</a>
-    </div>
-  </div>
-</section>
-
-<section class="section section-alt features">
-  <div class="container">
-    <div class="features-grid">
-      {features.map((f) => (
-        <div class="feature">
-          <img class="feature-icon" src={`/icons/${f.icon}.png`} width="240" height="240" alt="" loading="lazy" />
-          <h3>{f.t}</h3>
-          <p>{f.d}</p>
-        </div>
-      ))}
     </div>
   </div>
 </section>
@@ -249,18 +228,6 @@ const strip = [
       bottom: -46px; right: 16px; z-index: 2;
     }
   }
-
-  /* ── features ── */
-  /* Menos aire arriba/abajo que un .section normal, en todos los tamaños.
-     Fondo blanco a propósito (no el crema de .section-alt, que comparte
-     con .room-picker): aquí se quiere distinto. */
-  .features { padding: 32px 0; background: #fff; }
-  .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
-  @media (max-width: 760px) { .features-grid { grid-template-columns: 1fr 1fr; } }
-  .feature { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .feature-icon { width: 52px; height: 52px; object-fit: contain; }
-  .feature h3 { font-size: 15px; }
-  .feature p { font-size: 13px; color: var(--text-mid); }
 
   /* ── tradición ── */
   .tradicion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; text-align: center; }
