@@ -132,34 +132,31 @@ export async function getRooms(): Promise<Room[]> {
  * cuando el cliente pasa al TPV: reserva la habitación FALLAS.holdMinutes
  * minutos; si no paga en ese tiempo deja de contar y la habitación vuelve a
  * salir libre (sin borrar nada: el propio registro lleva su hora de
- * creación). `excludeLocator` deja fuera una reserva concreta (la propia, al
- * confirmar su pago).
+ * creación).
+ *
+ * La caducidad se calcula aquí, con `createdTime` de Airtable, y no con
+ * fórmulas de fecha de Airtable: en una prueba real DATETIME_DIFF(NOW(),
+ * CREATED_TIME()) salía con el signo cambiado dentro de filterByFormula.
  */
-function activeBookingFormula(excludeLocator?: string): string {
-  const parts = [
-    `{Estado}!='cancelada'`,
-    `OR({Estado}!='en pago', DATETIME_DIFF(NOW(), CREATED_TIME(), 'minutes') < ${FALLAS.holdMinutes})`,
-  ];
-  if (excludeLocator) parts.push(`{Localizador}!='${excludeLocator.replace(/['"\\]/g, '')}'`);
-  return parts.join(', ');
+function isExpiredHold(r: AirtableRecord, now = Date.now()): boolean {
+  if (str(r.fields['Estado']) !== 'en pago') return false;
+  const created = Date.parse(r.createdTime ?? '');
+  if (!Number.isFinite(created)) return false;
+  return now - created > FALLAS.holdMinutes * 60_000;
 }
 
 /**
- * Reservas activas (ver activeBookingFormula) que cumplan `extra` (otra
- * condición de fórmula, opcional). Si Airtable rechazara la fórmula de los
- * bloqueos (p. ej. un cambio en la base), se cae a la comprobación simple
- * "no cancelada" en vez de romper las reservas: en ese caso los bloqueos
- * cuentan hasta que se cancelen a mano.
+ * Reservas activas (no canceladas y sin bloqueo caducado) que cumplan
+ * `extra` (otra condición de fórmula, opcional). `excludeLocator` deja fuera
+ * una reserva concreta (la propia, al confirmar su pago).
  */
 async function listActiveBookings(extra?: string, excludeLocator?: string): Promise<AirtableRecord[]> {
-  const wrap = (cond: string) => `AND(${cond}${extra ? `, ${extra}` : ''})`;
-  try {
-    return await listAll(TABLE.bookings, { filterByFormula: wrap(activeBookingFormula(excludeLocator)) });
-  } catch (err) {
-    if (!(err instanceof AirtableError)) throw err;
-    console.error('[airtable] fórmula de bloqueos rechazada, uso la simple', err);
-    return listAll(TABLE.bookings, { filterByFormula: wrap(`{Estado}!='cancelada'`) });
-  }
+  const formula = `AND({Estado}!='cancelada'${extra ? `, ${extra}` : ''})`;
+  const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
+  const now = Date.now();
+  return recs.filter(
+    (r) => !isExpiredHold(r, now) && (!excludeLocator || str(r.fields['Localizador']) !== excludeLocator),
+  );
 }
 
 /** Reservas activas para una habitación en esa fecha. Vacío en modo ejemplo. */
