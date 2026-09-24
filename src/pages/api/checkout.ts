@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { DEFAULT_LOCALE } from '../../consts';
 import { pagePath } from '../../i18n/pages';
 import { buildQuote, isGuestCount, isLocale, validateDate } from '../../lib/booking';
-import { airtableEnabled, createBooking, getRoomOffers, newLocator } from '../../lib/airtable';
+import { airtableEnabled, createBooking, getRoomOffers, newLocator, placeHold } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
 import { buildPayment, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
 import { handleError, json } from '../../lib/api';
@@ -18,8 +18,9 @@ const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
  * muestra como disponibles, así que el pago es lo que confirma la reserva.
  *
  * - Con Redsys conectado: devuelve los campos firmados del formulario que
- *   redirige al cliente al TPV (tarjeta, Bizum…). La reserva se crea en
- *   Airtable solo cuando el banco confirma el pago (ver
+ *   redirige al cliente al TPV (tarjeta, Bizum…). Antes se bloquea la
+ *   habitación FALLAS.holdMinutes minutos (registro "en pago" en Airtable);
+ *   la reserva pasa a confirmada solo cuando el banco confirma el pago (ver
  *   redsys-notification.ts).
  * - Sin Redsys conectado (demo): crea la reserva directamente, sin cobrar
  *   nada, para poder probar el flujo entero sin TPV.
@@ -123,6 +124,25 @@ export const POST: APIRoute = async ({ request, url }) => {
     const locator = await newLocator();
     const order = newOrder();
     const bookPath = pagePath('book', lang);
+
+    // Bloqueo de la habitación mientras el cliente paga (FALLAS.holdMinutes):
+    // otra persona la ve "ya reservada" y no puede pagarla a la vez.
+    const held = await placeHold({
+      date,
+      room,
+      guests,
+      total: quote.total,
+      firstName,
+      lastName,
+      email,
+      phone,
+      country: country || undefined,
+      notes: notes || undefined,
+      lang,
+      locator,
+    });
+    if (!held) return json({ ok: false, error: 'sin-disponibilidad' }, 409);
+
     const cut = (v: string, n: number) => v.slice(0, n);
 
     const payment = buildPayment({

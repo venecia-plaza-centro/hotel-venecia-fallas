@@ -74,7 +74,7 @@ crea en Airtable cuando Redsys confirma el cobro (ver
 | Campo | Tipo Airtable | Notas |
 |---|---|---|
 | `Localizador` | Single line text (**campo principal**) | _(lo rellena la web)_ Código corto, ej.: `FAL-7Q3KD`. |
-| `Estado` | Single select | `solicitada` · `confirmada` · `cancelada`. Reserva pagada = `confirmada`. |
+| `Estado` | Single select | `solicitada` · `en pago` · `confirmada` · `cancelada`. Reserva pagada = `confirmada`. **`en pago`** es el bloqueo temporal (15 min) mientras el cliente paga en el TPV: **hay que añadir esta opción al desplegable**. Si no se paga a tiempo, deja de contar sola. |
 | `Fecha` | Date | _(lo rellena la web)_ Día de mascletá elegido (acceso 13:00–15:00 h). |
 | `Habitacion` | Link → `Habitaciones` (single) | _(lo rellena la web)_ |
 | `Huespedes` | Number (entero) | _(lo rellena la web)_ |
@@ -96,7 +96,7 @@ crea en Airtable cuando Redsys confirma el cobro (ver
 Para una fecha pedida:
 
 1. Se leen las reservas con `Estado` distinto de `cancelada` y `Fecha` igual a
-   la pedida.
+   la pedida, salvo las `en pago` con más de 15 minutos (bloqueo caducado).
 2. Se cuentan cuántas de esas reservas son de cada habitación.
 3. Una habitación está disponible si ese recuento es menor que su `Cupo`
    (normalmente 0 < 1, es decir: libre mientras nadie la haya reservado ya

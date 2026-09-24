@@ -26,6 +26,7 @@ export const FALLAS = {
   mascletaPlace: 'Plaza del Ayuntamiento',
   accessStart: '13:00', // apertura del espacio privado
   accessEnd: '15:00',   // cierre
+  holdMinutes: 15, // minutos que se bloquea una habitación mientras el cliente paga
   totalRooms: 9, // nº real de habitaciones que se ofrecen para Fallas (confirmado por el hotel)
 } as const;
 

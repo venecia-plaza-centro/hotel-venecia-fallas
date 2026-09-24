@@ -166,7 +166,7 @@ const es: Dict = {
   'book.room.price': '{price} / persona',
   'book.room.select': 'Elegir habitación',
   'book.room.selected': 'Elegida',
-  'book.room.unavailable': 'Ya reservada para ese día',
+  'book.room.unavailable': 'Reservada o en proceso de reserva',
   'book.room.toosmall': 'No admite {n} personas',
   'book.room.none': 'No quedan habitaciones disponibles para ese día.',
   'book.room.change': 'Elegir otra habitación',
@@ -189,7 +189,7 @@ const es: Dict = {
   'book.details.err.fields': 'Revisa los campos marcados.',
   'book.details.err.consent': 'Tienes que aceptar las condiciones para continuar.',
 
-  'book.err.availability': 'Esa habitación ya no está disponible para ese día.',
+  'book.err.availability': 'Esa habitación ya no está disponible: alguien acaba de reservarla o la está pagando ahora mismo. Elige otra o vuelve a intentarlo en unos minutos.',
   'book.err.service':
     'No hemos podido conectar con el sistema de reservas. Inténtalo en unos minutos o llámanos.',
   'book.err.generic': 'Algo ha ido mal. Inténtalo de nuevo.',
@@ -413,7 +413,7 @@ const en: Dict = {
   'book.room.price': '{price} / person',
   'book.room.select': 'Choose room',
   'book.room.selected': 'Chosen',
-  'book.room.unavailable': 'Already booked for that day',
+  'book.room.unavailable': 'Booked or being booked',
   'book.room.toosmall': "Doesn't fit {n} people",
   'book.room.none': 'No rooms left for that day.',
   'book.room.change': 'Choose a different room',
@@ -436,7 +436,7 @@ const en: Dict = {
   'book.details.err.fields': 'Please check the highlighted fields.',
   'book.details.err.consent': 'You must accept the terms to continue.',
 
-  'book.err.availability': 'That room is no longer available for these dates.',
+  'book.err.availability': 'That room is no longer available: someone has just booked it or is paying for it right now. Pick another one or try again in a few minutes.',
   'book.err.service':
     "We couldn't reach the booking system. Try again in a few minutes or give us a call.",
   'book.err.generic': 'Something went wrong. Please try again.',

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { isGuestCount, isLocale, priceForGuests } from '../../lib/booking';
-import { bookingExists, createBooking, getRoomOffers } from '../../lib/airtable';
+import { cancelBooking, confirmHeldBooking, createBooking, findBooking, getRoomOffers } from '../../lib/airtable';
 import { sendBookingEmails, sendPaymentRefundedNotice } from '../../lib/email';
 import { isAuthorised, readMerchantData, redsysEnabled, refundOrder, verifyNotification } from '../../lib/redsys';
 import { DEFAULT_LOCALE } from '../../consts';
@@ -12,12 +12,13 @@ const ok = (body = 'OK') => new Response(body, { status: 200, headers: { 'conten
 
 /**
  * POST /api/redsys-notification
- * Aquí es donde se crea de verdad la reserva: en cuanto Redsys confirma el
- * pago, no antes. Antes de crearla se revalida la disponibilidad por si dos
- * personas han pagado la misma habitación/fecha casi a la vez; si ya no está
- * libre, se devuelve el pago y se avisa al cliente en vez de crear la
- * reserva. Redsys puede repetir la notificación: el localizador evita
- * duplicar la reserva.
+ * Aquí se confirma de verdad la reserva: en cuanto Redsys confirma el pago,
+ * no antes. Al pasar al TPV la habitación quedó bloqueada (registro "en
+ * pago", ver checkout.ts); aquí ese bloqueo pasa a reserva pagada. Si el
+ * bloqueo caducó antes de pagar (el cliente tardó más de FALLAS.holdMinutes)
+ * se revalida la disponibilidad por si otra persona ya la tiene; si no está
+ * libre, se devuelve el pago y se avisa al cliente. Redsys puede repetir la
+ * notificación: el localizador evita duplicar la reserva.
  */
 export const POST: APIRoute = async ({ request }) => {
   if (!redsysEnabled()) return new Response('no-configurado', { status: 500 });
@@ -33,10 +34,20 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('firma-invalida', { status: 400 });
   }
 
-  // Pago denegado o cancelado: no hay nada que crear.
-  if (!isAuthorised(params)) return ok('denegado');
-
   const m = readMerchantData(params);
+
+  // Pago denegado o cancelado: se libera la habitación al momento en vez de
+  // esperar a que caduque el bloqueo.
+  if (!isAuthorised(params)) {
+    try {
+      const held = m.locator ? await findBooking(m.locator) : null;
+      if (held?.estado === 'en pago') await cancelBooking(held.id);
+    } catch (err) {
+      console.error('[redsys-notification] no se pudo liberar el bloqueo', err);
+    }
+    return ok('denegado');
+  }
+
   const date = m.date ?? '';
   const roomSlug = m.roomSlug ?? '';
   const guests = Number(m.guests);
@@ -45,14 +56,18 @@ export const POST: APIRoute = async ({ request }) => {
   const amountCents = Number(params.Ds_Amount);
 
   try {
-    if (m.locator && (await bookingExists(m.locator))) return ok('duplicada');
+    const existing = m.locator ? await findBooking(m.locator) : null;
+    if (existing?.estado === 'confirmada') return ok('duplicada');
 
-    const offers = await getRoomOffers(date);
+    // Se excluye la propia reserva: su bloqueo (si sigue vigente) no cuenta
+    // contra ella misma.
+    const offers = await getRoomOffers(date, m.locator);
     const room = offers.find((r) => r.slug === roomSlug);
 
     if (!room || !room.available || !isGuestCount(guests)) {
       // Doble reserva por poco margen: el pago ya se ha cobrado, así que se
       // devuelve en vez de dejar al cliente con un cargo sin habitación.
+      if (existing) await cancelBooking(existing.id);
       const refunded = await refundOrder(order, amountCents);
       await sendPaymentRefundedNotice({
         email: m.email ?? '',
@@ -69,21 +84,26 @@ export const POST: APIRoute = async ({ request }) => {
 
     const total = priceForGuests(room, guests, date);
 
-    await createBooking({
-      date,
-      room,
-      guests,
-      total,
-      firstName: m.firstName ?? '',
-      lastName: m.lastName ?? '',
-      email: m.email ?? '',
-      phone: m.phone ?? '',
-      country: m.country || undefined,
-      notes: m.notes || undefined,
-      lang,
-      locator: m.locator,
-      paid: true,
-    });
+    if (existing) {
+      await confirmHeldBooking(existing.id, total);
+    } else {
+      // Sin bloqueo previo (p. ej. registro borrado a mano): se crea ahora.
+      await createBooking({
+        date,
+        room,
+        guests,
+        total,
+        firstName: m.firstName ?? '',
+        lastName: m.lastName ?? '',
+        email: m.email ?? '',
+        phone: m.phone ?? '',
+        country: m.country || undefined,
+        notes: m.notes || undefined,
+        lang,
+        locator: m.locator,
+        paid: true,
+      });
+    }
 
     await sendBookingEmails({
       locator: m.locator ?? '',

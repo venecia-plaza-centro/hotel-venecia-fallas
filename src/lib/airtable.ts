@@ -11,7 +11,7 @@
  */
 import { allSaleDays, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
-import type { Locale } from '../consts';
+import { FALLAS, type Locale } from '../consts';
 
 const TOKEN = import.meta.env.AIRTABLE_TOKEN ?? process.env.AIRTABLE_TOKEN;
 const BASE_ID = import.meta.env.AIRTABLE_BASE_ID ?? process.env.AIRTABLE_BASE_ID;
@@ -37,6 +37,7 @@ export class AirtableError extends Error {
 
 interface AirtableRecord {
   id: string;
+  createdTime?: string;
   fields: Record<string, unknown>;
 }
 
@@ -125,8 +126,30 @@ export async function getRooms(): Promise<Room[]> {
   return recs.map(mapRoom).sort(bySortOrder);
 }
 
-/** Reservas no canceladas para una habitación en esa fecha. Vacío en modo ejemplo. */
-async function countBookedForDate(date: string, roomIds: string[]): Promise<Map<string, number>> {
+/**
+ * Reservas que ocupan una habitación: las no canceladas, salvo los bloqueos
+ * ("en pago") que ya han caducado. Un bloqueo es el registro que se crea
+ * cuando el cliente pasa al TPV: reserva la habitación FALLAS.holdMinutes
+ * minutos; si no paga en ese tiempo deja de contar y la habitación vuelve a
+ * salir libre (sin borrar nada: el propio registro lleva su hora de
+ * creación). `excludeLocator` deja fuera una reserva concreta (la propia, al
+ * confirmar su pago).
+ */
+function activeBookingFormula(excludeLocator?: string): string {
+  const parts = [
+    `{Estado}!='cancelada'`,
+    `OR({Estado}!='en pago', DATETIME_DIFF(NOW(), CREATED_TIME(), 'minutes') < ${FALLAS.holdMinutes})`,
+  ];
+  if (excludeLocator) parts.push(`{Localizador}!='${excludeLocator.replace(/['"\\]/g, '')}'`);
+  return parts.join(', ');
+}
+
+/** Reservas activas para una habitación en esa fecha. Vacío en modo ejemplo. */
+async function countBookedForDate(
+  date: string,
+  roomIds: string[],
+  excludeLocator?: string,
+): Promise<Map<string, number>> {
   const counts = new Map<string, number>();
   if (!airtableEnabled() || roomIds.length === 0) return counts;
 
@@ -134,7 +157,7 @@ async function countBookedForDate(date: string, roomIds: string[]): Promise<Map<
   // fecha/hora, y {Fecha}='YYYY-MM-DD' nunca coincide aunque se vea igual
   // en la interfaz — esto dejaba la comprobación de disponibilidad rota
   // para cualquier reserva real (todo parecía siempre libre).
-  const formula = `AND({Estado}!='cancelada', IS_SAME({Fecha}, '${date}', 'day'))`;
+  const formula = `AND(${activeBookingFormula(excludeLocator)}, IS_SAME({Fecha}, '${date}', 'day'))`;
   const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
   for (const r of recs) {
     const link = r.fields['Habitacion'];
@@ -150,11 +173,12 @@ async function countBookedForDate(date: string, roomIds: string[]): Promise<Map<
  * hechas para esa habitación en esa fecha < Cupo (normalmente 1: es una
  * habitación real concreta, no un tipo).
  */
-export async function getRoomOffers(date: string): Promise<RoomOffer[]> {
+export async function getRoomOffers(date: string, excludeLocator?: string): Promise<RoomOffer[]> {
   const rooms = await getRooms();
   const booked = await countBookedForDate(
     date,
     rooms.map((r) => r.id),
+    excludeLocator,
   );
   return rooms.map((room) => ({
     ...room,
@@ -192,7 +216,7 @@ export async function getSoldOutRoomSlugs(): Promise<string[]> {
   const rooms = await getRooms();
   if (rooms.length === 0) return [];
 
-  const recs = await listAll(TABLE.bookings, { filterByFormula: "{Estado}!='cancelada'" });
+  const recs = await listAll(TABLE.bookings, { filterByFormula: `AND(${activeBookingFormula()})` });
   const countByRoomDate = new Map<string, number>();
   for (const r of recs) {
     const link = r.fields['Habitacion'];
@@ -226,17 +250,6 @@ export async function newLocator(): Promise<string> {
   return `FAL-${String(n).padStart(6, '0')}`;
 }
 
-/** ¿Ya existe una reserva con este localizador? Redsys puede repetir la
- *  notificación de un mismo pago; así no se crea la reserva dos veces. */
-export async function bookingExists(locator: string): Promise<boolean> {
-  if (!airtableEnabled()) return false;
-  const safe = locator.replace(/["\\]/g, '');
-  const res = await airtable(encodeURIComponent(TABLE.bookings), {
-    query: { filterByFormula: `{Localizador}="${safe}"`, maxRecords: '1', 'fields[]': 'Localizador' },
-  });
-  return Array.isArray(res.records) && res.records.length > 0;
-}
-
 export interface BookingCreate {
   date: string;
   room: Room;
@@ -259,6 +272,10 @@ export interface BookingCreate {
    * false = modo demostración sin Redsys conectado, no se ha cobrado nada.
    */
   paid: boolean;
+  /** true = bloqueo temporal: la habitación queda reservada mientras el
+   *  cliente paga en el TPV (Estado "en pago"). Se confirma o se libera
+   *  después (ver confirmHeldBooking / cancelBooking). */
+  hold?: boolean;
 }
 
 export interface BookingResult {
@@ -271,7 +288,7 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
 
   const fields: Record<string, unknown> = {
     Localizador: locator,
-    Estado: input.paid ? 'confirmada' : 'solicitada',
+    Estado: input.paid ? 'confirmada' : input.hold ? 'en pago' : 'solicitada',
     Fecha: input.date,
     Habitacion: [input.room.id],
     Huespedes: input.guests,
@@ -298,4 +315,86 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     body: JSON.stringify({ fields, typecast: true }),
   });
   return { id: created.id as string, locator };
+}
+
+// --- Bloqueo temporal de habitación (mientras el cliente paga) ------------
+
+export interface HeldBooking {
+  id: string;
+  estado: string;
+  roomId: string;
+  date: string;
+  /** Instante de creación (ISO): de él depende que el bloqueo siga vigente. */
+  createdTime: string;
+}
+
+/** Reserva/bloqueo con ese localizador, si existe. */
+export async function findBooking(locator: string): Promise<HeldBooking | null> {
+  if (!airtableEnabled()) return null;
+  const safe = locator.replace(/["'\\]/g, '');
+  const recs = await listAll(TABLE.bookings, { filterByFormula: `{Localizador}='${safe}'`, maxRecords: '1' });
+  const r = recs[0];
+  if (!r) return null;
+  const link = r.fields['Habitacion'];
+  return {
+    id: r.id,
+    estado: str(r.fields['Estado']) ?? '',
+    roomId: Array.isArray(link) && link[0] ? String(link[0]) : '',
+    date: str(r.fields['Fecha'])?.slice(0, 10) ?? '',
+    createdTime: r.createdTime ?? '',
+  };
+}
+
+/**
+ * Bloquea la habitación FALLAS.holdMinutes minutos. Devuelve false si otra
+ * persona la tenía ya (o la ha bloqueado en el mismo instante).
+ *
+ * Dos clientes pueden llegar aquí a la vez y ver la habitación libre; por eso
+ * después de crear el bloqueo se vuelve a mirar quién lo tiene: gana el
+ * registro más antiguo (a igualdad, el de menor localizador) y el otro se
+ * cancela al momento.
+ */
+export async function placeHold(input: Omit<BookingCreate, 'paid' | 'hold'>): Promise<boolean> {
+  const { locator } = await createBooking({ ...input, paid: false, hold: true });
+  if (!airtableEnabled()) return true;
+
+  const formula = `AND(${activeBookingFormula()}, IS_SAME({Fecha}, '${input.date}', 'day'))`;
+  const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
+  const sameRoom = recs
+    .filter((r) => {
+      const link = r.fields['Habitacion'];
+      return Array.isArray(link) && link[0] === input.room.id;
+    })
+    .sort(
+      (a, b) =>
+        String(a.createdTime).localeCompare(String(b.createdTime)) ||
+        String(a.fields['Localizador']).localeCompare(String(b.fields['Localizador'])),
+    );
+  const winners = sameRoom.slice(0, input.room.cupo);
+  const mine = sameRoom.find((r) => r.fields['Localizador'] === locator);
+  if (mine && winners.some((w) => w.id === mine.id)) return true;
+
+  if (mine) await cancelBooking(mine.id);
+  return false;
+}
+
+/** El pago se ha confirmado: el bloqueo pasa a reserva pagada. */
+export async function confirmHeldBooking(id: string, total: number): Promise<void> {
+  if (!airtableEnabled()) return;
+  await airtable(`${encodeURIComponent(TABLE.bookings)}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      fields: { Estado: 'confirmada', Pago: 'pagado', 'Importe total': total },
+      typecast: true,
+    }),
+  });
+}
+
+/** Libera la habitación (pago denegado o reembolsado). */
+export async function cancelBooking(id: string): Promise<void> {
+  if (!airtableEnabled()) return;
+  await airtable(`${encodeURIComponent(TABLE.bookings)}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ fields: { Estado: 'cancelada' }, typecast: true }),
+  });
 }
