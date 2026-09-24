@@ -157,7 +157,7 @@ const strip = [
        de agua del vídeo (ya difuminada), así el sello la tapa del todo.
        bottom negativo (mitad del alto) a propósito también, igual que en
        móvil/tablet: a caballo entre el vídeo y la sección siguiente. */
-    position: absolute; bottom: -86px; right: 24px; width: 172px; height: 172px; border-radius: 50%;
+    position: absolute; bottom: -30px; right: 24px; width: 172px; height: 172px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center; text-align: center;
     padding: 20px; transform: rotate(11deg);
     color: var(--gold-light); font-size: 13px; font-weight: 700;
@@ -225,7 +225,7 @@ const strip = [
        pegado a la derecha para no tapar "Fallas, más cerca que nunca". */
     .hero-badge {
       width: 92px; height: 92px; padding: 10px; font-size: 8.5px;
-      bottom: -46px; right: 16px; z-index: 2;
+      bottom: -16px; right: 16px; z-index: 2;
     }
   }
 
@@ -268,10 +268,11 @@ const strip = [
   .room-picker-more { text-align: center; margin-top: 36px; }
 
   /* ── franja bajo el hero ── */
-  /* Fondo beige (crema). Arriba lleva más padding porque el sello del hero
-     baja (mitad de su alto) sobre esta franja: así no tapa ningún texto. */
-  .strip { background: var(--cream); padding: 100px 0 32px; }
-  @media (max-width: 860px) { .strip { padding: 62px 0 28px; } }
+  /* Fondo beige (crema), justa: mismo aire arriba y abajo. El sello del
+     hero solo asoma unos px sobre la franja (bottom negativo pequeño, menor
+     que este padding), así no tapa ningún texto. */
+  .strip { background: var(--cream); padding: 36px 0; }
+  @media (max-width: 860px) { .strip { padding: 28px 0; } }
   .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
   .strip-item { display: flex; align-items: center; gap: 12px; color: var(--navy); }
   .strip-icon { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
