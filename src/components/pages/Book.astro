@@ -75,7 +75,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
             <span><i class="dot dot-free"></i>{t('book.date.legend.available')}</span>
             <span><i class="dot dot-full"></i>{t('book.date.legend.full')}</span>
           </p>
-          <p class="hint cal-room-note" id="cal-room-note" hidden></p>
           <input type="hidden" id="f-date" />
           <p class="err" data-err="date" role="alert"></p>
           <div class="actions">
@@ -369,18 +368,9 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     .then((res) => res.json())
     .then((data) => {
       if (!data.ok) return;
-      let anyTaken = false;
       for (const d of data.days) {
         availability[d.date] = d.available;
-        if (prefRoom && d.roomFree === false) {
-          roomFree[d.date] = false;
-          if (d.available > 0) anyTaken = true;
-        }
-      }
-      const note = $('#cal-room-note');
-      if (note && anyTaken) {
-        note.textContent = fmt('book.date.room_note', { n: roomNumberFromSlug(prefRoom) });
-        note.hidden = false;
+        if (prefRoom && d.roomFree === false) roomFree[d.date] = false;
       }
       renderCalendar();
     })
@@ -793,7 +783,6 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   }
   .book .cal-day .cal-left { font-size: 9px; line-height: 1.1; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .book .cal-day.is-selected .cal-left { color: #fff; }
-  .book .cal-room-note { font-size: 12px; color: var(--text-soft); margin: -8px 0 16px; }
   .book .cal-day.is-empty { visibility: hidden; }
   .book .cal-day:not(:disabled):hover { border-color: var(--gold); }
   .book .cal-day.is-free { border-color: var(--gold-light); }

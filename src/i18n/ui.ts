@@ -162,7 +162,6 @@ const es: Dict = {
   'book.date.left': 'Quedan {n}',
   'book.date.left.one': 'Queda {n}',
   'book.date.room_taken': 'La habitación {n} ya está reservada ese día',
-  'book.date.room_note': 'Los días tachados ya tienen reservada la habitación {n}.',
 
   'book.room.title': 'Elija habitación',
   'book.room.number': 'Habitación {n}',
@@ -413,7 +412,6 @@ const en: Dict = {
   'book.date.left': 'Only {n} left',
   'book.date.left.one': 'Only {n} left',
   'book.date.room_taken': 'Room {n} is already booked that day',
-  'book.date.room_note': 'Crossed-out days already have room {n} booked.',
 
   'book.room.title': 'Choose a room',
   'book.room.number': 'Room {n}',
