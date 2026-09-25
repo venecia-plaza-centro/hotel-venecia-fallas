@@ -426,10 +426,47 @@ interface Delivery {
   text: string;
 }
 
+const env = (k: string): string | undefined => import.meta.env?.[k] ?? process.env[k];
+
+/**
+ * Envío con Resend (https://resend.com). Sin RESEND_API_KEY solo se registra
+ * por consola, para poder probar el flujo en local. Un fallo al enviar NO
+ * rompe la reserva (ya está pagada y guardada): se registra el error y se
+ * sigue, para que Redsys no reintente la notificación por un problema de
+ * correo. El cliente puede escribir con su localizador si no le llega.
+ */
 async function deliver(d: Delivery): Promise<void> {
-  // TODO Hito 3: integrar proveedor de correo real (Resend, SMTP…) y pasarle
-  // `d.to` / `d.subject` / `d.html` / `d.text` tal cual.
-  console.info(
-    `[email] (sin proveedor) "${d.subject}" → ${d.to}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
-  );
+  const key = env('RESEND_API_KEY');
+  if (!key) {
+    console.info(
+      `[email] (sin proveedor) "${d.subject}" → ${d.to}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
+    );
+    return;
+  }
+
+  const from = env('EMAIL_FROM') ?? `${SITE.name} <${SITE.email}>`;
+  const body = JSON.stringify({
+    from,
+    to: [d.to],
+    reply_to: SITE.email,
+    subject: d.subject,
+    text: d.text,
+    ...(d.html ? { html: d.html } : {}),
+  });
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+        body,
+      });
+      if (res.ok) return;
+      const detail = (await res.text()).slice(0, 300);
+      console.error(`[email] Resend ${res.status} al enviar "${d.subject}" a ${d.to} (intento ${attempt}): ${detail}`);
+      if (res.status < 500 && res.status !== 429) return; // error definitivo, no se reintenta
+    } catch (err) {
+      console.error(`[email] fallo de red al enviar "${d.subject}" a ${d.to} (intento ${attempt})`, err);
+    }
+  }
 }
