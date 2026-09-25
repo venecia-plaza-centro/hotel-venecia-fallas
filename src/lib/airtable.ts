@@ -204,15 +204,36 @@ export async function getRoomOffers(date: string, excludeLocator?: string): Prom
  * Nº de habitaciones libres por fecha, para pintar el calendario de
  * disponibilidad antes de elegir día (no depende del nº de personas: la
  * disponibilidad es "¿está ya reservada esa habitación ese día?", ajeno a
- * cuántos huéspedes se apunten).
+ * cuántos huéspedes se apunten). Con `roomSlug`, además indica si esa
+ * habitación concreta sigue libre cada día (`roomFree`), para tachar los días
+ * en que el cliente que viene de "Reservar habitación X" no puede tenerla.
+ * Una sola consulta a Airtable para todos los días.
  */
-export async function getAvailabilitySummary(dates: string[]): Promise<Record<string, number>> {
+export async function getAvailabilitySummary(
+  dates: string[],
+  roomSlug?: string,
+): Promise<Record<string, { free: number; roomFree?: boolean }>> {
   const rooms = await getRooms();
-  const roomIds = rooms.map((r) => r.id);
-  const summary: Record<string, number> = {};
+  const booked = new Map<string, number>(); // "idHabitación|fecha" → reservas activas
+  if (airtableEnabled()) {
+    for (const r of await listActiveBookings()) {
+      const link = r.fields['Habitacion'];
+      const roomId = Array.isArray(link) && link[0] ? String(link[0]) : '';
+      const date = str(r.fields['Fecha'])?.slice(0, 10);
+      if (!roomId || !date) continue;
+      const key = `${roomId}|${date}`;
+      booked.set(key, (booked.get(key) ?? 0) + 1);
+    }
+  }
+  const isFree = (room: Room, date: string) => (booked.get(`${room.id}|${date}`) ?? 0) < room.cupo;
+  const wanted = roomSlug ? rooms.find((r) => r.slug === roomSlug) : undefined;
+
+  const summary: Record<string, { free: number; roomFree?: boolean }> = {};
   for (const date of dates) {
-    const booked = await countBookedForDate(date, roomIds);
-    summary[date] = rooms.filter((r) => (booked.get(r.id) ?? 0) < r.cupo).length;
+    summary[date] = {
+      free: rooms.filter((r) => isFree(r, date)).length,
+      ...(wanted ? { roomFree: isFree(wanted, date) } : {}),
+    };
   }
   return summary;
 }
