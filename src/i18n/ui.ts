@@ -253,7 +253,7 @@ const es: Dict = {
     'El importe abonado por la reserva de su balcón privado no es reembolsable, sea cual sea el motivo o la antelación con la que se solicite la cancelación.',
   'legal.cancellation.s2.h': 'Fecha y habitación fijas',
   'legal.cancellation.s2.p':
-    'Su balcón privado queda reservado para la fecha y la habitación exactas que eligió al confirmar: no se admiten cambios posteriores. Le pedimos elegir con calma antes de reservar, para que el día de la mascletá todo sea exactamente como lo imaginó.',
+    'Su balcón privado queda reservado para la fecha y la habitación exactas que eligió al confirmar: no se admiten cambios posteriores.',
   'legal.cancellation.s3.h': 'Si no se presenta',
   'legal.cancellation.s3.p':
     'Si no acude dentro de la franja horaria reservada (13:00–15:00 h), la reserva se considera consumida: no da derecho a reembolso ni a cambio de fecha.',
@@ -498,7 +498,7 @@ const en: Dict = {
     'The amount paid for your private balcony booking is non-refundable, regardless of the reason or notice given for the cancellation.',
   'legal.cancellation.s2.h': 'Fixed date and room',
   'legal.cancellation.s2.p':
-    'Your private balcony is booked for the exact date and room you chose when confirming: no changes are possible afterwards. We ask you to choose carefully before booking, so that on the day of the mascletá everything is exactly as you pictured it.',
+    'Your private balcony is booked for the exact date and room you chose when confirming: no changes are possible afterwards.',
   'legal.cancellation.s3.h': 'If you don’t show up',
   'legal.cancellation.s3.p':
     'If you do not arrive within your booked time window (13:00–15:00), the booking is considered used: it does not entitle you to a refund or a date change.',
