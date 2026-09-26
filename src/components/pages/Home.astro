@@ -15,6 +15,9 @@ const rooms = (await getRooms()).slice(0, 3);
 const roomsUrl = pagePath('rooms', lang);
 
 // Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
+// "Mascletás, más cerca que nunca": en pantallas pequeñas la segunda parte
+// baja a otra línea (el <br> solo se ve ahí, ver .tag-br en el CSS).
+const taglineHtml = t('home.tagline').replace(/,\s*/, ',<br class="tag-br" /> ');
 const kickerHtml = t('home.kicker').replace(/\.\s+/g, '.<br />');
 
 // Vídeo real de una mascletá (marca de agua "FPM" quitada por difuminado
@@ -71,7 +74,7 @@ const strip = [
       )}
     </div>
     <span class="hero-badge">{t('home.badge')}</span>
-    <span class="hero-tagline">{t('home.tagline')}</span>
+    <span class="hero-tagline" set:html={taglineHtml} />
   </div>
 </section>
 
@@ -234,6 +237,7 @@ const strip = [
   .hero-panel { position: relative; z-index: 1; background: transparent; }
   .hero-panel h1, .hero-panel .hero-kicker { text-shadow: 0 2px 14px rgba(8,14,30,.6); }
   .hero-tagline { left: 28px; z-index: 1; }
+  .hero-tagline :global(.tag-br) { display: none; }
   @media (max-width: 860px) {
     /* Móvil/tablet: texto centrado sobre todo el vídeo, más oscuro y
        uniforme para que se lea claro. Abajo se deja hueco (padding-bottom)
@@ -242,9 +246,10 @@ const strip = [
       background: linear-gradient(180deg, rgba(20,31,56,.82) 0%, rgba(20,31,56,.78) 100%);
     }
     .hero-panel { padding: calc(88px + 32px) 24px 96px; }
-    /* El texto es algo más largo: se reduce con la pantalla y, si aun así no
-       cabe, pasa a dos líneas antes de tocar el sello de la derecha. */
-    .hero-tagline { left: 20px; bottom: 22px; font-size: clamp(19px, 6vw, 26px); max-width: calc(100% - 152px); line-height: 1.05; }
+    /* En dos líneas ("Mascletás," y debajo "más cerca que nunca"), con la
+       letra ajustada a la pantalla para no tocar el sello de la derecha. */
+    .hero-tagline { left: 20px; bottom: 22px; font-size: clamp(20px, 7vw, 28px); max-width: calc(100% - 152px); line-height: 1.05; }
+    .hero-tagline :global(.tag-br) { display: inline; }
     /* A caballo entre el vídeo y la sección siguiente. Más pequeño y
        pegado a la derecha para no tapar "Fallas, más cerca que nunca". */
     .hero-badge {
