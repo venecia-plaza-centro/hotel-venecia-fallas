@@ -88,6 +88,11 @@ export interface PaymentInput {
   holder: string;
   /** Datos de la reserva, devueltos tal cual por Redsys en la notificación. */
   data: Record<string, unknown>;
+  /** Texto legible que abre "Datos del comercio" en el email que Redsys manda
+   *  al hotel (p. ej. "FALLAS FAL-001 hab412 2027-03-12"), para reconocer de
+   *  un vistazo que el pago es de Fallas. Solo letras, cifras, espacios,
+   *  guion, punto y guion bajo (Redsys es estricto con otros símbolos). */
+  label?: string;
   notificationUrl: string;
   okUrl: string;
   koUrl: string;
@@ -96,7 +101,9 @@ export interface PaymentInput {
 /** Campos del formulario POST que redirige al cliente al TPV. */
 export function buildPayment(p: PaymentInput) {
   if (!MERCHANT_CODE) throw new Error('REDSYS_MERCHANT_CODE no configurado');
-  const merchantData = Buffer.from(JSON.stringify(p.data), 'utf8').toString('base64url');
+  const payload = Buffer.from(JSON.stringify(p.data), 'utf8').toString('base64url');
+  const label = (p.label ?? '').replace(/[^A-Za-z0-9 ._-]/g, '').trim();
+  const merchantData = label ? `${label} ${payload}` : payload;
   const paramsB64 = encodeParams({
     DS_MERCHANT_AMOUNT: String(Math.round(p.amountEuros * 100)),
     DS_MERCHANT_ORDER: p.order,
@@ -126,8 +133,19 @@ export function buildPayment(p: PaymentInput) {
 /** Datos de la reserva que viajan en DS_MERCHANT_MERCHANTDATA. */
 export function readMerchantData(params: Record<string, string>): Record<string, string> {
   const raw = params.Ds_MerchantData ?? '';
+  // Puede llevar delante el texto legible ("FALLAS FAL-001 …"): los datos
+  // codificados son lo que va tras el último espacio.
+  // Redsys puede devolver los espacios como "+" (los datos codificados no
+  // llevan "+": son base64url).
+  let decoded = raw.replace(/\+/g, ' ');
   try {
-    return JSON.parse(Buffer.from(decodeURIComponent(raw), 'base64url').toString('utf8'));
+    decoded = decodeURIComponent(decoded);
+  } catch {
+    /* ya venía sin codificar */
+  }
+  const encoded = decoded.trim().split(/\s+/).pop() ?? '';
+  try {
+    return JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8'));
   } catch {
     return {};
   }

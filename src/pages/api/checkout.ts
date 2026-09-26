@@ -155,6 +155,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       lang,
       description: `Balcón privado · Habitación ${room.roomNumber} · ${date}`,
       holder: `${firstName} ${lastName}`.slice(0, 60),
+      label: `FALLAS ${locator} hab${room.roomNumber} ${date}`,
       data: {
         locator,
         date,
