@@ -10,7 +10,9 @@ const { lang } = Astro.props;
 const t = useT(lang);
 
 // Las fotos son los archivos de public/images/galeria/, ordenados por nombre
-// (con prefijo numérico para elegir el orden). Se pensó para 3-5: se abren en
+// (con prefijo numérico para elegir el orden). Cada foto tiene su miniatura
+// (640×800) en la subcarpeta miniaturas/, con el mismo nombre: las tarjetas
+// cargan la pequeña y el visor a pantalla completa, la grande. Se pensó para 3-5: se abren en
 // abanico y "rebotan" al aparecer (efecto BounceCards).
 const dir = path.join(process.cwd(), 'public', 'images', 'galeria');
 const files = fs.existsSync(dir)
@@ -26,7 +28,7 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
     <div class="bounce" data-count={files.length}>
       {files.map((f, i) => (
         <button type="button" class={`bounce-card bounce-card-${i}`} data-index={i} aria-label={fill(t('gallery.open'), i + 1)}>
-          <img src={`/images/galeria/${f}`} alt={fill(t('gallery.alt'), i + 1)} decoding="async" draggable="false" />
+          <img src={`/images/galeria/miniaturas/${f}`} data-full={`/images/galeria/${f}`} width="640" height="800" alt={fill(t('gallery.alt'), i + 1)} decoding="async" draggable="false" />
         </button>
       ))}
     </div>
@@ -146,7 +148,7 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
       let cur = 0;
       const show = (i: number) => {
         cur = (i + photos.length) % photos.length;
-        img.src = photos[cur].src;
+        img.src = photos[cur].dataset.full || photos[cur].src;
         img.alt = photos[cur].alt;
       };
       cards.forEach((c, i) => c.addEventListener('click', () => { show(i); dlg.showModal(); }));
