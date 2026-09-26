@@ -120,10 +120,38 @@ function mapRoom(r: AirtableRecord): Room {
 
 const bySortOrder = (a: { order: number }, b: { order: number }) => a.order - b.order;
 
+// --- Memoria temporal (para gastar menos llamadas a Airtable) ---------------
+// Airtable limita las llamadas a la API (en el plan gratuito, muy pocas al
+// mes). Las lecturas que solo sirven para MOSTRAR (habitaciones, calendario,
+// "completa") se guardan unos segundos en memoria y comparten una sola
+// consulta entre muchos visitantes. Las comprobaciones que deciden un
+// bloqueo o un pago NO usan la memoria (fresh): siempre leen en directo.
+// Vercel además cachea las respuestas de la API (ver lib/api.ts, cacheJson).
+const memo = new Map<string, { at: number; value: Promise<unknown> }>();
+
+function cached<T>(key: string, ttlMs: number, load: () => Promise<T>): Promise<T> {
+  const hit = memo.get(key);
+  if (hit && Date.now() - hit.at < ttlMs) return hit.value as Promise<T>;
+  const value = load();
+  memo.set(key, { at: Date.now(), value });
+  value.catch(() => memo.delete(key)); // un error no se queda guardado
+  return value;
+}
+
+/** Olvida lo guardado de reservas: tras escribir, esta instancia ve el cambio. */
+function forgetBookings() {
+  for (const k of memo.keys()) if (k.startsWith('bookings')) memo.delete(k);
+}
+
+const ROOMS_TTL_MS = 120_000; // las habitaciones casi nunca cambian
+const BOOKINGS_TTL_MS = 15_000; // la disponibilidad que se enseña, con 15 s de retraso como máximo
+
 export async function getRooms(): Promise<Room[]> {
   if (!airtableEnabled()) return [...FIXTURE_ROOMS].sort(bySortOrder);
-  const recs = await listAll(TABLE.rooms, { filterByFormula: '{Activa}' });
-  return recs.map(mapRoom).sort(bySortOrder);
+  return cached('rooms', ROOMS_TTL_MS, async () => {
+    const recs = await listAll(TABLE.rooms, { filterByFormula: '{Activa}' });
+    return recs.map(mapRoom).sort(bySortOrder);
+  });
 }
 
 /**
@@ -146,34 +174,37 @@ function isExpiredHold(r: AirtableRecord, now = Date.now()): boolean {
 }
 
 /**
- * Reservas activas (no canceladas y sin bloqueo caducado) que cumplan
- * `extra` (otra condición de fórmula, opcional). `excludeLocator` deja fuera
- * una reserva concreta (la propia, al confirmar su pago).
+ * Reservas activas (no canceladas y sin bloqueo caducado). Se lee la lista
+ * entera (son pocas: como mucho unas 100 reservas) y el filtrado por fecha o
+ * habitación se hace en el código, así una sola consulta sirve a todos los
+ * días del calendario. `fresh` = leer en directo, sin memoria (para decidir
+ * un bloqueo o un pago). `excludeLocator` deja fuera una reserva concreta (la
+ * propia, al confirmar su pago).
  */
-async function listActiveBookings(extra?: string, excludeLocator?: string): Promise<AirtableRecord[]> {
-  const formula = `AND({Estado}!='cancelada'${extra ? `, ${extra}` : ''})`;
-  const recs = await listAll(TABLE.bookings, { filterByFormula: formula });
+async function listActiveBookings(opts: { fresh?: boolean; excludeLocator?: string } = {}): Promise<AirtableRecord[]> {
+  const load = () => listAll(TABLE.bookings, { filterByFormula: "{Estado}!='cancelada'" });
+  const recs = opts.fresh ? await load() : await cached('bookings', BOOKINGS_TTL_MS, load);
   const now = Date.now();
   return recs.filter(
-    (r) => !isExpiredHold(r, now) && (!excludeLocator || str(r.fields['Localizador']) !== excludeLocator),
+    (r) =>
+      !isExpiredHold(r, now) &&
+      (!opts.excludeLocator || str(r.fields['Localizador']) !== opts.excludeLocator),
   );
 }
 
-/** Reservas activas para una habitación en esa fecha. Vacío en modo ejemplo. */
+const bookingDate = (r: AirtableRecord) => str(r.fields['Fecha'])?.slice(0, 10);
+
+/** Reservas activas por habitación en esa fecha. Vacío en modo ejemplo. */
 async function countBookedForDate(
   date: string,
   roomIds: string[],
-  excludeLocator?: string,
+  opts: { fresh?: boolean; excludeLocator?: string } = {},
 ): Promise<Map<string, number>> {
   const counts = new Map<string, number>();
   if (!airtableEnabled() || roomIds.length === 0) return counts;
 
-  // IS_SAME (no igualdad de texto): el campo Fecha es internamente una
-  // fecha/hora, y {Fecha}='YYYY-MM-DD' nunca coincide aunque se vea igual
-  // en la interfaz — esto dejaba la comprobación de disponibilidad rota
-  // para cualquier reserva real (todo parecía siempre libre).
-  const recs = await listActiveBookings(`IS_SAME({Fecha}, '${date}', 'day')`, excludeLocator);
-  for (const r of recs) {
+  for (const r of await listActiveBookings(opts)) {
+    if (bookingDate(r) !== date) continue;
     const link = r.fields['Habitacion'];
     const roomId = Array.isArray(link) && link[0] ? String(link[0]) : '';
     if (!roomId) continue;
@@ -187,12 +218,15 @@ async function countBookedForDate(
  * hechas para esa habitación en esa fecha < Cupo (normalmente 1: es una
  * habitación real concreta, no un tipo).
  */
-export async function getRoomOffers(date: string, excludeLocator?: string): Promise<RoomOffer[]> {
+export async function getRoomOffers(
+  date: string,
+  opts: { fresh?: boolean; excludeLocator?: string } = {},
+): Promise<RoomOffer[]> {
   const rooms = await getRooms();
   const booked = await countBookedForDate(
     date,
     rooms.map((r) => r.id),
-    excludeLocator,
+    opts,
   );
   return rooms.map((room) => ({
     ...room,
@@ -379,6 +413,7 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     method: 'POST',
     body: JSON.stringify({ fields, typecast: true }),
   });
+  forgetBookings();
   return { id: created.id as string, locator };
 }
 
@@ -423,11 +458,11 @@ export async function placeHold(input: Omit<BookingCreate, 'paid' | 'hold'>): Pr
   const { locator } = await createBooking({ ...input, paid: false, hold: true });
   if (!airtableEnabled()) return true;
 
-  const recs = await listActiveBookings(`IS_SAME({Fecha}, '${input.date}', 'day')`);
+  const recs = await listActiveBookings({ fresh: true });
   const sameRoom = recs
     .filter((r) => {
       const link = r.fields['Habitacion'];
-      return Array.isArray(link) && link[0] === input.room.id;
+      return bookingDate(r) === input.date && Array.isArray(link) && link[0] === input.room.id;
     })
     .sort(
       (a, b) =>
@@ -462,6 +497,7 @@ export async function confirmHeldBooking(id: string, total: number, payment?: Pa
     console.error('[airtable] no se pudieron guardar los datos del pago, confirmo sin ellos', err);
     await patch({});
   }
+  forgetBookings();
 }
 
 /** Libera la habitación (pago denegado o reembolsado). */
@@ -471,4 +507,5 @@ export async function cancelBooking(id: string): Promise<void> {
     method: 'PATCH',
     body: JSON.stringify({ fields: { Estado: 'cancelada' }, typecast: true }),
   });
+  forgetBookings();
 }

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getRooms } from '../../lib/airtable';
-import { handleError, json } from '../../lib/api';
+import { handleError, json, cacheJson } from '../../lib/api';
 
 export const prerender = false;
 
@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
   try {
     const rooms = await getRooms();
     const photos = Object.fromEntries(rooms.map((r) => [r.slug, r.photos]));
-    return json({ ok: true, photos });
+    return cacheJson({ ok: true, photos }, 300);
   } catch (e) {
     return handleError(e);
   }

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { allSaleDays } from '../../lib/booking';
 import { getAvailabilitySummary } from '../../lib/airtable';
-import { handleError, json } from '../../lib/api';
+import { handleError, json, cacheJson } from '../../lib/api';
 
 export const prerender = false;
 
@@ -18,14 +18,14 @@ export const GET: APIRoute = async ({ url }) => {
     const dates = allSaleDays();
     const room = url.searchParams.get('room') ?? undefined;
     const summary = await getAvailabilitySummary(dates, room);
-    return json({
+    return cacheJson({
       ok: true,
       days: dates.map((date) => ({
         date,
         available: summary[date]?.free ?? 0,
         ...(room ? { roomFree: summary[date]?.roomFree } : {}),
       })),
-    });
+    }, 20);
   } catch (e) {
     return handleError(e);
   }

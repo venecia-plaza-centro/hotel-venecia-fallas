@@ -12,6 +12,22 @@ export function json(data: unknown, status = 200): Response {
   });
 }
 
+/**
+ * JSON que Vercel puede guardar unos segundos en su red (s-maxage) y servir a
+ * muchos visitantes sin volver a ejecutar la función ni consultar Airtable.
+ * Solo para lecturas que se muestran (disponibilidad, fotos), nunca para
+ * bloqueos ni pagos. `stale-while-revalidate` sirve la copia vieja mientras
+ * se refresca en segundo plano.
+ */
+export function cacheJson(data: unknown, sMaxAgeSeconds: number, staleSeconds = sMaxAgeSeconds * 2): Response {
+  return new Response(JSON.stringify(data), {
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      'cache-control': `public, s-maxage=${sMaxAgeSeconds}, stale-while-revalidate=${staleSeconds}`,
+    },
+  });
+}
+
 /** Traduce cualquier excepción en una respuesta JSON con código estable. */
 export function handleError(e: unknown): Response {
   if (e instanceof AirtableError) {

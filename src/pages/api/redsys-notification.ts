@@ -61,7 +61,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Se excluye la propia reserva: su bloqueo (si sigue vigente) no cuenta
     // contra ella misma.
-    const offers = await getRoomOffers(date, m.locator);
+    const offers = await getRoomOffers(date, { fresh: true, excludeLocator: m.locator });
     const room = offers.find((r) => r.slug === roomSlug);
 
     if (!room || !room.available || !isGuestCount(guests)) {

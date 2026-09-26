@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getSoldOutRoomSlugs } from '../../lib/airtable';
-import { handleError, json } from '../../lib/api';
+import { handleError, json, cacheJson } from '../../lib/api';
 
 export const prerender = false;
 
@@ -15,7 +15,7 @@ export const prerender = false;
 export const GET: APIRoute = async () => {
   try {
     const soldOut = await getSoldOutRoomSlugs();
-    return json({ ok: true, soldOut });
+    return cacheJson({ ok: true, soldOut }, 60);
   } catch (e) {
     return handleError(e);
   }
