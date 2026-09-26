@@ -119,6 +119,7 @@ export const POST: APIRoute = async ({ request }) => {
       notes: m.notes || undefined,
       lang,
       paid: true,
+      payment: { order, authCode: params.Ds_AuthorisationCode },
     });
 
     return ok();

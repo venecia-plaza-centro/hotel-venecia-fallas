@@ -321,6 +321,13 @@ function buildHotelEmailHtml(data: BookingEmail): string {
     ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`],
     ['Habitación', `${data.room.roomNumber} (${esc(data.room.floor)}) · ${data.guests} huéspedes`],
     ['Total', `${money(data.quote.total, 'es')} · Snack Pack incluido`],
+    ...(data.payment
+      ? ([
+          ['Pago', 'Cobrado por Redsys · Caixa Popular'],
+          ['Pedido Redsys', esc(data.payment.order)],
+          ...(data.payment.authCode ? [['Cód. autorización', esc(data.payment.authCode)]] : []),
+        ] as [string, string][])
+      : []),
     ...(data.notes ? ([['Notas', esc(data.notes)]] as [string, string][]) : []),
   ];
   const rowsHtml = rows
@@ -359,6 +366,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
     `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`,
     `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
+    data.payment ? `Pago: Redsys · pedido ${data.payment.order}${data.payment.authCode ? ` · autorización ${data.payment.authCode}` : ''}` : null,
     data.notes ? `Notas: ${data.notes}` : null,
     !data.paid ? '⚠️ Modo demostración: no se ha cobrado nada de verdad.' : null,
   ]

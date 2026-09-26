@@ -67,6 +67,9 @@ export interface BookingNotification {
   /** true = pago ya cobrado de verdad en Redsys. false = modo demostración
    *  sin TPV conectado (no se ha cobrado nada realmente). */
   paid: boolean;
+  /** Datos del cobro en Redsys (solo si paid): el hotel los ve en el aviso de
+   *  la reserva y los usa para localizar la operación en el portal del banco. */
+  payment?: { order: string; authCode?: string };
 }
 
 // --- Fechas -----------------------------------------------------------------
