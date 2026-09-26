@@ -139,6 +139,9 @@ const es: Dict = {
   'roomcard.soldout': 'Sin disponibilidad para estas fechas.',
 
   // reserva (flujo del Hito 2: espacio privado por horas, no noches)
+  'book.closed.title': 'Las reservas aún no están abiertas',
+  'book.closed.body': 'Muy pronto podrá reservar su balcón privado para la mascletá. Vuelva a visitarnos.',
+  'book.closed.opens': 'Se abrirán el {date}.',
   'book.h1': 'Reserve su balcón para la mascletá',
   'book.lead':
     'Elija el día, la habitación y pague online: su reserva queda confirmada al momento.',
@@ -389,6 +392,9 @@ const en: Dict = {
   'roomcard.soldout.badge': 'Fully booked',
   'roomcard.soldout': 'No availability for these dates.',
 
+  'book.closed.title': 'Bookings are not open yet',
+  'book.closed.body': 'Very soon you will be able to book your private balcony for the mascletá. Please check back soon.',
+  'book.closed.opens': 'Bookings open on {date}.',
   'book.h1': 'Book your balcony for the mascletá',
   'book.lead':
     'Pick the day and the room, then pay online: your booking is confirmed straight away.',

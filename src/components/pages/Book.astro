@@ -35,6 +35,12 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
 <section class="section">
   <div class="container book">
+    <div class="book-closed" id="book-closed" hidden>
+      <h2>{t('book.closed.title')}</h2>
+      <p>{t('book.closed.body')}</p>
+      <p class="book-closed-date" id="book-closed-date" hidden></p>
+      <a class="btn btn-gold" href={config.urls.home}>{t('book.done.home')}</a>
+    </div>
     <ol class="book-steps" aria-label="Progreso">
       {stepKeys.map((s, i) => (
         <li data-stepper={s} aria-current={s === 'date' ? 'step' : undefined}>
@@ -210,6 +216,28 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   // y, si sigue libre, queda preseleccionada en el paso siguiente.
   const params = new URLSearchParams(location.search);
   const prefRoom = params.get('room');
+
+  // Ventas cerradas (interruptor en Vercel, ver lib/sales.ts): en vez del
+  // formulario se enseña un aviso. No se aplica a quien vuelve de un pago ya
+  // hecho (?paid=…): esa persona tiene que ver su confirmación.
+  if (!params.get('paid')) {
+    fetch('/api/sales-status')
+      .then((r) => r.json())
+      .then((st) => {
+        if (st.open) return;
+        $('#book-closed').hidden = false;
+        $('.book-steps').hidden = true;
+        $('.book-grid').hidden = true;
+        if (st.opensAt) {
+          const d = $('#book-closed-date');
+          d.textContent = fmt('book.closed.opens', {
+            date: new Intl.DateTimeFormat(cfg.locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(st.opensAt)),
+          });
+          d.hidden = false;
+        }
+      })
+      .catch(() => {});
+  }
 
   const state = {
     date: '', guests: 2,
@@ -731,6 +759,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
 
 <style is:global>
   .book { max-width: 1200px; }
+  .book .book-closed { text-align: center; max-width: 560px; margin: 24px auto 40px; padding: 40px 24px; background: var(--cream); border-radius: var(--r-lg); }
+  .book .book-closed h2 { font-size: 26px; margin-bottom: 12px; }
+  .book .book-closed p { color: var(--text-mid); margin-bottom: 12px; }
+  .book .book-closed .book-closed-date { font-weight: 600; color: var(--navy); }
+  .book .book-closed .btn { margin-top: 12px; }
   .book .book-steps {
     display: flex; flex-wrap: wrap; gap: 8px 4px; list-style: none;
     padding: 0; margin: 0 0 40px;

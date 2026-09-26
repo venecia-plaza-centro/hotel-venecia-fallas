@@ -6,6 +6,7 @@ import { airtableEnabled, createBooking, getRoomOffers, newLocator, placeHold } 
 import { sendBookingEmails } from '../../lib/email';
 import { buildPayment, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
 import { handleError, json } from '../../lib/api';
+import { salesStatus } from '../../lib/sales';
 
 export const prerender = false;
 
@@ -26,6 +27,9 @@ const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
  *   nada, para poder probar el flujo entero sin TPV.
  */
 export const POST: APIRoute = async ({ request, url }) => {
+  // Ventas cerradas (ver lib/sales.ts): ni pago ni bloqueo de habitación.
+  if (!salesStatus().open) return json({ ok: false, error: 'ventas-cerradas' }, 403);
+
   let body: Record<string, unknown>;
   try {
     body = await request.json();
