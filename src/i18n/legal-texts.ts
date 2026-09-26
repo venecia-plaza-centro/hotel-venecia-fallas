@@ -47,7 +47,7 @@ const ES: Record<LegalPageId, LegalText> = {
         p: [
           'No haremos pública la información personal sin consentimiento. No vendemos ni compartimos la información personal voluntariamente.',
           'Hotel Venecia de Valencia, S.L.U tratará sus datos como usuario, de manera manual y/o automatizada, para las siguientes finalidades específicas:',
-          '• Gestionar y confirmar su reserva, contactar con usted si es necesario y atender sus consultas.',
+          '• Gestionar y confirmar su reserva, procesar su pago, enviarle por correo electrónico la confirmación de la reserva, contactar con usted si es necesario y atender sus consultas.',
           '• Realizar informes estadísticos anónimos respecto a los hábitos de acceso y la actividad desarrollada por los usuarios en la web.',
           '• Llevar a cabo las actuaciones precisas para proteger los intereses de los clientes cuando así sea necesario, o el cumplimiento de las resoluciones judiciales y las medidas en ellas acordadas.',
           '• Remitir comunicaciones electrónicas con ofertas, promociones y noticias relacionadas con nuestra actividad, solo en el caso en que usted, como cliente lo haya consentido o no se haya opuesto expresamente.',
@@ -71,7 +71,13 @@ const ES: Record<LegalPageId, LegalText> = {
       {
         h: 'Destinatarios de la cesión de datos',
         p: [
-          'Únicamente cedemos los datos personales que recogemos a aquellos que son encargados de tratamiento y han formalizado con nuestra entidad un contrato de encargado de tratamiento de datos personales en el que se compromete al adecuado tratamiento de nuestros registros. Las reservas se almacenan en Airtable y la web se aloja en Vercel, ambos como encargados del tratamiento.',
+          'Únicamente cedemos los datos personales que recogemos a aquellos que son encargados de tratamiento y han formalizado con nuestra entidad un contrato de encargado de tratamiento de datos personales en el que se compromete al adecuado tratamiento de nuestros registros.',
+          'Para prestar el servicio de reservas de esta web, Hotel Venecia de Valencia, S.L.U cuenta con los siguientes encargados del tratamiento:',
+          '• Airtable: almacena los datos de las reservas (nombre, apellidos, email, teléfono, fechas y habitación).',
+          '• Vercel: aloja la página web y ejecuta sus funciones.',
+          '• Resend: envía por correo electrónico la confirmación de la reserva al cliente y el aviso de la reserva al hotel.',
+          '• Redsys y Caixa Popular (entidad financiera del hotel): procesan el pago con tarjeta u otros medios de pago. Los datos de su tarjeta se introducen directamente en la pasarela de pago de Redsys: Hotel Venecia de Valencia, S.L.U no los recibe ni los almacena; solo recibe la confirmación de que el pago se ha realizado y su importe.',
+          'Algunos de estos proveedores pueden tratar datos fuera del Espacio Económico Europeo; en ese caso se aplican las garantías previstas por el Reglamento (UE) 2016/679 para las transferencias internacionales de datos.',
           'También podemos vernos en la situación de tener que ceder los datos personales cuando sea necesario para prestar el servicio o atender a la consulta que se haya solicitado, así como en los casos previstos en la ley.',
         ],
       },
@@ -176,7 +182,7 @@ const EN: Record<LegalPageId, LegalText> = {
         p: [
           'We will not make personal information public without consent. We do not sell or voluntarily share personal information.',
           'Hotel Venecia de Valencia, S.L.U will process your data as a user, manually and/or automatically, for the following specific purposes:',
-          '• Managing and confirming your booking, contacting you if necessary and answering your enquiries.',
+          '• Managing and confirming your booking, processing your payment, sending you the booking confirmation by email, contacting you if necessary and answering your enquiries.',
           '• Producing anonymous statistical reports on access habits and user activity on the website.',
           '• Carrying out the actions needed to protect customers’ interests when necessary, or to comply with court rulings and the measures agreed in them.',
           '• Sending electronic communications with offers, promotions and news related to our business, only where you, as a customer, have consented or have not expressly objected.',
@@ -200,7 +206,13 @@ const EN: Record<LegalPageId, LegalText> = {
       {
         h: 'Recipients of data transfers',
         p: [
-          'We only pass on the personal data we collect to data processors who have signed a data processing agreement with us committing them to handle our records appropriately. Bookings are stored in Airtable and the website is hosted on Vercel, both acting as data processors.',
+          'We only pass on the personal data we collect to data processors who have signed a data processing agreement with us committing them to handle our records appropriately.',
+          'To provide the booking service on this website, Hotel Venecia de Valencia, S.L.U uses the following data processors:',
+          '• Airtable: stores the booking data (first name, surname, email, telephone number, dates and room).',
+          '• Vercel: hosts the website and runs its functions.',
+          '• Resend: sends the booking confirmation to the customer and the booking notice to the hotel by email.',
+          '• Redsys and Caixa Popular (the hotel’s bank): process the payment by card or other payment methods. Your card details are entered directly on the Redsys payment gateway: Hotel Venecia de Valencia, S.L.U does not receive or store them; it only receives confirmation that the payment has been made and its amount.',
+          'Some of these providers may process data outside the European Economic Area; in that case, the safeguards provided by Regulation (EU) 2016/679 for international data transfers apply.',
           'We may also have to disclose personal data when necessary to provide the service or answer the enquiry requested, and in the cases provided for by law.',
         ],
       },
