@@ -297,6 +297,20 @@ export async function newLocator(): Promise<string> {
   throw new AirtableError('No se ha podido generar un localizador único', 503);
 }
 
+export interface PaymentRef {
+  order: string;
+  authCode?: string;
+}
+
+/** Campos de Airtable con los datos del pago. */
+function paymentFields(p?: PaymentRef): Record<string, string> {
+  if (!p) return {};
+  return {
+    'Pedido Redsys': p.order,
+    ...(p.authCode ? { 'Codigo autorizacion': p.authCode } : {}),
+  };
+}
+
 export interface BookingCreate {
   date: string;
   room: Room;
@@ -319,6 +333,9 @@ export interface BookingCreate {
    * false = modo demostración sin Redsys conectado, no se ha cobrado nada.
    */
   paid: boolean;
+  /** Datos del pago de Redsys (solo en reservas pagadas), para localizar la
+   *  operación en el portal del banco si hay que devolverla. */
+  payment?: PaymentRef;
   /** true = bloqueo temporal: la habitación queda reservada mientras el
    *  cliente paga en el TPV (Estado "en pago"). Se confirma o se libera
    *  después (ver confirmHeldBooking / cancelBooking). */
@@ -349,6 +366,7 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     Origen: 'web',
     'Confirmar por': 'email',
   };
+  Object.assign(fields, paymentFields(input.payment));
   if (input.country) fields.Pais = input.country;
   if (input.notes) fields.Notas = input.notes;
 
@@ -424,16 +442,26 @@ export async function placeHold(input: Omit<BookingCreate, 'paid' | 'hold'>): Pr
   return false;
 }
 
-/** El pago se ha confirmado: el bloqueo pasa a reserva pagada. */
-export async function confirmHeldBooking(id: string, total: number): Promise<void> {
+/** El pago se ha confirmado: el bloqueo pasa a reserva pagada. Si Airtable
+ *  rechazara los campos del pago (p. ej. una base sin ellos), se confirma igual
+ *  sin ellos: lo importante es que la reserva no se pierda. */
+export async function confirmHeldBooking(id: string, total: number, payment?: PaymentRef): Promise<void> {
   if (!airtableEnabled()) return;
-  await airtable(`${encodeURIComponent(TABLE.bookings)}/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      fields: { Estado: 'confirmada', Pago: 'pagado', 'Importe total': total },
-      typecast: true,
-    }),
-  });
+  const patch = (extra: Record<string, string>) =>
+    airtable(`${encodeURIComponent(TABLE.bookings)}/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        fields: { Estado: 'confirmada', Pago: 'pagado', 'Importe total': total, ...extra },
+        typecast: true,
+      }),
+    });
+  try {
+    await patch(paymentFields(payment));
+  } catch (err) {
+    if (!(err instanceof AirtableError) || !payment) throw err;
+    console.error('[airtable] no se pudieron guardar los datos del pago, confirmo sin ellos', err);
+    await patch({});
+  }
 }
 
 /** Libera la habitación (pago denegado o reembolsado). */

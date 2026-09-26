@@ -85,7 +85,7 @@ export const POST: APIRoute = async ({ request }) => {
     const total = priceForGuests(room, guests, date);
 
     if (existing) {
-      await confirmHeldBooking(existing.id, total);
+      await confirmHeldBooking(existing.id, total, { order, authCode: params.Ds_AuthorisationCode });
     } else {
       // Sin bloqueo previo (p. ej. registro borrado a mano): se crea ahora.
       await createBooking({
@@ -102,6 +102,7 @@ export const POST: APIRoute = async ({ request }) => {
         lang,
         locator: m.locator,
         paid: true,
+        payment: { order, authCode: params.Ds_AuthorisationCode },
       });
     }
 
