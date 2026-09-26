@@ -47,7 +47,7 @@ const es: Dict = {
   'home.p3': 'Además, su reserva incluye un Snack Pack para acompañar la experiencia.',
   'home.cta': 'Ver habitaciones disponibles',
   'home.discover': 'Descubra',
-  'home.tagline': 'Fallas, más cerca que nunca',
+  'home.tagline': 'Mascletás, más cerca que nunca',
   'home.badge': 'Una experiencia única en Valencia',
   'home.photo.hero.alt': 'La mascletá vista desde un balcón del Hotel Venecia',
 
@@ -310,7 +310,7 @@ const en: Dict = {
   'home.p3': 'Your booking also includes a Snack Pack to enjoy the experience.',
   'home.cta': 'See available rooms',
   'home.discover': 'Discover',
-  'home.tagline': 'Fallas, closer than ever',
+  'home.tagline': 'Mascletás, closer than ever',
   'home.badge': 'A unique experience in Valencia',
   'home.photo.hero.alt': 'The mascletá seen from a Hotel Venecia balcony',
 

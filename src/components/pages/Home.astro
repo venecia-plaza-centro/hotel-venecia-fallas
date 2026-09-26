@@ -242,7 +242,9 @@ const strip = [
       background: linear-gradient(180deg, rgba(20,31,56,.82) 0%, rgba(20,31,56,.78) 100%);
     }
     .hero-panel { padding: calc(88px + 32px) 24px 96px; }
-    .hero-tagline { left: 20px; bottom: 22px; font-size: 26px; }
+    /* El texto es algo más largo: se reduce con la pantalla y, si aun así no
+       cabe, pasa a dos líneas antes de tocar el sello de la derecha. */
+    .hero-tagline { left: 20px; bottom: 22px; font-size: clamp(19px, 6vw, 26px); max-width: calc(100% - 152px); line-height: 1.05; }
     /* A caballo entre el vídeo y la sección siguiente. Más pequeño y
        pegado a la derecha para no tapar "Fallas, más cerca que nunca". */
     .hero-badge {
