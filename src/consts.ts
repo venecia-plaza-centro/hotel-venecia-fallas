@@ -1,5 +1,4 @@
 /** Configuración global de la microweb de Fallas. */
-// Comprobación 3: reconectado el Git de Vercel, ¿despliega ya? 14:11:16
 
 export const SITE = {
   name: 'Hotel Venecia Plaza Centro',
