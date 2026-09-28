@@ -10,7 +10,7 @@ const t = useT(lang);
 <!-- Botón flotante único: un círculo con los dos iconos (teléfono +
      WhatsApp) en miniatura para que se entienda a simple vista que hay
      dos formas de contactar; al pulsarlo despliega ambas por separado. -->
-<div class="fab-contact" id="fab-contact">
+<div class="fab-contact" id="fab-contact" hidden>
   <div class="fab-contact-options">
     <a class="fab-contact-option fab-contact-call" href={SITE.phoneHref} aria-label={t('fab.call.aria')}>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -62,14 +62,17 @@ const t = useT(lang);
   }
 
   const topBtn = document.querySelector<HTMLButtonElement>('.fab-top');
-  if (topBtn) {
-    const toggle = () => {
-      topBtn.hidden = window.scrollY < 500;
-    };
-    toggle();
-    window.addEventListener('scroll', toggle, { passive: true });
-    topBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  // El botón de llamar/WhatsApp empieza oculto (ver "hidden" en el markup):
+  // arriba del todo, en Home, taparía el sello "Una experiencia única en
+  // Valencia" del hero. Aparece junto con el de "subir arriba" al bajar.
+  const toggleFabs = () => {
+    const scrolled = window.scrollY > 400;
+    if (fabContact) fabContact.hidden = !scrolled;
+    if (topBtn) topBtn.hidden = window.scrollY < 500;
+  };
+  toggleFabs();
+  window.addEventListener('scroll', toggleFabs, { passive: true });
+  topBtn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 </script>

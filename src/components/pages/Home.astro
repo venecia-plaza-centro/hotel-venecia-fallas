@@ -239,9 +239,15 @@ const strip = [
   .hero-tagline { left: 28px; z-index: 1; }
   .hero-tagline :global(.tag-br) { display: none; }
   @media (max-width: 860px) {
-    /* Móvil/tablet: texto centrado sobre todo el vídeo, más oscuro y
-       uniforme para que se lea claro. Abajo se deja hueco (padding-bottom)
-       para la frase manuscrita y el sello, que no pisan ninguna palabra. */
+    /* Móvil/tablet: el hero ocupa toda la pantalla (alto real del
+       viewport, sin la barra de direcciones) para que el vídeo se vea a
+       pantalla completa, no solo lo que ocupa el texto. ".hero" es grid
+       con "align-items" por defecto en "stretch", así que ".hero-panel"
+       (flex, ya centrado por dentro) rellena solo ese alto. */
+    .hero { min-height: 100vh; min-height: 100dvh; }
+    /* Texto centrado sobre todo el vídeo, más oscuro y uniforme para que
+       se lea claro. Abajo se deja hueco (padding-bottom) para la frase
+       manuscrita y el sello, que no pisan ninguna palabra. */
     .hero-photo::after {
       background: linear-gradient(180deg, rgba(20,31,56,.82) 0%, rgba(20,31,56,.78) 100%);
     }
