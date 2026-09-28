@@ -58,6 +58,35 @@ const ogImage = SITE.origin + '/assets/img/og-default.jpg'; // TODO imagen socia
     />
 
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+
+    {/* Solo en la home en español (la raíz "/"): si el navegador prefiere
+        otro de los 5 idiomas de la web, redirige ahí; si no coincide con
+        ninguno, cae en inglés por defecto. "is:inline" + en el <head> para
+        que se ejecute antes de pintar la página y evitar el parpadeo de
+        contenido en español justo antes de redirigir. Solo se hace una vez
+        por navegador (localStorage): así no molesta a quien ya eligió
+        quedarse en español, ni vuelve a saltar en visitas siguientes. */}
+    {lang === 'es' && pageId === 'home' && (
+      <script is:inline define:vars={{ supported: LOCALES }}>
+        (function () {
+          try {
+            if (localStorage.getItem('langRedirected')) return;
+            localStorage.setItem('langRedirected', '1');
+            var langs = (navigator.languages && navigator.languages.length)
+              ? navigator.languages
+              : [navigator.language || 'en'];
+            var match = null;
+            for (var i = 0; i < langs.length; i++) {
+              var code = String(langs[i] || '').toLowerCase().split('-')[0];
+              if (supported.indexOf(code) !== -1) { match = code; break; }
+            }
+            if (!match) match = 'en';
+            if (match === 'es') return;
+            location.replace('/' + match + '/');
+          } catch (e) {}
+        })();
+      </script>
+    )}
   </head>
   <body>
     <Nav lang={lang} pageId={pageId} />
