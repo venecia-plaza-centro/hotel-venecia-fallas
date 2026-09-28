@@ -11,6 +11,7 @@ export const SITE = {
   whatsappHref: 'https://wa.me/34691201717',
   email: 'fallas@hotelvenecia.com',
   address: 'Plaza del Ayuntamiento, 3 · 46002 València',
+  instagram: 'https://www.instagram.com/mascletasveneciaplaza/',
 } as const;
 
 /**
