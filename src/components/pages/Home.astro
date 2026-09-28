@@ -279,6 +279,12 @@ const strip = [
     .hero-tagline { bottom: 96px; }
     .hero-badge { bottom: 64px; }
   }
+  /* Solo móvil (no tablet): el bloque de título/texto/botón sube, en vez
+     de quedar centrado en todo el alto de la pantalla; la frase
+     manuscrita, el sello y "Descúbrelo" se quedan donde están. */
+  @media (max-width: 480px) {
+    .hero-panel { justify-content: flex-start; }
+  }
 
   /* ── tradición ── */
   .tradicion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; text-align: center; }
