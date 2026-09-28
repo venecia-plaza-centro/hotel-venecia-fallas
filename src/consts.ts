@@ -1,4 +1,5 @@
 /** Configuración global de la microweb de Fallas. */
+// Forzar despliegue de producción tras vincular el dominio al proyecto del equipo del hotel
 
 export const SITE = {
   name: 'Hotel Venecia Plaza Centro',
