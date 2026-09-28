@@ -1,4 +1,5 @@
 /** Configuración global de la microweb de Fallas. */
+// Comprobación: ¿sigue desplegando sola tras mover el repositorio a la organización? 13:51:40
 
 export const SITE = {
   name: 'Hotel Venecia Plaza Centro',
