@@ -30,12 +30,14 @@ const year = new Date().getFullYear();
       </div>
     </div>
     <div class="footer-legal">
-      <span>© {year} {SITE.name} · Fallas {FALLAS.year}. {t('footer.rights')}</span>
-      <a href={pagePath('terms', lang)}>{t('footer.terms')}</a>
-      <a href={pagePath('cancellation', lang)}>{t('footer.cancellation')}</a>
-      <a href={pagePath('privacy', lang)}>{t('footer.privacy')}</a>
-      <a href={pagePath('legalnotice', lang)}>{t('footer.legalnotice')}</a>
-      <a href="https://www.freakpyromaniacs.com" target="_blank" rel="noopener">{t('footer.videoCredit')}</a>
+      <div class="footer-legal-links">
+        <a href={pagePath('terms', lang)}>{t('footer.terms')}</a>
+        <a href={pagePath('cancellation', lang)}>{t('footer.cancellation')}</a>
+        <a href={pagePath('privacy', lang)}>{t('footer.privacy')}</a>
+        <a href={pagePath('legalnotice', lang)}>{t('footer.legalnotice')}</a>
+        <a href="https://www.freakpyromaniacs.com" target="_blank" rel="noopener">{t('footer.videoCredit')}</a>
+      </div>
+      <span class="footer-copyright">© {year} {SITE.name} · Fallas {FALLAS.year}. {t('footer.rights')}</span>
     </div>
   </div>
 </footer>
