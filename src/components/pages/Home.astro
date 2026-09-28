@@ -29,7 +29,7 @@ const HERO_VIDEO = '/video/hero-mascleta.mp4';
 const HERO_POSTER = '/video/hero-mascleta-poster.webp';
 
 // Franja beige justo debajo del hero. Iconos propios
-// (public/icons/*.png, recortados de la lámina dorada del cliente).
+// (public/icons/*.webp, recortados de la lámina dorada del cliente).
 const strip = [
   { icon: 'clock', t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
   { icon: 'sparkle', t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
@@ -82,7 +82,7 @@ const strip = [
   <div class="container strip-grid">
     {strip.map((s) => (
       <div class="strip-item">
-        <img class="strip-icon" src={`/icons/${s.icon}.png`} width="240" height="240" alt="" loading="lazy" />
+        <img class="strip-icon" src={`/icons/${s.icon}.webp`} width="240" height="240" alt="" loading="lazy" />
         <div>
           <p class="strip-t">{s.t}</p>
           <p class="strip-v">{s.v}</p>
