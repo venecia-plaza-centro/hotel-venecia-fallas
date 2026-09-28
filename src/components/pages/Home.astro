@@ -245,6 +245,12 @@ const strip = [
        con "align-items" por defecto en "stretch", así que ".hero-panel"
        (flex, ya centrado por dentro) rellena solo ese alto. */
     .hero { min-height: 100vh; min-height: 100dvh; }
+    /* El grid de ".hero" no estira solo a ".hero-panel" al alto completo
+       (el auto-content-sizing de la fila gana a "stretch" con una sola
+       fila implícita): se lo damos explícito, para que "Descubrir" (más
+       abajo, position:absolute solo en móvil) pueda anclarse de verdad al
+       fondo real de la pantalla y no al fondo del texto. */
+    .hero-panel { min-height: 100vh; min-height: 100dvh; }
     /* Texto centrado sobre todo el vídeo, más oscuro y uniforme para que
        se lea claro. Abajo se deja hueco (padding-bottom) para la frase
        manuscrita y el sello, que no pisan ninguna palabra. */
@@ -262,6 +268,16 @@ const strip = [
       width: 92px; height: 92px; padding: 10px; font-size: 8.5px;
       bottom: -16px; right: 16px; z-index: 2;
     }
+  }
+  /* Solo móvil (no tablet): "Descubrir" baja del todo, pegado al final de
+     la pantalla, y la frase manuscrita + el sello suben para quedar justo
+     encima, en vez de competir por el mismo espacio de abajo. */
+  @media (max-width: 480px) {
+    .hero-scroll {
+      position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); margin-top: 0;
+    }
+    .hero-tagline { bottom: 96px; }
+    .hero-badge { bottom: 64px; }
   }
 
   /* ── tradición ── */
