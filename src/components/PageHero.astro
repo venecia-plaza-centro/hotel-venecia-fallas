@@ -1,8 +1,8 @@
 ---
 import GoldRule from './GoldRule.astro';
 
-interface Props { title: string; lead?: string; leadItalic?: boolean; }
-const { title, lead, leadItalic = false } = Astro.props;
+interface Props { title: string; lead?: string; leadItalic?: boolean; photo?: string; }
+const { title, lead, leadItalic = false, photo } = Astro.props;
 
 // "balcón"/"balcony" en cursiva y dorado dentro del título, igual que el
 // acento del h1 de Home (dos de estos títulos la incluyen: Habitaciones y
@@ -19,7 +19,8 @@ const leadHtml = lead?.replace(
 );
 ---
 
-<section class="page-hero">
+<section class={`page-hero${photo ? ' has-photo' : ''}`}>
+  {photo && <img class="page-hero-photo" src={photo} alt="" aria-hidden="true" />}
   <div class="container">
     <h1 set:html={titleHtml} />
     <GoldRule />
