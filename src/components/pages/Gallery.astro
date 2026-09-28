@@ -11,30 +11,23 @@ const t = useT(lang);
 
 // Las fotos son los archivos de public/images/galeria/, ordenados por nombre
 // (con prefijo numérico para elegir el orden). Cada foto tiene su miniatura
-// (640×800) en la subcarpeta miniaturas/, con el mismo nombre: los paneles
-// del acordeón cargan la pequeña y el visor a pantalla completa, la grande.
+// (640×800) en la subcarpeta miniaturas/, con el mismo nombre: la cuadrícula
+// carga la pequeña y el visor a pantalla completa, la grande.
 const dir = path.join(process.cwd(), 'public', 'images', 'galeria');
 const files = fs.existsSync(dir)
   ? fs.readdirSync(dir).filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f)).sort()
   : [];
 const fill = (s: string, n: number) => s.replace('{n}', String(n));
-// Empieza abierta una foto del centro, ni la primera ni la última.
-const initial = Math.floor((files.length - 1) / 2);
 ---
 
 <PageHero title={t('gallery.h1')} />
 
 <section class="section gallery-section">
   <div class="container">
-    <div class="accordion" id="gallery-accordion">
+    <div class="gallery-grid">
       {files.map((f, i) => (
-        <button
-          type="button"
-          class={`ag-panel${i === initial ? ' is-active' : ''}`}
-          data-index={i}
-          aria-label={fill(t('gallery.open'), i + 1)}
-        >
-          <img src={`/images/galeria/miniaturas/${f}`} data-full={`/images/galeria/${f}`} width="640" height="800" alt={fill(t('gallery.alt'), i + 1)} decoding="async" draggable="false" />
+        <button type="button" class="gallery-item" data-index={i} aria-label={fill(t('gallery.open'), i + 1)}>
+          <img src={`/images/galeria/miniaturas/${f}`} data-full={`/images/galeria/${f}`} width="640" height="800" alt={fill(t('gallery.alt'), i + 1)} loading="lazy" decoding="async" />
         </button>
       ))}
     </div>
@@ -49,100 +42,65 @@ const initial = Math.floor((files.length - 1) / 2);
 </dialog>
 
 <style>
-  .gallery-section { padding-top: 24px; }
+  .gallery-section { padding-top: 8px; }
+  .gallery-grid { columns: 3; column-gap: 14px; }
+  .gallery-item { display: block; width: 100%; padding: 0; margin: 0 0 14px; border: 0; background: var(--cream-dark); border-radius: var(--r-lg); overflow: hidden; cursor: zoom-in; break-inside: avoid; }
+  .gallery-item img { display: block; width: 100%; height: auto; transition: transform .5s var(--ease); }
+  .gallery-item:hover img { transform: scale(1.04); }
+  @media (max-width: 900px) { .gallery-grid { columns: 2; } }
+  @media (max-width: 520px) { .gallery-grid { columns: 1; } }
 
-  .accordion { display: flex; gap: 8px; width: 100%; height: 460px; }
-  .ag-panel {
-    position: relative; flex: 1 1 0; min-width: 0; padding: 0; margin: 0; border: 0;
-    overflow: hidden; border-radius: var(--r-lg); cursor: pointer; background: var(--navy);
-    box-shadow: 0 10px 26px -16px rgba(27, 42, 74, .55);
-    transition: flex-grow .55s cubic-bezier(.16, 1, .3, 1);
-  }
-  .ag-panel:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold), 0 10px 26px -16px rgba(27, 42, 74, .55); }
-  .ag-panel img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;
-    filter: grayscale(1); transition: filter .55s cubic-bezier(.16, 1, .3, 1);
-  }
-  .ag-panel.is-active img { filter: grayscale(0); }
-  .ag-panel::after {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(180deg, transparent 45%, rgba(8, 14, 28, .8) 100%);
-    opacity: .5; transition: opacity .4s;
-  }
-  .ag-panel.is-active::after { opacity: .8; }
-
-  @media (max-width: 640px) {
-    .accordion { flex-direction: column; height: auto; gap: 10px; }
-    .ag-panel { flex: none; height: 76px; }
-    .ag-panel.is-active { height: 320px; }
-    .ag-panel img { filter: grayscale(0); }
-  }
-
-  .lightbox { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; }
+  .lightbox { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; touch-action: pan-y; }
   .lightbox::backdrop { background: rgba(10, 16, 32, .92); }
   .lightbox[open] { display: flex; align-items: center; justify-content: center; }
-  .lb-img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 6px; }
+  .lb-img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 6px; user-select: none; -webkit-user-drag: none; }
   .lb-btn { position: absolute; background: rgba(255,255,255,.12); color: #fff; border: 0; border-radius: 50%; width: 46px; height: 46px; font-size: 28px; line-height: 1; cursor: pointer; }
   .lb-btn:hover { background: var(--gold); }
   .lb-close { top: 18px; right: 18px; }
+  /* Las flechas solo en dispositivos con puntero preciso (ratón): en
+     móvil/tablet se pasan las fotos deslizando el dedo, y las flechas
+     estorbarían más que ayudarían. */
+  .lb-prev, .lb-next { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .lb-prev, .lb-next { display: flex; align-items: center; justify-content: center; }
+  }
   .lb-prev { left: 18px; top: 50%; transform: translateY(-50%); }
   .lb-next { right: 18px; top: 50%; transform: translateY(-50%); }
 </style>
 
 <script>
-  const acc = document.getElementById('gallery-accordion');
-  const panels = Array.from(document.querySelectorAll<HTMLButtonElement>('.ag-panel'));
+  const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.gallery-item'));
+  const dlg = document.getElementById('lightbox') as HTMLDialogElement | null;
 
-  if (acc && panels.length) {
-    const canHover = matchMedia('(hover: hover)').matches;
-    let active = panels.findIndex((p) => p.classList.contains('is-active'));
-    if (active < 0) active = 0;
-
-    const setActive = (i: number) => {
-      active = i;
-      panels.forEach((p, j) => {
-        const isActive = j === i;
-        p.classList.toggle('is-active', isActive);
-        p.style.flexGrow = isActive ? '4' : '1';
-        p.setAttribute('aria-current', isActive ? 'true' : 'false');
-      });
+  if (items.length && dlg) {
+    const img = dlg.querySelector<HTMLImageElement>('.lb-img')!;
+    const photos = items.map((el) => el.querySelector('img')!);
+    let cur = 0;
+    const show = (i: number) => {
+      cur = (i + photos.length) % photos.length;
+      img.src = photos[cur].dataset.full || photos[cur].src;
+      img.alt = photos[cur].alt;
     };
-    setActive(active);
-
-    panels.forEach((p, i) => {
-      if (canHover) p.addEventListener('mouseenter', () => setActive(i));
-      p.addEventListener('focus', () => setActive(i));
-      p.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          e.preventDefault();
-          panels[(i + 1) % panels.length].focus();
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          e.preventDefault();
-          panels[(i - 1 + panels.length) % panels.length].focus();
-        }
-      });
+    items.forEach((el, i) => el.addEventListener('click', () => { show(i); dlg.showModal(); }));
+    dlg.querySelector('.lb-close')!.addEventListener('click', () => dlg.close());
+    dlg.querySelector('.lb-prev')!.addEventListener('click', () => show(cur - 1));
+    dlg.querySelector('.lb-next')!.addEventListener('click', () => show(cur + 1));
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(cur - 1);
+      if (e.key === 'ArrowRight') show(cur + 1);
     });
 
-    // Visor a pantalla completa al pulsar una foto.
-    const dlg = document.getElementById('lightbox') as HTMLDialogElement | null;
-    if (dlg) {
-      const img = dlg.querySelector<HTMLImageElement>('.lb-img')!;
-      const photos = panels.map((p) => p.querySelector('img')!);
-      let cur = 0;
-      const show = (i: number) => {
-        cur = (i + photos.length) % photos.length;
-        img.src = photos[cur].dataset.full || photos[cur].src;
-        img.alt = photos[cur].alt;
-      };
-      panels.forEach((p, i) => p.addEventListener('click', () => { setActive(i); show(i); dlg.showModal(); }));
-      dlg.querySelector('.lb-close')!.addEventListener('click', () => dlg.close());
-      dlg.querySelector('.lb-prev')!.addEventListener('click', () => show(cur - 1));
-      dlg.querySelector('.lb-next')!.addEventListener('click', () => show(cur + 1));
-      dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
-      dlg.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') show(cur - 1);
-        if (e.key === 'ArrowRight') show(cur + 1);
-      });
-    }
+    // Deslizar con el dedo (móvil/tablet) para pasar de foto.
+    let touchX = 0;
+    dlg.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+    dlg.addEventListener(
+      'touchend',
+      (e) => {
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+      },
+      { passive: true },
+    );
   }
 </script>
