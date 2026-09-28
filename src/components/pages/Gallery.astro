@@ -10,24 +10,35 @@ const { lang } = Astro.props;
 const t = useT(lang);
 
 // Las fotos son los archivos de public/images/galeria/, ordenados por nombre
-// (con prefijo numérico para elegir el orden). Cada foto tiene su miniatura
-// (640×800) en la subcarpeta miniaturas/, con el mismo nombre: la cuadrícula
-// carga la pequeña y el visor a pantalla completa, la grande.
+// (con prefijo numérico para elegir el orden), con su forma natural (no se
+// recortan a una proporción fija). Cada foto tiene su miniatura en la
+// subcarpeta miniaturas/, con el mismo nombre: el carrusel carga la pequeña
+// y el visor a pantalla completa, la grande.
 const dir = path.join(process.cwd(), 'public', 'images', 'galeria');
 const files = fs.existsSync(dir)
   ? fs.readdirSync(dir).filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f)).sort()
   : [];
+// Se repite la lista para que el desfile sea continuo: en cuanto la primera
+// tanda sale por la izquierda, la segunda ya ocupa su sitio, sin corte.
+const track = files.length ? [...files, ...files] : [];
 const fill = (s: string, n: number) => s.replace('{n}', String(n));
 ---
 
 <PageHero title={t('gallery.h1')} />
 
 <section class="section gallery-section">
-  <div class="container">
-    <div class="gallery-grid">
-      {files.map((f, i) => (
-        <button type="button" class="gallery-item" data-index={i} aria-label={fill(t('gallery.open'), i + 1)}>
-          <img src={`/images/galeria/miniaturas/${f}`} data-full={`/images/galeria/${f}`} width="640" height="800" alt={fill(t('gallery.alt'), i + 1)} loading="lazy" decoding="async" />
+  <div class="marquee">
+    <div class="track" style={`--n:${files.length}`}>
+      {track.map((f, i) => (
+        <button
+          type="button"
+          class="carousel-item"
+          data-index={i % files.length}
+          aria-label={fill(t('gallery.open'), (i % files.length) + 1)}
+          tabindex={i < files.length ? 0 : -1}
+          aria-hidden={i < files.length ? undefined : 'true'}
+        >
+          <img src={`/images/galeria/miniaturas/${f}`} data-full={`/images/galeria/${f}`} alt={fill(t('gallery.alt'), (i % files.length) + 1)} loading={i < files.length ? 'eager' : 'lazy'} decoding="async" draggable="false" />
         </button>
       ))}
     </div>
@@ -42,13 +53,36 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
 </dialog>
 
 <style>
-  .gallery-section { padding-top: 8px; }
-  .gallery-grid { columns: 3; column-gap: 14px; }
-  .gallery-item { display: block; width: 100%; padding: 0; margin: 0 0 14px; border: 0; background: var(--cream-dark); border-radius: var(--r-lg); overflow: hidden; cursor: zoom-in; break-inside: avoid; }
-  .gallery-item img { display: block; width: 100%; height: auto; transition: transform .5s var(--ease); }
-  .gallery-item:hover img { transform: scale(1.04); }
-  @media (max-width: 900px) { .gallery-grid { columns: 2; } }
-  @media (max-width: 520px) { .gallery-grid { columns: 1; } }
+  .gallery-section { padding-top: 8px; padding-bottom: 8px; }
+
+  .marquee { position: relative; overflow: hidden; width: 100%; padding-block: 8px; }
+  .marquee::before, .marquee::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: clamp(24px, 6vw, 90px); z-index: 2; pointer-events: none;
+  }
+  .marquee::before { left: 0; background: linear-gradient(90deg, var(--cream), transparent); }
+  .marquee::after { right: 0; background: linear-gradient(270deg, var(--cream), transparent); }
+
+  .track {
+    display: flex; align-items: center; gap: 16px; width: max-content;
+    animation: gallery-scroll 32s linear infinite;
+  }
+  .marquee:hover .track { animation-play-state: paused; }
+  @keyframes gallery-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% / 2)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; }
+  }
+
+  .carousel-item {
+    flex: none; padding: 0; margin: 0; border: 0; border-radius: var(--r-lg); overflow: hidden;
+    cursor: zoom-in; background: var(--cream-dark); box-shadow: 0 10px 24px -14px rgba(27, 42, 74, .5);
+  }
+  .carousel-item img { display: block; height: 320px; width: auto; max-width: none; transition: transform .4s var(--ease); }
+  .carousel-item:hover img { transform: scale(1.03); }
+  @media (max-width: 760px) { .carousel-item img { height: 240px; } }
+  @media (max-width: 480px) { .carousel-item img { height: 190px; } }
 
   .lightbox { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; touch-action: pan-y; }
   .lightbox::backdrop { background: rgba(10, 16, 32, .92); }
@@ -58,8 +92,7 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
   .lb-btn:hover { background: var(--gold); }
   .lb-close { top: 18px; right: 18px; }
   /* Las flechas solo en dispositivos con puntero preciso (ratón): en
-     móvil/tablet se pasan las fotos deslizando el dedo, y las flechas
-     estorbarían más que ayudarían. */
+     móvil/tablet se pasa la foto ampliada deslizando el dedo. */
   .lb-prev, .lb-next { display: none; }
   @media (hover: hover) and (pointer: fine) {
     .lb-prev, .lb-next { display: flex; align-items: center; justify-content: center; }
@@ -69,19 +102,25 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
 </style>
 
 <script>
-  const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.gallery-item'));
+  const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.carousel-item'));
   const dlg = document.getElementById('lightbox') as HTMLDialogElement | null;
 
   if (items.length && dlg) {
     const img = dlg.querySelector<HTMLImageElement>('.lb-img')!;
-    const photos = items.map((el) => el.querySelector('img')!);
+    // Una entrada por foto real (sin las duplicadas del bucle), en orden,
+    // para que "siguiente/anterior" en el visor avance por fotos distintas.
+    const n = Number(document.querySelector<HTMLElement>('.track')?.style.getPropertyValue('--n')) || items.length;
+    const photos = items.slice(0, n).map((el) => el.querySelector('img')!);
     let cur = 0;
     const show = (i: number) => {
       cur = (i + photos.length) % photos.length;
       img.src = photos[cur].dataset.full || photos[cur].src;
       img.alt = photos[cur].alt;
     };
-    items.forEach((el, i) => el.addEventListener('click', () => { show(i); dlg.showModal(); }));
+    items.forEach((el) => {
+      const i = Number(el.dataset.index);
+      el.addEventListener('click', () => { show(i); dlg.showModal(); });
+    });
     dlg.querySelector('.lb-close')!.addEventListener('click', () => dlg.close());
     dlg.querySelector('.lb-prev')!.addEventListener('click', () => show(cur - 1));
     dlg.querySelector('.lb-next')!.addEventListener('click', () => show(cur + 1));
@@ -91,7 +130,7 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
       if (e.key === 'ArrowRight') show(cur + 1);
     });
 
-    // Deslizar con el dedo (móvil/tablet) para pasar de foto.
+    // Deslizar con el dedo (móvil/tablet) para pasar de foto ampliada.
     let touchX = 0;
     dlg.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
     dlg.addEventListener(
