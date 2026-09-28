@@ -174,14 +174,30 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   /* En Home, arriba del todo la cabecera va sobre el hero, marca centrada
      y sin botón; ".is-scrolled" la pasa al nav normal (enlaces, idioma y
      botón). El fondo ya es azul en ambos casos (ver ".nav" arriba), así
-     que aquí solo cambian el layout y una sombra sutil de profundidad. La
-     marca se centra dejando el hamburger/lang fuera del flujo (a la
-     derecha), ya que solo hay un elemento flex (.nav-brand) y
-     "justify-content:center" lo centra a él solo, no a toda la fila. */
+     que aquí solo cambian el layout y una sombra sutil de profundidad.
+     La marca y el botón van siempre en absoluto (fuera del flujo) para
+     poder animar su cambio de posición/opacidad con una transición CSS
+     en vez de un salto: al cruzar el scroll umbral que activa
+     ".is-scrolled" (ver el script del nav), la marca se desliza sola
+     hasta la izquierda y el botón aparece con un fundido, sin que haga
+     falta seguir haciendo scroll para que termine el movimiento. */
   .nav-home:not(.is-scrolled) { box-shadow: none; }
-  .nav-home:not(.is-scrolled) .nav-inner { justify-content: center; position: relative; }
-  .nav-home:not(.is-scrolled) .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
-  .nav-home:not(.is-scrolled) .nav-right .btn { display: none; }
+  .nav-home .nav-inner { position: relative; min-height: 44px; }
+  .nav-home .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
+  .nav-home .nav-brand {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    transition: left .6s cubic-bezier(.4, 0, .2, 1), transform .6s cubic-bezier(.4, 0, .2, 1);
+  }
+  .nav-home.is-scrolled .nav-brand { left: 32px; transform: translateY(-50%); }
+  .nav-home .nav-right .btn {
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .5s ease, visibility 0s .5s;
+  }
+  .nav-home.is-scrolled .nav-right .btn {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity .5s ease .15s, visibility 0s;
+  }
   .nav-home:not(.is-scrolled) .nav-links,
   .nav-home:not(.is-scrolled) .nav-right .lang-dd { display: none; }
   .nav-home:not(.is-scrolled) .hamburger { display: flex; }
