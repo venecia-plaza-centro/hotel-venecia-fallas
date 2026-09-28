@@ -12,8 +12,10 @@ const t = useT(lang);
 // Las fotos son los archivos de public/images/galeria/, ordenados por nombre
 // (con prefijo numérico para elegir el orden). Cada foto tiene su miniatura
 // (640×800) en la subcarpeta miniaturas/, con el mismo nombre: las tarjetas
-// cargan la pequeña y el visor a pantalla completa, la grande. Se pensó para 3-5: se abren en
-// abanico y "rebotan" al aparecer (efecto BounceCards).
+// cargan la pequeña y el visor a pantalla completa, la grande. Se abren en
+// abanico y "rebotan" al aparecer (efecto BounceCards); el ancho de cada
+// tarjeta y el ángulo del abanico se calculan en el script según cuántas
+// fotos haya, así que admite cualquier cantidad sin salirse de la pantalla.
 const dir = path.join(process.cwd(), 'public', 'images', 'galeria');
 const files = fs.existsSync(dir)
   ? fs.readdirSync(dir).filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f)).sort()
@@ -45,10 +47,11 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
 <style>
   .gallery-section { padding-top: 24px; overflow-x: clip; }
 
-  /* --w: ancho de cada tarjeta; nunca más de lo que cabe en el móvil con el
-     abanico abierto (el conjunto ocupa ~2,5 veces el ancho de una tarjeta). */
+  /* --w: ancho de cada tarjeta. Valor de partida prudente (el script lo
+     recalcula en cuanto carga, según cuántas fotos haya) para que no se vea
+     un salto grande antes de que se ejecute. */
   .bounce {
-    --w: min(300px, calc((100vw - 32px) / 2.6));
+    --w: min(220px, calc((100vw - 32px) / 4.2));
     position: relative; display: flex; justify-content: center; align-items: center;
     width: 100%; height: calc(var(--w) * 1.25 + 64px); margin: 24px auto 8px;
   }
@@ -60,9 +63,6 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
   }
   .bounce-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
   .bounce-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
-  .bounce-card-1 { z-index: 3; }
-  .bounce-card-2 { z-index: 2; }
-  .bounce-card-0 { z-index: 1; }
 
   .lightbox { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; }
   .lightbox::backdrop { background: rgba(10, 16, 32, .92); }
@@ -84,24 +84,42 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
   if (wrap && cards.length) {
     // Posición de cada tarjeta en el abanico: rotación y desplazamiento
     // horizontal en proporción a su ancho, para que se vea igual en cualquier
-    // pantalla. La del centro va casi recta; las de los lados, abiertas.
-    const ROT = [-8, 3, 9, -5, 6]; // grados (para hasta 5 tarjetas)
-    const STEP = 0.74; // separación entre tarjetas, en anchos de tarjeta
+    // pantalla. Tanto el ángulo como el ancho de cada tarjeta se calculan
+    // según cuántas fotos haya, para que el conjunto quepa siempre en el
+    // ancho disponible (de 3 a bastantes más fotos).
+    const STEP = 0.62; // separación entre tarjetas, en anchos de tarjeta
+    const ANGLE = 6; // grados de giro entre una tarjeta y la siguiente
     const PUSH = 0.3; // cuánto se apartan las vecinas al pasar el cursor
+    const MIN_W = 110;
+    const MAX_W = 300;
     const n = cards.length;
     const mid = (n - 1) / 2;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canHover = matchMedia('(hover: hover)').matches;
 
+    // Reparte el ancho disponible entre las tarjetas del abanico, teniendo en
+    // cuenta cuánto se solapan (STEP) para que el conjunto no se salga.
+    const fitWidth = () => {
+      const available = wrap.clientWidth || window.innerWidth - 32;
+      const ideal = available / (1 + (n - 1) * STEP);
+      return Math.max(MIN_W, Math.min(MAX_W, ideal));
+    };
+
+    const rot = (i: number) => (i - mid) * ANGLE;
     const width = () => cards[0].offsetWidth || 240;
-    const rot = (i: number) => (n === 3 ? ROT[i] : ROT[i % ROT.length]);
     const baseX = (i: number) => (i - mid) * STEP * width();
     const base = (i: number) => `rotate(${rot(i)}deg) translate(${baseX(i)}px)`;
     const straight = (i: number) => `rotate(0deg) translate(${baseX(i)}px)`;
     const pushed = (i: number, hovered: number) =>
       `rotate(${rot(i)}deg) translate(${baseX(i) + (i < hovered ? -1 : 1) * PUSH * width()}px)`;
 
-    const place = () => cards.forEach((c, i) => { c.style.transform = base(i); });
+    const place = () => {
+      wrap.style.setProperty('--w', `${fitWidth()}px`);
+      cards.forEach((c, i) => {
+        c.style.transform = base(i);
+        c.style.zIndex = String(100 - Math.round(Math.abs(i - mid) * 10));
+      });
+    };
     place();
 
     // Aparecen con rebote elástico (salvo con "reducir movimiento").
