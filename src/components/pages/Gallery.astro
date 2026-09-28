@@ -11,25 +11,29 @@ const t = useT(lang);
 
 // Las fotos son los archivos de public/images/galeria/, ordenados por nombre
 // (con prefijo numérico para elegir el orden). Cada foto tiene su miniatura
-// (640×800) en la subcarpeta miniaturas/, con el mismo nombre: las tarjetas
-// cargan la pequeña y el visor a pantalla completa, la grande. Se abren en
-// abanico y "rebotan" al aparecer (efecto BounceCards); el ancho de cada
-// tarjeta y el ángulo del abanico se calculan en el script según cuántas
-// fotos haya, así que admite cualquier cantidad sin salirse de la pantalla.
+// (640×800) en la subcarpeta miniaturas/, con el mismo nombre: los paneles
+// del acordeón cargan la pequeña y el visor a pantalla completa, la grande.
 const dir = path.join(process.cwd(), 'public', 'images', 'galeria');
 const files = fs.existsSync(dir)
   ? fs.readdirSync(dir).filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f)).sort()
   : [];
 const fill = (s: string, n: number) => s.replace('{n}', String(n));
+// Empieza abierta una foto del centro, ni la primera ni la última.
+const initial = Math.floor((files.length - 1) / 2);
 ---
 
 <PageHero title={t('gallery.h1')} />
 
 <section class="section gallery-section">
   <div class="container">
-    <div class="bounce" data-count={files.length}>
+    <div class="accordion" id="gallery-accordion">
       {files.map((f, i) => (
-        <button type="button" class={`bounce-card bounce-card-${i}`} data-index={i} aria-label={fill(t('gallery.open'), i + 1)}>
+        <button
+          type="button"
+          class={`ag-panel${i === initial ? ' is-active' : ''}`}
+          data-index={i}
+          aria-label={fill(t('gallery.open'), i + 1)}
+        >
           <img src={`/images/galeria/miniaturas/${f}`} data-full={`/images/galeria/${f}`} width="640" height="800" alt={fill(t('gallery.alt'), i + 1)} decoding="async" draggable="false" />
         </button>
       ))}
@@ -45,24 +49,34 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
 </dialog>
 
 <style>
-  .gallery-section { padding-top: 24px; overflow-x: clip; }
+  .gallery-section { padding-top: 24px; }
 
-  /* --w: ancho de cada tarjeta. Valor de partida prudente (el script lo
-     recalcula en cuanto carga, según cuántas fotos haya) para que no se vea
-     un salto grande antes de que se ejecute. */
-  .bounce {
-    --w: min(220px, calc((100vw - 32px) / 4.2));
-    position: relative; display: flex; justify-content: center; align-items: center;
-    width: 100%; height: calc(var(--w) * 1.25 + 64px); margin: 24px auto 8px;
+  .accordion { display: flex; gap: 8px; width: 100%; height: 460px; }
+  .ag-panel {
+    position: relative; flex: 1 1 0; min-width: 0; padding: 0; margin: 0; border: 0;
+    overflow: hidden; border-radius: var(--r-lg); cursor: pointer; background: var(--navy);
+    box-shadow: 0 10px 26px -16px rgba(27, 42, 74, .55);
+    transition: flex-grow .55s cubic-bezier(.16, 1, .3, 1);
   }
-  .bounce-card {
-    position: absolute; width: var(--w); aspect-ratio: 4 / 5; padding: 0; cursor: zoom-in;
-    border: 5px solid #fff; border-radius: 22px; overflow: hidden; background: var(--cream-dark);
-    box-shadow: 0 6px 18px rgba(27, 42, 74, .22);
-    will-change: transform;
+  .ag-panel:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold), 0 10px 26px -16px rgba(27, 42, 74, .55); }
+  .ag-panel img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;
+    filter: grayscale(1); transition: filter .55s cubic-bezier(.16, 1, .3, 1);
   }
-  .bounce-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
-  .bounce-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .ag-panel.is-active img { filter: grayscale(0); }
+  .ag-panel::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, transparent 45%, rgba(8, 14, 28, .8) 100%);
+    opacity: .5; transition: opacity .4s;
+  }
+  .ag-panel.is-active::after { opacity: .8; }
+
+  @media (max-width: 640px) {
+    .accordion { flex-direction: column; height: auto; gap: 10px; }
+    .ag-panel { flex: none; height: 76px; }
+    .ag-panel.is-active { height: 320px; }
+    .ag-panel img { filter: grayscale(0); }
+  }
 
   .lightbox { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; }
   .lightbox::backdrop { background: rgba(10, 16, 32, .92); }
@@ -76,100 +90,51 @@ const fill = (s: string, n: number) => s.replace('{n}', String(n));
 </style>
 
 <script>
-  import { gsap } from 'gsap';
+  const acc = document.getElementById('gallery-accordion');
+  const panels = Array.from(document.querySelectorAll<HTMLButtonElement>('.ag-panel'));
 
-  const wrap = document.querySelector<HTMLElement>('.bounce');
-  const cards = Array.from(document.querySelectorAll<HTMLButtonElement>('.bounce-card'));
-
-  if (wrap && cards.length) {
-    // Posición de cada tarjeta en el abanico: rotación y desplazamiento
-    // horizontal en proporción a su ancho, para que se vea igual en cualquier
-    // pantalla. Tanto el ángulo como el ancho de cada tarjeta se calculan
-    // según cuántas fotos haya, para que el conjunto quepa siempre en el
-    // ancho disponible (de 3 a bastantes más fotos).
-    const STEP = 0.62; // separación entre tarjetas, en anchos de tarjeta
-    const ANGLE = 6; // grados de giro entre una tarjeta y la siguiente
-    const PUSH = 0.3; // cuánto se apartan las vecinas al pasar el cursor
-    const MIN_W = 110;
-    const MAX_W = 300;
-    const n = cards.length;
-    const mid = (n - 1) / 2;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (acc && panels.length) {
     const canHover = matchMedia('(hover: hover)').matches;
+    let active = panels.findIndex((p) => p.classList.contains('is-active'));
+    if (active < 0) active = 0;
 
-    // Reparte el ancho disponible entre las tarjetas del abanico, teniendo en
-    // cuenta cuánto se solapan (STEP) para que el conjunto no se salga.
-    const fitWidth = () => {
-      const available = wrap.clientWidth || window.innerWidth - 32;
-      const ideal = available / (1 + (n - 1) * STEP);
-      return Math.max(MIN_W, Math.min(MAX_W, ideal));
-    };
-
-    const rot = (i: number) => (i - mid) * ANGLE;
-    const width = () => cards[0].offsetWidth || 240;
-    const baseX = (i: number) => (i - mid) * STEP * width();
-    const base = (i: number) => `rotate(${rot(i)}deg) translate(${baseX(i)}px)`;
-    const straight = (i: number) => `rotate(0deg) translate(${baseX(i)}px)`;
-    const pushed = (i: number, hovered: number) =>
-      `rotate(${rot(i)}deg) translate(${baseX(i) + (i < hovered ? -1 : 1) * PUSH * width()}px)`;
-
-    const place = () => {
-      wrap.style.setProperty('--w', `${fitWidth()}px`);
-      cards.forEach((c, i) => {
-        c.style.transform = base(i);
-        c.style.zIndex = String(100 - Math.round(Math.abs(i - mid) * 10));
+    const setActive = (i: number) => {
+      active = i;
+      panels.forEach((p, j) => {
+        const isActive = j === i;
+        p.classList.toggle('is-active', isActive);
+        p.style.flexGrow = isActive ? '4' : '1';
+        p.setAttribute('aria-current', isActive ? 'true' : 'false');
       });
     };
-    place();
+    setActive(active);
 
-    // Aparecen con rebote elástico (salvo con "reducir movimiento").
-    if (!reduced) {
-      gsap.fromTo(
-        cards,
-        { scale: 0 },
-        { scale: 1, stagger: 0.06, ease: 'elastic.out(1, 0.8)', delay: 0.4 },
-      );
-    }
-
-    const to = (el: HTMLElement, transform: string, delay = 0) =>
-      gsap.to(el, { transform, duration: reduced ? 0 : 0.4, ease: 'back.out(1.4)', delay, overwrite: 'auto' });
-
-    const push = (hovered: number) => {
-      cards.forEach((c, i) => {
-        gsap.killTweensOf(c);
-        if (i === hovered) to(c, straight(i));
-        else to(c, pushed(i, hovered), Math.abs(hovered - i) * 0.05);
+    panels.forEach((p, i) => {
+      if (canHover) p.addEventListener('mouseenter', () => setActive(i));
+      p.addEventListener('focus', () => setActive(i));
+      p.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          panels[(i + 1) % panels.length].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          panels[(i - 1 + panels.length) % panels.length].focus();
+        }
       });
-    };
-    const reset = () => cards.forEach((c, i) => { gsap.killTweensOf(c); to(c, base(i)); });
-
-    cards.forEach((c, i) => {
-      if (canHover) {
-        c.addEventListener('mouseenter', () => push(i));
-        c.addEventListener('mouseleave', reset);
-      }
-      c.addEventListener('focus', () => push(i));
-      c.addEventListener('blur', reset);
     });
-
-    // Si cambia el ancho de la pantalla, se recolocan.
-    let lastW = width();
-    new ResizeObserver(() => {
-      if (Math.abs(width() - lastW) > 1) { lastW = width(); place(); }
-    }).observe(wrap);
 
     // Visor a pantalla completa al pulsar una foto.
     const dlg = document.getElementById('lightbox') as HTMLDialogElement | null;
     if (dlg) {
       const img = dlg.querySelector<HTMLImageElement>('.lb-img')!;
-      const photos = cards.map((c) => c.querySelector('img')!);
+      const photos = panels.map((p) => p.querySelector('img')!);
       let cur = 0;
       const show = (i: number) => {
         cur = (i + photos.length) % photos.length;
         img.src = photos[cur].dataset.full || photos[cur].src;
         img.alt = photos[cur].alt;
       };
-      cards.forEach((c, i) => c.addEventListener('click', () => { show(i); dlg.showModal(); }));
+      panels.forEach((p, i) => p.addEventListener('click', () => { setActive(i); show(i); dlg.showModal(); }));
       dlg.querySelector('.lb-close')!.addEventListener('click', () => dlg.close());
       dlg.querySelector('.lb-prev')!.addEventListener('click', () => show(cur - 1));
       dlg.querySelector('.lb-next')!.addEventListener('click', () => show(cur + 1));
