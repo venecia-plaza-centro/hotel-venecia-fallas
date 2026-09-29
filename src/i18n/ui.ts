@@ -44,7 +44,7 @@ const es: Dict = {
     'Todos los espacios son habitaciones del Hotel Venecia, con su mobiliario habitual, baño privado y balcón o mirador con vistas a la Plaza del Ayuntamiento.',
   'home.p3': 'Además, su reserva incluye un Snack Pack para acompañar la experiencia.',
   'home.cta': 'Ver habitaciones disponibles',
-  'home.discover': 'Descúbrelo',
+  'home.discover': 'Descúbralo',
   'home.tagline': 'Mascletás, más cerca que nunca',
   'home.badge': 'Una experiencia única en Valencia',
   'home.photo.hero.alt': 'La mascletá vista desde un balcón del Hotel Venecia',
