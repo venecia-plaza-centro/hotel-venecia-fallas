@@ -139,7 +139,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .nav-brand { display: flex; flex-direction: row; align-items: center; gap: 10px; line-height: 1.1; }
-.nav-brand img { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
+.nav-brand img { width: 58px; height: 58px; object-fit: contain; flex-shrink: 0; }
 .nav-brand-text { display: flex; flex-direction: column; }
 .nav-brand-text strong { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: #fff; }
 .nav-brand-gold { color: var(--gold); }
@@ -328,7 +328,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 @media (max-width: 480px) {
   .nav-inner { padding: 0 16px; gap: 10px; }
   .nav-brand { gap: 8px; }
-  .nav-brand img { width: 34px; height: 34px; }
+  .nav-brand img { width: 44px; height: 44px; }
   .nav-brand-text strong, .nav-brand-sub { font-size: 14px; }
   .nav-right { gap: 10px; }
   .nav-right .btn { padding: 10px 16px; font-size: 11px; }
