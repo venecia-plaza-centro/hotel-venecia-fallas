@@ -13,6 +13,10 @@ import type { BookingNotification } from './booking';
 
 export type BookingEmail = BookingNotification;
 
+/** Todos los avisos internos (reservas, reembolsos...) van a los dos
+ *  buzones del hotel a la vez, no solo a fallas@. */
+const HOTEL_RECIPIENTS = [SITE.email, 'reservas@hotelvenecia.com'];
+
 interface EmailCopy {
   subject: string;
   preheader: string;
@@ -381,8 +385,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   });
 
   await deliver({
-    // Aviso de reserva al hotel: a los dos buzones a la vez.
-    to: [SITE.email, 'reservas@hotelvenecia.com'],
+    to: HOTEL_RECIPIENTS,
     subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nueva reserva ${data.locator} · ${data.date} · hab. ${data.room.roomNumber}`,
     html: buildHotelEmailHtml(data),
     text: hotelSummary,
@@ -418,7 +421,7 @@ export async function sendPaymentRefundedNotice(input: {
     : `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another room or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`;
   await deliver({ to: input.email, subject, text });
   await deliver({
-    to: SITE.email,
+    to: HOTEL_RECIPIENTS,
     subject: `[${input.manual ? 'REEMBOLSO MANUAL' : 'Reembolso automático'}] ${input.roomNumber} · ${input.date}`,
     text: `Doble reserva evitada (dos pagos para la misma habitación y fecha). ${
       input.manual
