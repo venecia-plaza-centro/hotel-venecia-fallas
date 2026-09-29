@@ -141,11 +141,11 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-brand { display: flex; flex-direction: row; align-items: center; gap: 10px; line-height: 1.1; }
 .nav-brand img { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
 .nav-brand-text { display: flex; flex-direction: column; }
-.nav-brand-text strong { font-family: var(--ff-body); font-size: 16px; font-weight: 800; color: #fff; }
+.nav-brand-text strong { font-family: var(--ff-display); font-size: 16px; font-weight: 700; color: #fff; }
 .nav-brand-gold { color: var(--gold); }
 .nav-brand-sub {
-  font-family: var(--ff-body); font-size: 16px; font-weight: 800;
-  text-transform: uppercase; color: #fff; margin-top: 2px;
+  font-family: var(--ff-display); font-size: 16px; font-weight: 700;
+  color: #fff; margin-top: 2px;
 }
 .nav-brand-fallas {
   margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: .18em;
