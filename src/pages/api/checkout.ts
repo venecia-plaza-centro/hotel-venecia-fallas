@@ -79,7 +79,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     // precio real. QUITAR la variable de Vercel en cuanto termine la
     // prueba — si se queda puesta, todas las reservas reales cobrarían
     // este importe de prueba en vez del precio de verdad.
-    const testAmount = Number(import.meta.env.TEST_FORCE_AMOUNT_EUR);
+    const testAmount = Number(import.meta.env?.TEST_FORCE_AMOUNT_EUR ?? process.env.TEST_FORCE_AMOUNT_EUR);
     const chargeAmount = testAmount > 0 ? testAmount : quote.total;
 
     if (!redsysEnabled()) {

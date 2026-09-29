@@ -22,14 +22,21 @@ export interface SalesStatus {
 }
 
 export function salesStatus(now = Date.now()): SalesStatus {
-  const flag = env('SALES_OPEN')?.trim().toLowerCase();
-  if (flag === 'true') return { open: true };
-  if (flag === 'false') return { open: false };
+  // Nunca debe tirar un 500: si algo raro pasa leyendo las variables de
+  // entorno, mejor caer en "cerradas" (lo seguro) que romper el checkout.
+  try {
+    const flag = env('SALES_OPEN')?.trim().toLowerCase();
+    if (flag === 'true') return { open: true };
+    if (flag === 'false') return { open: false };
 
-  const from = env('SALES_OPEN_FROM')?.trim();
-  const at = from ? Date.parse(from) : NaN;
-  if (Number.isFinite(at)) {
-    return now >= at ? { open: true } : { open: false, opensAt: new Date(at).toISOString() };
+    const from = env('SALES_OPEN_FROM')?.trim();
+    const at = from ? Date.parse(from) : NaN;
+    if (Number.isFinite(at)) {
+      return now >= at ? { open: true } : { open: false, opensAt: new Date(at).toISOString() };
+    }
+    return { open: false };
+  } catch (err) {
+    console.error('[sales] error leyendo el estado de ventas', err);
+    return { open: false };
   }
-  return { open: false };
 }
