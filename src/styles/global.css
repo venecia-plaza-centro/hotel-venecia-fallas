@@ -144,11 +144,11 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-brand-text strong { font-family: var(--ff-display); font-size: 20px; font-weight: 700; color: #fff; }
 .nav-brand-gold { color: var(--gold); }
 .nav-brand-sub {
-  font-family: var(--ff-display); font-size: 13px; font-weight: 700;
-  color: #fff; margin-top: 1px;
+  font-family: var(--ff-display); font-size: 15px; font-weight: 700;
+  color: #fff; margin-top: 3px;
 }
 .nav-brand-fallas {
-  margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: .18em;
+  margin-top: 3px; font-size: 11px; font-weight: 700; letter-spacing: .18em;
   text-transform: uppercase;
 }
 /* "Fallas 2027" ardiendo: parpadeo irregular (no una pulsación suave)
