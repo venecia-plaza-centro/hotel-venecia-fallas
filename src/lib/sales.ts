@@ -13,7 +13,13 @@
  * Solo lo lee el servidor: los pagos ya iniciados siguen confirmándose
  * aunque se cierre justo entonces (/api/redsys-notification no lo mira).
  */
-const env = (k: string): string | undefined => import.meta.env?.[k] ?? process.env[k];
+// Astro puede devolver el valor de "import.meta.env" ya convertido a
+// booleano (p. ej. SALES_OPEN=true llega como el booleano true, no el
+// texto "true"): forzamos a string siempre para que ".trim()" no falle.
+const env = (k: string): string | undefined => {
+  const v = import.meta.env?.[k] ?? process.env[k];
+  return v === undefined || v === null ? undefined : String(v);
+};
 
 export interface SalesStatus {
   open: boolean;
