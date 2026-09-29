@@ -74,14 +74,6 @@ export const POST: APIRoute = async ({ request, url }) => {
 
     const quote = buildQuote(room, guests, date);
 
-    // Solo para la prueba real de cobro con Redsys en modo "live": si está
-    // puesta esta variable de entorno, se cobra ese importe en vez del
-    // precio real. QUITAR la variable de Vercel en cuanto termine la
-    // prueba — si se queda puesta, todas las reservas reales cobrarían
-    // este importe de prueba en vez del precio de verdad.
-    const testAmount = Number(import.meta.env?.TEST_FORCE_AMOUNT_EUR ?? process.env.TEST_FORCE_AMOUNT_EUR);
-    const chargeAmount = testAmount > 0 ? testAmount : quote.total;
-
     if (!redsysEnabled()) {
       // Demo: sin TPV conectado, se crea la reserva sin cobrar nada.
       const { locator } = await createBooking({
@@ -159,13 +151,11 @@ export const POST: APIRoute = async ({ request, url }) => {
 
     const payment = buildPayment({
       order,
-      amountEuros: chargeAmount,
+      amountEuros: quote.total,
       lang,
-      description: testAmount > 0
-        ? `PRUEBA DE COBRO · Habitación ${room.roomNumber} · ${date}`
-        : `Balcón privado · Habitación ${room.roomNumber} · ${date}`,
+      description: `Balcón privado · Habitación ${room.roomNumber} · ${date}`,
       holder: `${firstName} ${lastName}`.slice(0, 60),
-      label: `${testAmount > 0 ? 'PRUEBA ' : ''}FALLAS ${locator} hab${room.roomNumber} ${date}`,
+      label: `FALLAS ${locator} hab${room.roomNumber} ${date}`,
       data: {
         locator,
         date,
@@ -177,7 +167,6 @@ export const POST: APIRoute = async ({ request, url }) => {
         phone: cut(phone, 30),
         country: cut(country, 40),
         notes: cut(notes, 200),
-        testAmount: testAmount > 0 ? String(chargeAmount) : undefined,
         lang,
       },
       notificationUrl: `${url.origin}/api/redsys-notification`,
