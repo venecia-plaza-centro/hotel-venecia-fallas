@@ -82,7 +82,11 @@ export const POST: APIRoute = async ({ request }) => {
       return ok('reembolsada');
     }
 
-    const total = priceForGuests(room, guests, date);
+    // Prueba de cobro (ver checkout.ts, TEST_FORCE_AMOUNT_EUR): el importe
+    // guardado como total de la reserva es el que realmente se cobró, no
+    // el precio real de la habitación.
+    const testAmount = Number(m.testAmount);
+    const total = testAmount > 0 ? testAmount : priceForGuests(room, guests, date);
 
     if (existing) {
       await confirmHeldBooking(existing.id, total, { order, authCode: params.Ds_AuthorisationCode });
