@@ -381,7 +381,8 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   });
 
   await deliver({
-    to: SITE.email,
+    // Aviso de reserva al hotel: a los dos buzones a la vez.
+    to: [SITE.email, 'reservas@hotelvenecia.com'],
     subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nueva reserva ${data.locator} · ${data.date} · hab. ${data.room.roomNumber}`,
     html: buildHotelEmailHtml(data),
     text: hotelSummary,
@@ -428,7 +429,7 @@ export async function sendPaymentRefundedNotice(input: {
 }
 
 interface Delivery {
-  to: string;
+  to: string | string[];
   subject: string;
   html?: string;
   text: string;
@@ -445,9 +446,10 @@ const env = (k: string): string | undefined => import.meta.env?.[k] ?? process.e
  */
 async function deliver(d: Delivery): Promise<void> {
   const key = env('RESEND_API_KEY');
+  const to = Array.isArray(d.to) ? d.to : [d.to];
   if (!key) {
     console.info(
-      `[email] (sin proveedor) "${d.subject}" → ${d.to}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
+      `[email] (sin proveedor) "${d.subject}" → ${to.join(', ')}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
     );
     return;
   }
@@ -455,7 +457,7 @@ async function deliver(d: Delivery): Promise<void> {
   const from = env('EMAIL_FROM') ?? `${SITE.name} <${SITE.email}>`;
   const body = JSON.stringify({
     from,
-    to: [d.to],
+    to,
     reply_to: SITE.email,
     subject: d.subject,
     text: d.text,
