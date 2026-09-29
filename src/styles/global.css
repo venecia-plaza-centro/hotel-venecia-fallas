@@ -149,7 +149,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .nav-brand-fallas {
   margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: .18em;
-  text-transform: uppercase;
+  text-transform: uppercase; text-align: center;
 }
 /* "Fallas 2027" ardiendo: parpadeo irregular (no una pulsación suave)
    entre tonos de fuego (rojo/naranja/amarillo), como una llama viva —
