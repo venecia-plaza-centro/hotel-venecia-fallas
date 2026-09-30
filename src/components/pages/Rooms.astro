@@ -1,5 +1,5 @@
 ---
-import { type Locale } from '../../consts';
+import { SITE, type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
 import { getRooms } from '../../lib/airtable';
 import PageHero from '../PageHero.astro';
@@ -12,12 +12,18 @@ const t = useT(lang);
 // Se lee de Airtable en build. Sin credenciales, datos de ejemplo
 // (src/lib/fixtures.ts). El hotel edita precios/fotos sin tocar código.
 const rooms = await getRooms();
+
+const capacityNoteHtml = t('rooms.capacity_note').replace(
+  SITE.email,
+  `<a href="mailto:${SITE.email}" style="color:var(--gold);text-decoration:underline">${SITE.email}</a>`,
+);
 ---
 
 <PageHero title={t('rooms.h1')} photo="/images/rooms/410/balcon.webp" />
 
 <section class="section">
   <div class="container">
+    <p class="rooms-capacity-note" set:html={capacityNoteHtml} />
     <div class="rooms-list">
       {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
     </div>
@@ -25,6 +31,17 @@ const rooms = await getRooms();
 </section>
 
 <style>
+  .rooms-capacity-note {
+    max-width: 640px;
+    margin: 0 auto 48px;
+    text-align: center;
+    color: var(--text-mid);
+    font-size: 16px;
+    line-height: 1.6;
+  }
   .rooms-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 0 auto; }
   @media (max-width: 760px) { .rooms-list { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) {
+    .rooms-capacity-note { font-size: 14.5px; margin-bottom: 36px; }
+  }
 </style>

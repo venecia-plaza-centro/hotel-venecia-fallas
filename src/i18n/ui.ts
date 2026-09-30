@@ -89,6 +89,8 @@ const es: Dict = {
   'rooms.h1': 'Elija su balcón para la mascletá',
   'rooms.intro':
     'Viva las Fallas en primera fila. Habitaciones privadas con balcón directo a la plaza y unas vistas espectaculares para no perderse ni un momento. Baño privado, espacios exclusivos y toda la emoción de las Fallas justo delante de usted.',
+  'rooms.capacity_note':
+    'Estas habitaciones pueden ser ocupadas por un máximo de 4 personas (de la misma reserva). Si necesitan habitaciones con balcón a la mascletá para más personas, pónganse en contacto con nosotros: fallas@hotelvenecia.com',
 
   // mascletas
   'mascletas.h1': 'Calendario de mascletás',
@@ -347,6 +349,8 @@ const en: Dict = {
   'rooms.h1': 'Choose your balcony for the mascletá',
   'rooms.intro':
     "Experience Fallas from the front row. Private rooms with a balcony right onto the square and spectacular views so you don't miss a moment. Private bathroom, exclusive spaces, and all the excitement of Fallas right in front of you.",
+  'rooms.capacity_note':
+    'These rooms can be occupied by a maximum of 4 people (from the same booking). If you need balcony rooms for the mascletá for more people, please get in touch with us: fallas@hotelvenecia.com',
 
   'mascletas.h1': 'Mascletá calendar',
   'mascletas.lead':
@@ -596,6 +600,8 @@ const it: Dict = {
   'rooms.h1': 'Scelga il suo balcone per la mascletá',
   'rooms.intro':
     'Vivi le Fallas in prima fila. Camere private con balcone diretto sulla piazza e viste spettacolari per non perdere nemmeno un momento. Bagno privato, spazi esclusivi e tutta l’emozione delle Fallas proprio davanti a lei.',
+  'rooms.capacity_note':
+    'Queste camere possono ospitare un massimo di 4 persone (della stessa prenotazione). Se avete bisogno di camere con balcone per la mascletá per più persone, contattateci: fallas@hotelvenecia.com',
 
   'mascletas.h1': 'Calendario delle mascletás',
   'mascletas.lead':
@@ -846,6 +852,8 @@ const fr: Dict = {
   'rooms.h1': 'Choisissez votre balcon pour la mascletá',
   'rooms.intro':
     'Vivez les Fallas aux premières loges. Chambres privées avec balcon donnant directement sur la place et des vues spectaculaires pour ne rien manquer. Salle de bain privée, espaces exclusifs et toute l’émotion des Fallas juste devant vous.',
+  'rooms.capacity_note':
+    'Ces chambres peuvent accueillir un maximum de 4 personnes (de la même réservation). Si vous avez besoin de chambres avec balcon pour la mascletá pour plus de personnes, contactez-nous : fallas@hotelvenecia.com',
 
   'mascletas.h1': 'Calendrier des mascletás',
   'mascletas.lead':
@@ -1096,6 +1104,8 @@ const de: Dict = {
   'rooms.h1': 'Wählen Sie Ihren Balkon für die Mascletá',
   'rooms.intro':
     'Erleben Sie die Fallas hautnah. Private Zimmer mit Balkon direkt zum Platz und spektakulärem Blick, damit Ihnen kein Moment entgeht. Eigenes Bad, exklusive Räume und die ganze Emotion der Fallas direkt vor Ihnen.',
+  'rooms.capacity_note':
+    'Diese Zimmer können von maximal 4 Personen (derselben Buchung) belegt werden. Falls Sie Zimmer mit Balkon zur Mascletá für mehr Personen benötigen, kontaktieren Sie uns bitte: fallas@hotelvenecia.com',
 
   'mascletas.h1': 'Mascletá-Kalender',
   'mascletas.lead':
