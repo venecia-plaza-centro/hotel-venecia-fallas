@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { DEFAULT_LOCALE } from '../../consts';
+import { DEFAULT_LOCALE, FALLAS } from '../../consts';
 import { pagePath } from '../../i18n/pages';
 import { buildQuote, isGuestCount, isLocale, validateDate } from '../../lib/booking';
 import { airtableEnabled, createBooking, getRoomOffers, newLocator, placeHold } from '../../lib/airtable';
@@ -7,11 +7,20 @@ import { sendBookingEmails } from '../../lib/email';
 import { buildPayment, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
 import { handleError, json } from '../../lib/api';
 import { salesStatus } from '../../lib/sales';
+import { clientIp, isRateLimited } from '../../lib/rate-limit';
 
 export const prerender = false;
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
+
+// Sin esto, un script podría disparar este endpoint sin parar para bloquear
+// (sin pagar) las 9 habitaciones los 12 días de venta, dejando la web sin
+// disponibilidad real para clientes de verdad. 8 intentos/15 min por IP deja
+// margen de sobra a un cliente real (probar varias habitaciones, reintentar
+// tras una tarjeta rechazada) y encarece el abuso automatizado más simple.
+const CHECKOUT_MAX = 8;
+const CHECKOUT_WINDOW_MS = FALLAS.holdMinutes * 60_000;
 
 /**
  * POST /api/checkout
@@ -29,6 +38,10 @@ const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
 export const POST: APIRoute = async ({ request, url }) => {
   // Ventas cerradas (ver lib/sales.ts): ni pago ni bloqueo de habitación.
   if (!salesStatus().open) return json({ ok: false, error: 'ventas-cerradas' }, 403);
+
+  if (isRateLimited(`checkout:${clientIp(request)}`, CHECKOUT_MAX, CHECKOUT_WINDOW_MS)) {
+    return json({ ok: false, error: 'demasiadas-solicitudes' }, 429);
+  }
 
   let body: Record<string, unknown>;
   try {

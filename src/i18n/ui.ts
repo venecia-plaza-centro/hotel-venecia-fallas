@@ -199,6 +199,7 @@ const es: Dict = {
   'book.err.service':
     'No hemos podido conectar con el sistema de reservas. Inténtelo en unos minutos o llámenos.',
   'book.err.generic': 'Algo ha ido mal. Inténtelo de nuevo.',
+  'book.err.ratelimit': 'Se han hecho demasiados intentos seguidos. Espere unos minutos y vuelva a intentarlo.',
   'book.err.canceled': 'El pago se ha cancelado. Puede intentarlo de nuevo cuando quiera.',
 
   'book.summary.title': 'Resumen',
@@ -454,6 +455,7 @@ const en: Dict = {
   'book.err.service':
     "We couldn't reach the booking system. Try again in a few minutes or give us a call.",
   'book.err.generic': 'Something went wrong. Please try again.',
+  'book.err.ratelimit': 'Too many attempts in a row. Please wait a few minutes and try again.',
   'book.err.canceled': 'Payment was canceled. You can try again whenever you like.',
 
   'book.summary.title': 'Summary',
@@ -705,6 +707,7 @@ const it: Dict = {
   'book.err.service':
     'Non siamo riusciti a collegarci al sistema di prenotazione. Riprovi tra qualche minuto o ci chiami.',
   'book.err.generic': 'Qualcosa è andato storto. Riprovi.',
+  'book.err.ratelimit': 'Troppi tentativi consecutivi. Attenda qualche minuto e riprovi.',
   'book.err.canceled': 'Il pagamento è stato annullato. Può riprovare quando vuole.',
 
   'book.summary.title': 'Riepilogo',
@@ -957,6 +960,7 @@ const fr: Dict = {
   'book.err.service':
     "Nous n'avons pas pu joindre le système de réservation. Réessayez dans quelques minutes ou appelez-nous.",
   'book.err.generic': "Une erreur s'est produite. Veuillez réessayer.",
+  'book.err.ratelimit': "Trop de tentatives d'affilée. Veuillez patienter quelques minutes avant de réessayer.",
   'book.err.canceled': 'Le paiement a été annulé. Vous pouvez réessayer quand vous le souhaitez.',
 
   'book.summary.title': 'Récapitulatif',
@@ -1209,6 +1213,7 @@ const de: Dict = {
   'book.err.service':
     'Wir konnten keine Verbindung zum Buchungssystem herstellen. Versuchen Sie es in ein paar Minuten erneut oder rufen Sie uns an.',
   'book.err.generic': 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
+  'book.err.ratelimit': 'Zu viele Versuche hintereinander. Bitte warten Sie einige Minuten und versuchen Sie es erneut.',
   'book.err.canceled': 'Die Zahlung wurde abgebrochen. Sie können es jederzeit erneut versuchen.',
 
   'book.summary.title': 'Zusammenfassung',

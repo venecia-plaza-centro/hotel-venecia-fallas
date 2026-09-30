@@ -443,6 +443,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
     }
     if (data.error === 'servicio') return T['book.err.service'];
     if (data.error === 'sin-disponibilidad') return T['book.err.availability'];
+    if (data.error === 'demasiadas-solicitudes') return T['book.err.ratelimit'];
     return T['book.err.generic'];
   }
 
