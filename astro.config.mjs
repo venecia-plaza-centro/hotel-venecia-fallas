@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel/serverless';
+import sitemap from '@astrojs/sitemap';
 
 // fallas.hotelvenecia.com — microweb de reservas para las Fallas 2027.
 // Hosting: Vercel (deploy automático desde GitHub).
@@ -18,6 +19,11 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+  // Sin la opción "i18n": con slugs distintos por idioma (p. ej. "galeria" vs
+  // "gallery"), el emparejado automático de hreflang del plugin sale
+  // incompleto. Cada página ya lleva sus etiquetas hreflang completas en el
+  // <head> (ver Base.astro), así que el sitemap se deja como listado simple.
+  integrations: [sitemap()],
   build: {
     inlineStylesheets: 'auto',
   },
