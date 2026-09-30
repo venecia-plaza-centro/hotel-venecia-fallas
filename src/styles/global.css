@@ -123,7 +123,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .page-hero .lead a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 2px; }
 .page-hero .lead a:hover { color: #fff; }
 .page-hero .lead-italic { font-style: italic; }
-.page-hero .lead-strong { color: #fff; font-weight: 600; line-height: 1.4; }
+.page-hero .lead-strong { color: #fff; font-weight: 600; line-height: 1.2; }
 @media (max-width: 768px) { .page-hero { padding: 128px 0 18px; } }
 
 /* ─── NAV ─── */
