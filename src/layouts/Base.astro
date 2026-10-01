@@ -60,15 +60,19 @@ const ogImage = SITE.origin + '/assets/img/og-default.jpg'; // TODO imagen socia
 
     {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 
-    {/* Solo en la home en español (la raíz "/"): si el navegador prefiere
-        otro de los 5 idiomas de la web, redirige ahí; si no coincide con
-        ninguno, cae en inglés por defecto. "is:inline" + en el <head> para
-        que se ejecute antes de pintar la página y evitar el parpadeo de
-        contenido en español justo antes de redirigir. Solo se hace una vez
-        por navegador (localStorage): así no molesta a quien ya eligió
-        quedarse en español, ni vuelve a saltar en visitas siguientes. */}
-    {lang === 'es' && pageId === 'home' && (
-      <script is:inline define:vars={{ supported: LOCALES }}>
+    {/* En cualquier página servida en español: si el navegador prefiere otro
+        de los 5 idiomas de la web, redirige a la versión equivalente de ESA
+        MISMA página (no solo la home); si no coincide con ninguno, cae en
+        inglés por defecto. "is:inline" + en el <head> para que se ejecute
+        antes de pintar la página y evitar el parpadeo de contenido en
+        español justo antes de redirigir. Solo se hace una vez por navegador
+        (localStorage): así no molesta a quien ya eligió quedarse en
+        español, ni vuelve a saltar en visitas siguientes. */}
+    {lang === 'es' && (
+      <script
+        is:inline
+        define:vars={{ supported: LOCALES, altHrefs: Object.fromEntries(alternates.map((a) => [a.lang, a.href])) }}
+      >
         (function () {
           try {
             if (localStorage.getItem('langRedirected')) return;
@@ -83,7 +87,8 @@ const ogImage = SITE.origin + '/assets/img/og-default.jpg'; // TODO imagen socia
             }
             if (!match) match = 'en';
             if (match === 'es') return;
-            location.replace('/' + match + '/');
+            var dest = altHrefs[match];
+            if (dest) location.replace(dest);
           } catch (e) {}
         })();
       </script>
