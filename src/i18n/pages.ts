@@ -113,6 +113,9 @@ export const PAGES: PageDef[] = [
   },
 ];
 
+/** Páginas que no se indexan (legales): `noindex` en la página y fuera del sitemap. */
+export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice'];
+
 export const PAGE_BY_ID = Object.fromEntries(PAGES.map((p) => [p.id, p])) as Record<PageId, PageDef>;
 
 /** Ruta de una página en un idioma dado. ES en la raíz, resto con prefijo. */

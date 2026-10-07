@@ -9,7 +9,7 @@ import Contact from '../components/pages/Contact.astro';
 import Book from '../components/pages/Book.astro';
 import Legal from '../components/pages/Legal.astro';
 import { LOCALES, SITE, FALLAS, type Locale } from '../consts';
-import { PAGES, pagePath, type PageId } from '../i18n/pages';
+import { NOINDEX_PAGES, PAGES, pagePath, type PageId } from '../i18n/pages';
 import { useT } from '../i18n/ui';
 
 export function getStaticPaths() {
@@ -44,7 +44,7 @@ if (pageId === 'home') {
   description = t('meta.home.desc');
 }
 
-const noindex = ['terms', 'cancellation', 'privacy', 'legalnotice'].includes(pageId);
+const noindex = NOINDEX_PAGES.includes(pageId);
 
 // JSON-LD: Hotel + (en home) evento de las mascletás
 const jsonLd = pageId === 'home'
