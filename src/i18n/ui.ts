@@ -33,6 +33,7 @@ const es: Dict = {
   'footer.legalnotice': 'Aviso legal',
   'footer.videoCredit': 'Vídeo: Freakpyromaniacs (CC BY)',
   'footer.rights': 'Todos los derechos reservados.',
+  'footer.webCredit': 'Diseño web',
 
   // home · hero
   'home.h1.pre': 'Viva la mascletá desde su',
@@ -300,6 +301,7 @@ const en: Dict = {
   'footer.legalnotice': 'Legal notice',
   'footer.videoCredit': 'Video: Freakpyromaniacs (CC BY)',
   'footer.rights': 'All rights reserved.',
+  'footer.webCredit': 'Web design',
 
   'home.h1.pre': 'Experience the mascletá from your',
   'home.h1.accent': 'private balcony',
@@ -552,6 +554,7 @@ const it: Dict = {
   'footer.legalnotice': 'Note legali',
   'footer.videoCredit': 'Video: Freakpyromaniacs (CC BY)',
   'footer.rights': 'Tutti i diritti riservati.',
+  'footer.webCredit': 'Web design',
 
   'home.h1.pre': 'Vivi la mascletá dal suo',
   'home.h1.accent': 'balcone privato',
@@ -805,6 +808,7 @@ const fr: Dict = {
   'footer.legalnotice': 'Mentions légales',
   'footer.videoCredit': 'Vidéo : Freakpyromaniacs (CC BY)',
   'footer.rights': 'Tous droits réservés.',
+  'footer.webCredit': 'Conception web',
 
   'home.h1.pre': 'Vivez la mascletá depuis votre',
   'home.h1.accent': 'balcon privé',
@@ -1058,6 +1062,7 @@ const de: Dict = {
   'footer.legalnotice': 'Impressum',
   'footer.videoCredit': 'Video: Freakpyromaniacs (CC BY)',
   'footer.rights': 'Alle Rechte vorbehalten.',
+  'footer.webCredit': 'Webdesign',
 
   'home.h1.pre': 'Erleben Sie die Mascletá von Ihrem',
   'home.h1.accent': 'privaten Balkon',
