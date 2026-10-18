@@ -104,6 +104,12 @@ const ES: Record<LegalPageId, LegalText> = {
           '• Reclamar ante la Agencia Española de Protección de Datos (https://www.agpd.es) cuando el interesado considere que Hotel Venecia de Valencia, S.L.U ha vulnerado los derechos que le son reconocidos por la normativa aplicable en protección de datos.',
         ],
       },
+      {
+        h: 'Cookies y tecnologías similares',
+        p: [
+          'Esta web no utiliza cookies de analítica, publicidad ni seguimiento, ni carga contenidos de terceros que instalen cookies. Únicamente guarda en su navegador una preferencia técnica de idioma (almacenamiento local), necesaria para mostrarle la web en el idioma adecuado, que no se utiliza para identificarle ni se cede a terceros y que puede borrar en cualquier momento desde la configuración de su navegador. Al realizar el pago, será redirigido a la pasarela de pago de Redsys (Redsys Servicios de Procesamiento, S.L.), que puede utilizar sus propias cookies técnicas y de seguridad conforme a su política de cookies. Hotel Venecia de Valencia, S.L.U. es la responsable de la web.',
+        ],
+      },
     ],
     contact: '¿Dudas sobre sus datos? Escríbanos:',
   },
@@ -237,6 +243,12 @@ const EN: Record<LegalPageId, LegalText> = {
           '• Obtain human intervention, express your point of view and challenge automated decisions taken.',
           '• Request the portability of your data.',
           '• Lodge a complaint with the Spanish Data Protection Agency (https://www.agpd.es) if you consider that Hotel Venecia de Valencia, S.L.U has infringed the rights recognised to you by the applicable data protection regulations.',
+        ],
+      },
+      {
+        h: 'Cookies and similar technologies',
+        p: [
+          'This website does not use analytics, advertising or tracking cookies, and it does not load third-party content that installs cookies. It only stores a technical language preference in your browser (local storage), which is necessary to show the website in the right language, is not used to identify you or shared with third parties, and which you can delete at any time from your browser settings. When you pay, you will be redirected to the Redsys payment gateway (Redsys Servicios de Procesamiento, S.L.), which may use its own technical and security cookies in accordance with its cookie policy. Hotel Venecia de Valencia, S.L.U. is responsible for this website.',
         ],
       },
     ],
@@ -374,6 +386,12 @@ const IT: Record<LegalPageId, LegalText> = {
           '• Presentare reclamo all’Agenzia Spagnola per la Protezione dei Dati (https://www.agpd.es) qualora ritenga che Hotel Venecia de Valencia, S.L.U abbia violato i diritti riconosciutigli dalla normativa applicabile in materia di protezione dei dati.',
         ],
       },
+      {
+        h: 'Cookie e tecnologie simili',
+        p: [
+          'Questo sito web non utilizza cookie di analisi, pubblicitari o di tracciamento, né carica contenuti di terze parti che installino cookie. Memorizza soltanto nel suo browser una preferenza tecnica della lingua (archiviazione locale), necessaria per mostrarle il sito nella lingua adeguata, che non viene utilizzata per identificarla né ceduta a terzi e che può eliminare in qualsiasi momento dalle impostazioni del suo browser. Al momento del pagamento, il sito la reindirizzerà alla piattaforma di pagamento di Redsys (Redsys Servicios de Procesamiento, S.L.), che può utilizzare propri cookie tecnici e di sicurezza in conformità alla propria politica sui cookie. Hotel Venecia de Valencia, S.L.U. è la responsabile del sito web.',
+        ],
+      },
     ],
     contact: 'Domande sui suoi dati? Ci scriva:',
   },
@@ -508,6 +526,12 @@ const FR: Record<LegalPageId, LegalText> = {
           '• Introduire une réclamation auprès de l’Agence espagnole de protection des données (https://www.agpd.es) si vous estimez que Hotel Venecia de Valencia, S.L.U a porté atteinte aux droits qui vous sont reconnus par la réglementation applicable en matière de protection des données.',
         ],
       },
+      {
+        h: 'Cookies et technologies similaires',
+        p: [
+          'Ce site web n’utilise pas de cookies d’analyse, de publicité ni de suivi, et ne charge pas de contenus tiers installant des cookies. Il enregistre uniquement dans votre navigateur une préférence technique de langue (stockage local), nécessaire pour afficher le site dans la langue adéquate, qui n’est pas utilisée pour vous identifier ni cédée à des tiers, et que vous pouvez supprimer à tout moment depuis les paramètres de votre navigateur. Lors du paiement, vous êtes redirigé(e) vers la passerelle de paiement de Redsys (Redsys Servicios de Procesamiento, S.L.), qui peut utiliser ses propres cookies techniques et de sécurité conformément à sa politique en matière de cookies. Hotel Venecia de Valencia, S.L.U. est responsable de ce site web.',
+        ],
+      },
     ],
     contact: 'Des questions sur vos données ? Écrivez-nous :',
   },
@@ -640,6 +664,12 @@ const DE: Record<LegalPageId, LegalText> = {
           '• Menschliches Eingreifen erwirken, Ihren Standpunkt äußern und automatisierte Entscheidungen anfechten.',
           '• Die Übertragbarkeit Ihrer Daten beantragen.',
           '• Bei der spanischen Datenschutzbehörde (https://www.agpd.es) Beschwerde einlegen, wenn Sie der Ansicht sind, dass Hotel Venecia de Valencia, S.L.U die Ihnen durch die anwendbaren Datenschutzvorschriften zuerkannten Rechte verletzt hat.',
+        ],
+      },
+      {
+        h: 'Cookies und ähnliche Technologien',
+        p: [
+          'Diese Website verwendet keine Analyse-, Werbe- oder Tracking-Cookies und lädt keine Inhalte Dritter, die Cookies setzen. Sie speichert lediglich eine technische Spracheinstellung in Ihrem Browser (lokaler Speicher), die erforderlich ist, um die Website in der passenden Sprache anzuzeigen, nicht zu Ihrer Identifizierung verwendet und nicht an Dritte weitergegeben wird und die Sie jederzeit in den Einstellungen Ihres Browsers löschen können. Bei der Zahlung werden Sie auf das Zahlungsgateway von Redsys (Redsys Servicios de Procesamiento, S.L.) weitergeleitet, das gemäß seiner eigenen Cookie-Richtlinie eigene technische und Sicherheits-Cookies verwenden kann. Verantwortlich für diese Website ist die Hotel Venecia de Valencia, S.L.U.',
         ],
       },
     ],
