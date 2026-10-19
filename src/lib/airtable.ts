@@ -201,6 +201,46 @@ function isExpiredHold(r: AirtableRecord, now = Date.now()): boolean {
   return now - created > FALLAS.holdMinutes * 60_000;
 }
 
+// Estados que NO ocupan habitación: "cancelada" y "caducada" (bloqueo "en pago"
+// abandonado, que la web marca sola; ver sweepExpiredHolds).
+const ACTIVE_BOOKINGS_FORMULA = "AND({Estado}!='cancelada',{Estado}!='caducada')";
+
+// Un bloqueo "en pago" que sigue sin pagarse pasada 1 h (4 veces lo que dura el
+// bloqueo) se marca "caducada" para que la tabla quede clara para el hotel. Se
+// espera tanto para no pisar jamás un pago que se esté confirmando justo ahora.
+const HOLD_SWEEP_AFTER_MS = 60 * 60_000;
+let sweepPausedUntil = 0; // si Airtable rechaza la escritura, se deja de intentar durante 1 h
+
+/**
+ * Marca como "caducada" los bloqueos abandonados. Aprovecha la lista de reservas
+ * que la web ya ha leído (cero lecturas extra): solo cuesta 1 escritura por cada
+ * 10 bloqueos, y únicamente cuando los hay. Si un pago llegara tarde, la
+ * notificación del banco sigue confirmando la reserva igualmente. Nunca debe
+ * romper la lectura: cualquier error se anota y se sigue.
+ */
+async function sweepExpiredHolds(recs: AirtableRecord[]): Promise<void> {
+  if (Date.now() < sweepPausedUntil) return;
+  const now = Date.now();
+  const ids = recs
+    .filter((r) => str(r.fields['Estado']) === 'en pago' && now - Date.parse(r.createdTime ?? '') > HOLD_SWEEP_AFTER_MS)
+    .map((r) => r.id);
+  for (let i = 0; i < ids.length; i += 10) {
+    try {
+      await airtable(encodeURIComponent(TABLE.bookings), {
+        method: 'PATCH',
+        body: JSON.stringify({
+          records: ids.slice(i, i + 10).map((id) => ({ id, fields: { Estado: 'caducada' } })),
+          typecast: true,
+        }),
+      });
+    } catch (err) {
+      console.error('[airtable] no se pudieron marcar los bloqueos caducados', err);
+      sweepPausedUntil = Date.now() + 60 * 60_000;
+      return;
+    }
+  }
+}
+
 /**
  * Reservas activas (no canceladas y sin bloqueo caducado). Se lee la lista
  * entera (son pocas: como mucho unas 100 reservas) y el filtrado por fecha o
@@ -210,11 +250,21 @@ function isExpiredHold(r: AirtableRecord, now = Date.now()): boolean {
  * propia, al confirmar su pago).
  */
 async function listActiveBookings(opts: { fresh?: boolean; excludeLocator?: string } = {}): Promise<AirtableRecord[]> {
-  const load = () => listAll(TABLE.bookings, { filterByFormula: "{Estado}!='cancelada'" });
-  const recs = opts.fresh ? await load() : await cached('bookings', BOOKINGS_TTL_MS, load);
+  const load = () => listAll(TABLE.bookings, { filterByFormula: ACTIVE_BOOKINGS_FORMULA });
+  // Solo la lectura que se muestra limpia bloqueos; la que decide un bloqueo o un
+  // pago (fresh) no toca nada.
+  const loadAndSweep = async () => {
+    const list = await load();
+    await sweepExpiredHolds(list);
+    return list;
+  };
+  const recs = opts.fresh ? await load() : await cached('bookings', BOOKINGS_TTL_MS, loadAndSweep);
   const now = Date.now();
   return recs.filter(
     (r) =>
+      // Seguro doble: aunque la fórmula de Airtable las dejara pasar, una reserva
+      // cancelada o caducada nunca ocupa habitación.
+      !['cancelada', 'caducada'].includes(str(r.fields['Estado']) ?? '') &&
       !isExpiredHold(r, now) &&
       (!opts.excludeLocator || str(r.fields['Localizador']) !== opts.excludeLocator),
   );

@@ -74,7 +74,7 @@ crea en Airtable cuando Redsys confirma el cobro (ver
 | Campo | Tipo Airtable | Notas |
 |---|---|---|
 | `Localizador` | Single line text (**campo principal**) | _(lo rellena la web)_ Correlativo, ej.: `FAL-001`, `FAL-002`… |
-| `Estado` | Single select | `solicitada` · `en pago` · `confirmada` · `cancelada`. Reserva pagada = `confirmada`. **`en pago`** es el bloqueo temporal (15 min) mientras el cliente paga en el TPV: **hay que añadir esta opción al desplegable**. Si no se paga a tiempo, deja de contar sola. |
+| `Estado` | Single select | `solicitada` · `en pago` · `confirmada` · `cancelada` · `caducada`. Reserva pagada = `confirmada`. **`en pago`** es el bloqueo temporal (15 min) mientras el cliente paga en el TPV: **hay que añadir esta opción al desplegable**. Si no se paga a tiempo, deja de contar sola, y pasada 1 h la web lo marca `caducada` (**añadir también esta opción al desplegable**; `caducada` y `cancelada` no ocupan habitación). |
 | `Fecha` | Date | _(lo rellena la web)_ Día de mascletá elegido (acceso 13:00–15:00 h). |
 | `Habitacion` | Link → `Habitaciones` (single) | _(lo rellena la web)_ |
 | `Huespedes` | Number (entero) | _(lo rellena la web)_ |
