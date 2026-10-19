@@ -166,7 +166,15 @@ function forgetBookings() {
 const ROOMS_TTL_MS = 30 * 60_000; // las habitaciones casi nunca cambian (y las URLs de las fotos de Airtable duran ~2 h)
 const BOOKINGS_TTL_MS = 15 * 60_000; // la disponibilidad que SE ENSEÑA puede ir 15 min por detrás; al bloquear/pagar se lee siempre en directo (placeHold, fresh)
 
+// Habitaciones y fotos descargadas de Airtable al desplegar (scripts/sync-airtable.mjs).
+// Si el archivo existe, las habitaciones se sirven de aquí: cero llamadas a Airtable
+// y fotos que no caducan. Si no existe (sin clave, o la sincronización falló), se
+// usa lo de siempre: lectura en directo o datos de ejemplo.
+const snapshotModules = import.meta.glob<Room[]>('../data/rooms.snapshot.json', { eager: true, import: 'default' });
+const ROOMS_SNAPSHOT: Room[] | null = Object.values(snapshotModules)[0] ?? null;
+
 export async function getRooms(): Promise<Room[]> {
+  if (ROOMS_SNAPSHOT && ROOMS_SNAPSHOT.length > 0) return [...ROOMS_SNAPSHOT].sort(bySortOrder);
   if (!airtableEnabled()) return [...FIXTURE_ROOMS].sort(bySortOrder);
   return cached('rooms', ROOMS_TTL_MS, async () => {
     const recs = await listAll(TABLE.rooms, { filterByFormula: '{Activa}' });

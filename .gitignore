@@ -23,3 +23,7 @@ yarn-error.log*
 
 # os
 .DS_Store
+
+# generado al desplegar por scripts/sync-airtable.mjs (habitaciones y fotos de Airtable)
+public/media/rooms/
+src/data/rooms.snapshot.json

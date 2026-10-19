@@ -103,7 +103,11 @@ const minPerPerson = Math.min(
   // Las fotos de Airtable llevan una URL firmada que caduca a las pocas
   // horas: la que se guardó en el build de esta página estática puede
   // llevar rato caducada. Se piden las vigentes y se sustituyen aquí.
-  fetch('/api/room-photos')
+  // Si las fotos ya son de la propia web (/media/...) no caducan y no se pide nada.
+  const photosExpire = [...document.querySelectorAll<HTMLElement>('.room-card-media')].some((m) =>
+    /"https?:/.test(m.dataset.photos || ''),
+  );
+  (photosExpire ? fetch('/api/room-photos') : Promise.reject('fotos locales'))
     .then((r) => r.json())
     .then((data) => {
       if (!data.ok) return;

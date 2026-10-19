@@ -6,7 +6,7 @@
   "description": "Microweb de reservas Hotel Venecia Plaza Centro — Fallas 2027 (mascletàs)",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/sync-airtable.mjs && astro build",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
     "astro": "astro",
