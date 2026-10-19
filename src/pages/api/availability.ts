@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     const rooms = await getRoomOffers(date);
-    return cacheJson({ ok: true, date, guests, rooms: rooms.map((r) => serializeRoom(r, guests, date)) }, 20);
+    return cacheJson({ ok: true, date, guests, rooms: rooms.map((r) => serializeRoom(r, guests, date)) }, 300, 600);
   } catch (e) {
     return handleError(e);
   }

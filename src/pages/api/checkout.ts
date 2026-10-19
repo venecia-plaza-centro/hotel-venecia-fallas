@@ -75,9 +75,15 @@ export const POST: APIRoute = async ({ request, url }) => {
   if (missing.length) return json({ ok: false, error: 'datos', fields: missing }, 400);
 
   try {
-    const offers = await getRoomOffers(date);
-
-    const room = offers.find((r) => r.slug === roomSlug);
+    let offers = await getRoomOffers(date);
+    let room = offers.find((r) => r.slug === roomSlug);
+    // La disponibilidad guardada puede ir unos minutos por detrás: si dice que
+    // la habitación no está libre, se confirma en directo antes de rechazar al
+    // cliente (puede haberse liberado un bloqueo caducado o una cancelación).
+    if (room && !room.available) {
+      offers = await getRoomOffers(date, { fresh: true });
+      room = offers.find((r) => r.slug === roomSlug);
+    }
     if (!room) return json({ ok: false, error: 'habitacion' }, 400);
     if (!room.available) return json({ ok: false, error: 'sin-disponibilidad' }, 409);
 

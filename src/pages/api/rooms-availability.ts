@@ -15,7 +15,7 @@ export const prerender = false;
 export const GET: APIRoute = async () => {
   try {
     const soldOut = await getSoldOutRoomSlugs();
-    return cacheJson({ ok: true, soldOut }, 60);
+    return cacheJson({ ok: true, soldOut }, 600, 600);
   } catch (e) {
     return handleError(e);
   }

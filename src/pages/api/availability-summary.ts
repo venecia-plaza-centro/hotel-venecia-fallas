@@ -25,7 +25,7 @@ export const GET: APIRoute = async ({ url }) => {
         available: summary[date]?.free ?? 0,
         ...(room ? { roomFree: summary[date]?.roomFree } : {}),
       })),
-    }, 20);
+    }, 300, 600);
   } catch (e) {
     return handleError(e);
   }

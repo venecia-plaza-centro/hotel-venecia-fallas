@@ -123,18 +123,38 @@ const bySortOrder = (a: { order: number }, b: { order: number }) => a.order - b.
 // --- Memoria temporal (para gastar menos llamadas a Airtable) ---------------
 // Airtable limita las llamadas a la API (en el plan gratuito, muy pocas al
 // mes). Las lecturas que solo sirven para MOSTRAR (habitaciones, calendario,
-// "completa") se guardan unos segundos en memoria y comparten una sola
-// consulta entre muchos visitantes. Las comprobaciones que deciden un
+// "completa") se guardan unos minutos en memoria y comparten una sola
+// consulta entre muchos visitantes (el plan gratuito de Airtable solo da unas
+// 1.000 llamadas al mes). Las comprobaciones que deciden un
 // bloqueo o un pago NO usan la memoria (fresh): siempre leen en directo.
 // Vercel además cachea las respuestas de la API (ver lib/api.ts, cacheJson).
 const memo = new Map<string, { at: number; value: Promise<unknown> }>();
+// Última lectura buena de cada cosa: si Airtable falla (p. ej. cuota mensual
+// agotada, 429) se sigue mostrando esa copia en vez de romper la web.
+const lastGood = new Map<string, { at: number; value: unknown }>();
+const STALE_MAX_MS = 6 * 60 * 60_000; // hasta 6 h con la copia vieja
+const RETRY_AFTER_ERROR_MS = 60_000; // tras un fallo, no reintentar antes de 1 min
 
 function cached<T>(key: string, ttlMs: number, load: () => Promise<T>): Promise<T> {
   const hit = memo.get(key);
   if (hit && Date.now() - hit.at < ttlMs) return hit.value as Promise<T>;
-  const value = load();
+  const value = load().then(
+    (v) => {
+      lastGood.set(key, { at: Date.now(), value: v });
+      return v;
+    },
+    (err) => {
+      const old = lastGood.get(key);
+      if (old && Date.now() - old.at < STALE_MAX_MS) {
+        // Se mantiene la copia vieja y se vuelve a intentar pasado 1 min.
+        memo.set(key, { at: Date.now() - ttlMs + RETRY_AFTER_ERROR_MS, value: Promise.resolve(old.value) });
+        return old.value as T;
+      }
+      memo.delete(key); // sin copia vieja: el error no se queda guardado
+      throw err;
+    },
+  );
   memo.set(key, { at: Date.now(), value });
-  value.catch(() => memo.delete(key)); // un error no se queda guardado
   return value;
 }
 
@@ -143,8 +163,8 @@ function forgetBookings() {
   for (const k of memo.keys()) if (k.startsWith('bookings')) memo.delete(k);
 }
 
-const ROOMS_TTL_MS = 120_000; // las habitaciones casi nunca cambian
-const BOOKINGS_TTL_MS = 15_000; // la disponibilidad que se enseña, con 15 s de retraso como máximo
+const ROOMS_TTL_MS = 30 * 60_000; // las habitaciones casi nunca cambian (y las URLs de las fotos de Airtable duran ~2 h)
+const BOOKINGS_TTL_MS = 15 * 60_000; // la disponibilidad que SE ENSEÑA puede ir 15 min por detrás; al bloquear/pagar se lee siempre en directo (placeHold, fresh)
 
 export async function getRooms(): Promise<Room[]> {
   if (!airtableEnabled()) return [...FIXTURE_ROOMS].sort(bySortOrder);

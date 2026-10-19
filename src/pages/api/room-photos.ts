@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
   try {
     const rooms = await getRooms();
     const photos = Object.fromEntries(rooms.map((r) => [r.slug, r.photos]));
-    return cacheJson({ ok: true, photos }, 300);
+    return cacheJson({ ok: true, photos }, 1200, 600);
   } catch (e) {
     return handleError(e);
   }
