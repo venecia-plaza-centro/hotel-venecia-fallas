@@ -111,6 +111,14 @@ const es: Dict = {
   'gallery.meta.desc':
     'Fotos de la mascletá de Fallas vista desde los balcones privados del Hotel Venecia Plaza Centro, en la Plaza del Ayuntamiento de València.',
   'gallery.lead': 'Así se vive la mascletá desde nuestros balcones privados, frente a la Plaza del Ayuntamiento.',
+  'meta.rooms.desc':
+    'Elija su habitación con balcón privado sobre la Plaza del Ayuntamiento para ver la mascletá de Fallas 2027. Hasta 4 personas, baño privado y Snack Pack incluido.',
+  'meta.mascletas.desc':
+    'Calendario de las mascletás de Fallas 2027: todos los días a las 14:00, del 1 al 19 de marzo, en la Plaza del Ayuntamiento de València, junto al hotel.',
+  'meta.faq.desc':
+    'Preguntas frecuentes sobre la reserva de balcón para la mascletá: días disponibles, vistas, Snack Pack incluido, horario de acceso y política de cancelación.',
+  'meta.contact.desc':
+    'Contacte con el Hotel Venecia Plaza Centro para dudas sobre su reserva de balcón en Fallas 2027: teléfono, WhatsApp, email y cómo llegar a la Plaza del Ayuntamiento.',
 
   // faq
   'faq.h1': 'Preguntas frecuentes',
@@ -375,6 +383,14 @@ const en: Dict = {
   'gallery.meta.desc':
     'Photos of the Fallas mascletá seen from the private balconies of Hotel Venecia Plaza Centro, on València’s Plaza del Ayuntamiento.',
   'gallery.lead': 'This is how the mascletá feels from our private balconies, right on the Plaza del Ayuntamiento.',
+  'meta.rooms.desc':
+    'Choose your private balcony room overlooking Plaza del Ayuntamiento to watch the Fallas 2027 mascletá. Up to 4 guests, private bathroom and Snack Pack included.',
+  'meta.mascletas.desc':
+    'Fallas 2027 mascletá calendar: every day at 2:00 pm from 1 to 19 March in València’s Plaza del Ayuntamiento, right next to the hotel.',
+  'meta.faq.desc':
+    'Frequently asked questions about booking a balcony for the mascletá: available days, views, Snack Pack included, access hours and cancellation policy.',
+  'meta.contact.desc':
+    'Contact Hotel Venecia Plaza Centro with any question about your Fallas 2027 balcony booking: phone, WhatsApp, email and directions to Plaza del Ayuntamiento.',
 
   'faq.h1': 'Frequently asked questions',
   'faq.q1': 'Which days can I book?',
@@ -632,6 +648,14 @@ const it: Dict = {
   'gallery.meta.desc':
     'Foto della mascletá delle Fallas viste dai balconi privati dell’Hotel Venecia Plaza Centro, in Plaza del Ayuntamiento a València.',
   'gallery.lead': 'Così si vive la mascletá dai nostri balconi privati, affacciati sulla Plaza del Ayuntamiento.',
+  'meta.rooms.desc':
+    'Scelga la sua camera con balcone privato sulla Plaza del Ayuntamiento per vedere la mascletá delle Fallas 2027. Fino a 4 persone, bagno privato e Snack Pack incluso.',
+  'meta.mascletas.desc':
+    'Calendario delle mascletá delle Fallas 2027: tutti i giorni alle 14:00, dall’1 al 19 marzo, in Plaza del Ayuntamiento a València, accanto all’hotel.',
+  'meta.faq.desc':
+    'Domande frequenti sulla prenotazione del balcone per la mascletá: giorni disponibili, viste, Snack Pack incluso, orari di accesso e politica di cancellazione.',
+  'meta.contact.desc':
+    'Contatti l’Hotel Venecia Plaza Centro per qualsiasi domanda sulla sua prenotazione del balcone per le Fallas 2027: telefono, WhatsApp, email e come arrivare in Plaza del Ayuntamiento.',
 
   'faq.h1': 'Domande frequenti',
   'faq.q1': 'Quali giorni posso prenotare?',
@@ -890,6 +914,14 @@ const fr: Dict = {
   'gallery.meta.desc':
     'Photos de la mascletá des Fallas vue depuis les balcons privés de l’Hôtel Venecia Plaza Centro, sur la Plaza del Ayuntamiento de València.',
   'gallery.lead': 'Voici comment on vit la mascletá depuis nos balcons privés, face à la Plaza del Ayuntamiento.',
+  'meta.rooms.desc':
+    'Choisissez votre chambre avec balcon privé sur la Plaza del Ayuntamiento pour voir la mascletá des Fallas 2027. Jusqu’à 4 personnes, salle de bain privée et Snack Pack inclus.',
+  'meta.mascletas.desc':
+    'Calendrier des mascletás des Fallas 2027 : tous les jours à 14h00, du 1er au 19 mars, sur la Plaza del Ayuntamiento de València, à côté de l’hôtel.',
+  'meta.faq.desc':
+    'Questions fréquentes sur la réservation d’un balcon pour la mascletá : jours disponibles, vues, Snack Pack inclus, horaires d’accès et politique d’annulation.',
+  'meta.contact.desc':
+    'Contactez l’Hôtel Venecia Plaza Centro pour toute question sur votre réservation de balcon pour les Fallas 2027 : téléphone, WhatsApp, e-mail et itinéraire vers la Plaza del Ayuntamiento.',
 
   'faq.h1': 'Questions fréquentes',
   'faq.q1': 'Quels jours puis-je réserver ?',
@@ -1148,6 +1180,14 @@ const de: Dict = {
   'gallery.meta.desc':
     'Fotos der Fallas-Mascletá von den privaten Balkonen des Hotels Venecia Plaza Centro an der Plaza del Ayuntamiento in València.',
   'gallery.lead': 'So erleben Sie die Mascletá von unseren privaten Balkonen aus, direkt an der Plaza del Ayuntamiento.',
+  'meta.rooms.desc':
+    'Wählen Sie Ihr Zimmer mit privatem Balkon zur Plaza del Ayuntamiento, um die Fallas-Mascletá 2027 zu erleben. Bis zu 4 Personen, eigenes Bad und Snack Pack inklusive.',
+  'meta.mascletas.desc':
+    'Mascletá-Kalender der Fallas 2027: täglich um 14:00 Uhr vom 1. bis 19. März auf der Plaza del Ayuntamiento in València, direkt neben dem Hotel.',
+  'meta.faq.desc':
+    'Häufige Fragen zur Balkonbuchung für die Mascletá: verfügbare Tage, Aussicht, Snack Pack inklusive, Zugangszeiten und Stornierungsbedingungen.',
+  'meta.contact.desc':
+    'Kontaktieren Sie das Hotel Venecia Plaza Centro bei Fragen zu Ihrer Balkonbuchung für die Fallas 2027: Telefon, WhatsApp, E-Mail und Anfahrt zur Plaza del Ayuntamiento.',
 
   'faq.h1': 'Häufige Fragen',
   'faq.q1': 'An welchen Tagen kann ich buchen?',

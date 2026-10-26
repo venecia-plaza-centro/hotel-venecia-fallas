@@ -46,7 +46,9 @@ if (pageId === 'home') {
     ? `legal.${pageId}.h1`
     : `nav.${pageId}`;
   title = `${t(navKey)} · ${SITE.name} · Fallas ${FALLAS.year}`;
-  description = t('meta.home.desc');
+  // Descripción propia de la página si existe (meta.<página>.desc); si no, la general.
+  const own = t(`meta.${pageId}.desc`);
+  description = own !== `meta.${pageId}.desc` ? own : t('meta.home.desc');
 }
 
 const noindex = NOINDEX_PAGES.includes(pageId);
