@@ -71,6 +71,10 @@ const ogImage = SITE.origin + '/assets/img/og-default.jpg'; // TODO imagen socia
       >
         (function () {
           try {
+            // Los buscadores NO se redirigen: Googlebot navega en inglés y, sin
+            // esto, todas las páginas en español acaban indexadas como su
+            // versión inglesa (título en inglés y "duplicada" en Search Console).
+            if (/bot|crawl|spider|slurp|google-inspectiontool|lighthouse|facebookexternalhit/i.test(navigator.userAgent)) return;
             if (localStorage.getItem('langRedirected')) return;
             localStorage.setItem('langRedirected', '1');
             var langs = (navigator.languages && navigator.languages.length)
