@@ -107,6 +107,10 @@ const es: Dict = {
   'gallery.close': 'Cerrar',
   'gallery.prev': 'Foto anterior',
   'gallery.next': 'Foto siguiente',
+  'gallery.meta.title': 'Galería de fotos',
+  'gallery.meta.desc':
+    'Fotos de la mascletá de Fallas vista desde los balcones privados del Hotel Venecia Plaza Centro, en la Plaza del Ayuntamiento de València.',
+  'gallery.lead': 'Así se vive la mascletá desde nuestros balcones privados, frente a la Plaza del Ayuntamiento.',
 
   // faq
   'faq.h1': 'Preguntas frecuentes',
@@ -367,6 +371,10 @@ const en: Dict = {
   'gallery.close': 'Close',
   'gallery.prev': 'Previous photo',
   'gallery.next': 'Next photo',
+  'gallery.meta.title': 'Photo gallery',
+  'gallery.meta.desc':
+    'Photos of the Fallas mascletá seen from the private balconies of Hotel Venecia Plaza Centro, on València’s Plaza del Ayuntamiento.',
+  'gallery.lead': 'This is how the mascletá feels from our private balconies, right on the Plaza del Ayuntamiento.',
 
   'faq.h1': 'Frequently asked questions',
   'faq.q1': 'Which days can I book?',
@@ -620,6 +628,10 @@ const it: Dict = {
   'gallery.close': 'Chiudi',
   'gallery.prev': 'Foto precedente',
   'gallery.next': 'Foto successiva',
+  'gallery.meta.title': 'Galleria fotografica',
+  'gallery.meta.desc':
+    'Foto della mascletá delle Fallas viste dai balconi privati dell’Hotel Venecia Plaza Centro, in Plaza del Ayuntamiento a València.',
+  'gallery.lead': 'Così si vive la mascletá dai nostri balconi privati, affacciati sulla Plaza del Ayuntamiento.',
 
   'faq.h1': 'Domande frequenti',
   'faq.q1': 'Quali giorni posso prenotare?',
@@ -874,6 +886,10 @@ const fr: Dict = {
   'gallery.close': 'Fermer',
   'gallery.prev': 'Photo précédente',
   'gallery.next': 'Photo suivante',
+  'gallery.meta.title': 'Galerie photos',
+  'gallery.meta.desc':
+    'Photos de la mascletá des Fallas vue depuis les balcons privés de l’Hôtel Venecia Plaza Centro, sur la Plaza del Ayuntamiento de València.',
+  'gallery.lead': 'Voici comment on vit la mascletá depuis nos balcons privés, face à la Plaza del Ayuntamiento.',
 
   'faq.h1': 'Questions fréquentes',
   'faq.q1': 'Quels jours puis-je réserver ?',
@@ -1128,6 +1144,10 @@ const de: Dict = {
   'gallery.close': 'Schließen',
   'gallery.prev': 'Vorheriges Foto',
   'gallery.next': 'Nächstes Foto',
+  'gallery.meta.title': 'Fotogalerie',
+  'gallery.meta.desc':
+    'Fotos der Fallas-Mascletá von den privaten Balkonen des Hotels Venecia Plaza Centro an der Plaza del Ayuntamiento in València.',
+  'gallery.lead': 'So erleben Sie die Mascletá von unseren privaten Balkonen aus, direkt an der Plaza del Ayuntamiento.',
 
   'faq.h1': 'Häufige Fragen',
   'faq.q1': 'An welchen Tagen kann ich buchen?',

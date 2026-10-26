@@ -36,6 +36,11 @@ if (pageId === 'home') {
 } else if (pageId === 'book') {
   title = t('book.meta.title');
   description = t('book.meta.desc');
+} else if (pageId === 'gallery') {
+  // Título y descripción propios: "Galerie" es igual en alemán y francés y la
+  // página es casi solo fotos; sin esto Google las toma por duplicadas.
+  title = `${t('gallery.meta.title')} · ${SITE.name} · Fallas ${FALLAS.year}`;
+  description = t('gallery.meta.desc');
 } else {
   const navKey = ['terms', 'cancellation', 'privacy', 'legalnotice'].includes(pageId)
     ? `legal.${pageId}.h1`
