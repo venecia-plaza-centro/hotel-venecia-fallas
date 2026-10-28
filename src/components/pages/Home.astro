@@ -293,6 +293,8 @@ const strip = [
   }
   .tradicion-text h2 { margin: 12px 0 18px; font-size: clamp(26px, 3.4vw, 36px); }
   .tradicion-text h2 em { font-style: italic; color: var(--gold); }
+  /* En escritorio, el acento ("desde dentro.") baja a su propia línea. */
+  @media (min-width: 861px) { .tradicion-text h2 em { display: block; } }
   .tradicion-text p { color: var(--text-mid); font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
   .tradicion-strong { color: var(--navy) !important; font-weight: 600; }
 
