@@ -364,8 +364,8 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .mobile-nav a.mobile-nav-cta {
   font-family: var(--ff-body); font-size: 13px; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: #fff; background: var(--gold);
-  border: 2px solid var(--gold); border-radius: var(--r);
-  padding: 14px 32px; margin-top: 18px; transition: background .25s var(--ease), color .25s var(--ease);
+  border: 2px solid var(--gold); border-radius: 999px;
+  padding: 14px 40px; margin-top: 18px; box-shadow: 0 8px 22px rgba(201, 162, 70, .28); transition: background .25s var(--ease), color .25s var(--ease);
 }
 .mobile-nav a.mobile-nav-cta:hover { background: transparent; color: var(--gold); }
 .mobile-nav-langs { display: flex; gap: 8px; margin-top: 36px; align-items: center; justify-content: center; opacity: 0; }
