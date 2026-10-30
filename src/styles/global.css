@@ -366,24 +366,23 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   text-transform: uppercase; color: #fff; background: var(--gold);
   border: 2px solid var(--gold); border-radius: 999px;
   padding: 14px 40px; margin-top: 18px;
-  background-image: linear-gradient(135deg, #D9B552, #C9A246 55%, #E0BE62);
+  /* Dos capas de fondo: arriba una banda de luz diagonal (se desplaza con
+     ctaShine) y debajo el degradado dorado. */
+  background-image:
+    linear-gradient(105deg, transparent 38%, rgba(255, 250, 225, .92) 50%, transparent 62%),
+    linear-gradient(135deg, #D9B552, #C9A246 55%, #E0BE62);
+  background-size: 260% 100%, 100% 100%;
+  background-position: 160% 0, 0 0;
+  background-repeat: no-repeat;
   box-shadow: 0 8px 22px rgba(201, 162, 70, .28), 0 0 16px rgba(232, 201, 106, .32);
-  animation: ctaGlow 3.6s ease-in-out infinite;
   transition: background .25s var(--ease), color .25s var(--ease);
-  position: relative; overflow: hidden; isolation: isolate;
 }
 .mobile-nav a.mobile-nav-cta:hover { background: transparent; color: var(--gold); }
-/* Destello: una banda de luz diagonal cruza el botón de izquierda a derecha
-   (por detrás del texto) y descansa unos segundos antes de repetirse. */
-.mobile-nav a.mobile-nav-cta::after {
-  content: ''; position: absolute; top: -10%; bottom: -10%; left: 0; width: 38%; z-index: -1;
-  background: linear-gradient(100deg, transparent 0%, rgba(255, 250, 225, .85) 50%, transparent 100%);
-  transform: translateX(-170%) skewX(-22deg); pointer-events: none;
-  animation: ctaShine 3.4s ease-in-out 1.4s infinite;
-}
+/* Destello: la banda de luz (capa de fondo del botón) cruza de izquierda a
+   derecha y descansa unos segundos antes de repetirse. */
 @keyframes ctaShine {
-  0% { transform: translateX(-170%) skewX(-22deg); }
-  38%, 100% { transform: translateX(400%) skewX(-22deg); }
+  0% { background-position: 160% 0, 0 0; }
+  40%, 100% { background-position: -60% 0, 0 0; }
 }
 /* Brillo dorado sutil: el resplandor del botón "respira" muy despacio. */
 @keyframes ctaGlow {
@@ -394,11 +393,10 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
    está en su sitio, empieza a "respirar" (la regla de entrada de arriba
    pisaría la de ctaGlow si no se juntan en una sola declaración). */
 .mobile-nav.open > a.mobile-nav-cta {
-  animation: menuItemIn .7s var(--ease) .48s both, ctaGlow 3.6s ease-in-out 1.3s infinite;
+  animation: menuItemIn .7s var(--ease) .48s both, ctaGlow 3.6s ease-in-out 1.3s infinite, ctaShine 3.4s ease-in-out 1.4s infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .mobile-nav.open > a.mobile-nav-cta { animation: menuItemIn .7s var(--ease) .48s both; }
-  .mobile-nav a.mobile-nav-cta::after { display: none; }
 }
 .mobile-nav-langs { display: flex; gap: 8px; margin-top: 36px; align-items: center; justify-content: center; opacity: 0; }
 .mobile-nav-langs a {
