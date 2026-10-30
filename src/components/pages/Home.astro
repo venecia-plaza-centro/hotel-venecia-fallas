@@ -157,7 +157,7 @@ const strip = [
        vez tapado por el nav) queda mucho más corto que el de abajo, que sí
        se ve entero. Se suma esa altura al padding-top para que ambos
        huecos, ya visibles, midan lo mismo. */
-    padding: calc(92px + 40px) 56px 40px; display: flex; flex-direction: column;
+    padding: calc(92px + 40px) 56px 84px; display: flex; flex-direction: column;
     justify-content: center; align-items: center; text-align: center; gap: 16px;
   }
   .hero-panel .eyebrow { margin-bottom: 4px; }
@@ -271,10 +271,11 @@ const strip = [
     background-size: 100% 100%; background-repeat: no-repeat;
     opacity: .85;
   }
-  /* "Descubre" + flecha animada bajo el botón: invita a hacer scroll y
-     queda a la vista sin bajar. */
+  /* "Descubre" + flecha animada, pegado al borde inferior del hero (en todos
+     los anchos): invita a hacer scroll y queda a la vista sin bajar. */
   .hero-scroll {
-    display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 6px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 0;
+    position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%);
     font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
     color: var(--gold-light); text-shadow: 0 1px 8px rgba(8,14,30,.7);
   }
