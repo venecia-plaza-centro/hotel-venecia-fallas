@@ -162,28 +162,37 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 
-/* Header flotante: al hacer scroll (.is-scrolled) la barra se separa de los
-   bordes y pasa a ser una cápsula redondeada con sombra. */
-.nav { max-width: 100%; margin-inline: auto; transition: background .3s ease, box-shadow .3s ease, top .35s ease, left .35s ease, right .35s ease, max-width .35s ease, border-radius .35s ease, padding .35s ease; }
-.nav.is-scrolled {
-  top: 12px; left: 16px; right: 16px; max-width: 1240px; padding: 9px 0;
+/* Header flotante: la barra va siempre separada de los bordes, como una
+   cápsula redondeada con borde dorado y sombra (arriba del todo y al hacer
+   scroll). */
+.nav {
+  top: 12px; left: 16px; right: 16px; max-width: 1240px; margin-inline: auto; padding: 9px 0;
   border: 1px solid rgba(201, 162, 70, .55); border-radius: 999px;
   box-shadow: 0 10px 30px rgba(10, 18, 36, .35);
 }
-.nav.is-scrolled .nav-inner { padding: 0 28px; }
+.nav .nav-inner { padding: 0 28px; }
 @media (max-width: 1120px) {
   .nav.nav-home.is-scrolled .nav-brand { left: 22px; }
   .nav.nav-home .nav-right, .nav.nav-minimal .nav-right { right: 22px; }
 }
 @media (max-width: 480px) {
-  .nav.is-scrolled { left: 10px; right: 10px; }
+  .nav { left: 10px; right: 10px; }
   .nav.nav-home.is-scrolled .nav-brand { left: 16px; }
   .nav.nav-home .nav-right, .nav.nav-minimal .nav-right { right: 16px; gap: 10px; }
-  .nav.is-scrolled .nav-brand { gap: 7px; }
-  .nav.is-scrolled .nav-brand img { width: 40px; height: 40px; }
-  .nav.is-scrolled .nav-brand-text strong, .nav.is-scrolled .nav-brand-sub { font-size: 12.5px; }
-  .nav.is-scrolled .nav-brand-fallas { font-size: 8.5px; letter-spacing: .14em; }
-  .nav-home.is-scrolled .nav-right .btn { padding: 8px 11px; font-size: 10.5px; }
+  .nav .nav-brand { gap: 7px; }
+  .nav .nav-brand img { width: 40px; height: 40px; }
+  .nav .nav-brand-text strong, .nav .nav-brand-sub { font-size: 12.5px; }
+  .nav .nav-brand-fallas { font-size: 8.5px; letter-spacing: .14em; }
+  .nav .nav-right .btn { padding: 8px 11px; font-size: 10.5px; white-space: nowrap; }
+}
+@media (max-width: 380px) {
+  .nav .nav-inner { padding: 0 18px; gap: 8px; }
+  .nav.nav-home.is-scrolled .nav-brand { left: 14px; }
+  .nav.nav-home .nav-right, .nav.nav-minimal .nav-right { right: 14px; gap: 8px; }
+  .nav .nav-brand img { width: 34px; height: 34px; }
+  .nav .nav-brand-text strong, .nav .nav-brand-sub { font-size: 11.5px; }
+  .nav .nav-brand-fallas { font-size: 8px; letter-spacing: .1em; }
+  .nav .nav-right .btn { padding: 7px 8px; font-size: 9.5px; letter-spacing: .04em; }
 }
 .nav-brand { display: flex; flex-direction: row; align-items: center; gap: 10px; line-height: 1.1; }
 .nav-brand img { width: 58px; height: 58px; object-fit: contain; flex-shrink: 0; }
@@ -244,7 +253,6 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
      ".is-scrolled" (ver el script del nav), la marca se desliza sola
      hasta la izquierda y el botón aparece con un fundido, sin que haga
      falta seguir haciendo scroll para que termine el movimiento. */
-  .nav-home:not(.is-scrolled) { box-shadow: none; }
   .nav-home .nav-inner { position: relative; min-height: 44px; }
   .nav-home .nav-right { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); }
   .nav-home .nav-brand {
@@ -274,7 +282,6 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   .nav-minimal .nav-links,
   .nav-minimal .nav-right .lang-dd { display: none; }
   .nav-minimal .hamburger { display: flex; }
-  .nav-minimal:not(.is-scrolled) { box-shadow: none; }
 }
 
 /* ─── selector de idioma del header: desplegable, igual que hotelvenecia.com ─── */
