@@ -53,9 +53,9 @@ const strip = [
     </h1>
     <GoldRule style="margin:0 0 4px" />
     <p class="hero-kicker" set:html={kickerHtml} />
-    <a class="btn btn-gold" href={roomsUrl}>
+    <a class="btn btn-gold btn-arrow" href={roomsUrl}>
       {t('home.cta')}
-      <Icon name="arrow-right" size={16} />
+      <span class="btn-ic"><Icon name="arrow-right" size={16} /></span>
     </a>
     <a class="hero-scroll" href="#tradicion">
       <span>{t('home.discover')}</span>
@@ -214,7 +214,7 @@ const strip = [
     .hw, .hw-acc, .hero-kicker :global(.kick-line) { animation: none; }
   }
   .hero-strong { color: #fff !important; font-weight: 600; }
-  .hero-panel .btn { align-self: center; margin-top: 10px; display: inline-flex; align-items: center; gap: 10px; }
+  .hero-panel .btn { align-self: center; margin-top: 10px; }
 
   .hero-media { position: relative; background: var(--navy-light); }
   .hero-photo {
@@ -379,7 +379,7 @@ const strip = [
   }
   /* 3 columnas a partir de aquí (tablets y escritorio); en móvil, apiladas
      en 1 columna, si no las tarjetas quedan demasiado estrechas. */
-  @media (min-width: 600px) {
+  @media (min-width: 700px) {
     .room-picker-list { grid-template-columns: repeat(3, 1fr); }
   }
   .room-picker-more { text-align: center; margin-top: 36px; }

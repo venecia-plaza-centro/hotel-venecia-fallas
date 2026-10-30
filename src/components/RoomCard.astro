@@ -75,9 +75,9 @@ const minPerPerson = Math.min(
         <strong>{money(minPerPerson)}</strong>
         <span>{t('roomcard.perperson')}</span>
       </p>
-      <a class="btn btn-gold" href={`${bookUrl}?room=${room.slug}`}>
+      <a class="btn btn-gold btn-arrow" href={`${bookUrl}?room=${room.slug}`}>
         {fmt('roomcard.book', { n: room.roomNumber })}
-        <Icon name="arrow-right" size={16} />
+        <span class="btn-ic"><Icon name="arrow-right" size={16} /></span>
       </a>
     </div>
     <p class="room-card-soldout-note">{t('roomcard.soldout')}</p>

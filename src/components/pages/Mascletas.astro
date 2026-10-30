@@ -3,6 +3,7 @@ import { FALLAS, type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
 import { pagePath } from '../../i18n/pages';
 import PageHero from '../PageHero.astro';
+import Icon from '../Icon.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -34,7 +35,7 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
 
     <h2>{t('mascletas.hotel.h')}</h2>
     <p>{t('mascletas.hotel.p')}</p>
-    <p class="mascletas-cta"><a class="btn btn-gold" href={pagePath('rooms', lang)}>{t('home.cta')}</a></p>
+    <p class="mascletas-cta"><a class="btn btn-gold btn-arrow" href={pagePath('rooms', lang)}>{t('home.cta')} <span class="btn-ic"><Icon name="arrow-right" size={16} /></span></a></p>
   </div>
 </section>
 
