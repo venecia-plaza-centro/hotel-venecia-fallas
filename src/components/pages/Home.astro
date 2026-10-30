@@ -21,6 +21,12 @@ const taglineHtml = t('home.tagline').replace(/,\s*/, ',<br class="tag-br" /> ')
 // Título del hero palabra por palabra (cada una entra con su retardo, ver .hw).
 const h1Pre = t('home.h1.pre').trim().split(/\s+/);
 const h1Acc = t('home.h1.accent').trim().split(/\s+/);
+// Cuántas palabras anteriores van pegadas al acento en pantallas pequeñas
+// ("su balcón privado"; en alemán "von Ihrem privaten Balkon"; en inglés
+// "from your private balcony").
+const tailN = lang === 'de' || lang === 'en' ? 2 : 1;
+const h1Head = h1Pre.slice(0, -tailN);
+const h1Tail = h1Pre.slice(-tailN);
 
 // Cada frase va en su <span> para que cada una haga su pulso (ver .kick-line).
 const kickerHtml = t('home.kicker')
@@ -49,7 +55,7 @@ const strip = [
 <section class="hero">
   <div class="hero-panel">
     <h1>
-      {h1Pre.map((w, i) => (<><span class="hw" style={`--i:${i}`}>{w}</span>{' '}</>))}<em>{h1Acc.map((w, j) => (<><span class="hw hw-acc" style={`--i:${h1Pre.length + j + 1};--j:${j}`}>{w}</span>{j < h1Acc.length - 1 ? ' ' : ''}</>))}</em>
+      {h1Head.map((w, i) => (<><span class="hw" style={`--i:${i}`}>{w}</span>{' '}</>))}<span class="h1-tail">{h1Tail.map((w, i) => (<><span class="hw" style={`--i:${h1Head.length + i}`}>{w}</span>{' '}</>))}<em>{h1Acc.map((w, j) => (<><span class="hw hw-acc" style={`--i:${h1Pre.length + j + 1};--j:${j}`}>{w}</span>{j < h1Acc.length - 1 ? ' ' : ''}</>))}</em></span>
     </h1>
     <GoldRule style="margin:0 0 4px" />
     <p class="hero-kicker" set:html={kickerHtml} />
@@ -191,8 +197,8 @@ const strip = [
     0% { background-position: 0% 0; }
     45%, 100% { background-position: 100% 0; }
   }
-  /* En pantallas pequeñas "balcón privado" baja a su propia línea. */
-  @media (max-width: 860px) { .hero-panel h1 em { display: block; } }
+  /* En pantallas pequeñas "su balcón privado" (posesivo + acento) baja junto a su propia línea. */
+  @media (max-width: 860px) { .hero-panel h1 .h1-tail { display: block; } }
 
   /* Las 3 frases bajo el título laten de una en una, de arriba abajo, y
      vuelta a empezar: cada una tiene su turno de 2,5 s (crece un poco, se tiñe
@@ -316,7 +322,10 @@ const strip = [
     .hero-photo::after {
       background: linear-gradient(180deg, rgba(20,31,56,.82) 0%, rgba(20,31,56,.78) 100%);
     }
-    .hero-panel { padding: calc(88px + 32px) 24px 96px; }
+    /* Abajo se reservan 176 px para la frase manuscrita y el sello (ocupan
+       unos 156 px desde el borde inferior): si el contenido es más alto que
+       la pantalla, el hero crece en vez de que el botón pise el sello. */
+    .hero-panel { padding: calc(88px + 32px) 24px 176px; }
     /* En dos líneas ("Mascletàs," y debajo "más cerca que nunca"), con la
        letra ajustada a la pantalla para no tocar el sello de la derecha. */
     .hero-tagline { left: 20px; bottom: 22px; font-size: clamp(20px, 7vw, 28px); max-width: calc(100% - 152px); line-height: 1.05; }
@@ -343,6 +352,9 @@ const strip = [
      manuscrita, el sello y "Descúbrelo" se quedan donde están. */
   @media (max-width: 480px) {
     .hero-panel { justify-content: flex-start; }
+    /* Título un poco más compacto para que "Viva la mascletà desde su" quepa
+       en una línea (sin "su" suelto en la segunda) y "balcón privado" baje. */
+    .hero-panel h1 { font-size: clamp(27px, 7.2vw, 34px); }
   }
 
   /* ── tradición ── */
