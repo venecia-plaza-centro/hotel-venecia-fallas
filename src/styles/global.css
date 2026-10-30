@@ -365,9 +365,27 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   font-family: var(--ff-body); font-size: 13px; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: #fff; background: var(--gold);
   border: 2px solid var(--gold); border-radius: 999px;
-  padding: 14px 40px; margin-top: 18px; box-shadow: 0 8px 22px rgba(201, 162, 70, .28); transition: background .25s var(--ease), color .25s var(--ease);
+  padding: 14px 40px; margin-top: 18px;
+  background-image: linear-gradient(135deg, #D9B552, #C9A246 55%, #E0BE62);
+  box-shadow: 0 8px 22px rgba(201, 162, 70, .28), 0 0 16px rgba(232, 201, 106, .32);
+  animation: ctaGlow 3.6s ease-in-out infinite;
+  transition: background .25s var(--ease), color .25s var(--ease);
 }
 .mobile-nav a.mobile-nav-cta:hover { background: transparent; color: var(--gold); }
+/* Brillo dorado sutil: el resplandor del botón "respira" muy despacio. */
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 8px 22px rgba(201, 162, 70, .25), 0 0 12px rgba(232, 201, 106, .22); }
+  50% { box-shadow: 0 8px 24px rgba(201, 162, 70, .34), 0 0 26px rgba(232, 201, 106, .5); }
+}
+/* Con el menú abierto, el botón entra como los demás enlaces y, cuando ya
+   está en su sitio, empieza a "respirar" (la regla de entrada de arriba
+   pisaría la de ctaGlow si no se juntan en una sola declaración). */
+.mobile-nav.open > a.mobile-nav-cta {
+  animation: menuItemIn .7s var(--ease) .48s both, ctaGlow 3.6s ease-in-out 1.3s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav.open > a.mobile-nav-cta { animation: menuItemIn .7s var(--ease) .48s both; }
+}
 .mobile-nav-langs { display: flex; gap: 8px; margin-top: 36px; align-items: center; justify-content: center; opacity: 0; }
 .mobile-nav-langs a {
   display: inline-block; padding: 6px 11px; font-size: 12px; font-weight: 700;
