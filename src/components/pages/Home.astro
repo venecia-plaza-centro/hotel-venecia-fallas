@@ -327,6 +327,20 @@ const strip = [
   }
   .room-picker-more { text-align: center; margin-top: 36px; }
 
+  /* ── escritorio: la primera pantalla es hero + franja beige ──
+     El hero mide el alto de la ventana menos el de la franja (118 px =
+     36 + 46 + 36 de padding e icono), así la franja queda justo en el borde
+     inferior y se ve entera sin hacer scroll. */
+  .hero, .strip { --strip-h: 118px; }
+  @media (min-width: 861px) {
+    .hero { min-height: calc(100vh - var(--strip-h)); min-height: calc(100dvh - var(--strip-h)); }
+    .hero-panel { min-height: calc(100vh - var(--strip-h)); min-height: calc(100dvh - var(--strip-h)); }
+    /* Altura fija: si una etiqueta se parte en dos líneas (FR/DE/IT en
+       ventanas estrechas), la franja no crece y se mantiene en el borde. */
+    .strip { height: var(--strip-h); padding: 0; display: flex; align-items: center; box-sizing: border-box; }
+    .strip .strip-grid { width: 100%; }
+  }
+
   /* ── franja bajo el hero ── */
   /* Fondo beige (crema), justa: mismo aire arriba y abajo. El sello del
      hero solo asoma unos px sobre la franja (bottom negativo pequeño, menor
