@@ -94,7 +94,7 @@ const strip = [
   </div>
 </section>
 
-<section class="strip">
+<section class="strip" id="info">
   <div class="container strip-grid">
     {strip.map((s) => (
       <div class="strip-item">
@@ -417,6 +417,10 @@ const strip = [
      36 + 46 + 36 de padding e icono), así la franja queda justo en el borde
      inferior y se ve entera sin hacer scroll. */
   .hero, .strip { --strip-h: 118px; }
+  /* En móvil y tablet pequeña, "Descúbralo" baja hasta dejar la franja beige
+     entera arriba, justo debajo de la cápsula del header (12 px + 64 px de
+     alto + un poco de aire). En escritorio sigue llevando a #tradicion. */
+  @media (max-width: 860px) { .strip { scroll-margin-top: 88px; } }
   @media (min-width: 861px) {
     .hero { min-height: calc(100vh - var(--strip-h)); min-height: calc(100dvh - var(--strip-h)); }
     .hero-panel { min-height: calc(100vh - var(--strip-h)); min-height: calc(100dvh - var(--strip-h)); }
@@ -479,4 +483,15 @@ const strip = [
       window.addEventListener(ev, play, { once: true, passive: true });
     }
   }
+
+  // Móvil y tablet pequeña (≤860 px): "Descúbralo" lleva a la franja beige
+  // (#info), no a #tradicion. En escritorio, o sin JS, el enlace normal
+  // (#tradicion) sigue funcionando.
+  document.querySelector<HTMLAnchorElement>('.hero-scroll')?.addEventListener('click', (e) => {
+    if (!window.matchMedia('(max-width: 860px)').matches) return;
+    const strip = document.getElementById('info');
+    if (!strip) return;
+    e.preventDefault();
+    strip.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 </script>
