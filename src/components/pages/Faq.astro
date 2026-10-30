@@ -23,7 +23,7 @@ const linkify = (text: string) =>
 
 <PageHero title={t('faq.h1')} />
 
-<section class="section">
+<section class="section faq-section">
   <div class="container" style="max-width:720px">
     {qa.map((item) => (
       <div style="border-bottom:1px solid var(--cream-dark);padding:18px 0">
@@ -35,3 +35,8 @@ const linkify = (text: string) =>
     ))}
   </div>
 </section>
+
+<style>
+  /* El texto arranca más cerca de la cabecera (el padding general de .section es 96px). */
+  .faq-section { padding-top: 40px; }
+</style>
