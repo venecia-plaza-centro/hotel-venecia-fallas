@@ -449,6 +449,9 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .footer-links a { font-family: var(--ff-display); font-size: 16px; color: #fff; }
 .footer-links a:hover { color: var(--gold); }
 .footer-instagram { display: inline-flex; align-items: center; gap: 8px; }
+/* Sello de Turisme (mismo tratamiento que en hotelvenecia.com): el logotipo es
+   oscuro sobre blanco, así que va en una tarjeta blanca redondeada. */
+.footer-seal { display: block; width: 100%; max-width: 230px; height: auto; margin-top: 6px; background: #fff; padding: 10px 16px; border-radius: 10px; }
 .footer-instagram svg { width: 18px; height: 18px; flex-shrink: 0; }
 .footer-legal { margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .12); display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .footer-legal-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; }
