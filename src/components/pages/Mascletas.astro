@@ -19,8 +19,13 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
 
 <section class="section mascletas-info">
   <div class="container" style="max-width:760px">
-    <h2>{t('mascletas.what.h')}</h2>
-    <p>{t('mascletas.what.p')}</p>
+    <div class="mascletas-what">
+      <div class="mascletas-what-text">
+        <h2>{t('mascletas.what.h')}</h2>
+        <p>{t('mascletas.what.p')}</p>
+      </div>
+      <img src="/images/home/tradicion-mascleta-640.webp" width="640" height="358" alt={t('home.tradicion.photo.alt')} loading="lazy" decoding="async" />
+    </div>
 
     <h2>{t('mascletas.tips.h')}</h2>
     <ul>
@@ -61,4 +66,11 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
   .mascletas-seecal a { color: var(--gold-light); font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
   .mascletas-seecal a:hover { color: #fff; }
   .mascletas-pyro { text-align: center; color: var(--text-soft); font-size: 15px; font-style: italic; max-width: 560px; margin: 0 auto 28px; }
+  .mascletas-what { display: grid; grid-template-columns: 1fr 280px; gap: 32px; align-items: center; }
+  .mascletas-what .mascletas-what-text h2 { margin-top: 0; }
+  .mascletas-what img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; box-shadow: var(--sh-md); }
+  @media (max-width: 760px) {
+    .mascletas-what { grid-template-columns: 1fr; gap: 20px; }
+    .mascletas-what img { order: -1; height: 160px; aspect-ratio: auto; }
+  }
 </style>
