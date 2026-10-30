@@ -130,7 +130,8 @@ const bookHref = isHome ? `${pagePath('home', lang)}#rooms` : pagePath('book', l
   // marca a la izquierda, botón Reservar más pequeño a la derecha).
   // En la página de reserva (.nav-minimal) la marca se queda centrada
   // siempre (nunca hay botón ahí), solo cambia el fondo azul→blanco.
-  const scrollNav = document.querySelector('.nav.nav-home, .nav.nav-minimal');
+  // Todas las páginas marcan el scroll: es lo que activa el header flotante (cápsula).
+  const scrollNav = document.querySelector('.nav');
   if (scrollNav) {
     const onScroll = () => scrollNav.classList.toggle('is-scrolled', window.scrollY > 40);
     onScroll();

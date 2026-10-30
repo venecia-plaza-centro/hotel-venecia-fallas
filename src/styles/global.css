@@ -172,13 +172,13 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .nav.is-scrolled .nav-inner { padding: 0 28px; }
 @media (max-width: 1120px) {
-  .nav-home.is-scrolled .nav-brand { left: 22px; }
-  .nav-home .nav-right, .nav-minimal .nav-right { right: 22px; }
+  .nav.nav-home.is-scrolled .nav-brand { left: 22px; }
+  .nav.nav-home .nav-right, .nav.nav-minimal .nav-right { right: 22px; }
 }
 @media (max-width: 480px) {
   .nav.is-scrolled { left: 10px; right: 10px; }
-  .nav-home.is-scrolled .nav-brand { left: 16px; }
-  .nav-home .nav-right, .nav-minimal .nav-right { right: 16px; gap: 10px; }
+  .nav.nav-home.is-scrolled .nav-brand { left: 16px; }
+  .nav.nav-home .nav-right, .nav.nav-minimal .nav-right { right: 16px; gap: 10px; }
   .nav.is-scrolled .nav-brand { gap: 7px; }
   .nav.is-scrolled .nav-brand img { width: 40px; height: 40px; }
   .nav.is-scrolled .nav-brand-text strong, .nav.is-scrolled .nav-brand-sub { font-size: 12.5px; }
