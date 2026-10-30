@@ -148,7 +148,7 @@ const es: Dict = {
   'faq.q10': '¿Cuándo queda confirmada mi reserva?',
   'faq.a10': 'En cuanto se completa el pago online. Solo se pueden reservar las habitaciones que aparecen disponibles en ese momento, y recibirá la confirmación por email.',
   'faq.q11': '¿Qué es una mascletà?',
-  'faq.a11': 'Es un espectáculo pirotécnico diurno en el que lo importante es el estruendo y el ritmo de los petardos. Durante las Fallas se dispara cada día a las 14:00 h en la Plaza del Ayuntamiento de València.',
+  'faq.a11': 'Es un espectáculo pirotécnico diurno en el que lo importante es el estruendo y el ritmo de los petardos. Durante las Fallas se dispara cada día a las 14:00 h en la Plaza del Ayuntamiento de València, del 1 al 19 de marzo. Las reservas de balcón en el hotel son del 1 al 12 de marzo.',
 
   // tarjeta de habitación (Home + Habitaciones)
   'roomcard.title': 'Habitación {n}',
@@ -438,7 +438,7 @@ const en: Dict = {
   'faq.q10': 'When is my booking confirmed?',
   'faq.a10': 'As soon as the online payment is completed. Only rooms that show as available at that moment can be booked, and you will receive the confirmation by email.',
   'faq.q11': 'What is a mascletà?',
-  'faq.a11': 'It is a daytime fireworks show where the thunder and rhythm of the firecrackers are what matters. During Fallas it is fired every day at 2:00 pm in València’s Plaza del Ayuntamiento.',
+  'faq.a11': 'It is a daytime fireworks show where the thunder and rhythm of the firecrackers are what matters. During Fallas it is fired every day at 2:00 pm in València’s Plaza del Ayuntamiento, from 1 to 19 March. Balcony bookings at the hotel are available from 1 to 12 March.',
 
   'roomcard.title': 'Room {n}',
   'roomcard.capacity': 'Maximum capacity: {n} people',
@@ -722,7 +722,7 @@ const it: Dict = {
   'faq.q10': 'Quando viene confermata la mia prenotazione?',
   'faq.a10': 'Non appena il pagamento online è completato. Si possono prenotare solo le camere che risultano disponibili in quel momento e riceverà la conferma via email.',
   'faq.q11': 'Che cos’è una mascletà?',
-  'faq.a11': 'È uno spettacolo pirotecnico diurno in cui contano soprattutto il fragore e il ritmo dei petardi. Durante le Fallas viene sparata ogni giorno alle 14:00 in Plaza del Ayuntamiento a València.',
+  'faq.a11': 'È uno spettacolo pirotecnico diurno in cui contano soprattutto il fragore e il ritmo dei petardi. Durante le Fallas viene sparata ogni giorno alle 14:00 in Plaza del Ayuntamiento a València, dall’1 al 19 marzo. Le prenotazioni dei balconi in hotel sono dal 1 al 12 marzo.',
 
   'roomcard.title': 'Camera {n}',
   'roomcard.capacity': 'Capacità massima: {n} persone',
@@ -1007,7 +1007,7 @@ const fr: Dict = {
   'faq.q10': 'Quand ma réservation est-elle confirmée ?',
   'faq.a10': 'Dès que le paiement en ligne est effectué. Seules les chambres disponibles à ce moment-là peuvent être réservées, et vous recevrez la confirmation par e-mail.',
   'faq.q11': 'Qu’est-ce qu’une mascletà ?',
-  'faq.a11': 'C’est un spectacle pyrotechnique diurne où ce qui compte, c’est le fracas et le rythme des pétards. Pendant les Fallas, elle est tirée chaque jour à 14h00 sur la Plaza del Ayuntamiento de València.',
+  'faq.a11': 'C’est un spectacle pyrotechnique diurne où ce qui compte, c’est le fracas et le rythme des pétards. Pendant les Fallas, elle est tirée chaque jour à 14h00 sur la Plaza del Ayuntamiento de València, du 1er au 19 mars. Les réservations de balcon à l’hôtel sont possibles du 1er au 12 mars.',
 
   'roomcard.title': 'Chambre {n}',
   'roomcard.capacity': 'Capacité maximale : {n} personnes',
@@ -1293,7 +1293,7 @@ const de: Dict = {
   'faq.q10': 'Wann ist meine Buchung bestätigt?',
   'faq.a10': 'Sobald die Online-Zahlung abgeschlossen ist. Es können nur Zimmer gebucht werden, die in diesem Moment als verfügbar angezeigt werden, und die Bestätigung erhalten Sie per E-Mail.',
   'faq.q11': 'Was ist eine Mascletà?',
-  'faq.a11': 'Eine Mascletà ist ein tagsüber stattfindendes Feuerwerk, bei dem es vor allem auf Donner und Rhythmus der Knallkörper ankommt. Während der Fallas wird sie jeden Tag um 14:00 Uhr auf der Plaza del Ayuntamiento in València abgefeuert.',
+  'faq.a11': 'Eine Mascletà ist ein tagsüber stattfindendes Feuerwerk, bei dem es vor allem auf Donner und Rhythmus der Knallkörper ankommt. Während der Fallas wird sie jeden Tag um 14:00 Uhr auf der Plaza del Ayuntamiento in València abgefeuert, vom 1. bis 19. März. Balkonbuchungen im Hotel sind vom 1. bis 12. März möglich.',
 
   'roomcard.title': 'Zimmer {n}',
   'roomcard.capacity': 'Maximale Kapazität: {n} Personen',
