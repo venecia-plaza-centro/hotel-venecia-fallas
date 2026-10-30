@@ -100,6 +100,7 @@ const es: Dict = {
   'mascletas.lead':
     'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 {br}en la Plaza del Ayuntamiento.',
   'mascletas.seecal': 'Ver calendario',
+  'mascletas.pyro': 'Aquí informaremos, a su debido tiempo, de la empresa pirotécnica que dispara la mascletà cada día.',
   'mascletas.what.h': '¿Qué es una mascletà?',
   'mascletas.what.p': 'La mascletà es un espectáculo pirotécnico diurno, típico de las Fallas de València. En ella lo importante no son los colores sino el sonido: el ritmo, la potencia y la vibración de los petardos, que se notan en el pecho. Va subiendo de intensidad y termina con el «terremoto», el final más potente. Durante las Fallas se dispara cada día a las 14:00 h en la Plaza del Ayuntamiento, del 1 al 19 de marzo.',
   'mascletas.tips.h': 'Consejos para disfrutar de la mascletà',
@@ -403,6 +404,7 @@ const en: Dict = {
   'mascletas.lead':
     'From 1 to 19 March 2027, every day at 2 pm {br}on Plaza del Ayuntamiento.',
   'mascletas.seecal': 'See the calendar',
+  'mascletas.pyro': 'We will post here, in due course, which pyrotechnic company fires the mascletà each day.',
   'mascletas.what.h': 'What is a mascletà?',
   'mascletas.what.p': 'The mascletà is a daytime fireworks show typical of the Fallas in València. What matters is not the colours but the sound: the rhythm, power and vibration of the firecrackers, which you can feel in your chest. It builds up in intensity and ends with the “terremoto” (earthquake), the most powerful finale. During Fallas it is fired every day at 2:00 pm in the Plaza del Ayuntamiento, from 1 to 19 March.',
   'mascletas.tips.h': 'Tips for enjoying the mascletà',
@@ -698,6 +700,7 @@ const it: Dict = {
   'mascletas.lead':
     'Dal 1 al 19 marzo 2027, tutti i giorni alle 14:00 {br}nella Plaza del Ayuntamiento.',
   'mascletas.seecal': 'Vedi il calendario',
+  'mascletas.pyro': 'Qui indicheremo, a tempo debito, quale ditta pirotecnica spara la mascletà ogni giorno.',
   'mascletas.what.h': 'Che cos’è una mascletà?',
   'mascletas.what.p': 'La mascletà è uno spettacolo pirotecnico diurno tipico delle Fallas di València. Ciò che conta non sono i colori ma il suono: il ritmo, la potenza e la vibrazione dei petardi, che si sentono nel petto. Cresce d’intensità e si chiude con il «terremoto», il finale più potente. Durante le Fallas viene sparata ogni giorno alle 14:00 in Plaza del Ayuntamiento, dall’1 al 19 marzo.',
   'mascletas.tips.h': 'Consigli per godersi la mascletà',
@@ -994,6 +997,7 @@ const fr: Dict = {
   'mascletas.lead':
     'Du 1er au 19 mars 2027, tous les jours à 14h00 {br}sur la Plaza del Ayuntamiento.',
   'mascletas.seecal': 'Voir le calendrier',
+  'mascletas.pyro': 'Nous indiquerons ici, en temps voulu, quelle entreprise pyrotechnique tire la mascletà chaque jour.',
   'mascletas.what.h': 'Qu’est-ce qu’une mascletà ?',
   'mascletas.what.p': 'La mascletà est un spectacle pyrotechnique diurne typique des Fallas de València. Ce qui compte, ce ne sont pas les couleurs mais le son : le rythme, la puissance et la vibration des pétards, que l’on ressent dans la poitrine. Elle monte en intensité et se termine par le « terremoto » (tremblement de terre), le final le plus puissant. Pendant les Fallas, elle est tirée chaque jour à 14h00 sur la Plaza del Ayuntamiento, du 1er au 19 mars.',
   'mascletas.tips.h': 'Conseils pour profiter de la mascletà',
@@ -1291,6 +1295,7 @@ const de: Dict = {
   'mascletas.lead':
     'Vom 1. bis 19. März 2027, täglich um 14:00 Uhr {br}auf der Plaza del Ayuntamiento.',
   'mascletas.seecal': 'Zum Kalender',
+  'mascletas.pyro': 'Hier geben wir zu gegebener Zeit bekannt, welche Pyrotechnikfirma die Mascletà an welchem Tag abfeuert.',
   'mascletas.what.h': 'Was ist eine Mascletà?',
   'mascletas.what.p': 'Die Mascletà ist ein tagsüber stattfindendes Feuerwerk, typisch für die Fallas in València. Es geht nicht um Farben, sondern um den Klang: Rhythmus, Kraft und Vibration der Knallkörper, die man in der Brust spürt. Sie steigert sich und endet mit dem „Terremoto“ (Erdbeben), dem kräftigsten Finale. Während der Fallas wird sie jeden Tag um 14:00 Uhr auf der Plaza del Ayuntamiento abgefeuert, vom 1. bis 19. März.',
   'mascletas.tips.h': 'Tipps, um die Mascletà zu genießen',
