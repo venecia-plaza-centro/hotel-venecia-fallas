@@ -98,7 +98,7 @@ const es: Dict = {
   // mascletas
   'mascletas.h1': 'Calendario de mascletàs',
   'mascletas.lead':
-    'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 en la Plaza del Ayuntamiento.',
+    'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 {br}en la Plaza del Ayuntamiento.',
   'mascletas.march': 'Marzo 2027',
   'mascletas.month': 'Marzo',
 
@@ -390,7 +390,7 @@ const en: Dict = {
 
   'mascletas.h1': 'Mascletà calendar',
   'mascletas.lead':
-    'From 1 to 19 March 2027, every day at 2 pm on Plaza del Ayuntamiento.',
+    'From 1 to 19 March 2027, every day at 2 pm {br}on Plaza del Ayuntamiento.',
   'mascletas.march': 'March 2027',
   'mascletas.month': 'March',
 
@@ -674,7 +674,7 @@ const it: Dict = {
 
   'mascletas.h1': 'Calendario delle mascletàs',
   'mascletas.lead':
-    'Dal 1 al 19 marzo 2027, tutti i giorni alle 14:00 nella Plaza del Ayuntamiento.',
+    'Dal 1 al 19 marzo 2027, tutti i giorni alle 14:00 {br}nella Plaza del Ayuntamiento.',
   'mascletas.march': 'Marzo 2027',
   'mascletas.month': 'Marzo',
 
@@ -959,7 +959,7 @@ const fr: Dict = {
 
   'mascletas.h1': 'Calendrier des mascletàs',
   'mascletas.lead':
-    'Du 1er au 19 mars 2027, tous les jours à 14h00 sur la Plaza del Ayuntamiento.',
+    'Du 1er au 19 mars 2027, tous les jours à 14h00 {br}sur la Plaza del Ayuntamiento.',
   'mascletas.march': 'Mars 2027',
   'mascletas.month': 'Mars',
 
@@ -1245,7 +1245,7 @@ const de: Dict = {
 
   'mascletas.h1': 'Mascletà-Kalender',
   'mascletas.lead':
-    'Vom 1. bis 19. März 2027, täglich um 14:00 Uhr auf der Plaza del Ayuntamiento.',
+    'Vom 1. bis 19. März 2027, täglich um 14:00 Uhr {br}auf der Plaza del Ayuntamiento.',
   'mascletas.march': 'März 2027',
   'mascletas.month': 'März',
 

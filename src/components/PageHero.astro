@@ -13,7 +13,8 @@ const titleHtml = title.replace(/\b(balcón|balcony)\b/i, '<em>$1</em>');
 // que el móvil calcule la ruta desde la ubicación GPS del usuario) en los
 // leads que la mencionan (Habitaciones, Mascletàs).
 const MAPS_URL = 'https://www.google.com/maps/dir/?api=1&destination=Plaza+del+Ayuntamiento,+Valencia';
-const leadHtml = lead?.replace(
+// {br} en un lead = salto de línea solo en escritorio (ver .lead-br).
+const leadHtml = lead?.replace(/\{br\}/g, '<br class="lead-br">').replace(
   /Plaza del Ayuntamiento/i,
   `<a href="${MAPS_URL}" target="_blank" rel="noopener">$&</a>`,
 );
