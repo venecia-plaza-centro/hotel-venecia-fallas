@@ -45,7 +45,8 @@ if (pageId === 'home') {
   const navKey = ['terms', 'cancellation', 'privacy', 'legalnotice'].includes(pageId)
     ? `legal.${pageId}.h1`
     : `nav.${pageId}`;
-  title = `${t(navKey)} · ${SITE.name} · Fallas ${FALLAS.year}`;
+  const ownTitle = t(`meta.${pageId}.title`);
+  title = ownTitle !== `meta.${pageId}.title` ? ownTitle : `${t(navKey)} · ${SITE.name} · Fallas ${FALLAS.year}`;
   // Descripción propia de la página si existe (meta.<página>.desc); si no, la general.
   const own = t(`meta.${pageId}.desc`);
   description = own !== `meta.${pageId}.desc` ? own : t('meta.home.desc');
@@ -53,7 +54,7 @@ if (pageId === 'home') {
 
 const noindex = NOINDEX_PAGES.includes(pageId);
 
-// JSON-LD: Hotel + (en home) evento de las mascletás
+// JSON-LD: Hotel + (en home) evento de las mascletàs
 const jsonLd = pageId === 'home'
   ? JSON.stringify({
       '@context': 'https://schema.org',

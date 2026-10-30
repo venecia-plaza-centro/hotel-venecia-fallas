@@ -8,7 +8,7 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-const qa = [1, 2, 3, 4].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
+const qa = Array.from({ length: 11 }, (_, i) => i + 1).map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 
 // La respuesta sobre cancelación mete un marcador {cancellationLink} que
 // aquí se convierte en un enlace real a esa página (mismo patrón que en

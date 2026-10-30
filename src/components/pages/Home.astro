@@ -15,12 +15,12 @@ const rooms = (await getRooms()).slice(0, 3);
 const roomsUrl = pagePath('rooms', lang);
 
 // Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
-// "Mascletás, más cerca que nunca": en pantallas pequeñas la segunda parte
+// "Mascletàs, más cerca que nunca": en pantallas pequeñas la segunda parte
 // baja a otra línea (el <br> solo se ve ahí, ver .tag-br en el CSS).
 const taglineHtml = t('home.tagline').replace(/,\s*/, ',<br class="tag-br" /> ');
 const kickerHtml = t('home.kicker').replace(/\.\s+/g, '.<br />');
 
-// Vídeo real de una mascletá (marca de agua "FPM" quitada por difuminado
+// Vídeo real de una mascletà (marca de agua "FPM" quitada por difuminado
 // de esa esquina). Si se quita el archivo o se vacía esta ruta, vuelve a
 // verse el degradado de fondo de .hero-photo.
 const HERO_VIDEO = '/video/hero-mascleta.mp4';
@@ -98,6 +98,7 @@ const strip = [
       <span class="eyebrow">{t('home.tradicion.eyebrow')}</span>
       <h2>{t('home.tradicion.h2.pre')} <em>{t('home.tradicion.h2.accent')}</em></h2>
       <p>{t('home.tradicion.p1')}</p>
+      <p>{t('home.tradicion.p3')}</p>
       <p class="tradicion-strong">{t('home.tradicion.p2')}</p>
     </div>
     <div class="tradicion-media">
@@ -258,7 +259,7 @@ const strip = [
       background: linear-gradient(180deg, rgba(20,31,56,.82) 0%, rgba(20,31,56,.78) 100%);
     }
     .hero-panel { padding: calc(88px + 32px) 24px 96px; }
-    /* En dos líneas ("Mascletás," y debajo "más cerca que nunca"), con la
+    /* En dos líneas ("Mascletàs," y debajo "más cerca que nunca"), con la
        letra ajustada a la pantalla para no tocar el sello de la derecha. */
     .hero-tagline { left: 20px; bottom: 22px; font-size: clamp(20px, 7vw, 28px); max-width: calc(100% - 152px); line-height: 1.05; }
     .hero-tagline :global(.tag-br) { display: inline; }

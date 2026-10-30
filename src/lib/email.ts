@@ -322,7 +322,7 @@ function buildHotelEmailHtml(data: BookingEmail): string {
     ['Cliente', `${esc(data.firstName)} ${esc(data.lastName)}`],
     ['Email', `<a href="mailto:${esc(data.email)}" style="color:#1B2A4A">${esc(data.email)}</a>`],
     ['Teléfono', `<a href="tel:${esc(data.phone)}" style="color:#1B2A4A">${esc(data.phone)}</a>`],
-    ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`],
+    ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`],
     ['Habitación', `${data.room.roomNumber} (${esc(data.room.floor)}) · ${data.guests} huéspedes`],
     ['Total', `${money(data.quote.total, 'es')} · Snack Pack incluido`],
     ...(data.payment
@@ -367,7 +367,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
   const hotelSummary = [
     `Localizador: ${data.locator}`,
     `Cliente: ${data.firstName} ${data.lastName} · ${data.email} · ${data.phone}`,
-    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletá ${FALLAS.mascletaTime}h)`,
+    `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
     `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
     data.payment ? `Pago: Redsys · pedido ${data.payment.order}${data.payment.authCode ? ` · autorización ${data.payment.authCode}` : ''}` : null,
