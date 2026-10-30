@@ -244,6 +244,7 @@ const strip = [
     position: absolute; bottom: -30px; right: 24px; width: 172px; height: 172px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center; text-align: center;
     padding: 20px; transform: rotate(11deg);
+    animation: badgeHeartBeat 15s ease-in-out 4s infinite;
     color: var(--gold-light); font-size: 13px; font-weight: 700;
     letter-spacing: .05em; text-transform: uppercase;
     border: 1.5px solid var(--gold-light);
@@ -383,6 +384,21 @@ const strip = [
     .room-picker-list { grid-template-columns: repeat(3, 1fr); }
   }
   .room-picker-more { text-align: center; margin-top: 36px; }
+
+  /* Sello del hero: latido sutil (heartBeat de Animate.css: doble pulso)
+     una vez cada 15 s; el resto del ciclo está quieto, para que cuando
+     late llame la atención. Primer latido a los 4 s de cargar la página.
+     Conserva su giro de 11°. El crecimiento (--beat) es pequeño a
+     propósito: con más, el sello giraría fuera de la ventana y añadiría
+     scroll horizontal. */
+  .hero-badge { --beat: 1.06; }
+  @media (max-width: 860px) { .hero-badge { --beat: 1.1; } }
+  @keyframes badgeHeartBeat {
+    0%, 6%, 100% { transform: rotate(11deg) scale(1); }
+    1.2%, 3.6% { transform: rotate(11deg) scale(var(--beat)); }
+    2.4% { transform: rotate(11deg) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-badge { animation: none; } }
 
   /* ── escritorio: la primera pantalla es hero + franja beige ──
      El hero mide el alto de la ventana menos el de la franja (118 px =
