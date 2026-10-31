@@ -805,8 +805,8 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   @media (max-width: 520px) { .book .fields { grid-template-columns: 1fr; } }
 
-  .book .cal-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 8px; }
-  .book .calendar { max-width: 360px; margin-bottom: 10px; }
+  .book .cal-label { display: block; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 8px; }
+  .book .calendar { max-width: 360px; margin: 0 auto 10px; }
   .book .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
   .book .cal-dow { text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-soft); padding-bottom: 4px; }
   .book .cal-day {
@@ -877,7 +877,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
      queda esta línea + los botones "cambiar fecha / continuar", para que no
      haya 10 tarjetas alrededor generando confusión sobre qué se ha elegido. */
   .book .room-selected {
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
     padding: 16px 0; border-bottom: 1px solid var(--cream-dark); margin-bottom: 4px;
   }
   .book .room-selected-label { font-family: var(--ff-display); font-size: 18px; color: var(--navy); }
@@ -889,11 +889,21 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   }
   .book .tag-off { color: #c0392b; background: #fdf3f2; }
 
-  .book .err { color: #c0392b; font-size: 13px; font-weight: 600; margin: 14px 0 0; }
+  .book .err { color: #c0392b; font-size: 13px; font-weight: 600; margin: 14px 0 0; text-align: center; }
   .book .err:empty { display: none; }
 
-  .book .actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .book .actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; justify-content: center; }
   .book .actions .btn { padding: 13px 24px; }
+
+  /* Todo el flujo de reserva va centrado: barra de pasos, títulos, avisos y
+     botones al centro, y los pasos con formulario en una columna estrecha
+     centrada (la lista de habitaciones sigue a ancho completo). */
+  .book .book-steps { max-width: 760px; margin: 0 auto 40px; }
+  .book .panel > h2, .book .panel > .hint, .book .cal-legend { text-align: center; }
+  .book .cal-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; }
+  .book [data-step="date"].panel { max-width: 520px; margin: 0 auto; }
+  .book [data-step="date"] .fields label { text-align: center; }
+  .book [data-step="details"].panel, .book .book-summary { max-width: 640px; margin-left: auto; margin-right: auto; width: 100%; }
   .book [data-step="done"] .actions { justify-content: center; }
   .book [data-step="done"] .err { text-align: center; }
 
