@@ -501,15 +501,41 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .room-card-grid .room-card-footer,
 .room-card-grid .room-card-price { justify-content: center; }
 
-/* Si el nº de habitaciones NO es múltiplo de 3, la última se queda sola
-   al empezar una fila nueva de la cuadrícula (3 columnas) de la página
-   Habitaciones: en vez de una tarjeta compacta huérfana con hueco vacío
-   al lado, ocupa toda la fila en horizontal (foto al lado), como el
-   diseño original de .room-card. ":nth-child(3n+1):last-child" solo
-   selecciona la última tarjeta cuando además es la primera de su fila
-   (es decir, cuando de verdad se queda sola); si el total es múltiplo de
-   3 no coincide con ninguna tarjeta y no cambia nada. */
-@media (min-width: 761px) {
+/* Nunca queda una ficha suelta con hueco al lado: si la última empieza fila
+   nueva (2 columnas en tablet, 3 en escritorio), ocupa la fila entera en
+   horizontal (foto al lado), como el diseño original de .room-card.
+   ":nth-child(Nn+1):last-child" solo selecciona la última cuando además es la
+   primera de su fila; si el total llena todas las filas no coincide con
+   ninguna y no cambia nada. */
+@media (min-width: 700px) and (max-width: 999px) {
+  .room-picker-list .room-card:nth-child(2n+1):last-child {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(280px, 42%) 1fr;
+  }
+  .room-picker-list .room-card:nth-child(2n+1):last-child .room-card-body,
+  .room-picker-list .room-card:nth-child(2n+1):last-child .room-card-body h3 { order: 0; text-align: left; }
+  .room-picker-list .room-card:nth-child(2n+1):last-child .room-card-media { order: 0; aspect-ratio: auto; height: 100%; }
+  .room-picker-list .room-card:nth-child(2n+1):last-child .room-card-facts {
+    grid-template-columns: 1fr; max-width: none; margin-left: 0; margin-right: 0;
+  }
+  .room-picker-list .room-card:nth-child(2n+1):last-child .room-card-footer,
+  .room-picker-list .room-card:nth-child(2n+1):last-child .room-card-price { justify-content: flex-start; }
+}
+@media (min-width: 761px) and (max-width: 999px) {
+  .rooms-list .room-card:nth-child(2n+1):last-child {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(280px, 42%) 1fr;
+  }
+  .rooms-list .room-card:nth-child(2n+1):last-child .room-card-body,
+  .rooms-list .room-card:nth-child(2n+1):last-child .room-card-body h3 { order: 0; text-align: left; }
+  .rooms-list .room-card:nth-child(2n+1):last-child .room-card-media { order: 0; aspect-ratio: auto; height: 100%; }
+  .rooms-list .room-card:nth-child(2n+1):last-child .room-card-facts {
+    grid-template-columns: 1fr; max-width: none; margin-left: 0; margin-right: 0;
+  }
+  .rooms-list .room-card:nth-child(2n+1):last-child .room-card-footer,
+  .rooms-list .room-card:nth-child(2n+1):last-child .room-card-price { justify-content: flex-start; }
+}
+@media (min-width: 1000px) {
   .rooms-list .room-card:nth-child(3n+1):last-child {
     grid-column: 1 / -1;
     grid-template-columns: minmax(280px, 42%) 1fr;
