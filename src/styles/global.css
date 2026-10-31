@@ -596,10 +596,17 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .room-card-price strong { font-family: var(--ff-display); font-size: 26px; color: var(--navy); }
 .room-card-footer .btn { display: inline-flex; align-items: center; gap: 8px; }
 .room-card-footer .btn-arrow { gap: 12px; max-width: 100%; text-align: left; line-height: 1.25; }
-/* Tablet: fichas en 3 columnas estrechas; el texto del botón baja a 2 líneas
-   sin que el botón crezca (el círculo mantiene la altura). */
+/* El texto del botón va siempre en una sola línea: el pie de la ficha es un
+   contenedor y la letra se ajusta a su ancho (13px como máximo). La fórmula
+   es (ancho del pie − lo que ocupan relleno, hueco y círculo de la flecha) ÷
+   lo que mide el texto más largo (francés) por cada px de letra. */
+.room-card-footer { container-type: inline-size; }
+.room-card-footer .btn-arrow { white-space: nowrap; font-size: clamp(8px, calc((100cqw - 95px) / 16.2), 13px); }
 @media (min-width: 700px) and (max-width: 1100px) {
-  .room-card-footer .btn-arrow { font-size: 11.5px; letter-spacing: .04em; padding-left: 18px; gap: 10px; }
+  .room-card-footer .btn-arrow {
+    letter-spacing: .04em; padding-left: 16px; gap: 8px;
+    font-size: clamp(8px, calc((100cqw - 77px) / 15.5), 13px);
+  }
 }
 .room-card-hint { font-size: 12px; color: var(--text-soft); margin-top: 10px; }
 /* Estas van DESPUÉS de las reglas base de arriba a propósito: con la misma

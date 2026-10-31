@@ -33,5 +33,8 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
 <style>
   .rooms-outro { max-width: 680px; margin: 44px auto 0; text-align: center; color: var(--text-mid); font-size: 15px; line-height: 1.7; }
   .rooms-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 0 auto; }
+  /* Tablet estrecha: en 3 columnas la ficha es tan angosta que "Reservar
+     habitación N" no cabe en una línea; con 2 columnas sí. */
+  @media (min-width: 761px) and (max-width: 999px) { .rooms-list { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 760px) { .rooms-list { grid-template-columns: 1fr; } }
 </style>
