@@ -902,7 +902,11 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book .panel > h2, .book .panel > .hint, .book .cal-legend { text-align: center; }
   .book .cal-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; }
   .book [data-step="date"].panel { max-width: 520px; margin: 0 auto; }
-  .book [data-step="date"] .fields label { text-align: center; }
+  /* El selector de personas va solo y centrado en la columna, con el mismo
+     margen a cada lado (antes ocupaba media columna, pegado a la izquierda). */
+  .book [data-step="date"] .fields { display: flex; justify-content: center; }
+  .book [data-step="date"] .fields label { text-align: center; width: 100%; max-width: 260px; }
+  .book [data-step="date"] .fields select { width: 100%; text-align: center; text-align-last: center; }
   .book [data-step="details"].panel, .book .book-summary { max-width: 640px; margin-left: auto; margin-right: auto; width: 100%; }
   .book [data-step="done"] .actions { justify-content: center; }
   .book [data-step="done"] .err { text-align: center; }
