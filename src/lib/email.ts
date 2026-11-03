@@ -384,13 +384,13 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
           </td></tr>
 
           <!-- Saludo -->
-          <tr><td style="padding:34px 36px 6px">
+          <tr><td style="padding:34px 28px 6px">
             <p style="margin:0 0 10px;font-size:16px;color:#1B2A4A;font-weight:bold">${fmt(copy.greeting, { firstName: esc(data.firstName) })}</p>
             <p style="margin:0;font-size:18px;line-height:1.5;color:#1B2A4A">${copy.confirmed}</p>
           </td></tr>
 
           <!-- Localizador + datos -->
-          <tr><td style="padding:22px 36px 0">
+          <tr><td style="padding:22px 28px 0">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #EDE9DF;border-radius:10px;background:#FBFAF6">
               <tr><td align="center" style="padding:22px 24px 16px;border-bottom:1px solid #EDE9DF">
                 <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8A8578">${t['book.done.locator']}</div>
@@ -410,34 +410,34 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
           </td></tr>
 
           <!-- Aviso importante -->
-          <tr><td style="padding:22px 36px 0">
+          <tr><td style="padding:22px 28px 0">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FBF5E4;border-left:4px solid #C9A246;border-radius:6px">
               <tr><td style="padding:16px 20px;font-size:15px;line-height:1.65;color:#1B2A4A;font-weight:bold">${copy.showEmail}</td></tr>
             </table>
           </td></tr>
 
           <!-- Cómo llegar -->
-          <tr><td style="padding:26px 36px 0">
+          <tr><td style="padding:26px 28px 0">
             <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C9A246;font-weight:bold;margin-bottom:8px">${copy.arrivalTitle}</div>
             <p style="margin:0 0 10px;font-size:14px;line-height:1.7;color:#4A5568">${copy.arrival}</p>
             <p style="margin:0;font-size:14px;line-height:1.7;color:#4A5568">${copy.entrances}</p>
           </td></tr>
 
           <!-- Normas y condiciones -->
-          <tr><td style="padding:28px 36px 0">
+          <tr><td style="padding:28px 28px 0">
             <div style="border-top:1px solid #EDE9DF"></div>
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${termsHtml}</table>
           </td></tr>
 
           <!-- Despedida -->
-          <tr><td style="padding:30px 36px 8px">
+          <tr><td style="padding:30px 28px 8px">
             <p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:#1B2A4A">${copy.thanks}</p>
             <p style="margin:0;font-size:15px;color:#4A5568">${copy.signoff}</p>
             <p style="margin:2px 0 0;font-size:16px;color:#1B2A4A;font-weight:bold">${SITE.name}</p>
           </td></tr>
 
           <!-- Pie -->
-          <tr><td align="center" style="padding:26px 36px 32px">
+          <tr><td align="center" style="padding:26px 28px 32px">
             <div style="border-top:1px solid #EDE9DF;padding-top:22px">
               <p style="margin:0 0 6px;font-size:13px;color:#8A8578">${copy.contact}</p>
               <p style="margin:0;font-size:13px">
