@@ -206,6 +206,7 @@ const es: Dict = {
   'book.date.room_taken': 'El balcón de la habitación {n} ya está reservado ese día',
 
   'book.room.title': 'Elija su balcón',
+  'book.chosen.label': 'Su elección',
   'book.room.number': 'Balcón · Habitación {n}',
   'book.room.capacity': 'Hasta {n} personas',
   'book.room.price': '{price} / persona',
@@ -502,6 +503,7 @@ const en: Dict = {
   'book.date.room_taken': 'The balcony of room {n} is already booked that day',
 
   'book.room.title': 'Choose your balcony',
+  'book.chosen.label': 'Your choice',
   'book.room.number': 'Balcony · Room {n}',
   'book.room.capacity': 'Up to {n} people',
   'book.room.price': '{price} / person',
@@ -794,6 +796,7 @@ const it: Dict = {
   'book.date.room_taken': 'Il balcone della camera {n} è già prenotato quel giorno',
 
   'book.room.title': 'Scelga il suo balcone',
+  'book.chosen.label': 'La sua scelta',
   'book.room.number': 'Balcone · Camera {n}',
   'book.room.capacity': 'Fino a {n} persone',
   'book.room.price': '{price} / persona',
@@ -1087,6 +1090,7 @@ const fr: Dict = {
   'book.date.room_taken': 'Le balcon de la chambre {n} est déjà réservé ce jour-là',
 
   'book.room.title': 'Choisissez votre balcon',
+  'book.chosen.label': 'Votre choix',
   'book.room.number': 'Balcon · Chambre {n}',
   'book.room.capacity': "Jusqu'à {n} personnes",
   'book.room.price': '{price} / personne',
@@ -1381,6 +1385,7 @@ const de: Dict = {
   'book.date.room_taken': 'Der Balkon von Zimmer {n} ist an diesem Tag bereits gebucht',
 
   'book.room.title': 'Wählen Sie Ihren Balkon',
+  'book.chosen.label': 'Ihre Wahl',
   'book.room.number': 'Balkon · Zimmer {n}',
   'book.room.capacity': 'Bis zu {n} Personen',
   'book.room.price': '{price} / Person',
