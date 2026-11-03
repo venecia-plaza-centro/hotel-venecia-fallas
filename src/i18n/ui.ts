@@ -78,6 +78,7 @@ const es: Dict = {
   'home.rooms.lead': 'Seleccione la fecha, habitación y número de personas. Del resto nos encargamos nosotros.',
   'home.rooms.seeall': 'Ver todas las habitaciones',
   'home.minis.count': '{n} habitaciones, todas con balcón sobre la plaza',
+  'home.minis.incl': 'Todas las habitaciones incluyen',
 
   // home · franja inferior
   'home.strip.schedule.t': 'Horario de acceso',
@@ -387,6 +388,7 @@ const en: Dict = {
   'home.rooms.lead': 'Pick a date, room and number of guests. We take care of the rest.',
   'home.rooms.seeall': 'See all 9 rooms',
   'home.minis.count': '{n} rooms, all with a balcony over the square',
+  'home.minis.incl': 'Every room includes',
 
   'home.strip.schedule.t': 'Access hours',
   'home.strip.schedule.v': '1pm – 3pm',
@@ -685,6 +687,7 @@ const it: Dict = {
   'home.rooms.lead': 'Selezioni la data, la camera e il numero di persone. Al resto pensiamo noi.',
   'home.rooms.seeall': 'Vedi tutte le camere',
   'home.minis.count': '{n} camere, tutte con balcone sulla piazza',
+  'home.minis.incl': 'Tutte le camere includono',
 
   'home.strip.schedule.t': 'Orario di accesso',
   'home.strip.schedule.v': '13:00 – 15:00',
@@ -984,6 +987,7 @@ const fr: Dict = {
   'home.rooms.lead': 'Sélectionnez la date, la chambre et le nombre de personnes. Nous nous occupons du reste.',
   'home.rooms.seeall': 'Voir toutes les chambres',
   'home.minis.count': '{n} chambres, toutes avec balcon sur la place',
+  'home.minis.incl': 'Toutes les chambres comprennent',
 
   'home.strip.schedule.t': "Horaire d'accès",
   'home.strip.schedule.v': '13h00 – 15h00',
@@ -1284,6 +1288,7 @@ const de: Dict = {
   'home.rooms.lead': 'Wählen Sie Datum, Zimmer und Personenzahl. Um den Rest kümmern wir uns.',
   'home.rooms.seeall': 'Alle Zimmer ansehen',
   'home.minis.count': '{n} Zimmer, alle mit Balkon zum Platz',
+  'home.minis.incl': 'Alle Zimmer beinhalten',
 
   'home.strip.schedule.t': 'Zugangszeiten',
   'home.strip.schedule.v': '13:00 – 15:00 Uhr',

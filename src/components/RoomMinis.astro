@@ -1,8 +1,9 @@
 ---
-import { type Locale } from '../consts';
+import { FALLAS, type Locale } from '../consts';
 import { pagePath } from '../i18n/pages';
 import { useT } from '../i18n/ui';
 import { GUEST_OPTIONS, type Room } from '../lib/booking';
+import Icon from './Icon.astro';
 
 interface Props { rooms: Room[]; lang: Locale; }
 const { rooms, lang } = Astro.props;
@@ -11,6 +12,7 @@ const fmt = (key: string, vars: Record<string, string | number> = {}) =>
   t(key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 
 const bookUrl = pagePath('book', lang);
+const maxCapacity = Math.max(...rooms.map((r) => r.capacity));
 const money = (n: number) =>
   new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
     style: 'currency', currency: 'EUR', maximumFractionDigits: 0,
@@ -23,6 +25,17 @@ const minPerPerson = (room: Room) => Math.min(
 ---
 
 <div class="room-minis">
+  <div class="room-incl">
+    <p class="room-incl-h">{t('home.minis.incl')}</p>
+    <ul class="room-incl-list">
+      <li><Icon name="sparkle" size={20} /><span>{t('roomcard.balcony')}</span></li>
+      <li><Icon name="shower" size={20} /><span>{t('roomcard.bath')}</span></li>
+      <li><Icon name="users" size={20} /><span>{fmt('roomcard.capacity', { n: maxCapacity })}</span></li>
+      <li><Icon name="clock" size={20} /><span>{fmt('roomcard.hours', { start: FALLAS.accessStart, end: FALLAS.accessEnd })}</span></li>
+      <li class="room-incl-wide"><Icon name="gift" size={20} /><span>{t('roomcard.snack')}</span></li>
+    </ul>
+    <p class="room-incl-note">{t('roomcard.private')}</p>
+  </div>
   <p class="room-minis-count">{fmt('home.minis.count', { n: rooms.length })}</p>
   <ul class="room-minis-grid">
     {rooms.map((r) => (
@@ -78,6 +91,17 @@ const minPerPerson = (room: Room) => Math.min(
 
 <style>
   .room-minis { max-width: 540px; margin: 0 auto 44px; scroll-margin-top: 96px; }
+  .room-incl { background: #fff; border: 1px solid var(--cream-dark); border-radius: 16px; padding: 22px 20px 18px; margin-bottom: 32px; box-shadow: var(--sh-sm); }
+  .room-incl-h { text-align: center; font-family: var(--ff-display); font-size: 20px; color: var(--navy); margin: 0 0 16px; }
+  .room-incl-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+  .room-incl-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--text-mid); text-align: left; }
+  .room-incl-list li :global(svg) { flex: none; margin-top: 1px; color: var(--gold); }
+  .room-incl-wide { grid-column: 1 / -1; }
+  .room-incl-note { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--cream-dark); text-align: center; font-size: 13.5px; font-weight: 600; color: var(--navy); line-height: 1.5; }
+  @media (max-width: 480px) {
+    .room-incl { padding: 18px 16px 16px; }
+    .room-incl-list { grid-template-columns: 1fr; }
+  }
   .room-minis-count { text-align: center; color: var(--text-mid); font-size: 15px; margin: 0 0 16px; }
   .room-minis-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   @media (max-width: 480px) { .room-minis-grid { gap: 8px; } }
