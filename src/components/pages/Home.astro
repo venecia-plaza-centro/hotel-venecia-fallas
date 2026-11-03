@@ -6,12 +6,14 @@ import { getRooms } from '../../lib/airtable';
 import GoldRule from '../GoldRule.astro';
 import Icon from '../Icon.astro';
 import RoomCard from '../RoomCard.astro';
+import RoomMinis from '../RoomMinis.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-const rooms = (await getRooms()).slice(0, 3);
+const allRooms = await getRooms();
+const rooms = allRooms.slice(0, 3);
 const roomsUrl = pagePath('rooms', lang);
 
 // Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
@@ -131,7 +133,10 @@ const strip = [
       <p class="lead">{t('rooms.intro')}</p>
       <p class="lead">{t('home.rooms.lead')}</p>
     </div>
-    <div class="room-picker-list" id="rooms">
+    <div id="rooms">
+      <RoomMinis rooms={allRooms} lang={lang} />
+    </div>
+    <div class="room-picker-list">
       {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
     </div>
     <div class="room-picker-more">
@@ -387,9 +392,10 @@ const strip = [
   .room-picker-head .lead { margin-top: 14px; }
   /* scroll-margin-top: el botón Reservar del header enlaza aquí (#rooms);
      sin esto, el ancla quedaría tapada por el nav fijo. */
+  #rooms { scroll-margin-top: 96px; }
   .room-picker-list {
     display: grid; grid-template-columns: 1fr;
-    gap: 28px; margin: 0 auto; scroll-margin-top: 96px;
+    gap: 28px; margin: 0 auto;
   }
   /* 3 columnas a partir de aquí (tablets y escritorio); en móvil, apiladas
      en 1 columna, si no las tarjetas quedan demasiado estrechas. */
