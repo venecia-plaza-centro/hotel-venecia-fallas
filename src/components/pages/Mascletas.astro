@@ -45,9 +45,10 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
     <p class="mascletas-pyro">{t('mascletas.pyro')}</p>
     <ul class="mascletas-list" style="list-style:none;display:grid;grid-template-columns:1fr;gap:2px">
       {days.map((d) => (
-        <li style="display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
-          <span style="text-align:right"><strong>{d}</strong> {t('mascletas.month')}</span>
-          <span style="color:var(--text-soft);text-align:left">{FALLAS.mascletaTime}</span>
+        <li style="display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;gap:16px;padding:12px 4px;border-bottom:1px solid var(--cream-dark)">
+          <span><strong>{d}</strong> {t('mascletas.month')}</span>
+          <span style="color:var(--gold);font-style:italic;text-align:center">{t('mascletas.pyrolabel')}</span>
+          <span style="color:var(--text-soft);text-align:right">{FALLAS.mascletaTime}</span>
         </li>
       ))}
     </ul>

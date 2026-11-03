@@ -113,6 +113,7 @@ const es: Dict = {
   'mascletas.hotel.p': 'El Hotel Venecia Plaza Centro está en la propia Plaza del Ayuntamiento, 3. Del 1 al 12 de marzo puede reservar online una habitación con balcón privado sobre la plaza para ver la mascletà de las 14:00 h: acceso de 13:00 a 15:00 h, hasta 4 personas, baño privado y Snack Pack incluido.',
   'mascletas.march': 'Marzo 2027',
   'mascletas.month': 'Marzo',
+  'mascletas.pyrolabel': 'Pirotecnia',
 
   // galería
   'gallery.h1': 'Galería',
@@ -417,6 +418,7 @@ const en: Dict = {
   'mascletas.hotel.p': 'Hotel Venecia Plaza Centro is right on Plaza del Ayuntamiento, 3. From 1 to 12 March you can book online a room with a private balcony over the square to watch the 2:00 pm mascletà: access from 1:00 pm to 3:00 pm, up to 4 guests, private bathroom and Snack Pack included.',
   'mascletas.march': 'March 2027',
   'mascletas.month': 'March',
+  'mascletas.pyrolabel': 'Pyrotechnics',
 
   'gallery.h1': 'Photo gallery',
   'gallery.alt': 'Hotel Venecia Plaza Centro, photo {n}',
@@ -713,6 +715,7 @@ const it: Dict = {
   'mascletas.hotel.p': 'L’Hotel Venecia Plaza Centro si trova proprio in Plaza del Ayuntamiento, 3. Dal 1 al 12 marzo può prenotare online una camera con balcone privato sulla piazza per vedere la mascletà delle 14:00: accesso dalle 13:00 alle 15:00, fino a 4 persone, bagno privato e Snack Pack incluso.',
   'mascletas.march': 'Marzo 2027',
   'mascletas.month': 'Marzo',
+  'mascletas.pyrolabel': 'Pirotecnia',
 
   'gallery.h1': 'Galleria',
   'gallery.alt': 'Hotel Venecia Plaza Centro, foto {n}',
@@ -1010,6 +1013,7 @@ const fr: Dict = {
   'mascletas.hotel.p': 'L’Hôtel Venecia Plaza Centro se trouve sur la Plaza del Ayuntamiento, 3. Du 1er au 12 mars, vous pouvez réserver en ligne une chambre avec balcon privé sur la place pour voir la mascletà de 14h00 : accès de 13h00 à 15h00, jusqu’à 4 personnes, salle de bain privée et Snack Pack inclus.',
   'mascletas.march': 'Mars 2027',
   'mascletas.month': 'Mars',
+  'mascletas.pyrolabel': 'Pyrotechnie',
 
   'gallery.h1': 'Galerie',
   'gallery.alt': 'Hôtel Venecia Plaza Centro, photo {n}',
@@ -1308,6 +1312,7 @@ const de: Dict = {
   'mascletas.hotel.p': 'Das Hotel Venecia Plaza Centro liegt direkt an der Plaza del Ayuntamiento, 3. Vom 1. bis 12. März können Sie online ein Zimmer mit privatem Balkon zum Platz buchen, um die Mascletà um 14:00 Uhr zu erleben: Zugang von 13:00 bis 15:00 Uhr, bis zu 4 Personen, eigenes Bad und Snack Pack inklusive.',
   'mascletas.march': 'März 2027',
   'mascletas.month': 'März',
+  'mascletas.pyrolabel': 'Pyrotechnik',
 
   'gallery.h1': 'Galerie',
   'gallery.alt': 'Hotel Venecia Plaza Centro, Foto {n}',
