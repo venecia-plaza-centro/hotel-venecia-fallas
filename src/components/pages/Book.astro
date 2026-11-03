@@ -29,6 +29,16 @@ const config = {
 };
 
 const stepKeys = ['date', 'room', 'details', 'done'] as const;
+
+// "Días del 1 al 12 de marzo de 2027. Acceso de 13:00 a 15:00 h, mascletà a las
+// 14:00 h." en dos frases, cada una en su línea. Se corta tras el año (no en el
+// primer punto: en alemán "1. bis 12. März" lleva puntos de ordinal).
+const windowSentences = t('book.date.window')
+  .replace('{start}', config.accessStart)
+  .replace('{end}', config.accessEnd)
+  .replace('{mascleta}', config.mascletaTime)
+  .replace(/(\d{4})\.\s+/, '$1.\u0000')
+  .split('\u0000');
 ---
 
 <PageHero title={t('book.h1')} lead={t('book.lead')} />
@@ -59,11 +69,8 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
         <!-- Paso 1 · Fecha -->
         <div data-step="date" class="panel">
           <h2 tabindex="-1">{t('book.date.title')}</h2>
-          <p class="hint">
-            {t('book.date.window')
-              .replace('{start}', config.accessStart)
-              .replace('{end}', config.accessEnd)
-              .replace('{mascleta}', config.mascletaTime)}
+          <p class="hint hint-two">
+            {windowSentences.map((s) => <span>{s}</span>)}
           </p>
           <div class="fields">
             <label>
@@ -820,6 +827,7 @@ const stepKeys = ['date', 'room', 'details', 'done'] as const;
   .book .panel { scroll-margin-top: 96px; }
   .book .panel h2 { font-size: 24px; margin-bottom: 6px; outline: none; }
   .book .hint { color: var(--text-soft); font-size: 14px; }
+  .book .hint-two span { display: block; }
   .book .panel > .hint { margin-bottom: 20px; }
 
   .book .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
