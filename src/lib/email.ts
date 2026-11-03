@@ -36,13 +36,14 @@ interface EmailCopy {
 
 const EMAIL_COPY: Record<string, EmailCopy> = {
   es: {
-    subject: 'Reserva confirmada {locator} · Fallas 2027',
-    preheader: 'Su reserva ha sido confirmada. Enseñe este correo para subir a la habitación.',
-    banner: 'Reserva confirmada',
+    subject: 'Reserva confirmada {locator} · Mascletàs 2027',
+    preheader: 'Su balcón está reservado. Enseñe este correo para subir a su habitación.',
+    banner: 'Su balcón está reservado',
     greeting: 'Estimado/a {firstName}:',
-    confirmed: 'Su reserva ha sido confirmada.',
+    confirmed:
+      'Su reserva ha sido confirmada: tiene un balcón privado sobre la Plaza del Ayuntamiento para ver la mascletà. El balcón es parte de una habitación real del hotel, que será solo para su grupo.',
     showEmail:
-      'Deberán enseñar este correo para subir a la habitación y necesitaremos el DNI del titular de la reserva para hacer el registro.',
+      'Deberán enseñar este correo para subir a la habitación de su balcón y necesitaremos el DNI del titular de la reserva para hacer el registro.',
     detailsTitle: 'Los datos de su reserva',
     arrivalTitle: 'Cómo llegar',
     arrival:
@@ -83,13 +84,14 @@ const EMAIL_COPY: Record<string, EmailCopy> = {
     contact: '¿Alguna duda? Escríbanos o llámenos:',
   },
   en: {
-    subject: 'Booking confirmed {locator} · Fallas 2027',
-    preheader: 'Your booking is confirmed. Show this email to go up to your room.',
-    banner: 'Booking confirmed',
+    subject: 'Booking confirmed {locator} · Mascletàs 2027',
+    preheader: 'Your balcony is booked. Show this email to go up to your room.',
+    banner: 'Your balcony is booked',
     greeting: 'Dear {firstName},',
-    confirmed: 'Your booking has been confirmed.',
+    confirmed:
+      'Your booking is confirmed: you have a private balcony over Plaza del Ayuntamiento to watch the mascletà. The balcony is part of a real hotel room, which will be for your group only.',
     showEmail:
-      'You will need to show this email to go up to the room, and we will need the ID of the person who made the booking to complete the check-in.',
+      'You will need to show this email to go up to your balcony’s room, and we will need the ID of the person who made the booking to complete the check-in.',
     detailsTitle: 'Your booking details',
     arrivalTitle: 'Getting here',
     arrival:
@@ -204,7 +206,7 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
 
           <!-- Banner navy -->
           <tr><td align="center" style="background:#1B2A4A;padding:34px 32px;margin-top:24px">
-            <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A246">Fallas ${FALLAS.year}</div>
+            <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A246">Mascletàs ${FALLAS.year}</div>
             <div style="font-size:28px;color:#ffffff;font-weight:bold;margin-top:10px">${copy.banner}</div>
             <div style="width:44px;height:44px;border-radius:50%;border:2px solid #C9A246;color:#C9A246;font-size:22px;line-height:40px;margin:18px auto 0">✓</div>
           </td></tr>
@@ -300,7 +302,7 @@ function buildCustomerEmailText(data: BookingEmail): string {
     `Localizador: ${data.locator}`,
     `Fecha: ${formatDate(data.date, data.lang)}`,
     `Huéspedes: ${data.guests}`,
-    `Habitación: ${data.room.roomNumber}`,
+    `${dictFor(data.lang)['book.summary.room']}: ${dictFor(data.lang)['book.room.number'].replace('{n}', data.room.roomNumber)}`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
     '',
     copy.arrival,
@@ -323,7 +325,7 @@ function buildHotelEmailHtml(data: BookingEmail): string {
     ['Email', `<a href="mailto:${esc(data.email)}" style="color:#1B2A4A">${esc(data.email)}</a>`],
     ['Teléfono', `<a href="tel:${esc(data.phone)}" style="color:#1B2A4A">${esc(data.phone)}</a>`],
     ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`],
-    ['Habitación', `${data.room.roomNumber} (${esc(data.room.floor)}) · ${data.guests} huéspedes`],
+    ['Balcón', `Habitación ${data.room.roomNumber} (${esc(data.room.floor)}) · ${data.guests} huéspedes`],
     ['Total', `${money(data.quote.total, 'es')} · Snack Pack incluido`],
     ...(data.payment
       ? ([
@@ -350,7 +352,7 @@ function buildHotelEmailHtml(data: BookingEmail): string {
 <body style="margin:0;padding:24px 12px;background:#F1EDE2;font-family:Georgia,'Times New Roman',serif">
   <table role="presentation" width="560" cellpadding="0" cellspacing="0" align="center" style="max-width:560px;width:100%;background:#fff;border-radius:12px;overflow:hidden">
     <tr><td style="background:#1B2A4A;padding:24px;text-align:center">
-      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A246">Fallas ${FALLAS.year}</div>
+      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A246">Mascletàs ${FALLAS.year}</div>
       <div style="font-size:22px;color:#fff;font-weight:bold;margin-top:6px">Nueva reserva recibida</div>
     </td></tr>
     ${demo}
@@ -368,7 +370,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
     `Localizador: ${data.locator}`,
     `Cliente: ${data.firstName} ${data.lastName} · ${data.email} · ${data.phone}`,
     `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
-    `Habitación: ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
+    `Balcón: habitación ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
     data.payment ? `Pago: Redsys · pedido ${data.payment.order}${data.payment.authCode ? ` · autorización ${data.payment.authCode}` : ''}` : null,
     data.notes ? `Notas: ${data.notes}` : null,
@@ -386,7 +388,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
 
   await deliver({
     to: HOTEL_RECIPIENTS,
-    subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nueva reserva ${data.locator} · ${data.date} · hab. ${data.room.roomNumber}`,
+    subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nueva reserva ${data.locator} · ${data.date} · balcón hab. ${data.room.roomNumber}`,
     html: buildHotelEmailHtml(data),
     text: hotelSummary,
   });
@@ -417,8 +419,8 @@ export async function sendPaymentRefundedNotice(input: {
     ? 'Su balcón privado ya no está disponible — reembolso en curso'
     : 'Your private balcony is no longer available — refund on its way';
   const text = es
-    ? `Estimado/a ${input.firstName}:\n\nLo sentimos mucho: justo cuando se completaba su pago, la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a su método de pago en los próximos días.\n\nPuede elegir otra habitación o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y le ayudaremos.`
-    : `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another room or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`;
+    ? `Estimado/a ${input.firstName}:\n\nLo sentimos mucho: justo cuando se completaba su pago, el balcón de la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a su método de pago en los próximos días.\n\nPuede elegir otro balcón o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y le ayudaremos.`
+    : `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, the balcony of room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another balcony or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`;
   await deliver({ to: input.email, subject, text });
   await deliver({
     to: HOTEL_RECIPIENTS,

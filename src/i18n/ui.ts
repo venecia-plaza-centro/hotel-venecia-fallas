@@ -78,7 +78,7 @@ const es: Dict = {
   'home.rooms.seeall': 'Ver los 9 balcones',
   'home.minis.count': '{n} balcones privados, cada uno en una habitación del Hotel Venecia',
   'home.minis.incl': 'Cada balcón incluye',
-  'home.minis.bath': 'Habitación del hotel con baño privado',
+  'home.minis.bath': 'Baño privado',
 
   // home · franja inferior
   'home.strip.schedule.t': 'Horario de acceso',
@@ -382,7 +382,7 @@ const en: Dict = {
   'home.rooms.seeall': 'See all 9 balconies',
   'home.minis.count': '{n} private balconies, each in a Hotel Venecia room',
   'home.minis.incl': 'Every balcony includes',
-  'home.minis.bath': 'Hotel room with private bathroom',
+  'home.minis.bath': 'Private bathroom',
 
   'home.strip.schedule.t': 'Access hours',
   'home.strip.schedule.v': '1pm – 3pm',
@@ -675,7 +675,7 @@ const it: Dict = {
   'home.rooms.seeall': 'Vedi tutti i 9 balconi',
   'home.minis.count': '{n} balconi privati, ciascuno in una camera dell’Hotel Venecia',
   'home.minis.incl': 'Ogni balcone include',
-  'home.minis.bath': 'Camera dell’hotel con bagno privato',
+  'home.minis.bath': 'Bagno privato',
 
   'home.strip.schedule.t': 'Orario di accesso',
   'home.strip.schedule.v': '13:00 – 15:00',
@@ -969,7 +969,7 @@ const fr: Dict = {
   'home.rooms.seeall': 'Voir les 9 balcons',
   'home.minis.count': '{n} balcons privés, chacun dans une chambre de l’Hôtel Venecia',
   'home.minis.incl': 'Chaque balcon comprend',
-  'home.minis.bath': 'Chambre d’hôtel avec salle de bain privée',
+  'home.minis.bath': 'Salle de bain privée',
 
   'home.strip.schedule.t': "Horaire d'accès",
   'home.strip.schedule.v': '13h00 – 15h00',
@@ -1264,7 +1264,7 @@ const de: Dict = {
   'home.rooms.seeall': 'Alle 9 Balkone ansehen',
   'home.minis.count': '{n} private Balkone, jeder in einem Zimmer des Hotels Venecia',
   'home.minis.incl': 'Jeder Balkon beinhaltet',
-  'home.minis.bath': 'Hotelzimmer mit eigenem Bad',
+  'home.minis.bath': 'Eigenes Bad',
 
   'home.strip.schedule.t': 'Zugangszeiten',
   'home.strip.schedule.v': '13:00 – 15:00 Uhr',
