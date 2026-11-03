@@ -11,6 +11,11 @@ const t = useT(lang);
 const fmt = (key: string, vars: Record<string, string | number> = {}) =>
   t(key).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 
+// "9 balcones privados, cada uno en una habitación…": lo de antes de la primera
+// coma es el titular (con el número destacado) y el resto, la aclaración.
+const [countHeadFull, ...countRest] = fmt('home.minis.count', { n: rooms.length }).split(/,\s*/);
+const countHead = countHeadFull.replace(/^\d+\s*/, '');
+const countTail = countRest.join(', ');
 const bookUrl = pagePath('book', lang);
 const maxCapacity = Math.max(...rooms.map((r) => r.capacity));
 const money = (n: number) =>
@@ -36,7 +41,10 @@ const minPerPerson = (room: Room) => Math.min(
     </ul>
     <p class="room-incl-note">{t('roomcard.private')}</p>
   </div>
-  <p class="room-minis-count">{fmt('home.minis.count', { n: rooms.length })}</p>
+  <p class="room-minis-count">
+    <span class="room-minis-head"><span class="room-minis-num">{rooms.length}</span> {countHead}</span>
+    {countTail && <span class="room-minis-tail">{countTail}</span>}
+  </p>
   <ul class="room-minis-grid">
     {rooms.map((r) => (
       <li>
@@ -102,7 +110,12 @@ const minPerPerson = (room: Room) => Math.min(
     .room-incl { padding: 18px 16px 16px; }
     .room-incl-list { grid-template-columns: 1fr; }
   }
-  .room-minis-count { text-align: center; color: var(--text-mid); font-size: 15px; margin: 0 0 16px; }
+  .room-minis-count { text-align: center; margin: 0 0 20px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .room-minis-head { font-family: var(--ff-display); font-weight: 700; font-size: clamp(24px, 5.4vw, 32px); line-height: 1.1; color: var(--navy); }
+  .room-minis-num { font-style: italic; font-size: 1.45em; color: var(--gold); line-height: 1; margin-right: 2px; }
+  .room-minis-tail { font-size: 15px; color: var(--text-mid); }
+  .room-minis-tail::before, .room-minis-tail::after { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); vertical-align: middle; margin: 0 12px; opacity: .8; }
+  @media (max-width: 480px) { .room-minis-tail::before, .room-minis-tail::after { display: none; } }
   .room-minis-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   @media (max-width: 480px) { .room-minis-grid { gap: 8px; } }
   .room-mini {
