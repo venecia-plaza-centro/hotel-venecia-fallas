@@ -35,7 +35,7 @@ export const PAGES: PageDef[] = [
   },
   {
     id: 'rooms',
-    slug: { es: 'habitaciones', en: 'rooms', it: 'camere', fr: 'chambres', de: 'zimmer' },
+    slug: { es: 'balcones', en: 'balconies', it: 'balconi', fr: 'balcons', de: 'balkone' },
     inNav: true,
     inFooter: true,
   },

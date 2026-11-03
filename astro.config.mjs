@@ -35,6 +35,16 @@ export default defineConfig({
       },
     }),
   ],
+  // La página de Balcones se llamaba antes "habitaciones" (rooms, camere...):
+  // las URLs antiguas ya están indexadas y compartidas, así que redirigen a las
+  // nuevas (redirección permanente) en vez de dar 404.
+  redirects: {
+    '/habitaciones': '/balcones/',
+    '/en/rooms': '/en/balconies/',
+    '/it/camere': '/it/balconi/',
+    '/fr/chambres': '/fr/balcons/',
+    '/de/zimmer': '/de/balkone/',
+  },
   build: {
     inlineStylesheets: 'auto',
   },
