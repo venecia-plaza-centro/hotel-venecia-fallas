@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { isGuestCount, isLocale, priceForGuests } from '../../lib/booking';
 import { cancelBooking, confirmHeldBooking, createBooking, findBooking, getRoomOffers } from '../../lib/airtable';
 import { sendBookingEmails, sendPaymentRefundedNotice } from '../../lib/email';
-import { isAuthorised, readMerchantData, redsysEnabled, refundOrder, verifyNotification } from '../../lib/redsys';
+import { isAuthorised, isOwnMerchant, readMerchantData, redsysEnabled, refundOrder, verifyNotification } from '../../lib/redsys';
 import { DEFAULT_LOCALE } from '../../consts';
 
 export const prerender = false;
@@ -23,7 +23,12 @@ const ok = (body = 'OK') => new Response(body, { status: 200, headers: { 'conten
 export const POST: APIRoute = async ({ request }) => {
   if (!redsysEnabled()) return new Response('no-configurado', { status: 500 });
 
-  const form = await request.formData();
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return new Response('cuerpo-invalido', { status: 400 });
+  }
   const params = verifyNotification({
     Ds_SignatureVersion: String(form.get('Ds_SignatureVersion') ?? ''),
     Ds_MerchantParameters: String(form.get('Ds_MerchantParameters') ?? ''),
@@ -32,6 +37,11 @@ export const POST: APIRoute = async ({ request }) => {
   if (!params) {
     console.error('[redsys-notification] firma inválida');
     return new Response('firma-invalida', { status: 400 });
+  }
+
+  if (!isOwnMerchant(params)) {
+    console.error('[redsys-notification] código de comercio ajeno');
+    return new Response('comercio-invalido', { status: 400 });
   }
 
   const m = readMerchantData(params);
@@ -64,9 +74,16 @@ export const POST: APIRoute = async ({ request }) => {
     const offers = await getRoomOffers(date, { fresh: true, excludeLocator: m.locator });
     const room = offers.find((r) => r.slug === roomSlug);
 
-    if (!room || !room.available || !isGuestCount(guests)) {
-      // Doble reserva por poco margen: el pago ya se ha cobrado, así que se
-      // devuelve en vez de dejar al cliente con un cargo sin habitación.
+    // Lo cobrado nunca puede ser menos que el precio de la habitación (p. ej.
+    // si el precio cambió en Airtable mientras el cliente estaba pagando): en
+    // ese caso no se confirma, se devuelve y se avisa.
+    const priced = room && isGuestCount(guests) ? priceForGuests(room, guests, date) : 0;
+    const underpaid = priced > 0 && amountCents < Math.round(priced * 100);
+
+    if (!room || !room.available || !isGuestCount(guests) || underpaid) {
+      // Doble reserva por poco margen (o importe que no cuadra): el pago ya se
+      // ha cobrado, así que se devuelve en vez de dejar al cliente con un
+      // cargo sin habitación.
       if (existing) await cancelBooking(existing.id);
       const refunded = await refundOrder(order, amountCents);
       await sendPaymentRefundedNotice({
@@ -82,7 +99,7 @@ export const POST: APIRoute = async ({ request }) => {
       return ok('reembolsada');
     }
 
-    const total = priceForGuests(room, guests, date);
+    const total = priced;
 
     if (existing) {
       await confirmHeldBooking(existing.id, total, { order, authCode: params.Ds_AuthorisationCode });

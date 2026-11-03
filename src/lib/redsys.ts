@@ -151,6 +151,12 @@ export function readMerchantData(params: Record<string, string>): Record<string,
   }
 }
 
+/** El código de comercio de la notificación es el nuestro (si viene). */
+export function isOwnMerchant(params: Record<string, string>): boolean {
+  const code = params.Ds_MerchantCode;
+  return !code || code === MERCHANT_CODE;
+}
+
 /** Valida la firma de una notificación de Redsys y devuelve sus parámetros
  *  (null si la firma no es válida). */
 export function verifyNotification(form: {
@@ -212,6 +218,14 @@ export async function refundOrder(order: string, amountCents: number): Promise<b
 }
 
 // --- token de vuelta ---------------------------------------------------
+
+/** "ana.lopez@gmail.com" → "a***@gmail.com". La URL de vuelta del TPV queda
+ *  en historial y logs: no debe llevar el email completo ni el teléfono. */
+export function maskEmail(email: string): string {
+  const at = email.lastIndexOf('@');
+  if (at < 1) return '';
+  return `${email[0]}***${email.slice(at)}`;
+}
 
 /** Al volver del TPV (URL OK) la web necesita los datos para pintar la
  *  confirmación sin depender de que la notificación ya se haya procesado.

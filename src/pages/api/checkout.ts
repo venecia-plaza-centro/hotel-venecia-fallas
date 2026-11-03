@@ -4,7 +4,7 @@ import { pagePath } from '../../i18n/pages';
 import { buildQuote, isGuestCount, isLocale, validateDate } from '../../lib/booking';
 import { airtableEnabled, createBooking, getRoomOffers, newLocator, placeHold } from '../../lib/airtable';
 import { sendBookingEmails } from '../../lib/email';
-import { buildPayment, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
+import { buildPayment, maskEmail, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
 import { handleError, json } from '../../lib/api';
 import { salesStatus } from '../../lib/sales';
 import { clientIp, isRateLimited } from '../../lib/rate-limit';
@@ -12,7 +12,12 @@ import { clientIp, isRateLimited } from '../../lib/rate-limit';
 export const prerender = false;
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
+const str = (v: unknown, max = 200) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+
+// Mismos topes que viajan en los datos del pago (ver `cut` más abajo): así lo
+// que se guarda en Airtable es lo mismo que confirma el banco, y nadie puede
+// meter megabytes en un campo.
+const MAX = { name: 60, email: 100, phone: 30, country: 40, notes: 200, short: 40 } as const;
 
 // Sin esto, un script podría disparar este endpoint sin parar para bloquear
 // (sin pagar) las 9 habitaciones los 12 días de venta, dejando la web sin
@@ -50,17 +55,20 @@ export const POST: APIRoute = async ({ request, url }) => {
     return json({ ok: false, error: 'json' }, 400);
   }
 
-  const date = str(body.date);
-  const roomSlug = str(body.roomSlug);
+  const date = str(body.date, 10);
+  const roomSlug = str(body.roomSlug, MAX.short);
   const guests = Number(body.guests);
   const lang = isLocale(body.lang) ? body.lang : DEFAULT_LOCALE;
 
-  const firstName = str(body.firstName);
-  const lastName = str(body.lastName);
-  const email = str(body.email);
-  const phone = str(body.phone);
-  const country = str(body.country);
-  const notes = str(body.notes);
+  const firstName = str(body.firstName, MAX.name);
+  const lastName = str(body.lastName, MAX.name);
+  // El email NO se recorta en silencio (quedaría otra dirección): si es más
+  // largo de lo que cabe, se rechaza como inválido.
+  const emailRaw = typeof body.email === 'string' ? body.email.trim() : '';
+  const email = emailRaw.length <= MAX.email ? emailRaw : '';
+  const phone = str(body.phone, MAX.phone);
+  const country = str(body.country, MAX.country);
+  const notes = str(body.notes, MAX.notes);
   const consent = body.consent === true;
 
   const check = validateDate(date);
@@ -196,8 +204,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         roomNumber: room.roomNumber,
         roomSlug: room.slug,
         total: quote.total,
-        email,
-        phone,
+        email: maskEmail(email),
       })}`,
       koUrl: `${url.origin}${bookPath}?canceled=1`,
     });

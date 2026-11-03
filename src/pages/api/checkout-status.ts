@@ -29,6 +29,5 @@ export const GET: APIRoute = async ({ url }) => {
     room: { roomNumber: String(m.roomNumber ?? ''), slug: String(m.roomSlug ?? '') },
     quote: { total: Number(m.total), currency: 'EUR' },
     email: String(m.email ?? ''),
-    phone: String(m.phone ?? ''),
   });
 };
