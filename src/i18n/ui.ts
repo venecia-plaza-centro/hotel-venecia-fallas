@@ -171,7 +171,7 @@ const es: Dict = {
   'roomcard.snack':
     'Snack Pack incluido: patatas, mini fuet, aceitunas, frutos secos, 2 refrescos o cervezas y 1 agua por persona',
   'roomcard.hours': 'Disponible de {start} a {end} h',
-  'roomcard.private': 'El balcón y la habitación se reservan completos, solo para su grupo, durante toda la experiencia. No incluye pernoctación.',
+  'roomcard.private': 'El balcón de la habitación se reserva en exclusiva para su grupo durante toda la experiencia. No incluye pernoctación.',
   'roomcard.from': 'Desde',
   'roomcard.perperson': '/ persona',
   'roomcard.book': 'Reservar balcón {n}',
@@ -469,7 +469,7 @@ const en: Dict = {
   'roomcard.snack':
     'Snack Pack included: crisps, mini fuet sausage, olives, nuts, 2 soft drinks or beers and 1 water per person',
   'roomcard.hours': 'Available from {start} to {end}',
-  'roomcard.private': 'The balcony and room are booked in full, for your group only, for the whole experience. No overnight stay.',
+  'roomcard.private': 'The room’s balcony is reserved exclusively for your group for the whole experience. No overnight stay.',
   'roomcard.from': 'From',
   'roomcard.perperson': '/ person',
   'roomcard.book': 'Book balcony {n}',
@@ -762,7 +762,7 @@ const it: Dict = {
   'roomcard.snack':
     'Snack Pack incluso: patatine, mini fuet, olive, frutta secca, 2 bibite o birre e 1 acqua a persona',
   'roomcard.hours': 'Disponibile dalle {start} alle {end}',
-  'roomcard.private': 'Il balcone e la camera si prenotano per intero, a uso esclusivo del suo gruppo, per tutta l’esperienza. Non include il pernottamento.',
+  'roomcard.private': 'Il balcone della camera è riservato in esclusiva al suo gruppo per tutta l’esperienza. Non include il pernottamento.',
   'roomcard.from': 'Da',
   'roomcard.perperson': '/ persona',
   'roomcard.book': 'Prenota balcone {n}',
@@ -1056,7 +1056,7 @@ const fr: Dict = {
   'roomcard.snack':
     'Snack Pack inclus : chips, mini fuet, olives, fruits secs, 2 boissons ou bières et 1 eau par personne',
   'roomcard.hours': 'Disponible de {start} à {end}',
-  'roomcard.private': 'Le balcon et la chambre se réservent en intégralité, pour votre groupe seul, pendant toute l’expérience. Sans nuitée.',
+  'roomcard.private': 'Le balcon de la chambre est réservé exclusivement à votre groupe pendant toute l’expérience. Sans nuitée.',
   'roomcard.from': 'À partir de',
   'roomcard.perperson': '/ personne',
   'roomcard.book': 'Réserver le balcon {n}',
@@ -1351,7 +1351,7 @@ const de: Dict = {
   'roomcard.snack':
     'Snack Pack inbegriffen: Kartoffelchips, Mini-Fuet-Wurst, Oliven, Nüsse, 2 Erfrischungsgetränke oder Biere und 1 Wasser pro Person',
   'roomcard.hours': 'Verfügbar von {start} bis {end} Uhr',
-  'roomcard.private': 'Balkon und Zimmer werden vollständig gebucht und stehen während des gesamten Erlebnisses ausschließlich Ihrer Gruppe zur Verfügung. Keine Übernachtung.',
+  'roomcard.private': 'Der Balkon des Zimmers steht während des gesamten Erlebnisses ausschließlich Ihrer Gruppe zur Verfügung. Keine Übernachtung.',
   'roomcard.from': 'Ab',
   'roomcard.perperson': '/ Person',
   'roomcard.book': 'Balkon {n} buchen',
