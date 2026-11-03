@@ -337,15 +337,16 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
   const rows: [string, string][] = [
     [t['book.summary.date'], formatDate(data.date, data.lang).replace(/^./, (c) => c.toUpperCase())],
     [t['book.summary.guests'], String(data.guests)],
-    [t['book.summary.room'], fmt(t['book.room.number'], { n: data.room.roomNumber })],
+    // Espacio duro antes del número: que "317" no caiga solo a la 2.ª línea.
+    [t['book.summary.room'], fmt(t['book.room.number'], { n: data.room.roomNumber }).replace(/ (\S+)$/, '\u00a0$1')],
   ];
 
   const rowsHtml = rows
     .map(
       ([label, value]) => `
       <tr>
-        <td style="padding:11px 0;border-bottom:1px solid #EDE9DF;font-size:13px;color:#8A8578;font-weight:700;text-transform:uppercase;letter-spacing:1px">${label}</td>
-        <td style="padding:11px 0;border-bottom:1px solid #EDE9DF;font-size:15px;color:#1B2A4A;text-align:right">${value}</td>
+        <td style="padding:11px 0;border-bottom:1px solid #EDE9DF;font-size:12px;color:#8A8578;font-weight:700;text-transform:uppercase;letter-spacing:.5px">${label}</td>
+        <td style="padding:11px 0 11px 8px;border-bottom:1px solid #EDE9DF;font-size:15px;color:#1B2A4A;text-align:right">${value}</td>
       </tr>`,
     )
     .join('');
@@ -499,7 +500,7 @@ function buildHotelEmailHtml(data: BookingEmail): string {
     ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`],
     ['Balcón', `Balcón · Habitación ${data.room.roomNumber} (${esc(data.room.floor)})`],
     ['Personas', String(data.guests)],
-    ['Idioma', `${LANG_NAME[data.lang] ?? data.lang} (el cliente ha recibido el email en este idioma)`],
+    ['Idioma', LANG_NAME[data.lang] ?? data.lang],
     ['Total', `${money(data.quote.total, 'es')} · Snack Pack incluido`],
     ...(data.payment
       ? ([
@@ -513,8 +514,8 @@ function buildHotelEmailHtml(data: BookingEmail): string {
   const rowsHtml = rows
     .map(
       ([k, v]) => `<tr>
-        <td style="padding:10px 0;border-bottom:1px solid #EDE9DF;font-size:12px;color:#8A8578;font-weight:700;text-transform:uppercase;letter-spacing:1px;width:120px;vertical-align:top">${k}</td>
-        <td style="padding:10px 0;border-bottom:1px solid #EDE9DF;font-size:14px;color:#1B2A4A">${v}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #EDE9DF;font-size:11px;color:#8A8578;font-weight:700;text-transform:uppercase;letter-spacing:.5px;width:96px;vertical-align:top">${k}</td>
+        <td style="padding:10px 0 10px 10px;border-bottom:1px solid #EDE9DF;font-size:14px;color:#1B2A4A;word-break:break-word">${v}</td>
       </tr>`,
     )
     .join('');
@@ -522,9 +523,9 @@ function buildHotelEmailHtml(data: BookingEmail): string {
     ? `<tr><td style="background:#FFF4E0;color:#8A5A00;padding:12px 24px;font-size:13px;font-weight:bold">⚠️ Modo demostración: no se ha cobrado nada de verdad.</td></tr>`
     : '';
   return `<!doctype html>
-<html lang="es"><head><meta charset="utf-8" /></head>
+<html lang="es"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width" /></head>
 <body style="margin:0;padding:24px 12px;background:#F1EDE2;font-family:Georgia,'Times New Roman',serif">
-  <table role="presentation" width="560" cellpadding="0" cellspacing="0" align="center" style="max-width:560px;width:100%;background:#fff;border-radius:12px;overflow:hidden">
+  <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="max-width:560px;width:100%;background:#fff;border-radius:12px;overflow:hidden">
     <tr><td style="background:#1B2A4A;padding:24px;text-align:center">
       <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A246">Mascletàs ${FALLAS.year}</div>
       <div style="font-size:22px;color:#fff;font-weight:bold;margin-top:6px">Nuevo balcón reservado</div>
