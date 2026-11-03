@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+  <!-- Azulejo valenciano (estilo Manises): estrella de ocho puntas, flor central y cuartos de pétalo en las esquinas. -->
+  <rect x="1" y="1" width="118" height="118" stroke="#E8C96A" stroke-opacity=".22" stroke-width="1.5"/>
+  <rect x="7" y="7" width="106" height="106" stroke="#7FA3E6" stroke-opacity=".16" stroke-width="1"/>
+  <g stroke="#E8C96A" stroke-opacity=".34" stroke-width="1.4">
+    <rect x="32" y="32" width="56" height="56" fill="#4C74C9" fill-opacity=".16"/>
+    <rect x="32" y="32" width="56" height="56" fill="#4C74C9" fill-opacity=".12" transform="rotate(45 60 60)"/>
+  </g>
+  <circle cx="60" cy="60" r="17" fill="#1B2A4A" fill-opacity=".55" stroke="#7FA3E6" stroke-opacity=".5" stroke-width="1.2"/>
+  <g fill="#E8C96A" fill-opacity=".38">
+    <circle cx="60" cy="60" r="4.5"/>
+    <ellipse cx="60" cy="49" rx="3.4" ry="5.6"/>
+    <ellipse cx="60" cy="71" rx="3.4" ry="5.6"/>
+    <ellipse cx="49" cy="60" rx="5.6" ry="3.4"/>
+    <ellipse cx="71" cy="60" rx="5.6" ry="3.4"/>
+  </g>
+  <g stroke="#7FA3E6" stroke-opacity=".42" stroke-width="1.2" fill="#4C74C9" fill-opacity=".14">
+    <path d="M0 0 H30 A30 30 0 0 1 0 30 Z"/>
+    <path d="M120 0 V30 A30 30 0 0 1 90 0 Z"/>
+    <path d="M0 120 V90 A30 30 0 0 1 30 120 Z"/>
+    <path d="M120 120 H90 A30 30 0 0 1 120 90 Z"/>
+  </g>
+  <g fill="#E8C96A" fill-opacity=".32">
+    <path d="M60 4 L64 10 L60 16 L56 10 Z"/>
+    <path d="M60 104 L64 110 L60 116 L56 110 Z"/>
+    <path d="M4 60 L10 56 L16 60 L10 64 Z"/>
+    <path d="M104 60 L110 56 L116 60 L110 64 Z"/>
+  </g>
+</svg>
