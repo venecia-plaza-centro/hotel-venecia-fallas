@@ -15,11 +15,10 @@ const isHome = pageId === 'home';
 // Habitaciones usa la misma cabecera (pedido explícitamente: "igual que
 // la página reservar"), aunque ahí sí tendría sentido un botón "Reservar".
 const isBook = pageId === 'book' || pageId === 'rooms';
-// En Home, "Reservar" del header no salta directo al flujo de pago: baja a
-// la lista de habitaciones de la propia Home, para que el cliente empiece
-// a elegir desplazándose hacia abajo (cada ficha ya tiene su "Reservar
-// habitación X" que sí lleva al flujo real).
-const bookHref = isHome ? `${pagePath('home', lang)}#rooms` : pagePath('book', lang);
+// "Reservar" (cabecera y menú móvil) lleva siempre a la página de Balcones:
+// ahí se elige el balcón y cada ficha tiene su "Reservar balcón N" que sí
+// entra en el flujo de reserva.
+const bookHref = pagePath('rooms', lang);
 ---
 
 <nav class={`nav${isHome ? ' nav-home' : ''}${isBook ? ' nav-minimal' : ''}`}>
