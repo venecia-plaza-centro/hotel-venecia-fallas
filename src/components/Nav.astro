@@ -11,15 +11,16 @@ const navItems = PAGES.filter((p) => p.inNav);
 const isHome = pageId === 'home';
 // En la propia página de reserva no tiene sentido un botón "Reservar" que
 // lleve... a la página en la que ya está el cliente. Cabecera minimalista:
-// solo marca centrada (igual que arriba del todo en Home) y el hamburger.
-// Habitaciones usa la misma cabecera (pedido explícitamente: "igual que
-// la página reservar"), aunque ahí sí tendría sentido un botón "Reservar".
-const isBook = pageId === 'book' || pageId === 'rooms';
+// solo marca centrada y el hamburger.
+const isBook = pageId === 'book';
+// La página de Balcones usa la cabecera de Home ya "scrolleada" desde el
+// principio: marca a la izquierda y botón Reservar siempre visible.
+const isRooms = pageId === 'rooms';
 // "Reservar" (cabecera y menú móvil) lleva siempre a la página de reserva.
 const bookHref = pagePath('book', lang);
 ---
 
-<nav class={`nav${isHome ? ' nav-home' : ''}${isBook ? ' nav-minimal' : ''}`}>
+<nav class={`nav${isHome || isRooms ? ' nav-home' : ''}${isBook ? ' nav-minimal' : ''}${isRooms ? ' is-scrolled' : ''}`} data-always-scrolled={isRooms ? 'true' : undefined}>
   <div class="nav-inner">
     <a class="nav-brand" href={pagePath('home', lang)} aria-label={t('brand.name')}>
       <img src="/img/logo-hotel-venecia.png" alt="" width="58" height="58" />
@@ -130,7 +131,8 @@ const bookHref = pagePath('book', lang);
   // Todas las páginas marcan el scroll: es lo que activa el header flotante (cápsula).
   const scrollNav = document.querySelector('.nav');
   if (scrollNav) {
-    const onScroll = () => scrollNav.classList.toggle('is-scrolled', window.scrollY > 40);
+    const alwaysScrolled = scrollNav.hasAttribute('data-always-scrolled');
+    const onScroll = () => scrollNav.classList.toggle('is-scrolled', alwaysScrolled || window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }
