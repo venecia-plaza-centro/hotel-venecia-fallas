@@ -25,6 +25,7 @@ const config = {
     terms: pagePath('terms', lang),
     privacy: pagePath('privacy', lang),
     home: pagePath('home', lang),
+    rooms: pagePath('rooms', lang),
   },
 };
 
@@ -95,6 +96,7 @@ const windowSentences = t('book.date.window')
           <input type="hidden" id="f-date" />
           <p class="err" data-err="date" role="alert"></p>
           <div class="actions">
+            <a class="btn btn-ghost" id="change-room" href={config.urls.rooms} hidden>{t('book.date.changeRoom')}</a>
             <button type="button" class="btn btn-gold" id="date-submit">{t('book.date.submit')}</button>
           </div>
         </div>
@@ -233,6 +235,7 @@ const windowSentences = t('book.date.window')
   if (chosenMatch && !params.get('paid')) {
     $('#book-chosen-room').textContent = fmt('book.room.number', { n: chosenMatch[1] });
     $('#book-chosen').hidden = false;
+    $('#change-room').hidden = false; // vuelve a la lista de balcones para elegir otro
   }
 
   // Ventas cerradas (interruptor en Vercel, ver lib/sales.ts): en vez del
@@ -922,6 +925,8 @@ const windowSentences = t('book.date.window')
 
   .book .actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; justify-content: center; }
   .book .actions .btn { padding: 13px 24px; }
+  .book .actions .btn[hidden] { display: none; }
+  @media (max-width: 480px) { .book [data-step="date"] .actions .btn { flex: 1 1 100%; } }
 
   /* Todo el flujo de reserva va centrado: barra de pasos, títulos, avisos y
      botones al centro, y los pasos con formulario en una columna estrecha
