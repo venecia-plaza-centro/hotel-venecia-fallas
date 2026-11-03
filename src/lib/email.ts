@@ -131,10 +131,180 @@ const EMAIL_COPY: Record<string, EmailCopy> = {
     signoff: 'Kind regards,',
     contact: 'Any questions? Write or call us:',
   },
+  it: {
+    subject:
+      'Prenotazione confermata {locator} · Mascletàs 2027',
+    preheader:
+      'Il suo balcone è prenotato. Mostri questa email per salire in camera.',
+    banner:
+      'Il suo balcone è prenotato',
+    greeting:
+      'Gentile {firstName},',
+    confirmed:
+      'La sua prenotazione è confermata: ha un balcone privato sulla Plaza del Ayuntamiento per vedere la mascletà. Il balcone fa parte di una camera reale dell’hotel, che sarà solo per il suo gruppo.',
+    showEmail:
+      'Dovrà mostrare questa email per salire nella camera del suo balcone e ci servirà il documento d’identità dell’intestatario della prenotazione per la registrazione.',
+    detailsTitle:
+      'I dati della sua prenotazione',
+    arrivalTitle:
+      'Come arrivare',
+    arrival:
+      'Consigliamo di arrivare in Plaza del Ayuntamiento verso le 12:30 (prima nel fine settimana), perché dopo vengono chiusi tutti gli accessi e diventa più complicato.',
+    entrances:
+      'L’hotel ha due ingressi: Plaza del Ayuntamiento 3 o Calle en Llop 5; può usare quello che preferisce.',
+    terms: [
+      {
+        title: '1. Capacità e accesso',
+        lines: [
+          'L’accesso è limitato al numero di persone prenotate.',
+          'Non sarà consentito l’accesso a persone aggiuntive in nessun caso.',
+          'Il mancato rispetto di questa norma potrà comportare l’annullamento immediato dell’esperienza senza diritto al rimborso.',
+        ],
+      },
+      {
+        title: '2. Norme d’uso',
+        lines: [
+          'Lo spazio dovrà essere utilizzato in modo responsabile.',
+          'È vietato fumare all’interno della camera.',
+          'Qualsiasi danno causato sarà responsabilità degli ospiti.',
+        ],
+      },
+      {
+        title: '3. Politica di cancellazione',
+        lines: [
+          'In caso di annullamento dell’evento per cause estranee all’organizzazione (condizioni meteorologiche estreme, restrizioni ufficiali, forza maggiore), l’hotel non è responsabile.',
+          'Non saranno ammesse cancellazioni né rimborsi una volta confermata la prenotazione.',
+        ],
+      },
+      {
+        title: '4. Accettazione delle condizioni',
+        lines: [
+          'Effettuare la prenotazione implica l’accettazione integrale di questi termini e condizioni.',
+        ],
+      },
+    ],
+    thanks: 'Grazie mille e speriamo che possa godersi l’esperienza.',
+    signoff: 'Cordiali saluti,',
+    contact: 'Ha dei dubbi? Ci scriva o ci chiami:',
+  },
+  fr: {
+    subject:
+      'Réservation confirmée {locator} · Mascletàs 2027',
+    preheader:
+      'Votre balcon est réservé. Présentez cet e-mail pour monter à votre chambre.',
+    banner:
+      'Votre balcon est réservé',
+    greeting:
+      'Bonjour {firstName},',
+    confirmed:
+      'Votre réservation est confirmée : vous avez un balcon privé sur la Plaza del Ayuntamiento pour voir la mascletà. Le balcon fait partie d’une vraie chambre de l’hôtel, qui sera réservée à votre groupe seul.',
+    showEmail:
+      'Vous devrez présenter cet e-mail pour monter à la chambre de votre balcon, et nous aurons besoin de la pièce d’identité du titulaire de la réservation pour l’enregistrement.',
+    detailsTitle:
+      'Les détails de votre réservation',
+    arrivalTitle:
+      'Comment venir',
+    arrival:
+      'Nous recommandons d’arriver sur la Plaza del Ayuntamiento vers 12h30 (plus tôt le week-end), car tous les accès sont ensuite fermés et cela devient plus compliqué.',
+    entrances:
+      'L’hôtel a deux entrées : Plaza del Ayuntamiento 3 ou Calle en Llop 5. Vous pouvez utiliser celle qui vous convient le mieux.',
+    terms: [
+      {
+        title: '1. Capacité et accès',
+        lines: [
+          'L’accès est limité au nombre de personnes réservées.',
+          'Aucune personne supplémentaire ne sera admise, en aucun cas.',
+          'Le non-respect de cette règle peut entraîner l’annulation immédiate de l’expérience sans droit à remboursement.',
+        ],
+      },
+      {
+        title: '2. Règles d’utilisation',
+        lines: [
+          'L’espace doit être utilisé de manière responsable.',
+          'Il est interdit de fumer à l’intérieur de la chambre.',
+          'Tout dommage causé relève de la responsabilité des participants.',
+        ],
+      },
+      {
+        title: '3. Politique d’annulation',
+        lines: [
+          'En cas d’annulation de l’événement pour des causes indépendantes de l’organisation (conditions météorologiques extrêmes, restrictions officielles, force majeure), l’hôtel décline toute responsabilité.',
+          'Aucune annulation ni aucun remboursement ne sera admis une fois la réservation confirmée.',
+        ],
+      },
+      {
+        title: '4. Acceptation des conditions',
+        lines: [
+          'Effectuer la réservation implique l’acceptation intégrale des présentes conditions.',
+        ],
+      },
+    ],
+    thanks: 'Merci beaucoup, et nous espérons que vous en profiterez.',
+    signoff: 'Cordialement,',
+    contact: 'Une question ? Écrivez-nous ou appelez-nous :',
+  },
+  de: {
+    subject:
+      'Buchung bestätigt {locator} · Mascletàs 2027',
+    preheader:
+      'Ihr Balkon ist gebucht. Zeigen Sie diese E-Mail vor, um zu Ihrem Zimmer zu gelangen.',
+    banner:
+      'Ihr Balkon ist gebucht',
+    greeting:
+      'Guten Tag {firstName},',
+    confirmed:
+      'Ihre Buchung ist bestätigt: Sie haben einen privaten Balkon an der Plaza del Ayuntamiento, um die Mascletà zu erleben. Der Balkon gehört zu einem echten Hotelzimmer, das ausschließlich Ihrer Gruppe zur Verfügung steht.',
+    showEmail:
+      'Bitte zeigen Sie diese E-Mail vor, um zum Zimmer Ihres Balkons zu gelangen. Für die Anmeldung benötigen wir den Ausweis der Person, die die Buchung vorgenommen hat.',
+    detailsTitle:
+      'Ihre Buchungsdaten',
+    arrivalTitle:
+      'Anreise',
+    arrival:
+      'Wir empfehlen, gegen 12:30 Uhr an der Plaza del Ayuntamiento zu sein (am Wochenende früher), da danach alle Zugänge gesperrt werden und es deutlich schwieriger wird.',
+    entrances:
+      'Das Hotel hat zwei Eingänge: Plaza del Ayuntamiento 3 oder Calle en Llop 5. Sie können den Eingang nutzen, der Ihnen besser passt.',
+    terms: [
+      {
+        title: '1. Kapazität und Zutritt',
+        lines: [
+          'Der Zutritt ist auf die Anzahl der gebuchten Personen beschränkt.',
+          'Zusätzliche Personen werden unter keinen Umständen eingelassen.',
+          'Die Missachtung dieser Regel kann zum sofortigen Abbruch des Erlebnisses ohne Anspruch auf Erstattung führen.',
+        ],
+      },
+      {
+        title: '2. Nutzungsregeln',
+        lines: [
+          'Der Raum ist verantwortungsvoll zu nutzen.',
+          'Im Zimmer ist Rauchen nicht gestattet.',
+          'Für verursachte Schäden haften die Gäste.',
+        ],
+      },
+      {
+        title: '3. Stornierungsbedingungen',
+        lines: [
+          'Wird die Veranstaltung aus Gründen abgesagt, die außerhalb des Einflusses des Veranstalters liegen (extreme Wetterbedingungen, behördliche Auflagen, höhere Gewalt), übernimmt das Hotel keine Haftung.',
+          'Nach der Bestätigung der Buchung sind weder Stornierungen noch Erstattungen möglich.',
+        ],
+      },
+      {
+        title: '4. Annahme der Bedingungen',
+        lines: [
+          'Mit der Buchung erkennen Sie diese Bedingungen vollständig an.',
+        ],
+      },
+    ],
+    thanks: 'Vielen Dank, und wir wünschen Ihnen ein schönes Erlebnis.',
+    signoff: 'Mit freundlichen Grüßen,',
+    contact: 'Fragen? Schreiben Sie uns oder rufen Sie uns an:',
+  },
 };
 
+const INTL_LOCALE: Record<Locale, string> = { es: 'es-ES', en: 'en-GB', it: 'it-IT', fr: 'fr-FR', de: 'de-DE' };
+
 function money(n: number, lang: Locale) {
-  return new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
+  return new Intl.NumberFormat(INTL_LOCALE[lang] ?? 'es-ES', {
     style: 'currency',
     currency: 'EUR',
     maximumFractionDigits: 0,
@@ -142,7 +312,7 @@ function money(n: number, lang: Locale) {
 }
 
 function formatDate(iso: string, lang: Locale) {
-  return new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'es-ES', {
+  return new Intl.DateTimeFormat(INTL_LOCALE[lang] ?? 'es-ES', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -292,6 +462,7 @@ function buildCustomerEmailHtml(data: BookingEmail): string {
 
 function buildCustomerEmailText(data: BookingEmail): string {
   const copy = EMAIL_COPY[data.lang] ?? EMAIL_COPY.es;
+  const t = dictFor(data.lang);
   return [
     copy.greeting.replace('{firstName}', data.firstName),
     '',
@@ -299,11 +470,11 @@ function buildCustomerEmailText(data: BookingEmail): string {
     copy.showEmail,
     '',
     `${SITE.name}`,
-    `Localizador: ${data.locator}`,
-    `Fecha: ${formatDate(data.date, data.lang)}`,
-    `Huéspedes: ${data.guests}`,
-    `${dictFor(data.lang)['book.summary.room']}: ${dictFor(data.lang)['book.room.number'].replace('{n}', data.room.roomNumber)}`,
-    `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
+    `${t['book.done.locator']}: ${data.locator}`,
+    `${t['book.summary.date']}: ${formatDate(data.date, data.lang)}`,
+    `${t['book.summary.guests']}: ${data.guests}`,
+    `${t['book.summary.room']}: ${t['book.room.number'].replace('{n}', data.room.roomNumber)}`,
+    `${t['book.summary.total']}: ${money(data.quote.total, data.lang)} · ${t['book.summary.snack']}`,
     '',
     copy.arrival,
     copy.entrances,
@@ -414,13 +585,29 @@ export async function sendPaymentRefundedNotice(input: {
   locator?: string;
   order?: string;
 }): Promise<void> {
-  const es = input.lang !== 'en';
-  const subject = es
-    ? 'Su balcón privado ya no está disponible — reembolso en curso'
-    : 'Your private balcony is no longer available — refund on its way';
-  const text = es
-    ? `Estimado/a ${input.firstName}:\n\nLo sentimos mucho: justo cuando se completaba su pago, el balcón de la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a su método de pago en los próximos días.\n\nPuede elegir otro balcón o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y le ayudaremos.`
-    : `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, the balcony of room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another balcony or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`;
+  const R: Record<string, { subject: string; text: string }> = {
+    es: {
+      subject: 'Su balcón privado ya no está disponible — reembolso en curso',
+      text: `Estimado/a ${input.firstName}:\n\nLo sentimos mucho: justo cuando se completaba su pago, el balcón de la habitación ${input.roomNumber} para el ${input.date} se acababa de reservar. Hemos anulado el cobro; el reembolso llegará a su método de pago en los próximos días.\n\nPuede elegir otro balcón o fecha en ${SITE.origin}, o escribirnos a ${SITE.email} y le ayudaremos.`,
+    },
+    en: {
+      subject: 'Your private balcony is no longer available — refund on its way',
+      text: `Hi ${input.firstName},\n\nWe're sorry: right as your payment went through, the balcony of room ${input.roomNumber} for ${input.date} had just been booked. We've cancelled the charge; the refund will reach your payment method in the next few days.\n\nYou can pick another balcony or date at ${SITE.origin}, or write to us at ${SITE.email} and we'll help.`,
+    },
+    it: {
+      subject: 'Il suo balcone privato non è più disponibile — rimborso in corso',
+      text: `Gentile ${input.firstName},\n\nCi dispiace molto: proprio mentre si completava il suo pagamento, il balcone della camera ${input.roomNumber} per il ${input.date} era appena stato prenotato. Abbiamo annullato l’addebito; il rimborso arriverà al suo metodo di pagamento nei prossimi giorni.\n\nPuò scegliere un altro balcone o un’altra data su ${SITE.origin}, oppure scriverci a ${SITE.email} e la aiuteremo.`,
+    },
+    fr: {
+      subject: 'Votre balcon privé n’est plus disponible — remboursement en cours',
+      text: `Bonjour ${input.firstName},\n\nNous sommes vraiment désolés : au moment même où votre paiement se finalisait, le balcon de la chambre ${input.roomNumber} pour le ${input.date} venait d’être réservé. Nous avons annulé le débit ; le remboursement arrivera sur votre moyen de paiement dans les prochains jours.\n\nVous pouvez choisir un autre balcon ou une autre date sur ${SITE.origin}, ou nous écrire à ${SITE.email} et nous vous aiderons.`,
+    },
+    de: {
+      subject: 'Ihr privater Balkon ist nicht mehr verfügbar — Erstattung läuft',
+      text: `Guten Tag ${input.firstName},\n\nEs tut uns sehr leid: Genau als Ihre Zahlung abgeschlossen wurde, war der Balkon von Zimmer ${input.roomNumber} für den ${input.date} soeben gebucht worden. Wir haben die Abbuchung storniert; die Erstattung erreicht Ihr Zahlungsmittel in den nächsten Tagen.\n\nSie können auf ${SITE.origin} einen anderen Balkon oder ein anderes Datum wählen oder uns unter ${SITE.email} schreiben, wir helfen Ihnen gern.`,
+    },
+  };
+  const { subject, text } = R[input.lang] ?? R.es;
   await deliver({ to: input.email, subject, text });
   await deliver({
     to: HOTEL_RECIPIENTS,
