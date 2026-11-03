@@ -563,7 +563,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
 
   await deliver({
     to: HOTEL_RECIPIENTS,
-    subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nuevo balcón ${data.locator} · ${data.date} · balcón hab. ${data.room.roomNumber}`,
+    subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nuevo balcón ${data.locator} · ${data.date} · hab. ${data.room.roomNumber}`,
     html: buildHotelEmailHtml(data),
     text: hotelSummary,
   });
