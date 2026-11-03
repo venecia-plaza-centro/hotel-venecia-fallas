@@ -77,7 +77,6 @@ const es: Dict = {
   'home.rooms.lead': 'Elija la fecha, el balcón y el número de personas. Cada balcón es una habitación del hotel que será solo suya durante la mascletà.',
   'home.rooms.seeall': 'Ver los 9 balcones',
   'home.minis.count': '{n} balcones privados, cada uno en una habitación del Hotel Venecia',
-  'home.minis.incl': 'Lo que incluye y lo que debe saber',
   'home.minis.bath': 'Baño privado',
 
   // home · franja inferior
@@ -381,7 +380,6 @@ const en: Dict = {
   'home.rooms.lead': 'Choose the date, your balcony and the number of guests. Every balcony is a hotel room that will be yours alone during the mascletà.',
   'home.rooms.seeall': 'See all 9 balconies',
   'home.minis.count': '{n} private balconies, each in a Hotel Venecia room',
-  'home.minis.incl': 'What’s included and what to know',
   'home.minis.bath': 'Private bathroom',
 
   'home.strip.schedule.t': 'Access hours',
@@ -674,7 +672,6 @@ const it: Dict = {
   'home.rooms.lead': 'Scelga la data, il balcone e il numero di persone. Ogni balcone è una camera dell’hotel che sarà solo sua durante la mascletà.',
   'home.rooms.seeall': 'Vedi tutti i 9 balconi',
   'home.minis.count': '{n} balconi privati, ciascuno in una camera dell’Hotel Venecia',
-  'home.minis.incl': 'Cosa include e cosa sapere',
   'home.minis.bath': 'Bagno privato',
 
   'home.strip.schedule.t': 'Orario di accesso',
@@ -968,7 +965,6 @@ const fr: Dict = {
   'home.rooms.lead': 'Choisissez la date, votre balcon et le nombre de personnes. Chaque balcon est une chambre de l’hôtel qui sera à vous seul pendant la mascletà.',
   'home.rooms.seeall': 'Voir les 9 balcons',
   'home.minis.count': '{n} balcons privés, chacun dans une chambre de l’Hôtel Venecia',
-  'home.minis.incl': 'Ce qui est inclus et ce qu’il faut savoir',
   'home.minis.bath': 'Salle de bain privée',
 
   'home.strip.schedule.t': "Horaire d'accès",
@@ -1263,7 +1259,6 @@ const de: Dict = {
   'home.rooms.lead': 'Wählen Sie Datum, Balkon und Personenzahl. Jeder Balkon gehört zu einem Hotelzimmer, das während der Mascletà ganz Ihnen gehört.',
   'home.rooms.seeall': 'Alle 9 Balkone ansehen',
   'home.minis.count': '{n} private Balkone, jeder in einem Zimmer des Hotels Venecia',
-  'home.minis.incl': 'Was enthalten ist und was Sie wissen sollten',
   'home.minis.bath': 'Eigenes Bad',
 
   'home.strip.schedule.t': 'Zugangszeiten',
