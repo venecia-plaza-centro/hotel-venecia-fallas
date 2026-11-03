@@ -29,7 +29,7 @@ const minPerPerson = (room: Room) => Math.min(
     <p class="room-incl-h">{t('home.minis.incl')}</p>
     <ul class="room-incl-list">
       <li><Icon name="sparkle" size={20} /><span>{t('roomcard.balcony')}</span></li>
-      <li><Icon name="shower" size={20} /><span>{t('roomcard.bath')}</span></li>
+      <li><Icon name="shower" size={20} /><span>{t('home.minis.bath')}</span></li>
       <li><Icon name="users" size={20} /><span>{fmt('roomcard.capacity', { n: maxCapacity })}</span></li>
       <li><Icon name="clock" size={20} /><span>{fmt('roomcard.hours', { start: FALLAS.accessStart, end: FALLAS.accessEnd })}</span></li>
       <li class="room-incl-wide"><Icon name="gift" size={20} /><span>{t('roomcard.snack')}</span></li>

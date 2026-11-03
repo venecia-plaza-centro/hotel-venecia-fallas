@@ -8,7 +8,8 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useT(lang);
 
-const qa = Array.from({ length: 11 }, (_, i) => i + 1).map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
+// La 12 ("¿Qué reservo exactamente?") va la primera: es la duda clave de un balcón que es una habitación.
+const qa = [12, ...Array.from({ length: 11 }, (_, i) => i + 1)].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 
 // La respuesta sobre cancelación mete un marcador {cancellationLink} que
 // aquí se convierte en un enlace real a esa página (mismo patrón que en
