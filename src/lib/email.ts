@@ -301,6 +301,7 @@ const EMAIL_COPY: Record<string, EmailCopy> = {
   },
 };
 
+const LANG_NAME: Record<string, string> = { es: 'Español', en: 'Inglés', it: 'Italiano', fr: 'Francés', de: 'Alemán' };
 const INTL_LOCALE: Record<Locale, string> = { es: 'es-ES', en: 'en-GB', it: 'it-IT', fr: 'fr-FR', de: 'de-DE' };
 
 function money(n: number, lang: Locale) {
@@ -496,7 +497,9 @@ function buildHotelEmailHtml(data: BookingEmail): string {
     ['Email', `<a href="mailto:${esc(data.email)}" style="color:#1B2A4A">${esc(data.email)}</a>`],
     ['Teléfono', `<a href="tel:${esc(data.phone)}" style="color:#1B2A4A">${esc(data.phone)}</a>`],
     ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`],
-    ['Balcón', `Habitación ${data.room.roomNumber} (${esc(data.room.floor)}) · ${data.guests} huéspedes`],
+    ['Balcón', `Balcón · Habitación ${data.room.roomNumber} (${esc(data.room.floor)})`],
+    ['Personas', String(data.guests)],
+    ['Idioma', `${LANG_NAME[data.lang] ?? data.lang} (el cliente ha recibido el email en este idioma)`],
     ['Total', `${money(data.quote.total, 'es')} · Snack Pack incluido`],
     ...(data.payment
       ? ([
@@ -524,7 +527,7 @@ function buildHotelEmailHtml(data: BookingEmail): string {
   <table role="presentation" width="560" cellpadding="0" cellspacing="0" align="center" style="max-width:560px;width:100%;background:#fff;border-radius:12px;overflow:hidden">
     <tr><td style="background:#1B2A4A;padding:24px;text-align:center">
       <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A246">Mascletàs ${FALLAS.year}</div>
-      <div style="font-size:22px;color:#fff;font-weight:bold;margin-top:6px">Nueva reserva recibida</div>
+      <div style="font-size:22px;color:#fff;font-weight:bold;margin-top:6px">Nuevo balcón reservado</div>
     </td></tr>
     ${demo}
     <tr><td style="padding:12px 24px 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rowsHtml}</table></td></tr>
@@ -541,7 +544,8 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
     `Localizador: ${data.locator}`,
     `Cliente: ${data.firstName} ${data.lastName} · ${data.email} · ${data.phone}`,
     `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
-    `Balcón: habitación ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} huéspedes`,
+    `Balcón: habitación ${data.room.roomNumber} (${data.room.floor}) · ${data.guests} personas`,
+    `Idioma del cliente: ${LANG_NAME[data.lang] ?? data.lang}`,
     `Total: ${money(data.quote.total, data.lang)} · Snack Pack incluido`,
     data.payment ? `Pago: Redsys · pedido ${data.payment.order}${data.payment.authCode ? ` · autorización ${data.payment.authCode}` : ''}` : null,
     data.notes ? `Notas: ${data.notes}` : null,
@@ -559,7 +563,7 @@ export async function sendBookingEmails(data: BookingEmail): Promise<void> {
 
   await deliver({
     to: HOTEL_RECIPIENTS,
-    subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nueva reserva ${data.locator} · ${data.date} · balcón hab. ${data.room.roomNumber}`,
+    subject: `[${data.paid ? 'Reserva pagada' : 'Demo'}] Nuevo balcón ${data.locator} · ${data.date} · balcón hab. ${data.room.roomNumber}`,
     html: buildHotelEmailHtml(data),
     text: hotelSummary,
   });
