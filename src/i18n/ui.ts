@@ -239,6 +239,7 @@ const es: Dict = {
   'book.err.availability': 'Ese balcón ya no está disponible: alguien acaba de reservarlo o lo está pagando ahora mismo. Elija otro o vuelva a intentarlo en unos minutos.',
   'book.err.service':
     'No hemos podido conectar con el sistema de reservas. Inténtelo en unos minutos o llámenos.',
+  'book.room.checking': 'Comprobando…',
   'book.taken.title': 'Este balcón acaba de ocuparse',
   'book.taken.body': 'Alguien lo ha reservado o lo está pagando ahora mismo. Elija otro balcón u otra fecha. Si esa persona no completa el pago, el balcón se libera solo en unos minutos.',
   'book.taken.cta': 'Elegir otro balcón',
@@ -540,6 +541,7 @@ const en: Dict = {
   'book.err.availability': 'That balcony is no longer available: someone has just booked it or is paying for it right now. Choose another or try again in a few minutes.',
   'book.err.service':
     "We couldn't reach the booking system. Try again in a few minutes or give us a call.",
+  'book.room.checking': 'Checking…',
   'book.taken.title': 'This balcony has just been taken',
   'book.taken.body': 'Someone has just booked it or is paying for it right now. Please choose another balcony or another date. If that person doesn’t complete the payment, the balcony is released automatically within a few minutes.',
   'book.taken.cta': 'Choose another balcony',
@@ -837,6 +839,7 @@ const it: Dict = {
   'book.err.availability': 'Quel balcone non è più disponibile: qualcuno lo ha appena prenotato o lo sta pagando in questo momento. Ne scelga un altro o riprovi tra qualche minuto.',
   'book.err.service':
     'Non siamo riusciti a collegarci al sistema di prenotazione. Riprovi tra qualche minuto o ci chiami.',
+  'book.room.checking': 'Verifica in corso…',
   'book.taken.title': 'Questo balcone è appena stato occupato',
   'book.taken.body': 'Qualcuno lo ha appena prenotato o lo sta pagando in questo momento. Scelga un altro balcone o un’altra data. Se quella persona non completa il pagamento, il balcone torna disponibile da solo in pochi minuti.',
   'book.taken.cta': 'Scegliere un altro balcone',
@@ -1135,6 +1138,7 @@ const fr: Dict = {
   'book.err.availability': 'Ce balcon n’est plus disponible : quelqu’un vient de le réserver ou est en train de le payer. Choisissez-en un autre ou réessayez dans quelques minutes.',
   'book.err.service':
     "Nous n'avons pas pu joindre le système de réservation. Réessayez dans quelques minutes ou appelez-nous.",
+  'book.room.checking': 'Vérification…',
   'book.taken.title': 'Ce balcon vient d’être pris',
   'book.taken.body': 'Quelqu’un vient de le réserver ou est en train de le payer. Choisissez un autre balcon ou une autre date. Si cette personne ne finalise pas le paiement, le balcon est libéré automatiquement en quelques minutes.',
   'book.taken.cta': 'Choisir un autre balcon',
@@ -1434,6 +1438,7 @@ const de: Dict = {
   'book.err.availability': 'Dieser Balkon ist nicht mehr verfügbar: Jemand hat ihn gerade gebucht oder bezahlt ihn gerade. Wählen Sie einen anderen oder versuchen Sie es in einigen Minuten erneut.',
   'book.err.service':
     'Wir konnten keine Verbindung zum Buchungssystem herstellen. Versuchen Sie es in ein paar Minuten erneut oder rufen Sie uns an.',
+  'book.room.checking': 'Wird geprüft…',
   'book.taken.title': 'Dieser Balkon ist gerade vergeben worden',
   'book.taken.body': 'Jemand hat ihn gerade gebucht oder bezahlt ihn in diesem Moment. Bitte wählen Sie einen anderen Balkon oder ein anderes Datum. Schließt diese Person die Zahlung nicht ab, wird der Balkon in wenigen Minuten automatisch wieder freigegeben.',
   'book.taken.cta': 'Anderen Balkon wählen',

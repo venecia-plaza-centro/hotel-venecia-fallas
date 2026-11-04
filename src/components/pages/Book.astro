@@ -609,13 +609,22 @@ const windowSentences = t('book.date.window')
   // ¿Sigue libre? La lista puede ir unos minutos por detrás (memoria de la web
   // y caché de Vercel): se confirma en directo antes de pedir los datos.
   // null = no se pudo comprobar (el pago lo vuelve a comprobar de todos modos).
+  // Con tope de 6 s: si Airtable tarda o la conexión es mala, se sigue adelante
+  // en vez de dejar el botón colgado (el pago vuelve a comprobarlo igualmente).
   async function checkRoomFree(date, slug) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
     try {
-      const res = await fetch(`/api/room-check?date=${date}&room=${encodeURIComponent(slug)}`, { cache: 'no-store' });
+      const res = await fetch(`/api/room-check?date=${date}&room=${encodeURIComponent(slug)}`, {
+        cache: 'no-store',
+        signal: ctrl.signal,
+      });
       const data = await res.json();
       return data.ok ? data.available : null;
     } catch {
       return null;
+    } finally {
+      clearTimeout(timer);
     }
   }
 
@@ -645,9 +654,14 @@ const windowSentences = t('book.date.window')
   $('#room-next').addEventListener('click', async () => {
     const btn = $('#room-next');
     const slug = state.roomSlug;
-    loading(btn, true);
-    const free = await checkRoomFree(state.date, slug);
-    loading(btn, false);
+    // El botón muestra "Comprobando…" mientras espera: nunca parece muerto.
+    loading(btn, true, T['book.room.checking']);
+    let free = null;
+    try {
+      free = await checkRoomFree(state.date, slug);
+    } finally {
+      loading(btn, false);
+    }
     if (free === false) {
       markTaken(slug);
       showTaken('room');
