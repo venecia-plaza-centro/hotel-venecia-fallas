@@ -196,6 +196,17 @@ const windowSentences = t('book.date.window')
   </div>
 </section>
 
+<!-- Aviso "balcón ocupado": un único bloque que el script mueve al paso que toca
+     (Habitación al pulsar Continuar, Datos si falla el pago). -->
+<div class="taken" id="taken-alert" role="alert" hidden>
+  <span class="taken-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+  </span>
+  <h3 class="taken-title">{t('book.taken.title')}</h3>
+  <p class="taken-body">{t('book.taken.body')}</p>
+  <button type="button" class="btn btn-gold taken-cta" id="taken-cta">{t('book.taken.cta')}</button>
+</div>
+
 <script type="application/json" id="book-config" set:html={JSON.stringify(config)}></script>
 <script type="application/json" id="book-i18n" set:html={JSON.stringify(strings)}></script>
 
@@ -279,6 +290,9 @@ const windowSentences = t('book.date.window')
   const steppers = {};
   document.querySelectorAll('[data-stepper]').forEach((s) => (steppers[s.dataset.stepper] = s));
 
+  // Aviso "balcón ocupado" (ver más abajo showTaken / markTaken).
+  const takenEl = $('#taken-alert');
+
   const STEPS = ['date', 'room', 'details', 'done'];
   const order = (s) => STEPS.indexOf(s);
 
@@ -291,6 +305,7 @@ const windowSentences = t('book.date.window')
   const HIDE_SUMMARY_STEPS = ['date', 'done'];
 
   function show(step) {
+    takenEl.hidden = true;
     Object.entries(panels).forEach(([k, els]) => els.forEach((p) => (p.hidden = k !== step)));
     Object.entries(steppers).forEach(([k, s]) => {
       s.classList.toggle('is-done', order(k) < order(step));
@@ -591,7 +606,55 @@ const windowSentences = t('book.date.window')
     $('#room-next').disabled = !state.roomSlug;
   }
 
-  $('#room-next').addEventListener('click', () => show('details'));
+  // ¿Sigue libre? La lista puede ir unos minutos por detrás (memoria de la web
+  // y caché de Vercel): se confirma en directo antes de pedir los datos.
+  // null = no se pudo comprobar (el pago lo vuelve a comprobar de todos modos).
+  async function checkRoomFree(date, slug) {
+    try {
+      const res = await fetch(`/api/room-check?date=${date}&room=${encodeURIComponent(slug)}`, { cache: 'no-store' });
+      const data = await res.json();
+      return data.ok ? data.available : null;
+    } catch {
+      return null;
+    }
+  }
+
+  // El balcón ya no está libre: se marca como ocupado en la lista (sin pedir
+  // otra vez al servidor) y se quita de la selección.
+  function markTaken(slug) {
+    const r = state.rooms.find((x) => x.slug === slug);
+    if (r) r.available = false;
+    state.roomSlug = '';
+    renderRooms();
+    renderSummary();
+  }
+
+  // En "details" el aviso va justo encima de los botones (donde está el cliente
+  // al pulsar "Ir al pago") y con botón para volver a la lista; en "room" va
+  // bajo el título, sin botón (la lista ya está debajo).
+  function showTaken(step) {
+    const host = panels[step][0];
+    if (step === 'details') host.querySelector('.actions').before(takenEl);
+    else $('h2', host).after(takenEl);
+    takenEl.classList.toggle('no-cta', step !== 'details');
+    takenEl.hidden = false;
+    takenEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  $('#taken-cta').addEventListener('click', () => show('room'));
+
+  $('#room-next').addEventListener('click', async () => {
+    const btn = $('#room-next');
+    const slug = state.roomSlug;
+    loading(btn, true);
+    const free = await checkRoomFree(state.date, slug);
+    loading(btn, false);
+    if (free === false) {
+      markTaken(slug);
+      showTaken('room');
+      return;
+    }
+    show('details');
+  });
 
   document.querySelectorAll('[data-nav]').forEach((b) =>
     b.addEventListener('click', () => show(b.dataset.nav)),
@@ -677,7 +740,8 @@ const windowSentences = t('book.date.window')
         markInvalid(data.fields || []);
         setErr('details', T['book.details.err.fields']);
       } else if (data.error === 'sin-disponibilidad') {
-        setErr('details', T['book.err.availability']);
+        markTaken(state.roomSlug);
+        showTaken('details');
       } else if (data.error === 'servicio') {
         setErr('details', T['book.err.service']);
       } else {
@@ -919,6 +983,27 @@ const windowSentences = t('book.date.window')
   }
   .book .tag-off { color: #c0392b; background: #fdf3f2; }
 
+  /* Aviso "este balcón acaba de ocuparse": tarjeta centrada con icono, título,
+     texto y botón con aire entre cada parte. */
+  .book .taken, .taken {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    max-width: 480px; margin: 28px auto 0; padding: 30px 28px 32px;
+    background: #fff8f6; border: 1px solid #efc4bc; border-top: 4px solid #c0392b;
+    border-radius: 18px; box-shadow: 0 10px 28px rgba(192, 57, 43, 0.12);
+  }
+  .taken[hidden] { display: none; }
+  .taken-icon {
+    width: 56px; height: 56px; border-radius: 50%; margin-bottom: 16px;
+    display: grid; place-items: center; background: #fbe3df; color: #c0392b;
+  }
+  .taken-title { margin: 0 0 12px; font-size: clamp(21px, 5.4vw, 26px); color: var(--navy); text-wrap: balance; }
+  .taken-body { margin: 0 0 26px; max-width: 400px; color: var(--text-mid); font-size: 15px; line-height: 1.7; text-wrap: pretty; }
+  .taken.no-cta .taken-body { margin-bottom: 0; }
+  .taken.no-cta .taken-cta { display: none; }
+  @media (max-width: 480px) {
+    .taken { padding: 26px 20px 26px; }
+    .taken-cta { width: 100%; }
+  }
   .book .err { color: #c0392b; font-size: 13px; font-weight: 600; margin: 14px 0 0; text-align: center; }
   .book .err:empty { display: none; }
 
