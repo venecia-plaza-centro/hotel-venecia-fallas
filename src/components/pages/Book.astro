@@ -355,7 +355,7 @@ const windowSentences = t('book.date.window')
   const weekdayFmt = new Intl.DateTimeFormat(cfg.locale, { weekday: 'short', timeZone: 'UTC' });
   const availability = {}; // fecha ISO → nº de habitaciones libres (undefined = aún no se sabe)
   const roomFree = {}; // fecha ISO → ¿sigue libre la habitación preseleccionada? (solo con ?room=)
-  const LOW_STOCK = 1; // con este nº de habitaciones libres (o menos) el día muestra "Queda N"
+  const LOW_STOCK = 3; // con este nº de habitaciones libres (o menos) el día muestra "Quedan N"
 
   function renderCalendar() {
     const grid = $('#cal-grid');
