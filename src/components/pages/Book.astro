@@ -211,6 +211,9 @@ const windowSentences = t('book.date.window')
 <script type="application/json" id="book-i18n" set:html={JSON.stringify(strings)}></script>
 
 <script>
+  // Carrusel de fotos de las fichas que este script crea (ver src/scripts/room-carousel.ts).
+  import '../../scripts/room-carousel';
+
   // Astro empaqueta este script junto al de otros componentes (Nav, RoomCard...)
   // en un único archivo compartido por todas las páginas; sin esta guarda, en
   // cualquier página que no sea "Reservar" fallaría al no existir #book-config,

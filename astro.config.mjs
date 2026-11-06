@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 import { LOCALES } from './src/consts.ts';
 import { NOINDEX_PAGES, pagePath } from './src/i18n/pages.ts';
@@ -8,12 +8,22 @@ import { NOINDEX_PAGES, pagePath } from './src/i18n/pages.ts';
 // Hosting: Vercel (deploy automático desde GitHub).
 // i18n: ES en la raíz, resto de idiomas con prefijo (/en/, /it/, /fr/, /de/).
 //
-// output: 'hybrid' → todo se pre-renderiza estático salvo lo que marque
-// `export const prerender = false` (las rutas /api/* de reserva).
+// output 'static' (por defecto) + adaptador → todo se pre-renderiza estático
+// salvo lo que marque `export const prerender = false` (las rutas /api/* de
+// reserva). Es lo que antes era output: 'hybrid'.
 export default defineConfig({
   site: 'https://fallas.hotelvenecia.com',
-  output: 'hybrid',
   adapter: vercel(),
+  // Astro 7 quita por defecto los espacios entre etiquetas en línea ('jsx'):
+  // con `true` se mantiene el comportamiento anterior y el texto no se pega.
+  compressHTML: true,
+  security: {
+    // Astro 5+ devuelve 403 a los POST de formulario que no vienen del propio
+    // sitio. Las notificaciones del banco (/api/redsys-notification) llegan
+    // de servidor a servidor, sin Origin: bloquearían los pagos. Esa ruta se
+    // protege con la firma de Redsys; /api/checkout exige JSON (ver checkout.ts).
+    checkOrigin: false,
+  },
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en', 'it', 'fr', 'de'],

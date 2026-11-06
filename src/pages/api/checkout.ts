@@ -41,6 +41,16 @@ const CHECKOUT_WINDOW_MS = FALLAS.holdMinutes * 60_000;
  *   nada, para poder probar el flujo entero sin TPV.
  */
 export const POST: APIRoute = async ({ request, url }) => {
+  // Solo JSON: un formulario de otra web no puede mandar este tipo de contenido
+  // sin una petición previa (CORS) que aquí nunca se autoriza. Es la defensa
+  // contra envíos cruzados ahora que `security.checkOrigin` está desactivado
+  // (ver astro.config.mjs).
+  if (!(request.headers.get('content-type') ?? '').toLowerCase().startsWith('application/json')) {
+    return json({ ok: false, error: 'json' }, 415);
+  }
+  const origin = request.headers.get('origin');
+  if (origin && origin !== url.origin) return json({ ok: false, error: 'origen' }, 403);
+
   // Ventas cerradas (ver lib/sales.ts): ni pago ni bloqueo de habitación.
   if (!salesStatus().open) return json({ ok: false, error: 'ventas-cerradas' }, 403);
 

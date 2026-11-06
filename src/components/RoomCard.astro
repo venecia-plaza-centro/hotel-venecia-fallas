@@ -84,104 +84,10 @@ const minPerPerson = Math.min(
   </div>
 </article>
 
-<script>
-  // Home y Habitaciones son páginas estáticas: esto se consulta aparte,
-  // en el navegador, para que una habitación que se agota después del
-  // último despliegue se marque igualmente sin esperar a un rebuild.
-  fetch('/api/rooms-availability')
-    .then((r) => r.json())
-    .then((data) => {
-      if (!data.ok) return;
-      for (const slug of data.soldOut as string[]) {
-        document.querySelectorAll(`.room-card[data-room-slug="${slug}"]`).forEach((card) => {
-          card.classList.add('is-soldout');
-        });
-      }
-    })
-    .catch(() => {});
-
-  // Las fotos de Airtable llevan una URL firmada que caduca a las pocas
-  // horas: la que se guardó en el build de esta página estática puede
-  // llevar rato caducada. Se piden las vigentes y se sustituyen aquí.
-  // Si las fotos ya son de la propia web (/media/...) no caducan y no se pide nada.
-  const photosExpire = [...document.querySelectorAll<HTMLElement>('.room-card-media')].some((m) =>
-    /"https?:/.test(m.dataset.photos || ''),
-  );
-  (photosExpire ? fetch('/api/room-photos') : Promise.reject('fotos locales'))
-    .then((r) => r.json())
-    .then((data) => {
-      if (!data.ok) return;
-      const photosBySlug = data.photos as Record<string, string[]>;
-      document.querySelectorAll<HTMLElement>('.room-card[data-room-slug]').forEach((card) => {
-        const slug = card.dataset.roomSlug || '';
-        const fresh = photosBySlug[slug];
-        if (!fresh || !fresh.length) return;
-        const media = card.querySelector<HTMLElement>('.room-card-media');
-        if (!media) return;
-        media.dataset.photos = JSON.stringify(fresh);
-        const idx = parseInt(media.dataset.idx || '0', 10);
-        const img = media.querySelector('img');
-        if (img) img.src = fresh[idx] ?? fresh[0];
-      });
-    })
-    .catch(() => {});
-
-  // Delegación de eventos: sirve para todas las .room-card de la página
-  // (Home puede mostrar varias, Habitaciones las nueve).
-  function goToPhoto(media: HTMLElement, dir: number) {
-    const photos: string[] = JSON.parse(media.dataset.photos || '[]');
-    if (!photos.length) return;
-    let idx = parseInt(media.dataset.idx || '0', 10);
-    idx = (idx + dir + photos.length) % photos.length;
-    media.dataset.idx = String(idx);
-    const img = media.querySelector('img');
-    if (img) img.src = photos[idx];
-    media.querySelectorAll('[data-dot]').forEach((d) => {
-      d.classList.toggle('is-active', d.getAttribute('data-dot') === String(idx));
-    });
-  }
-
-  document.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement)?.closest('.room-card-nav') as HTMLButtonElement | null;
-    if (!btn) return;
-    const media = btn.closest('.room-card-media') as HTMLElement | null;
-    if (!media) return;
-    goToPhoto(media, Number(btn.dataset.dir));
-  });
-
-  // Deslizar con el dedo en móvil, además de las flechas: los botones son
-  // pequeños para un gesto que en cualquier galería de fotos se espera
-  // poder hacer directamente arrastrando la imagen.
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchMedia: HTMLElement | null = null;
-  document.addEventListener(
-    'touchstart',
-    (e) => {
-      const media = (e.target as HTMLElement)?.closest('.room-card-media') as HTMLElement | null;
-      touchMedia = media;
-      if (!media) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    },
-    { passive: true },
-  );
-  document.addEventListener(
-    'touchend',
-    (e) => {
-      if (!touchMedia) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = e.changedTouches[0].clientY - touchStartY;
-      // Solo cuenta como swipe si el movimiento es sobre todo horizontal
-      // (si no, sería un scroll vertical de la página).
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-        goToPhoto(touchMedia, dx < 0 ? 1 : -1);
-      }
-      touchMedia = null;
-    },
-    { passive: true },
-  );
-</script>
+{/* El script de las fichas (disponibilidad, fotos y carrusel) vive en
+    src/scripts/room-cards.ts y lo importa la página que las usa: un <script>
+    dentro del componente se renderiza en su sitio, dentro de la rejilla, y
+    descuadra los :nth-child / :last-child del CSS (ficha suelta). */}
 
 {/* Estilos de .room-card* en src/styles/global.css: los comparte con el
     paso "Habitación" del flujo de reserva (Book.astro). */}
