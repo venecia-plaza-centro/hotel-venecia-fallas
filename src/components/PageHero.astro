@@ -1,17 +1,19 @@
 ---
 import GoldRule from './GoldRule.astro';
 
-interface Props { title: string; lead?: string; leadItalic?: boolean; leadStrong?: boolean; photo?: string; accent?: string; }
-const { title, lead, leadItalic = false, leadStrong = false, photo, accent } = Astro.props;
+interface Props { title: string; lead?: string; leadItalic?: boolean; leadStrong?: boolean; photo?: string; accent?: string; shine?: boolean; }
+const { title, lead, leadItalic = false, leadStrong = false, photo, accent, shine = false } = Astro.props;
 
-// "balcón"/"balcony" en cursiva y dorado dentro del título, igual que el
-// acento del h1 de Home (dos de estos títulos la incluyen: Habitaciones y
-// Reservar).
-// Con `accent` se marca esa parte exacta del título (p. ej. "Espacios privados").
+// "balcón"/"balcony"/"balcone"/"Balkon" en cursiva y dorado dentro del título,
+// igual que el acento del h1 de Home (lo llevan Balcones y Reservar). Con `accent`
+// se marca esa parte exacta del título (p. ej. "Espacios privados"). `shine` (y
+// siempre con `accent`) añade el destello dorado de la portada.
+const BALCONY = /\b(balcón|balcony|balcone|balcon|Balkon)\b/i;
+const emTag = accent || shine ? '<em class="shine">' : '<em>';
 const titleHtml =
   accent && title.includes(accent)
-    ? title.replace(accent, `<em class="shine">${accent}</em>`) // con el destello dorado de la portada
-    : title.replace(/\b(balcón|balcony)\b/i, '<em>$1</em>');
+    ? title.replace(accent, `${emTag}${accent}</em>`)
+    : title.replace(BALCONY, `${emTag}$1</em>`);
 
 // "Plaza del Ayuntamiento" enlaza a Google Maps (con destino ya puesto, para
 // que el móvil calcule la ruta desde la ubicación GPS del usuario) en los
