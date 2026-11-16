@@ -92,16 +92,41 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
       return (
         <article class="space" id={`espacio-${s.number}`} data-space={s.number}>
           <div class="space-photo">
-            <img
-              src={`/images/espacios/${s.number}/foto-1600.webp`}
-              srcset={`/images/espacios/${s.number}/foto-800.webp 800w, /images/espacios/${s.number}/foto-1600.webp 1600w`}
-              sizes="(min-width: 960px) 560px, 92vw"
-              width="1600"
-              height="900"
-              alt={fill(t('spaces.card.photo.alt'), { n: s.number })}
-              loading="lazy"
-              decoding="async"
-            />
+            <div class="space-gallery" data-gallery data-index="0">
+              <div class="stage">
+                <img
+                  class="cover on"
+                  src={`/images/espacios/${s.number}/foto-1600.webp`}
+                  srcset={`/images/espacios/${s.number}/foto-800.webp 800w, /images/espacios/${s.number}/foto-1600.webp 1600w`}
+                  sizes="(min-width: 960px) 560px, 92vw"
+                  width="1600"
+                  height="900"
+                  alt={fill(t('spaces.card.photo.alt'), { n: s.number })}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
+                {s.hasFacade && (
+                  <img class="contain" src={`/images/espacios/${s.number}/fachada.webp`} alt={fill(t('spaces.card.facade.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
+                )}
+              </div>
+              <div class="thumbs">
+                <button type="button" class="thumb on" aria-pressed="true">
+                  <span class="im"><img class="cover" src={`/images/espacios/${s.number}/foto-800.webp`} alt="" loading="lazy" decoding="async" /></span>
+                  <span class="t">{t('spaces.card.photo')}</span>
+                </button>
+                <button type="button" class="thumb" aria-pressed="false">
+                  <span class="im"><img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt="" loading="lazy" decoding="async" /></span>
+                  <span class="t">{t('spaces.card.plan')}</span>
+                </button>
+                {s.hasFacade && (
+                  <button type="button" class="thumb" aria-pressed="false">
+                    <span class="im"><img class="contain" src={`/images/espacios/${s.number}/fachada.webp`} alt="" loading="lazy" decoding="async" /></span>
+                    <span class="t">{t('spaces.card.facade.short')}</span>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           <div class="space-body">
@@ -130,19 +155,6 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
             </a>
           </div>
 
-          <div class="space-maps">
-            <figure>
-              <img src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} loading="lazy" decoding="async" />
-              <figcaption>{t('spaces.card.plan')}</figcaption>
-            </figure>
-            {s.hasFacade && (
-              <figure>
-                <img src={`/images/espacios/${s.number}/fachada.webp`} alt={fill(t('spaces.card.facade.alt'), { n: s.number })} loading="lazy" decoding="async" />
-                <figcaption>{t('spaces.card.facade')}</figcaption>
-              </figure>
-            )}
-          </div>
-
         </article>
       );
     })}
@@ -167,6 +179,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
 })} />
 <script>
   import '../../scripts/spaces-live';
+  import '../../scripts/space-gallery';
 </script>
 
 <style>
@@ -220,7 +233,28 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
 
   .spaces-cards { padding-top: 56px; }
   .space { display: grid; grid-template-columns: 1fr; gap: 26px; max-width: 1040px; margin: 0 auto 72px; scroll-margin-top: 96px; }
-  .space-photo img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; box-shadow: var(--sh-md); }
+  /* Visor: foto grande + miniaturas (Foto · Plano · Ubicación). */
+  .space-gallery { display: grid; gap: 12px; }
+  .space-gallery .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #fff; border: 1px solid var(--cream-dark); box-shadow: var(--sh-md); }
+  .space-gallery .stage img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .3s; }
+  .space-gallery .stage img.on { opacity: 1; }
+  .space-gallery img.cover { object-fit: cover; }
+  .space-gallery .stage img.contain { object-fit: contain; padding: 10px; background: #fff; }
+  .space-gallery .thumbs { display: flex; justify-content: center; gap: 10px; }
+  .space-gallery .thumb { flex: 0 1 104px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0; border: 0; background: none; font: inherit; color: var(--text-soft); cursor: pointer; }
+  .space-gallery .thumb .im { display: block; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 10px; background: #fff; border: 2px solid var(--cream-dark); transition: border-color .2s, box-shadow .2s; }
+  .space-gallery .thumb .im img { display: block; width: 100%; height: 100%; }
+  .space-gallery .thumb .im img.contain { object-fit: contain; padding: 4px; }
+  .space-gallery .thumb:hover .im { border-color: var(--gold-light); }
+  .space-gallery .thumb.on .im { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201, 162, 70, .25); }
+  .space-gallery .thumb .t { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  .space-gallery .thumb.on .t { color: var(--navy); font-weight: 700; }
+  /* Pantallas muy estrechas (320 px): letra y huecos algo menores para que quepa «Emplacement». */
+  @media (max-width: 380px) {
+    .space-gallery .thumbs { gap: 6px; }
+    .space-gallery .thumb .t { font-size: 10px; letter-spacing: .03em; }
+  }
+  .space-gallery .thumb:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 10px; }
   .space-body { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
   .space-body > * { margin-top: 0; margin-bottom: 0; }
   .space-floor { color: var(--gold); font-family: var(--ff-display); font-style: italic; font-size: 17px; }
@@ -239,23 +273,12 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   .space-price em { display: block; margin-top: 4px; color: var(--gold); font-size: 15px; }
   .js-special { display: contents; }
   .space[hidden], .glance-list li[hidden] { display: none; }
-  .space-maps { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px; margin: 6px 0 4px; }
-  .space-maps figure { margin: 0; text-align: center; max-width: 100%; }
-  .space-maps img { display: block; height: 190px; width: auto; max-width: 100%; object-fit: contain; padding: 6px; border-radius: 10px; background: #fff; border: 1px solid var(--cream-dark); }
-  .space-maps figcaption { margin-top: 6px; color: var(--text-soft); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
   .space-body .btn { margin-top: 8px; }
-  /* Móvil: foto, texto con precio y botón, y por último plano y fachada.
-     Escritorio: foto + plano/fachada en una columna y el texto en la otra, para
-     que las dos pesen parecido; alternan de lado. */
+  /* Móvil: visor y texto con precio y botón. Escritorio: visor en una columna y el
+     texto en la otra; alternan de lado. */
   @media (min-width: 960px) {
-    .space {
-      grid-template-columns: 1.15fr 1fr; gap: 28px 56px; align-items: start;
-      grid-template-areas: 'photo body' 'maps body';
-    }
-    .space:nth-child(even) { grid-template-columns: 1fr 1.15fr; grid-template-areas: 'body photo' 'body maps'; }
-    .space-photo { grid-area: photo; }
-    .space-body { grid-area: body; align-self: center; }
-    .space-maps { grid-area: maps; margin: 0; }
+    .space { grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
+    .space:nth-child(even) .space-photo { order: 2; }
   }
 
   .spaces-outro { padding-top: 0; text-align: center; }
