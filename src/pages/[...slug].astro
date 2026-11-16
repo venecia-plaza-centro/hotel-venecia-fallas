@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Home from '../components/pages/Home.astro';
 import Rooms from '../components/pages/Rooms.astro';
+import Spaces from '../components/pages/Spaces.astro';
 import Mascletas from '../components/pages/Mascletas.astro';
 import Faq from '../components/pages/Faq.astro';
 import Gallery from '../components/pages/Gallery.astro';
@@ -76,6 +77,7 @@ const jsonLd = pageId === 'home'
 
 <Base lang={lang} pageId={pageId} title={title} description={description} jsonLd={jsonLd} noindex={noindex}>
   {pageId === 'home' && <Home lang={lang} />}
+  {pageId === 'spaces' && <Spaces lang={lang} />}
   {pageId === 'rooms' && <Rooms lang={lang} />}
   {pageId === 'mascletas' && <Mascletas lang={lang} />}
   {pageId === 'faq' && <Faq lang={lang} />}

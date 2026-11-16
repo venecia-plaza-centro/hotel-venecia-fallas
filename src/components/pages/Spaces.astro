@@ -1,0 +1,204 @@
+---
+import { FALLAS, type Locale } from '../../consts';
+import { useT } from '../../i18n/ui';
+import { pagePath } from '../../i18n/pages';
+import { getSpaces, spacePriceForDay } from '../../lib/spaces';
+import PageHero from '../PageHero.astro';
+import Icon from '../Icon.astro';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// Datos de los espacios: src/lib/spaces.ts (más adelante, Airtable).
+const spaces = await getSpaces();
+
+const LOCALE = { es: 'es-ES', en: 'en-GB', it: 'it-IT', fr: 'fr-FR', de: 'de-DE' }[lang];
+// "useGrouping: always" para que 1300 salga "1.300 €" también en español.
+const money = (n: number) =>
+  new Intl.NumberFormat(LOCALE, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' } as Intl.NumberFormatOptions).format(n);
+const list = new Intl.ListFormat(LOCALE, { style: 'long', type: 'conjunction' });
+const fill = (s: string, vars: Record<string, string | number>) =>
+  s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
+// "1 y 2 de marzo", "March 1, 2, 3 and 14", "1., 2., 3. und 14. März"…
+const dayList = (days: number[]) =>
+  fill(t('spaces.days.fmt'), { days: list.format(days.map((d) => (lang === 'de' ? `${d}.` : String(d)))) });
+
+const bookUrl = pagePath('book', lang);
+const contactUrl = pagePath('contact', lang);
+// En francés los dos puntos llevan espacio (fino, sin salto) delante.
+const colon = lang === 'fr' ? '\u202f:' : ':';
+const infoKeys = ['whole', 'hours', 'rates', 'early', 'bath', 'use', 'decor'] as const;
+const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
+---
+
+<PageHero title={t('spaces.h1')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" />
+
+<section class="section spaces-info">
+  <div class="container" style="max-width:760px">
+    <p class="spaces-intro">{t('spaces.intro')}</p>
+
+    <h2>{t('spaces.info.h')}</h2>
+    <ul>
+      {infoKeys.map((k) => (
+        <li><strong>{t(`spaces.info.${k}.l`)}{colon}</strong> {fill(t(`spaces.info.${k}.t`), hoursVars)}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section spaces-glance">
+  <div class="container" style="max-width:760px">
+    <h2 class="h2" style="text-align:center;margin-bottom:22px">{t('spaces.glance.h')}</h2>
+    <ul class="glance-list">
+      {spaces.map((s) => (
+        <li>
+          <a href={`#espacio-${s.number}`}>
+            <span class="glance-name"><strong>{fill(t('spaces.card.title'), { n: s.number })}</strong> · {t(`spaces.floor.${s.floor}`)}</span>
+            <span class="glance-meta">{fill(t('spaces.card.size'), { n: s.m2 })} · {fill(t('spaces.glance.people'), { n: s.capacity })}</span>
+            <span class="glance-price">{money(s.price)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section spaces-cards">
+  <div class="container">
+    {spaces.map((s) => {
+      const special = Object.entries(s.priceByDay ?? {}).map(([day, price]) => ({ day: Number(day), price }));
+      return (
+        <article class="space" id={`espacio-${s.number}`}>
+          <div class="space-photo">
+            <img
+              src={`/images/espacios/${s.number}/foto-1600.webp`}
+              srcset={`/images/espacios/${s.number}/foto-800.webp 800w, /images/espacios/${s.number}/foto-1600.webp 1600w`}
+              sizes="(min-width: 960px) 560px, 92vw"
+              width="1600"
+              height="900"
+              alt={fill(t('spaces.card.photo.alt'), { n: s.number })}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="space-body">
+            <p class="space-floor">{t(`spaces.floor.${s.floor}`)}</p>
+            <h3>{fill(t('spaces.card.title'), { n: s.number })}</h3>
+            <ul class="space-facts">
+              <li>{fill(t('spaces.card.size'), { n: s.m2 })}</li>
+              <li>{fill(t('spaces.card.cap'), { n: s.capacity })}</li>
+            </ul>
+            <p class="space-desc">{t(`spaces.desc.${s.number}`)}</p>
+            <p class="space-whole">{fill(t('spaces.card.whole'), { n: s.capacity })}</p>
+            <p class="space-days">{fill(t('spaces.card.days'), { days: dayList(s.days) })}</p>
+
+            <div class="space-price">
+              <strong>{money(s.price)}</strong>
+              <span>{t('spaces.card.perday')}</span>
+              {special.map((p) => (
+                <em>{fill(t('spaces.card.special'), { date: dayList([p.day]), price: money(spacePriceForDay(s, p.day)) })}</em>
+              ))}
+            </div>
+
+            <a class="btn btn-gold btn-arrow" href={`${bookUrl}?espacio=${s.number}`}>
+              {t('spaces.card.cta')} <span class="btn-ic"><Icon name="arrow-right" size={16} /></span>
+            </a>
+          </div>
+
+          <div class="space-maps">
+            <figure>
+              <img src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} loading="lazy" decoding="async" />
+              <figcaption>{t('spaces.card.plan')}</figcaption>
+            </figure>
+            {s.hasFacade && (
+              <figure>
+                <img src={`/images/espacios/${s.number}/fachada.webp`} alt={fill(t('spaces.card.facade.alt'), { n: s.number })} loading="lazy" decoding="async" />
+                <figcaption>{t('spaces.card.facade')}</figcaption>
+              </figure>
+            )}
+          </div>
+
+        </article>
+      );
+    })}
+  </div>
+</section>
+
+<section class="section spaces-outro">
+  <div class="container" style="max-width:640px">
+    <p class="spaces-outro-main">{t('spaces.outro')}</p>
+    <p class="spaces-outro-q">{t('spaces.outro.q')} <a href={contactUrl}>{t('spaces.outro.link')}</a></p>
+  </div>
+</section>
+
+<style>
+  /* Misma línea que la página de Mascletàs: columna centrada, títulos en serif,
+     rombos dorados en las listas y filas con línea fina. */
+  .spaces-info { text-align: center; padding-bottom: 8px; }
+  .spaces-intro { color: var(--text-mid); font-size: 17px; line-height: 1.75; max-width: 640px; margin: 0 auto; }
+  .spaces-info h2 { font-size: clamp(22px, 3vw, 28px); margin: 44px 0 18px; }
+  .spaces-info ul { list-style: none; padding: 0; margin: 0 auto; max-width: 640px; display: grid; gap: 14px; }
+  .spaces-info li { color: var(--text-mid); font-size: 16px; line-height: 1.65; }
+  .spaces-info li::before { content: '◆'; display: block; color: var(--gold); font-size: 9px; line-height: 1; margin-bottom: 6px; }
+  .spaces-info li strong { color: var(--navy); }
+
+  .spaces-glance { padding-top: 48px; padding-bottom: 8px; }
+  .glance-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .glance-list a {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 16px;
+    padding: 12px 4px; border-bottom: 1px solid var(--cream-dark); color: inherit; text-decoration: none;
+    transition: background .2s;
+  }
+  .glance-list a:hover { background: rgba(201, 162, 70, .08); }
+  .glance-meta { color: var(--gold); font-style: italic; text-align: center; }
+  .glance-price { color: var(--navy); font-weight: 700; text-align: right; }
+  @media (max-width: 600px) {
+    .glance-list a { grid-template-columns: 1fr auto; gap: 2px 12px; }
+    .glance-meta { grid-column: 1 / -1; grid-row: 2; text-align: left; font-size: 14px; }
+  }
+
+  .spaces-cards { padding-top: 56px; }
+  .space { display: grid; grid-template-columns: 1fr; gap: 26px; max-width: 1040px; margin: 0 auto 72px; scroll-margin-top: 96px; }
+  .space-photo img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; box-shadow: var(--sh-md); }
+  .space-body { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+  .space-body > * { margin-top: 0; margin-bottom: 0; }
+  .space-floor { color: var(--gold); font-family: var(--ff-display); font-style: italic; font-size: 17px; }
+  .space h3 { font-size: clamp(28px, 3.6vw, 36px); }
+  .space-facts { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
+  .space-facts li { padding: 6px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--gold-light); color: var(--navy); font-size: 14px; font-weight: 600; }
+  .space-desc { max-width: 520px; color: var(--text-mid); font-size: 16px; line-height: 1.75; }
+  .space-whole {
+    max-width: 520px; padding: 10px 18px; border-radius: 10px;
+    background: rgba(201, 162, 70, .12); color: var(--navy); font-size: 14px; font-weight: 600; line-height: 1.5;
+  }
+  .space-days { color: var(--text-soft); font-size: 15px; font-style: italic; }
+  .space-price { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 4px; }
+  .space-price strong { font-family: var(--ff-display); font-size: 36px; line-height: 1.1; color: var(--navy); }
+  .space-price span { color: var(--text-soft); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  .space-price em { margin-top: 4px; color: var(--gold); font-size: 15px; }
+  .space-maps { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px; margin: 6px 0 4px; }
+  .space-maps figure { margin: 0; text-align: center; max-width: 100%; }
+  .space-maps img { display: block; height: 190px; width: auto; max-width: 100%; object-fit: contain; padding: 6px; border-radius: 10px; background: #fff; border: 1px solid var(--cream-dark); }
+  .space-maps figcaption { margin-top: 6px; color: var(--text-soft); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  .space-body .btn { margin-top: 8px; }
+  /* Móvil: foto, texto con precio y botón, y por último plano y fachada.
+     Escritorio: foto + plano/fachada en una columna y el texto en la otra, para
+     que las dos pesen parecido; alternan de lado. */
+  @media (min-width: 960px) {
+    .space {
+      grid-template-columns: 1.15fr 1fr; gap: 28px 56px; align-items: start;
+      grid-template-areas: 'photo body' 'maps body';
+    }
+    .space:nth-child(even) { grid-template-columns: 1fr 1.15fr; grid-template-areas: 'body photo' 'body maps'; }
+    .space-photo { grid-area: photo; }
+    .space-body { grid-area: body; align-self: center; }
+    .space-maps { grid-area: maps; margin: 0; }
+  }
+
+  .spaces-outro { padding-top: 0; text-align: center; }
+  .spaces-outro-main { font-family: var(--ff-display); font-style: italic; font-size: clamp(20px, 2.6vw, 26px); line-height: 1.5; color: var(--navy); }
+  .spaces-outro-q { margin-top: 18px; color: var(--text-mid); font-size: 16px; }
+  .spaces-outro-q a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+</style>

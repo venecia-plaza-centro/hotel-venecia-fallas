@@ -8,6 +8,7 @@ import type { Locale } from '../consts';
  */
 export type PageId =
   | 'home'
+  | 'spaces'
   | 'rooms'
   | 'mascletas'
   | 'gallery'
@@ -32,6 +33,12 @@ export const PAGES: PageDef[] = [
     slug: { es: '', en: '', it: '', fr: '', de: '' },
     inNav: false,
     inFooter: false,
+  },
+  {
+    id: 'spaces',
+    slug: { es: 'espacios', en: 'spaces', it: 'spazi', fr: 'espaces', de: 'raeume' },
+    inNav: true,
+    inFooter: true,
   },
   {
     id: 'rooms',
