@@ -1,0 +1,157 @@
+---
+/**
+ * Reserva de un espacio dentro de /reservar/ (modo `?espacio=109`). Va oculto
+ * hasta que src/scripts/space-book.ts lo activa; el flujo de balcones de
+ * Book.astro no se toca. Textos y estilos de la reserva de balcones reutilizados.
+ */
+import { useT, dictFor } from '../i18n/ui';
+import type { Locale } from '../consts';
+
+interface Props { lang: Locale; urls: { terms: string; privacy: string; home: string; spaces: string } }
+const { lang, urls } = Astro.props;
+const t = useT(lang);
+
+// Textos de espacios para el script (sin las descripciones largas, que no usa).
+const spaceStrings = Object.fromEntries(
+  Object.entries(dictFor(lang)).filter(([k]) => (k.startsWith('spaces.') || k === 'nav.spaces') && !k.startsWith('spaces.desc.')),
+);
+const steps = ['date', 'details', 'done'] as const;
+---
+
+<div id="space-flow" hidden>
+  <div class="book-chosen" id="space-chosen">
+    <span class="book-chosen-label">{t('spaces.book.chosen.label')}</span>
+    <strong class="book-chosen-room" id="space-chosen-name"></strong>
+    <a class="space-change" href={urls.spaces}>{t('spaces.book.change')}</a>
+  </div>
+
+  <div class="book-closed" id="space-closed" hidden>
+    <h2>{t('book.closed.title')}</h2>
+    <p>{t('spaces.book.closed.body')}</p>
+    <p class="book-closed-date" id="space-closed-date" hidden></p>
+    <a class="btn btn-gold" href={urls.home}>{t('book.done.home')}</a>
+  </div>
+
+  <ol class="book-steps" id="space-steps" aria-label="Progreso">
+    {steps.map((s, i) => (
+      <li data-sstep={s} aria-current={s === 'date' ? 'step' : undefined}>
+        <span class="n">{i + 1}</span>
+        <span class="l">{t(`book.step.${s}`)}</span>
+      </li>
+    ))}
+  </ol>
+
+  <div class="book-grid no-summary" id="space-grid">
+    <div class="book-main">
+      <!-- Paso 1 · Día -->
+      <div data-sstep-panel="date" class="panel space-panel">
+        <h2 tabindex="-1">{t('book.date.title')}</h2>
+        <p class="hint space-notice" id="space-notice"></p>
+        <div class="space-days" id="space-days" role="group" aria-label={t('book.date.date')}></div>
+        <p class="err" id="space-err-date" role="alert"></p>
+        <div class="actions">
+          <a class="btn btn-ghost" href={urls.spaces}>{t('spaces.book.change')}</a>
+          <button type="button" class="btn btn-gold" id="space-next" disabled>{t('book.room.next')}</button>
+        </div>
+      </div>
+
+      <!-- Paso 2 · Datos -->
+      <div data-sstep-panel="details" class="panel space-panel" hidden>
+        <h2 tabindex="-1">{t('book.details.title')}</h2>
+        <p class="space-recap" id="space-recap"></p>
+        <form id="space-form" novalidate>
+          <div class="fields">
+            <label>{t('book.details.first')}<input type="text" name="firstName" autocomplete="given-name" required /></label>
+            <label>{t('book.details.last')}<input type="text" name="lastName" autocomplete="family-name" required /></label>
+            <label>{t('book.details.email')}<input type="email" name="email" autocomplete="email" required /></label>
+            <label>{t('book.details.phone')}<input type="tel" name="phone" autocomplete="tel" required /></label>
+            <label>{t('book.details.country')}<input type="text" name="country" autocomplete="country-name" /></label>
+          </div>
+          <label class="full">
+            {t('book.details.notes')}
+            <textarea name="notes" rows="3" maxlength="200"></textarea>
+            <small class="space-hint">{t('spaces.book.notes.hint')}</small>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="consent" />
+            <span set:html={t('book.details.consent')
+              .replace('{terms}', `<a href="${urls.terms}" target="_blank" rel="noopener">${t('book.details.consent.terms')}</a>`)
+              .replace('{privacy}', `<a href="${urls.privacy}" target="_blank" rel="noopener">${t('book.details.consent.privacy')}</a>`)} />
+          </label>
+
+          <div class="taken" id="space-taken" role="alert" hidden>
+            <span class="taken-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+            </span>
+            <h3 class="taken-title">{t('spaces.taken.title')}</h3>
+            <p class="taken-body">{t('spaces.taken.body')}</p>
+            <button type="button" class="btn btn-gold taken-cta" id="space-taken-cta">{t('spaces.taken.cta')}</button>
+          </div>
+
+          <p class="err" id="space-err-details" role="alert"></p>
+          <div class="actions">
+            <button type="button" class="btn btn-ghost" data-sback>{t('book.details.back')}</button>
+            <button type="submit" class="btn btn-gold" id="space-submit">{t('book.details.submit')}</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Paso 3 · Hecho -->
+      <div data-sstep-panel="done" class="panel space-panel" hidden>
+        <div class="done-card">
+          <svg class="done-check" viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" />
+            <path d="M14 24.5l6.5 6.5L34 17" />
+          </svg>
+          <h2 tabindex="-1" id="space-done-title"></h2>
+          <p class="done-lead" id="space-done-body"></p>
+          <div class="done-locator">
+            <span>{t('book.done.locator')}</span>
+            <strong id="space-done-locator"></strong>
+          </div>
+          <div class="done-summary" id="space-done-summary"></div>
+        </div>
+        <p class="err" id="space-done-demo-payment" hidden>{t('book.done.demo.payment')}</p>
+        <p class="err" id="space-done-demo" hidden>{t('book.done.demo')}</p>
+        <div class="actions">
+          <a class="btn btn-gold" href={urls.home}>{t('book.done.home')}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="space-i18n" set:html={JSON.stringify(spaceStrings)}></script>
+
+<style is:global>
+  .book .space-panel { max-width: 640px; margin: 0 auto; scroll-margin-top: 96px; }
+  .book .space-panel[data-sstep-panel="date"] { max-width: 600px; }
+  .book .space-panel > h2, .book .space-panel > .hint { text-align: center; }
+  .book .space-notice { line-height: 1.6; }
+  .book .space-notice strong { color: var(--navy); }
+  .book .book-chosen .space-change { margin-top: 4px; color: var(--gold); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+  .book .space-recap { text-align: center; color: var(--text-mid); margin: 0 0 22px; }
+  .book .space-recap strong { color: var(--navy); }
+  .book .space-recap small { color: var(--text-soft); }
+  .book .space-hint { display: block; margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--text-soft); font-weight: 400; }
+  .book #space-taken { margin: 20px auto 0; }
+  /* Días del espacio: una tarjeta por día con su precio. */
+  .space-days { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 22px 0 6px; }
+  .space-day {
+    display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 124px; padding: 14px 18px 12px;
+    background: #fff; border: 1.5px solid var(--cream-dark); border-radius: 16px; color: var(--navy); font: inherit; cursor: pointer;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .space-day:hover:not(:disabled) { border-color: var(--gold); box-shadow: var(--sh-sm); transform: translateY(-2px); }
+  .space-day .sd-wd { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-soft); }
+  .space-day .sd-n { font-family: var(--ff-display); font-size: 40px; font-weight: 700; line-height: 1.05; }
+  .space-day .sd-m { font-size: 13px; color: var(--text-mid); text-transform: capitalize; }
+  .space-day .sd-p { margin-top: 6px; font-size: 15px; font-weight: 700; color: var(--gold); }
+  .space-day.is-selected { background: var(--navy); border-color: var(--navy); color: #fff; box-shadow: var(--sh-md); }
+  .space-day.is-selected .sd-wd, .space-day.is-selected .sd-m { color: rgba(255, 255, 255, .75); }
+  .space-day.is-selected .sd-p { color: var(--gold-light); }
+  .space-day.is-full { opacity: .5; cursor: not-allowed; }
+  .space-day.is-full .sd-n { text-decoration: line-through; }
+  .space-day.is-full .sd-p { color: var(--text-soft); font-weight: 600; font-size: 13px; }
+  @media (max-width: 480px) { .space-day { min-width: 0; flex: 1 1 130px; } .book .space-panel .actions .btn { flex: 1 1 100%; } }
+</style>

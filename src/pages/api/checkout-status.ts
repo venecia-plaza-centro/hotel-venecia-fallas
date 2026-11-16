@@ -20,13 +20,17 @@ export const GET: APIRoute = async ({ url }) => {
   const m = token ? readReturnToken(token) : null;
   if (!m) return json({ ok: false, error: 'token-invalido' }, 400);
 
+  const isSpace = m.kind === 'space';
   return json({
     ok: true,
+    kind: isSpace ? 'space' : 'room',
     persisted: airtableEnabled(),
     locator: String(m.locator ?? ''),
     date: String(m.date ?? ''),
-    guests: Number(m.guests),
-    room: { roomNumber: String(m.roomNumber ?? ''), slug: String(m.roomSlug ?? '') },
+    guests: Number(isSpace ? m.capacity : m.guests),
+    room: isSpace
+      ? { roomNumber: String(m.spaceNumber ?? ''), slug: String(m.spaceSlug ?? '') }
+      : { roomNumber: String(m.roomNumber ?? ''), slug: String(m.roomSlug ?? '') },
     quote: { total: Number(m.total), currency: 'EUR' },
     email: String(m.email ?? ''),
   });

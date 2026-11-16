@@ -15,9 +15,9 @@ export type BookingEmail = BookingNotification;
 
 /** Todos los avisos internos (reservas, reembolsos...) van a los dos
  *  buzones del hotel a la vez, no solo a fallas@. */
-const HOTEL_RECIPIENTS = [SITE.email, 'reservas@hotelvenecia.com'];
+export const HOTEL_RECIPIENTS = [SITE.email, 'reservas@hotelvenecia.com'];
 
-interface EmailCopy {
+export interface EmailCopy {
   subject: string;
   preheader: string;
   banner: string;
@@ -34,7 +34,7 @@ interface EmailCopy {
   contact: string;
 }
 
-const EMAIL_COPY: Record<string, EmailCopy> = {
+export const EMAIL_COPY: Record<string, EmailCopy> = {
   es: {
     subject: 'Reserva confirmada {locator} · Mascletàs 2027',
     preheader: 'Su balcón está reservado. Enseñe este correo para subir a su habitación.',
@@ -301,10 +301,10 @@ const EMAIL_COPY: Record<string, EmailCopy> = {
   },
 };
 
-const LANG_NAME: Record<string, string> = { es: 'Español', en: 'Inglés', it: 'Italiano', fr: 'Francés', de: 'Alemán' };
+export const LANG_NAME: Record<string, string> = { es: 'Español', en: 'Inglés', it: 'Italiano', fr: 'Francés', de: 'Alemán' };
 const INTL_LOCALE: Record<Locale, string> = { es: 'es-ES', en: 'en-GB', it: 'it-IT', fr: 'fr-FR', de: 'de-DE' };
 
-function money(n: number, lang: Locale) {
+export function money(n: number, lang: Locale) {
   return new Intl.NumberFormat(INTL_LOCALE[lang] ?? 'es-ES', {
     style: 'currency',
     currency: 'EUR',
@@ -312,7 +312,7 @@ function money(n: number, lang: Locale) {
   }).format(n);
 }
 
-function formatDate(iso: string, lang: Locale) {
+export function formatDate(iso: string, lang: Locale) {
   return new Intl.DateTimeFormat(INTL_LOCALE[lang] ?? 'es-ES', {
     weekday: 'long',
     day: 'numeric',
@@ -320,7 +320,7 @@ function formatDate(iso: string, lang: Locale) {
   }).format(new Date(`${iso}T00:00:00`));
 }
 
-const esc = (s: string) =>
+export const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** HTML con el estilo de la web (navy + dorado), a base de tablas: así se ve
@@ -625,7 +625,7 @@ export async function sendPaymentRefundedNotice(input: {
   });
 }
 
-interface Delivery {
+export interface Delivery {
   to: string | string[];
   subject: string;
   html?: string;
@@ -641,7 +641,7 @@ const env = (k: string): string | undefined => import.meta.env?.[k] ?? process.e
  * sigue, para que Redsys no reintente la notificación por un problema de
  * correo. El cliente puede escribir con su localizador si no le llega.
  */
-async function deliver(d: Delivery): Promise<void> {
+export async function deliver(d: Delivery): Promise<void> {
   const key = env('RESEND_API_KEY');
   const to = Array.isArray(d.to) ? d.to : [d.to];
   if (!key) {

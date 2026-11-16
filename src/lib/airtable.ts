@@ -12,6 +12,7 @@
 import { allSaleDays, type Room, type RoomOffer } from './booking';
 import { FIXTURE_ROOMS } from './fixtures';
 import { FALLAS, type Locale } from '../consts';
+import type { Space } from './spaces';
 
 const TOKEN = import.meta.env.AIRTABLE_TOKEN ?? process.env.AIRTABLE_TOKEN;
 const BASE_ID = import.meta.env.AIRTABLE_BASE_ID ?? process.env.AIRTABLE_BASE_ID;
@@ -190,6 +191,8 @@ export async function getRooms(): Promise<Room[]> {
 
 /** Fila de `Espacios`. Los números vacíos llegan como 0 y las listas como []. */
 export interface SpaceRow {
+  /** Id del registro en Airtable (para enlazar las reservas). */
+  id: string;
   slug: string;
   capacity: number;
   price: number;
@@ -210,6 +213,7 @@ const dayList = (v: unknown): number[] =>
 function mapSpaceRow(r: AirtableRecord): SpaceRow {
   const f = r.fields;
   return {
+    id: r.id,
     slug: str(f['Slug']) ?? '',
     capacity: num(f['Aforo']),
     price: num(f['Precio']),
@@ -412,6 +416,26 @@ export async function getAvailabilitySummary(
 }
 
 /**
+ * Fechas ocupadas de cada espacio (por id de registro de Airtable). Un espacio
+ * se alquila entero, así que una sola reserva activa ese día lo ocupa. `fresh`
+ * y `excludeLocator` como en listActiveBookings. Vacío sin Airtable (modo ejemplo).
+ */
+export async function getBookedSpaceDates(
+  opts: { fresh?: boolean; excludeLocator?: string } = {},
+): Promise<Map<string, Set<string>>> {
+  const booked = new Map<string, Set<string>>();
+  if (!airtableEnabled()) return booked;
+  for (const r of await listActiveBookings(opts)) {
+    const link = r.fields['Espacio'];
+    const id = Array.isArray(link) && link[0] ? String(link[0]) : '';
+    const date = bookingDate(r);
+    if (!id || !date) continue;
+    (booked.get(id) ?? booked.set(id, new Set()).get(id)!).add(date);
+  }
+  return booked;
+}
+
+/**
  * Slugs de las habitaciones sin ningún día libre en toda la ventana de
  * venta (1-12 de marzo): para avisarlo ya en Home/Habitaciones, en vez de
  * que el cliente solo lo descubra al entrar en el flujo de reserva. Una
@@ -486,7 +510,9 @@ function paymentFields(p?: PaymentRef): Record<string, string> {
 
 export interface BookingCreate {
   date: string;
-  room: Room;
+  /** Un balcón (habitación) o un espacio: una reserva lleva uno de los dos. */
+  room?: Room;
+  space?: Space;
   guests: number;
   total: number;
   firstName: string;
@@ -520,6 +546,13 @@ export interface BookingResult {
   locator: string;
 }
 
+/** Id del registro del espacio en Airtable; sin él la reserva no se puede enlazar. */
+function spaceRecordId(space: Space | undefined): string {
+  if (!space) throw new AirtableError('Reserva sin habitación ni espacio', 500);
+  if (airtableEnabled() && !space.id) throw new AirtableError('Espacio sin registro en Airtable', 503);
+  return space.id ?? `fix-${space.slug}`;
+}
+
 export async function createBooking(input: BookingCreate): Promise<BookingResult> {
   const locator = input.locator ?? (await newLocator());
 
@@ -527,7 +560,7 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     Localizador: locator,
     Estado: input.paid ? 'confirmada' : input.hold ? 'en pago' : 'solicitada',
     Fecha: input.date,
-    Habitacion: [input.room.id],
+    ...(input.room ? { Habitacion: [input.room.id] } : { Espacio: [spaceRecordId(input.space)] }),
     Huespedes: input.guests,
     'Nombre cliente': input.firstName,
     'Apellidos cliente': input.lastName,
@@ -597,19 +630,24 @@ export async function placeHold(input: Omit<BookingCreate, 'paid' | 'hold'>): Pr
   const { locator } = await createBooking({ ...input, paid: false, hold: true });
   if (!airtableEnabled()) return true;
 
+  // Balcón: enlace `Habitacion` y `cupo` unidades; espacio: enlace `Espacio` y 1 unidad.
+  const field = input.room ? 'Habitacion' : 'Espacio';
+  const targetId = input.room ? input.room.id : spaceRecordId(input.space);
+  const cupo = input.room ? input.room.cupo : 1;
+
   const recs = await listActiveBookings({ fresh: true });
-  const sameRoom = recs
+  const sameTarget = recs
     .filter((r) => {
-      const link = r.fields['Habitacion'];
-      return bookingDate(r) === input.date && Array.isArray(link) && link[0] === input.room.id;
+      const link = r.fields[field];
+      return bookingDate(r) === input.date && Array.isArray(link) && link[0] === targetId;
     })
     .sort(
       (a, b) =>
         String(a.createdTime).localeCompare(String(b.createdTime)) ||
         String(a.fields['Localizador']).localeCompare(String(b.fields['Localizador'])),
     );
-  const winners = sameRoom.slice(0, input.room.cupo);
-  const mine = sameRoom.find((r) => r.fields['Localizador'] === locator);
+  const winners = sameTarget.slice(0, cupo);
+  const mine = sameTarget.find((r) => r.fields['Localizador'] === locator);
   if (mine && winners.some((w) => w.id === mine.id)) return true;
 
   if (mine) await cancelBooking(mine.id);

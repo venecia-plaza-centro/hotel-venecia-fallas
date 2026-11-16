@@ -13,6 +13,8 @@
 import { getSpaceRows, type SpaceRow } from './airtable';
 
 export interface Space {
+  /** Id del registro en la tabla `Espacios` de Airtable (vacío con los datos de ejemplo). */
+  id?: string;
   /** Identificador estable en URLs y Airtable, ej. "espacio-109". */
   slug: string;
   /** Número del espacio, el que ve el cliente. */
@@ -67,6 +69,7 @@ export function mergeSpaceRows(rows: SpaceRow[] | null): Space[] {
     const special = r.specialPrice > 0 ? r.specialDays : [];
     out.push({
       ...base,
+      id: r.id,
       capacity: r.capacity > 0 ? r.capacity : base.capacity,
       price: r.price > 0 ? r.price : base.price,
       days: r.days.length ? r.days : base.days,
@@ -84,4 +87,27 @@ export async function getSpaces(): Promise<Space[]> {
 /** Precio de un espacio un día concreto de marzo. */
 export function spacePriceForDay(s: Space, day: number): number {
   return s.priceByDay?.[day] ?? s.price;
+}
+
+// --- Fechas y precio por día -------------------------------------------------
+
+/** Mes de venta de los espacios: marzo de 2027 (los días van en `Space.days`). */
+const SPACE_MONTH = '2027-03';
+
+/** Fecha ISO de un día de marzo: 14 → "2027-03-14". */
+export const spaceDate = (day: number) => `${SPACE_MONTH}-${String(day).padStart(2, '0')}`;
+
+/** Los días de marzo en que se alquila este espacio, como fechas ISO. */
+export const spaceDates = (s: Space) => s.days.map(spaceDate);
+
+/** ¿Es `date` un día en que este espacio se puede alquilar? */
+export function isSpaceDate(s: Space, date: string): boolean {
+  return spaceDates(s).includes(date);
+}
+
+/** Precio del espacio en una fecha ISO concreta. */
+export const priceForSpaceDate = (s: Space, date: string) => spacePriceForDay(s, Number(date.slice(8, 10)));
+
+export async function getSpace(slug: string): Promise<Space | undefined> {
+  return (await getSpaces()).find((s) => s.slug === slug);
 }

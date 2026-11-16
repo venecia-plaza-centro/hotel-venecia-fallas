@@ -86,3 +86,26 @@ tal cual: `Fecha`, `Estado`, `Pago`, `Importe total`, `Nombre cliente`…,
   y el bloqueo de 15 minutos mientras se paga funcionan igual para espacios.
 - Avisar cuando esté creada: se comprueba que la web lee bien sus datos
   (`/api/spaces` debe devolver lo de Airtable y no el respaldo).
+
+## 5. Cómo se abre la venta de espacios
+
+Los espacios se venden con **su propio interruptor**, independiente del de los
+balcones. Hasta que no se active, `/reservar/?espacio=…` enseña «las reservas
+aún no están abiertas» y `/api/checkout` rechaza los pagos de espacios (403),
+aunque los balcones estén vendiendo.
+
+En Vercel (Settings → Environment Variables):
+
+| Variable | Valor | Efecto |
+|---|---|---|
+| `SPACES_OPEN` | `true` | Abre la venta de espacios (necesita además que las ventas generales estén abiertas: `SALES_OPEN`). Cualquier otro valor, o no definirla = cerrada. |
+
+Después hay que **volver a desplegar** para que Vercel la lea (igual que `SALES_OPEN`).
+
+### Lista para el lanzamiento
+1. Tabla `Espacios` creada y campo `Espacio` en `Reservas` (apartados 1 y 2).
+2. `/api/spaces` devuelve los datos de Airtable (no el respaldo).
+3. Reserva de prueba con el TPV en modo test: se bloquea, se paga, queda `confirmada` con su `Espacio` enlazado, y llegan los dos correos.
+4. Prueba de dos clientes a la vez sobre el mismo espacio y día: solo uno lo consigue.
+5. Hacer visible la página: `inNav`/`inFooter` a `true` y quitar `'spaces'` de `NOINDEX_PAGES` en `src/i18n/pages.ts`.
+6. `SPACES_OPEN=true` y redespliegue.

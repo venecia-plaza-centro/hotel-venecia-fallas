@@ -7,6 +7,7 @@ import { sendBookingEmails } from '../../lib/email';
 import { buildPayment, maskEmail, newOrder, redsysEnabled, signReturnToken } from '../../lib/redsys';
 import { handleError, json } from '../../lib/api';
 import { salesStatus } from '../../lib/sales';
+import { spaceCheckout } from '../../lib/space-booking';
 import { clientIp, isRateLimited } from '../../lib/rate-limit';
 
 export const prerender = false;
@@ -64,6 +65,9 @@ export const POST: APIRoute = async ({ request, url }) => {
   } catch {
     return json({ ok: false, error: 'json' }, 400);
   }
+
+  // Alquiler de un espacio entero: flujo propio (lib/space-booking.ts); el de balcones, más abajo, no cambia.
+  if (body.kind === 'space') return spaceCheckout(body, url);
 
   const date = str(body.date, 10);
   const roomSlug = str(body.roomSlug, MAX.short);

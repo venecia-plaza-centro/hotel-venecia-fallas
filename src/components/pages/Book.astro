@@ -4,6 +4,7 @@ import { pagePath } from '../../i18n/pages';
 import { dictFor, useT } from '../../i18n/ui';
 import { FIRST_DAY, LAST_DAY } from '../../lib/booking';
 import PageHero from '../PageHero.astro';
+import SpaceBook from '../SpaceBook.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -26,6 +27,7 @@ const config = {
     privacy: pagePath('privacy', lang),
     home: pagePath('home', lang),
     rooms: pagePath('rooms', lang),
+    spaces: pagePath('spaces', lang),
   },
 };
 
@@ -56,6 +58,8 @@ const windowSentences = t('book.date.window')
       <p class="book-closed-date" id="book-closed-date" hidden></p>
       <a class="btn btn-gold" href={config.urls.home}>{t('book.done.home')}</a>
     </div>
+    <!-- Alquiler de un espacio (/reservar/?espacio=109): flujo propio, oculto hasta que lo activa su script. -->
+    <SpaceBook lang={lang} urls={config.urls} />
     <ol class="book-steps" aria-label="Progreso">
       {stepKeys.map((s, i) => (
         <li data-stepper={s} aria-current={s === 'date' ? 'step' : undefined}>
@@ -213,13 +217,16 @@ const windowSentences = t('book.date.window')
 <script>
   // Carrusel de fotos de las fichas que este script crea (ver src/scripts/room-carousel.ts).
   import '../../scripts/room-carousel';
+  // Reserva de espacios (?espacio=…): en ese modo este script de balcones no arranca.
+  import '../../scripts/space-book';
+  import { isSpaceMode } from '../../scripts/space-mode';
 
   // Astro empaqueta este script junto al de otros componentes (Nav, RoomCard...)
   // en un único archivo compartido por todas las páginas; sin esta guarda, en
   // cualquier página que no sea "Reservar" fallaría al no existir #book-config,
   // y ese error interrumpiría también la ejecución del resto del archivo
   // (menú hamburguesa, slider de fotos...) en todas las demás páginas.
-  if (document.getElementById('book-config')) {
+  if (document.getElementById('book-config') && !isSpaceMode()) {
   const cfg = JSON.parse(document.getElementById('book-config').textContent);
   const T = JSON.parse(document.getElementById('book-i18n').textContent);
 

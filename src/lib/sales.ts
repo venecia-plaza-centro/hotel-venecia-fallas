@@ -46,3 +46,18 @@ export function salesStatus(now = Date.now()): SalesStatus {
     return { open: false };
   }
 }
+
+/**
+ * Los espacios se venden con su propio interruptor además del general: hasta
+ * que SPACES_OPEN=true (en Vercel) no se pueden pagar ni bloquear, aunque las
+ * ventas de balcones estén abiertas. Así abrir los espacios es una decisión
+ * explícita y no un efecto secundario de abrir los balcones.
+ */
+export function spacesSalesStatus(now = Date.now()): SalesStatus {
+  try {
+    if (env('SPACES_OPEN')?.trim().toLowerCase() !== 'true') return { open: false };
+  } catch {
+    return { open: false };
+  }
+  return salesStatus(now);
+}

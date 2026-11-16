@@ -4,6 +4,7 @@ import { cancelBooking, confirmHeldBooking, createBooking, findBooking, getRoomO
 import { sendBookingEmails, sendPaymentRefundedNotice } from '../../lib/email';
 import { isAuthorised, isOwnMerchant, readMerchantData, redsysEnabled, refundOrder, verifyNotification } from '../../lib/redsys';
 import { DEFAULT_LOCALE } from '../../consts';
+import { spaceNotification } from '../../lib/space-booking';
 
 export const prerender = false;
 
@@ -45,6 +46,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const m = readMerchantData(params);
+
+  // Pago de un espacio entero: flujo propio (lib/space-booking.ts).
+  if (m.kind === 'space') return spaceNotification(params, m);
 
   // Pago denegado o cancelado: se libera la habitación al momento en vez de
   // esperar a que caduque el bloqueo.
