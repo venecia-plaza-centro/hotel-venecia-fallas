@@ -288,6 +288,14 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .nav-right { display: flex; align-items: center; gap: 16px; }
 /* Botón "Reservar" del header, más pequeño que un .btn normal. */
 .nav-right .btn { padding: 10px 18px; font-size: 11px; }
+/* Zona de toque de 44 px (mínimo recomendado en móvil) sin cambiar el tamaño que se ve:
+   el botón «Reservar», el selector de idioma y el menú hamburguesa llevan un área
+   invisible a su alrededor. */
+.nav-right .btn, .lang-dd-btn, .hamburger { position: relative; }
+.nav-right .btn::after, .lang-dd-btn::after, .hamburger::after {
+  content: ''; position: absolute; left: -4px; right: -4px; top: 50%; height: 44px; transform: translateY(-50%);
+}
+.hamburger::after { left: -5px; right: -5px; }
 
 /* La marca centrada y el hamburger-only (sin enlaces/botón visibles) son
    solo para móvil/tablet (≤1120px, mismo corte que el resto del nav
