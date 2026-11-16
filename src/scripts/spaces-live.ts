@@ -63,6 +63,10 @@ export function applyLive(spaces: LiveSpace[], cfg: LiveConfig, root: Document =
       );
     }
   });
+
+  // El adorno dorado va entre fichas: la primera visible no lleva (si se oculta una, se recalcula).
+  const visible = [...root.querySelectorAll<HTMLElement>('article.space')].filter((a) => !a.hidden);
+  root.querySelectorAll<HTMLElement>('article.space').forEach((a) => a.classList.toggle('is-first', a === visible[0]));
 }
 
 const cfgEl = document.getElementById('spaces-live-config');

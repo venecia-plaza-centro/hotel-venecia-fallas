@@ -87,10 +87,16 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
 
 <section class="section spaces-cards">
   <div class="container">
-    {spaces.map((s) => {
+    {spaces.map((s, i) => {
       const special = Object.entries(s.priceByDay ?? {}).map(([day, price]) => ({ day: Number(day), price }));
       return (
-        <article class="space" id={`espacio-${s.number}`} data-space={s.number}>
+        <article class={`space${i === 0 ? ' is-first' : ''}`} id={`espacio-${s.number}`} data-space={s.number}>
+          <!-- Adorno entre un espacio y el siguiente: el balcón forjado de la marca entre dos líneas. -->
+          <div class="space-sep" aria-hidden="true">
+            <span></span>
+            <img src="/icons/balcon-forjado.webp" alt="" width="64" height="44" loading="lazy" decoding="async" />
+            <span></span>
+          </div>
           <div class="space-head">
             <p class="space-floor">{t(`spaces.floor.${s.floor}`)}</p>
             <h3>{fill(t('spaces.card.title'), { n: s.number })}</h3>
@@ -235,7 +241,14 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   }
 
   .spaces-cards { padding-top: 56px; }
-  .space { display: grid; grid-template-columns: 1fr; gap: 26px; max-width: 1040px; margin: 0 auto 72px; scroll-margin-top: 96px; }
+  .space { display: grid; grid-template-columns: 1fr; gap: 26px; max-width: 1040px; margin: 0 auto 44px; scroll-margin-top: 96px; }
+  .space:last-of-type { margin-bottom: 72px; }
+  /* Adorno dorado entre espacios (no sale sobre el primero). */
+  .space-sep { display: flex; align-items: center; gap: 18px; width: 100%; max-width: 620px; margin: 0 auto 10px; }
+  .space-sep span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .space-sep span:last-child { background: linear-gradient(270deg, transparent, var(--gold)); }
+  .space-sep img { display: block; flex: none; width: 64px; height: auto; }
+  .space.is-first .space-sep { display: none; }
   /* Visor: foto grande + miniaturas (Foto · Plano · Ubicación). */
   .space-gallery { display: grid; gap: 12px; }
   .space-gallery .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #fff; border: 1px solid var(--cream-dark); box-shadow: var(--sh-md); }
@@ -283,9 +296,10 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   @media (min-width: 960px) {
     .space {
       grid-template-columns: 1.15fr 1fr; gap: 28px 56px; align-items: center;
-      grid-template-areas: 'head head' 'photo body';
+      grid-template-areas: 'sep sep' 'head head' 'photo body';
     }
-    .space:nth-child(even) { grid-template-columns: 1fr 1.15fr; grid-template-areas: 'head head' 'body photo'; }
+    .space:nth-of-type(even) { grid-template-columns: 1fr 1.15fr; grid-template-areas: 'sep sep' 'head head' 'body photo'; }
+    .space-sep { grid-area: sep; margin-bottom: 8px; }
     .space-head { grid-area: head; }
     .space-photo { grid-area: photo; }
     .space-body { grid-area: body; }
