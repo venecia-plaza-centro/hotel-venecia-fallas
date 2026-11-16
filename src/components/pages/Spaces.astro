@@ -91,6 +91,15 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
       const special = Object.entries(s.priceByDay ?? {}).map(([day, price]) => ({ day: Number(day), price }));
       return (
         <article class="space" id={`espacio-${s.number}`} data-space={s.number}>
+          <div class="space-head">
+            <p class="space-floor">{t(`spaces.floor.${s.floor}`)}</p>
+            <h3>{fill(t('spaces.card.title'), { n: s.number })}</h3>
+            <ul class="space-facts">
+              <li>{fill(t('spaces.card.size'), { n: s.m2 })}</li>
+              <li class="js-cap">{fill(t('spaces.card.cap'), { n: s.capacity })}</li>
+            </ul>
+          </div>
+
           <div class="space-photo">
             <div class="space-gallery" data-gallery data-index="0">
               <div class="stage">
@@ -130,12 +139,6 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
           </div>
 
           <div class="space-body">
-            <p class="space-floor">{t(`spaces.floor.${s.floor}`)}</p>
-            <h3>{fill(t('spaces.card.title'), { n: s.number })}</h3>
-            <ul class="space-facts">
-              <li>{fill(t('spaces.card.size'), { n: s.m2 })}</li>
-              <li class="js-cap">{fill(t('spaces.card.cap'), { n: s.capacity })}</li>
-            </ul>
             <p class="space-desc">{t(`spaces.desc.${s.number}`)}</p>
             <p class="space-whole js-whole">{fill(t('spaces.card.whole'), { n: s.capacity })}</p>
             <p class="space-days js-days">{fill(t('spaces.card.days'), { days: dayList(s.days) })}</p>
@@ -255,8 +258,8 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     .space-gallery .thumb .t { font-size: 10px; letter-spacing: .03em; }
   }
   .space-gallery .thumb:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 10px; }
-  .space-body { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
-  .space-body > * { margin-top: 0; margin-bottom: 0; }
+  .space-head, .space-body { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+  .space-head > *, .space-body > * { margin-top: 0; margin-bottom: 0; }
   .space-floor { color: var(--gold); font-family: var(--ff-display); font-style: italic; font-size: 17px; }
   .space h3 { font-size: clamp(28px, 3.6vw, 36px); }
   .space-facts { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
@@ -274,11 +277,18 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   .js-special { display: contents; }
   .space[hidden], .glance-list li[hidden] { display: none; }
   .space-body .btn { margin-top: 8px; }
-  /* Móvil: visor y texto con precio y botón. Escritorio: visor en una columna y el
-     texto en la otra; alternan de lado. */
+  /* Orden en todas las pantallas: planta, título y pastillas; debajo el visor de
+     fotos; y luego el texto con precio y botón. En escritorio el encabezado ocupa
+     todo el ancho y debajo van el visor y el texto, alternando de lado. */
   @media (min-width: 960px) {
-    .space { grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
-    .space:nth-child(even) .space-photo { order: 2; }
+    .space {
+      grid-template-columns: 1.15fr 1fr; gap: 28px 56px; align-items: center;
+      grid-template-areas: 'head head' 'photo body';
+    }
+    .space:nth-child(even) { grid-template-columns: 1fr 1.15fr; grid-template-areas: 'head head' 'body photo'; }
+    .space-head { grid-area: head; }
+    .space-photo { grid-area: photo; }
+    .space-body { grid-area: body; }
   }
 
   .spaces-outro { padding-top: 0; text-align: center; }
