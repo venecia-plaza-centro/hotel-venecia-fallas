@@ -31,9 +31,9 @@ em{font-style:italic}
 
 /* divisor dorado (balcón forjado entre dos líneas) */
 .rule{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto}
-.rule::before,.rule::after{content:'';height:1px;width:90px;background:linear-gradient(90deg,transparent,var(--gold))}
+.rule::before,.rule::after{content:'';height:1px;width:110px;background:linear-gradient(90deg,transparent,var(--gold))}
 .rule::after{transform:scaleX(-1)}
-.rule img{width:46px;filter:drop-shadow(0 0 8px rgba(201,162,70,.35))}
+.rule i{display:block;flex:none;width:9px;height:9px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 10px rgba(201,162,70,.45)}
 
 /* ── cabecera cápsula ── */
 .nav{position:fixed;top:12px;left:16px;right:16px;max-width:1240px;margin-inline:auto;z-index:100;background:var(--navy);border:1px solid rgba(201,162,70,.55);border-radius:999px;box-shadow:0 10px 30px rgba(10,18,36,.35);padding:9px 0;text-align:left}
@@ -84,6 +84,10 @@ em{font-style:italic}
 @media(max-height:800px){.hero-in>.eyebrow{display:none}.hero p.lead{font-size:16px}.hero-cta .btn{padding:12px 26px}}
 @media(max-width:700px){.strip strong{font-size:17px}.strip span{font-size:10px;letter-spacing:.1em}.strip .wrap{row-gap:12px;padding-left:12px;padding-right:12px}.hero p.lead{font-size:15px;line-height:1.5}.hero h1{font-size:clamp(28px,min(9vw,6.2vh),52px)}.hero-in>.eyebrow{font-size:11px;letter-spacing:.18em}}
 @media(max-width:700px) and (max-height:700px){.hero-in>.eyebrow,.hero .hand{display:none}.hero .rule img{width:36px}}
+/* líneas doradas finas entre secciones, hasta el pie */
+section,footer{position:relative}
+section:not(.view)::before,footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(1100px,88%);height:1px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:.75;z-index:1}
+.view+section::before{display:none}
 section{padding:100px 0}
 .head{max-width:740px;margin:0 auto 56px}
 .head h2{font-size:clamp(32px,4.6vw,52px);margin:10px 0 18px}
@@ -212,7 +216,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
     <span class="eyebrow">Hotel Venecia · Plaza del Ayuntamiento, Valencia</span>
     <span class="hand" style="margin-top:14px">momentos para recordar</span>
     <h1>Viva los <em>eventos</em> desde el corazón de Valencia</h1>
-    <div class="rule"><img src="img/balcon-forjado.webp" alt=""></div>
+    <div class="rule"><i></i></div>
     <p class="lead">Balcones sobre la mascletà, espacios privados y experiencias únicas en un hotel histórico frente a la Plaza del Ayuntamiento.</p>
     <div class="hero-cta"><a class="btn" href="#fallas">Fallas 2027</a><a class="btn btn-light" href="#proximos">Ver próximos eventos</a></div>
   </div>
@@ -232,7 +236,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
     <div class="head">
       <span class="eyebrow">Fallas 2027</span>
       <h2>La mascletà, <em>a pie de balcón</em></h2>
-      <div class="rule"><img src="img/balcon-forjado.webp" alt=""></div>
+      <div class="rule"><i></i></div>
       <p>Dos formas de vivir el estruendo más famoso del mundo desde un hotel con vistas privilegiadas a la plaza.</p>
     </div>
     <div class="feat">
@@ -273,7 +277,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
     <div class="head">
       <span class="eyebrow">Agenda del hotel</span>
       <h2>Próximos <em>eventos</em></h2>
-      <div class="rule"><img src="img/balcon-forjado.webp" alt=""></div>
+      <div class="rule"><i></i></div>
       <p>Retiros, celebraciones y experiencias especiales. Un calendario vivo que el hotel actualiza cuando quiera.</p>
     </div>
     <div class="chips" id="chips">
@@ -334,7 +338,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
     <div>
       <span class="eyebrow">Eventos privados</span>
       <h2 style="margin-top:12px">Organice <em>su propio evento</em> con nosotros</h2>
-      <div class="rule" style="margin:4px auto 20px"><img src="img/balcon-forjado.webp" alt=""></div>
+      <div class="rule" style="margin:4px auto 20px"><i></i></div>
       <p>Salones con carácter, en un edificio señorial de la Plaza del Ayuntamiento. Le ayudamos a diseñar el evento a su medida.</p>
       <ul class="ticks">
         <li>Espacios de 10 a 40 m² con luz natural y vistas</li>
@@ -349,7 +353,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 
 <section class="cream">
   <div class="wrap">
-    <div class="head"><span class="eyebrow">Muy sencillo</span><h2>Cómo <em>funciona</em></h2><div class="rule"><img src="img/balcon-forjado.webp" alt=""></div></div>
+    <div class="head"><span class="eyebrow">Muy sencillo</span><h2>Cómo <em>funciona</em></h2><div class="rule"><i></i></div></div>
     <div class="steps">
       <div class="step"><h3>Elija su evento</h3><p>Explore las Fallas, los próximos eventos o cuéntenos su idea.</p></div>
       <div class="step"><h3>Reserva o consulta</h3><p>Pague online en los eventos con reserva directa o escríbanos para los demás.</p></div>
@@ -362,7 +366,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
   <div class="wrap">
     <span class="hand">hablemos</span>
     <h2>¿Tiene una <em>idea</em> en mente?</h2>
-    <div class="rule" style="margin-bottom:20px"><img src="img/balcon-forjado.webp" alt=""></div>
+    <div class="rule" style="margin-bottom:20px"><i></i></div>
     <p>Cuéntenos qué quiere celebrar y le respondemos con una propuesta a su medida.</p>
     <div class="hero-cta"><a class="btn" href="mailto:#">Escribir al hotel</a><a class="btn btn-light" href="tel:#">Llamar +34 963 52 42 67</a></div>
   </div>
