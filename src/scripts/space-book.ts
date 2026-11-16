@@ -40,7 +40,19 @@ function init() {
   }
   const heroH1 = document.querySelector('.page-hero h1');
   const heroLead = document.querySelector('.page-hero .lead');
-  if (heroH1) heroH1.textContent = T['spaces.book.h1'];
+  // Mismo título dorado con destello que en balcones: la palabra «espacio» (o su equivalente).
+  if (heroH1) {
+    const parts = T['spaces.book.h1'].split(/\b(espacio|space|spazio|espace|Raum)\b/i);
+    heroH1.replaceChildren(
+      ...parts.map((part, i) => {
+        if (i % 2 === 0) return document.createTextNode(part);
+        const em = document.createElement('em');
+        em.className = 'shine';
+        em.textContent = part;
+        return em;
+      }),
+    );
+  }
   if (heroLead) heroLead.textContent = T['spaces.book.lead'];
 
   const panels: Record<Step, HTMLElement> = {
