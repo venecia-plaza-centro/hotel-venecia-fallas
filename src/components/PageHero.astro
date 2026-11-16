@@ -10,7 +10,7 @@ const { title, lead, leadItalic = false, leadStrong = false, photo, accent } = A
 // Con `accent` se marca esa parte exacta del título (p. ej. "Espacios privados").
 const titleHtml =
   accent && title.includes(accent)
-    ? title.replace(accent, `<em>${accent}</em>`)
+    ? title.replace(accent, `<em class="shine">${accent}</em>`) // con el destello dorado de la portada
     : title.replace(/\b(balcón|balcony)\b/i, '<em>$1</em>');
 
 // "Plaza del Ayuntamiento" enlaza a Google Maps (con destino ya puesto, para

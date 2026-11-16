@@ -176,6 +176,20 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 .page-hero .eyebrow { display: block; margin-bottom: 16px; }
 .page-hero h1 { color: #fff; font-size: clamp(34px, 5.5vw, 58px); max-width: 900px; margin: 0 auto; }
 .page-hero h1 em { font-style: italic; color: var(--gold-light); }
+/* Título con acento marcado (`accent` de PageHero): el destello blanco que recorre
+   el texto dorado cada pocos segundos, igual que «balcón privado» en la portada. */
+.page-hero h1 em.shine {
+  background: linear-gradient(110deg, #E8C96A 0%, #E8C96A 34%, #FFFFFF 50%, #E8C96A 66%, #E8C96A 100%);
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  text-shadow: none; filter: drop-shadow(0 2px 10px rgba(8, 14, 30, .55));
+  animation: titleGoldSweep 7s ease-in-out 1.2s infinite;
+}
+@keyframes titleGoldSweep {
+  0% { background-position: 0% 0; }
+  45%, 100% { background-position: 100% 0; }
+}
+@media (prefers-reduced-motion: reduce) { .page-hero h1 em.shine { animation: none; } }
 .page-hero .gold-rule { margin: 24px auto 22px; }
 .page-hero .lead { color: rgba(255, 255, 255, .72); max-width: 620px; margin: 0 auto; }
 .page-hero .lead a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 2px; }
