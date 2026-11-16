@@ -32,9 +32,18 @@ const bookHref = pagePath('book', lang);
     </a>
 
     <div class="nav-links">
-      {navItems.map((item) => (
-        <a href={pagePath(item.id, lang)}>{t(`nav.${item.id}`)}</a>
-      ))}
+      {navItems.map((item) => {
+        // "Preguntas frecuentes" (y sus equivalentes) en dos líneas, una palabra
+        // bajo la otra: es el enlace más largo y, con "Espacios" en el menú, la
+        // cápsula se desbordaba en pantallas de 1120–1200 px.
+        const words = t(`nav.${item.id}`).split(' ');
+        const stacked = item.id === 'faq' && words.length === 2;
+        return (
+          <a class={stacked ? 'nav-stacked' : undefined} href={pagePath(item.id, lang)}>
+            {stacked ? <>{words[0]}<br />{words[1]}</> : t(`nav.${item.id}`)}
+          </a>
+        );
+      })}
     </div>
 
     <div class="nav-right">
