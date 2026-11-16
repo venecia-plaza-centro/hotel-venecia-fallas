@@ -108,4 +108,5 @@ Después hay que **volver a desplegar** para que Vercel la lea (igual que `SALES
 3. Reserva de prueba con el TPV en modo test: se bloquea, se paga, queda `confirmada` con su `Espacio` enlazado, y llegan los dos correos.
 4. Prueba de dos clientes a la vez sobre el mismo espacio y día: solo uno lo consigue.
 5. Hacer visible la página: `inNav`/`inFooter` a `true` y quitar `'spaces'` de `NOINDEX_PAGES` en `src/i18n/pages.ts`.
+   (La cabecera apila «Preguntas frecuentes» en dos líneas sola en cuanto «Espacios» entra en el menú; no hay que tocar nada más.)
 6. `SPACES_OPEN=true` y redespliegue.

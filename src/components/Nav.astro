@@ -9,6 +9,10 @@ const t = useT(lang);
 
 const navItems = PAGES.filter((p) => p.inNav);
 const isHome = pageId === 'home';
+// "Preguntas frecuentes" se apila en dos líneas solo cuando el menú lleva también
+// "Espacios" (con las dos cosas, la cápsula se queda justa). Mientras la página de
+// Espacios esté oculta (inNav: false en i18n/pages.ts) el menú queda como siempre.
+const stackFaq = navItems.some((p) => p.id === 'spaces');
 // En la propia página de reserva no tiene sentido un botón "Reservar" que
 // lleve... a la página en la que ya está el cliente. Cabecera minimalista:
 // solo marca centrada y el hamburger.
@@ -34,10 +38,10 @@ const bookHref = pagePath('book', lang);
     <div class="nav-links">
       {navItems.map((item) => {
         // "Preguntas frecuentes" (y sus equivalentes) en dos líneas, una palabra
-        // bajo la otra: es el enlace más largo y, con "Espacios" en el menú, la
-        // cápsula se desbordaba en pantallas de 1120–1200 px.
+        // bajo la otra: con "Espacios" en el menú, la cápsula se desbordaba en
+        // pantallas de 1120–1200 px.
         const words = t(`nav.${item.id}`).split(' ');
-        const stacked = item.id === 'faq' && words.length === 2;
+        const stacked = stackFaq && item.id === 'faq' && words.length === 2;
         return (
           <a class={stacked ? 'nav-stacked' : undefined} href={pagePath(item.id, lang)}>
             {stacked ? <>{words[0]}<br />{words[1]}</> : t(`nav.${item.id}`)}
