@@ -105,19 +105,15 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
                   loading="lazy"
                   decoding="async"
                 />
-                <img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
                 {s.hasFacade && (
                   <img class="contain" src={`/images/espacios/${s.number}/fachada.webp`} alt={fill(t('spaces.card.facade.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
                 )}
+                <img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
               </div>
               <div class="thumbs">
                 <button type="button" class="thumb on" aria-pressed="true">
                   <span class="im"><img class="cover" src={`/images/espacios/${s.number}/foto-800.webp`} alt="" loading="lazy" decoding="async" /></span>
                   <span class="t">{t('spaces.card.photo')}</span>
-                </button>
-                <button type="button" class="thumb" aria-pressed="false">
-                  <span class="im"><img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt="" loading="lazy" decoding="async" /></span>
-                  <span class="t">{t('spaces.card.plan')}</span>
                 </button>
                 {s.hasFacade && (
                   <button type="button" class="thumb" aria-pressed="false">
@@ -125,6 +121,10 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
                     <span class="t">{t('spaces.card.facade.short')}</span>
                   </button>
                 )}
+                <button type="button" class="thumb" aria-pressed="false">
+                  <span class="im"><img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt="" loading="lazy" decoding="async" /></span>
+                  <span class="t">{t('spaces.card.plan')}</span>
+                </button>
               </div>
             </div>
           </div>
