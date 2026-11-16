@@ -1,0 +1,8 @@
+Nombre,Slug,Numero,Aforo,Precio,Dias,Precio especial,Dias precio especial,Orden,Activo
+Espacio 109,espacio-109,109,12,750,"1,2",,,1,checked
+Espacio 208,espacio-208,208,12,750,"1,2",,,2,checked
+Espacio 210,espacio-210,210,8,480,"1,2,3,14",500,14,3,checked
+Espacio 408,espacio-408,408,15,920,14,,,4,checked
+Espacio 506,espacio-506,506,20,1300,"1,2",,,5,checked
+Espacio 602,espacio-602,602,8,480,"1,2,3",,,6,checked
+Espacio 605,espacio-605,605,20,1300,"1,2",,,7,checked

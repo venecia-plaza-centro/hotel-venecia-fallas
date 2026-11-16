@@ -37,8 +37,11 @@ export const PAGES: PageDef[] = [
   {
     id: 'spaces',
     slug: { es: 'espacios', en: 'spaces', it: 'spazi', fr: 'espaces', de: 'raeume' },
-    inNav: true,
-    inFooter: true,
+    // OCULTA hasta que la página esté completa (reserva, Airtable, emails):
+    // fuera del menú y del pie, y en NOINDEX_PAGES (sin indexar ni sitemap).
+    // Al lanzarla: inNav/inFooter a true y quitar 'spaces' de NOINDEX_PAGES.
+    inNav: false,
+    inFooter: false,
   },
   {
     id: 'rooms',
@@ -120,8 +123,8 @@ export const PAGES: PageDef[] = [
   },
 ];
 
-/** Páginas que no se indexan (legales): `noindex` en la página y fuera del sitemap. */
-export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice'];
+/** Páginas que no se indexan (legales, y «espacios» mientras esté oculta): `noindex` en la página y fuera del sitemap. */
+export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice', 'spaces'];
 
 export const PAGE_BY_ID = Object.fromEntries(PAGES.map((p) => [p.id, p])) as Record<PageId, PageDef>;
 
