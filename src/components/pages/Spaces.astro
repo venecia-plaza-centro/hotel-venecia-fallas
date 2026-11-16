@@ -26,24 +26,45 @@ const dayList = (days: number[]) =>
 
 const bookUrl = pagePath('book', lang);
 const contactUrl = pagePath('contact', lang);
-// En francés los dos puntos llevan espacio (fino, sin salto) delante.
-const colon = lang === 'fr' ? '\u202f:' : ':';
-const infoKeys = ['whole', 'hours', 'rates', 'early', 'bath', 'use', 'decor'] as const;
+const infoKeys = ['hours', 'rates', 'early', 'bath', 'use', 'decor'] as const;
+// Iconos de línea (24×24) de cada tarjeta de condiciones; «whole» es la destacada.
+const ICONS: Record<string, string> = {
+  whole: '<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-7h6v7"/>',
+  hours: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  rates: '<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2"/>',
+  early: '<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M16 7l3 3M14 9l2 2"/>',
+  bath: '<path d="M4 12h16v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M6 12V6a2 2 0 0 1 2-2h1"/><path d="M7 20l-1 2M17 20l1 2"/>',
+  use: '<path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z"/>',
+  decor: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-9 9"/>',
+};
 const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
 ---
 
 <PageHero title={t('spaces.h1')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" />
 
 <section class="section spaces-info">
-  <div class="container" style="max-width:760px">
+  <div class="container" style="max-width:1040px">
     <p class="spaces-intro">{t('spaces.intro')}</p>
 
     <h2>{t('spaces.info.h')}</h2>
-    <ul>
+
+    <!-- «Espacio exclusivo» destacado (lo más importante) y el resto en tarjetas con icono. -->
+    <div class="info-feature">
+      <span class="ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS.whole} /></span>
+      <div>
+        <h3>{t('spaces.info.whole.l')}</h3>
+        <p>{fill(t('spaces.info.whole.t'), hoursVars).replace(/^./, (c) => c.toUpperCase())}</p>
+      </div>
+    </div>
+    <div class="info-grid">
       {infoKeys.map((k) => (
-        <li><strong>{t(`spaces.info.${k}.l`)}{colon}</strong> {fill(t(`spaces.info.${k}.t`), hoursVars)}</li>
+        <div class="info-card">
+          <span class="ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS[k]} /></span>
+          <h3>{t(`spaces.info.${k}.l`)}</h3>
+          <p>{fill(t(`spaces.info.${k}.t`), hoursVars).replace(/^./, (c) => c.toUpperCase())}</p>
+        </div>
       ))}
-    </ul>
+    </div>
   </div>
 </section>
 
@@ -154,10 +175,33 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   .spaces-info { text-align: center; padding-bottom: 8px; }
   .spaces-intro { color: var(--text-mid); font-size: 17px; line-height: 1.75; max-width: 640px; margin: 0 auto; }
   .spaces-info h2 { font-size: clamp(22px, 3vw, 28px); margin: 44px 0 18px; }
-  .spaces-info ul { list-style: none; padding: 0; margin: 0 auto; max-width: 640px; display: grid; gap: 14px; }
-  .spaces-info li { color: var(--text-mid); font-size: 16px; line-height: 1.65; }
-  .spaces-info li::before { content: '◆'; display: block; color: var(--gold); font-size: 9px; line-height: 1; margin-bottom: 6px; }
-  .spaces-info li strong { color: var(--navy); }
+  .spaces-info h2 { margin-bottom: 26px; }
+  .info-feature {
+    display: flex; align-items: center; gap: 24px; text-align: left; margin-bottom: 22px; padding: 28px 34px;
+    background: linear-gradient(135deg, #1B2A4A, #243459); border: 1px solid rgba(201, 162, 70, .45);
+    border-radius: 20px; box-shadow: 0 14px 34px rgba(27, 42, 74, .22); color: #fff;
+  }
+  .info-feature .ic {
+    flex: none; width: 66px; height: 66px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(201, 162, 70, .16); border: 1px solid rgba(201, 162, 70, .55); color: var(--gold-light);
+  }
+  .info-feature h3 { margin: 0 0 6px; font-size: 24px; color: var(--gold-light); }
+  .info-feature p { margin: 0; color: rgba(255, 255, 255, .9); font-size: 16px; line-height: 1.65; }
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .info-card {
+    display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 26px 22px 24px; text-align: center;
+    background: #fff; border: 1px solid var(--cream-dark); border-radius: 18px; box-shadow: 0 4px 14px rgba(27, 42, 74, .06);
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .info-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 12px 26px rgba(27, 42, 74, .12); }
+  .info-card .ic { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: #F6EFD9; color: #B8923A; }
+  .info-card h3 { margin: 2px 0 0; font-size: 19px; }
+  .info-card p { margin: 0; color: var(--text-mid); font-size: 15px; line-height: 1.65; }
+  @media (max-width: 900px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; gap: 14px; }
+    .info-feature { flex-direction: column; gap: 14px; padding: 26px 22px; text-align: center; }
+  }
 
   .spaces-glance { padding-top: 48px; padding-bottom: 8px; }
   .glance-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
