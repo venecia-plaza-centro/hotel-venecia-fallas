@@ -339,38 +339,41 @@ const es: Dict = {
   'legal.nav.aria': 'Otras páginas legales',
   'legal.home': 'Inicio',
   'legal.terms.h1': 'Condiciones de reserva',
-  'legal.terms.intro': 'Estas condiciones regulan la reserva de un balcón privado, parte de una habitación del hotel, para las mascletàs de marzo de 2027 en el Hotel Venecia Plaza Centro. Al completar el pago desde esta web acepta los términos que se describen a continuación.',
-  'legal.terms.s1.h': 'Qué incluye la reserva',
+  'legal.terms.intro': 'Estas condiciones regulan la reserva de un balcón privado, parte de una habitación del hotel, y el alquiler de un espacio privado entero, para las mascletàs de marzo de 2027 en el Hotel Venecia Plaza Centro. Al completar el pago desde esta web acepta los términos que se describen a continuación.',
+  'legal.terms.s1.h': 'Balcones: qué incluye la reserva',
   'legal.terms.s1.p': 'Reserva el uso privado de un balcón que forma parte de una de las 9 habitaciones reales del hotel (la habitación completa, con su baño) durante la franja de 13:00 a 15:00 h del día de mascletà que elija, con vistas a la Plaza del Ayuntamiento y Snack Pack incluido. No es una reserva de alojamiento ni incluye pernoctación.',
-  'legal.terms.s2.h': 'Ocupación y precio',
+  'legal.terms.s2.h': 'Balcones: ocupación y precio',
   'legal.terms.s2.p':
     'Cada habitación admite hasta 4 personas. El precio mostrado depende del número de huéspedes indicado en el momento de la reserva (2, 3 o 4) y se calcula siempre por el hotel, nunca lo indica el cliente.',
-  'legal.terms.s3.h': 'Confirmación de la reserva',
+  'legal.terms.s3.h': 'Espacios: qué incluye el alquiler',
   'legal.terms.s3.p':
-    'Su reserva se confirma en el momento en que se completa el pago online. Solo puede reservar habitaciones que el sistema muestra como disponibles en ese instante: no hay una solicitud previa que el hotel deba aprobar más tarde.',
-  'legal.terms.s4.h': 'Acceso el día de la experiencia',
+    'Además de los balcones, el hotel alquila espacios privados (habitaciones sin mobiliario, con baño de uso exclusivo) que se reservan enteros, no por persona, para ver la mascletà con vistas a la Plaza del Ayuntamiento. La capacidad máxima de cada espacio figura en su ficha y no puede superarse. El alquiler es por día, de 13:00 a 15:00 h, y el precio indicado (IVA incluido) es el de ese día; el hotel lo calcula siempre, nunca lo indica el cliente. El alquiler no incluye alojamiento ni permite la estancia nocturna. Si necesita tiempo adicional para preparar el espacio (montaje de un catering, decoración u otros servicios), puede solicitar el acceso anticipado: está sujeto a disponibilidad y a la confirmación previa del hotel. Las imágenes son orientativas: la decoración, el mobiliario o los acabados (incluidos los papeles pintados) pueden cambiar sin que ello afecte a las características principales del espacio.',
+  'legal.terms.s4.h': 'Confirmación de la reserva',
   'legal.terms.s4.p':
-    'Preséntese en la recepción del hotel dentro de la franja horaria reservada, con un documento de identidad válido. Si se retrasa, el tiempo de acceso restante no se amplía.',
-  'legal.terms.s5.h': 'Cambios y cancelaciones',
+    'Su reserva se confirma en el momento en que se completa el pago online. Solo puede reservar balcones o espacios que el sistema muestra como disponibles en ese instante: no hay una solicitud previa que el hotel deba aprobar más tarde.',
+  'legal.terms.s5.h': 'Acceso el día de la experiencia',
   'legal.terms.s5.p':
-    'Las condiciones de cambio y cancelación, incluido el carácter no reembolsable del importe abonado, se detallan en nuestra {cancellationLink}.',
-  'legal.terms.s6.h': 'Circunstancias ajenas al hotel',
+    'Preséntese en la recepción del hotel dentro de la franja horaria reservada, con un documento de identidad válido. Si se retrasa, el tiempo de acceso restante no se amplía.',
+  'legal.terms.s6.h': 'Cambios y cancelaciones',
   'legal.terms.s6.p':
-    'La mascletà la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la {cancellationLink}.',
-  'legal.terms.s7.h': 'Uso del espacio',
+    'Las condiciones de cambio y cancelación, incluido el carácter no reembolsable del importe abonado, se detallan en nuestra {cancellationLink}.',
+  'legal.terms.s7.h': 'Circunstancias ajenas al hotel',
   'legal.terms.s7.p':
-    'La habitación reservada es un espacio real del hotel puesto a su disposición durante la experiencia. Le pedimos que cuide el mobiliario y las instalaciones; el hotel podrá repercutir el coste de daños causados durante su franja de acceso.',
+    'La mascletà la organiza el Ayuntamiento de València y puede verse afectada por causas de seguridad, meteorológicas o de otro tipo ajenas al hotel. En ese caso se aplicará lo previsto en la {cancellationLink}.',
+  'legal.terms.s8.h': 'Uso de la habitación o del espacio',
+  'legal.terms.s8.p':
+    'La habitación o el espacio reservado es un espacio real del hotel puesto a su disposición durante la franja reservada. Le pedimos que cuide el mobiliario y las instalaciones; el hotel podrá repercutir el coste de daños causados durante su franja de acceso.',
   'legal.terms.contact': '¿Dudas sobre estas condiciones? Escríbanos:',
 
   'legal.cancellation.h1': 'Política de cancelación',
   'legal.cancellation.intro':
-    'Antes de confirmar su reserva de balcón privado, tenga en cuenta que se trata de una experiencia con plazas limitadas para un día y una franja horaria concreta.',
+    'Antes de confirmar su reserva de balcón privado o de un espacio, tenga en cuenta que se trata de una experiencia con plazas limitadas para un día y una franja horaria concreta.',
   'legal.cancellation.s1.h': 'Pagos no reembolsables',
   'legal.cancellation.s1.p':
-    'El importe abonado por la reserva de su balcón privado no es reembolsable, sea cual sea el motivo o la antelación con la que se solicite la cancelación.',
-  'legal.cancellation.s2.h': 'Fecha y habitación fijas',
+    'El importe abonado por la reserva de su balcón privado o de su espacio no es reembolsable, sea cual sea el motivo o la antelación con la que se solicite la cancelación.',
+  'legal.cancellation.s2.h': 'Fecha y habitación o espacio fijos',
   'legal.cancellation.s2.p':
-    'Su balcón privado queda reservado para la fecha y la habitación exactas que eligió al confirmar: no se admiten cambios posteriores.',
+    'Su balcón privado o su espacio queda reservado para la fecha y la habitación o el espacio exactos que eligió al confirmar: no se admiten cambios posteriores.',
   'legal.cancellation.s3.h': 'Si no se presenta',
   'legal.cancellation.s3.p':
     'Si no acude dentro de la franja horaria reservada (13:00–15:00 h), la reserva se considera consumida: no da derecho a reembolso ni a cambio de fecha.',
@@ -703,38 +706,41 @@ const en: Dict = {
   'legal.nav.aria': 'Other legal pages',
   'legal.home': 'Home',
   'legal.terms.h1': 'Booking terms',
-  'legal.terms.intro': 'These terms govern the booking of a private balcony, which is part of a hotel room, to watch the March 2027 mascletàs at Hotel Venecia Plaza Centro. By completing payment through this website you accept the terms described below.',
-  'legal.terms.s1.h': 'What the booking includes',
+  'legal.terms.intro': 'These terms govern the booking of a private balcony, which is part of a hotel room, and the rental of a whole private space, to watch the March 2027 mascletàs at Hotel Venecia Plaza Centro. By completing payment through this website you accept the terms described below.',
+  'legal.terms.s1.h': 'Balconies: what the booking includes',
   'legal.terms.s1.p': 'You are booking private use of a balcony that is part of one of the hotel’s 9 real rooms (the full room, bathroom included) during the 13:00–15:00 window on the mascletà day you choose, with views over Plaza del Ayuntamiento and a Snack Pack included. This is not an overnight stay and does not include lodging.',
-  'legal.terms.s2.h': 'Occupancy and price',
+  'legal.terms.s2.h': 'Balconies: occupancy and price',
   'legal.terms.s2.p':
     'Each room takes up to 4 people. The price shown depends on the number of guests selected at the time of booking (2, 3 or 4) and is always calculated by the hotel, never entered by the guest.',
-  'legal.terms.s3.h': 'Booking confirmation',
+  'legal.terms.s3.h': 'Spaces: what the rental includes',
   'legal.terms.s3.p':
-    'Your booking is confirmed the moment your online payment goes through. You can only book rooms the system shows as available at that instant: there is no prior request for the hotel to approve later.',
-  'legal.terms.s4.h': 'Access on the day',
+    'In addition to the balconies, the hotel rents private spaces (unfurnished rooms with a bathroom for exclusive use) that are booked as a whole, not per person, to watch the mascletà with views over Plaza del Ayuntamiento. The maximum capacity of each space is shown on its card and may not be exceeded. The rental is per day, from 13:00 to 15:00, and the price shown (VAT included) is the price for that day; it is always calculated by the hotel, never entered by the guest. The rental does not include accommodation or overnight stays. If you need extra time to prepare the space (setting up catering, decoration or other services), you can request early access, which is subject to availability and prior confirmation by the hotel. The images are for guidance only: the decoration, furniture or finishes (including wallpaper) may change without affecting the main features of the space.',
+  'legal.terms.s4.h': 'Booking confirmation',
   'legal.terms.s4.p':
-    'Please arrive at the hotel reception within your booked time window with a valid ID. Late arrival does not extend your remaining access time.',
-  'legal.terms.s5.h': 'Changes and cancellations',
+    'Your booking is confirmed the moment your online payment goes through. You can only book balconies or spaces the system shows as available at that instant: there is no prior request for the hotel to approve later.',
+  'legal.terms.s5.h': 'Access on the day',
   'legal.terms.s5.p':
-    'Change and cancellation terms, including the non-refundable nature of the amount paid, are detailed in our {cancellationLink}.',
-  'legal.terms.s6.h': 'Circumstances beyond the hotel’s control',
+    'Please arrive at the hotel reception within your booked time window with a valid ID. Late arrival does not extend your remaining access time.',
+  'legal.terms.s6.h': 'Changes and cancellations',
   'legal.terms.s6.p':
-    'The mascletà is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the {cancellationLink} applies.',
-  'legal.terms.s7.h': 'Use of the space',
+    'Change and cancellation terms, including the non-refundable nature of the amount paid, are detailed in our {cancellationLink}.',
+  'legal.terms.s7.h': 'Circumstances beyond the hotel’s control',
   'legal.terms.s7.p':
-    'The booked room is a real space of the hotel made available to you for the experience. Please take care of the furniture and facilities; the hotel may charge for damage caused during your access window.',
+    'The mascletà is organised by the Valencia City Council and may be affected by safety, weather or other causes beyond the hotel’s control. In that case the {cancellationLink} applies.',
+  'legal.terms.s8.h': 'Use of the room or space',
+  'legal.terms.s8.p':
+    'The booked room or space is a real space of the hotel made available to you for the booked window. Please take care of the furniture and facilities; the hotel may charge for damage caused during your access window.',
   'legal.terms.contact': 'Questions about these terms? Write to us:',
 
   'legal.cancellation.h1': 'Cancellation policy',
   'legal.cancellation.intro':
-    'Before confirming your private balcony booking, please note this is a limited-availability experience for one specific day and time window.',
+    'Before confirming your private balcony or space booking, please note this is a limited-availability experience for one specific day and time window.',
   'legal.cancellation.s1.h': 'Non-refundable payments',
   'legal.cancellation.s1.p':
-    'The amount paid for your private balcony booking is non-refundable, regardless of the reason or notice given for the cancellation.',
-  'legal.cancellation.s2.h': 'Fixed date and room',
+    'The amount paid for your private balcony or space booking is non-refundable, regardless of the reason or notice given for the cancellation.',
+  'legal.cancellation.s2.h': 'Fixed date and room or space',
   'legal.cancellation.s2.p':
-    'Your private balcony is booked for the exact date and room you chose when confirming: no changes are possible afterwards.',
+    'Your private balcony or space is booked for the exact date and room or space you chose when confirming: no changes are possible afterwards.',
   'legal.cancellation.s3.h': 'If you don’t show up',
   'legal.cancellation.s3.p':
     'If you do not arrive within your booked time window (13:00–15:00), the booking is considered used: it does not entitle you to a refund or a date change.',
@@ -1066,38 +1072,41 @@ const it: Dict = {
   'legal.nav.aria': 'Altre pagine legali',
   'legal.home': 'Home',
   'legal.terms.h1': 'Condizioni di prenotazione',
-  'legal.terms.intro': 'Queste condizioni regolano la prenotazione di un balcone privato, parte di una camera dell’hotel, per le mascletàs di marzo 2027 all’Hotel Venecia Plaza Centro. Completando il pagamento su questo sito accetta i termini descritti di seguito.',
-  'legal.terms.s1.h': 'Cosa include la prenotazione',
+  'legal.terms.intro': 'Queste condizioni regolano la prenotazione di un balcone privato, parte di una camera dell’hotel, e l’affitto di uno spazio privato intero, per le mascletàs di marzo 2027 all’Hotel Venecia Plaza Centro. Completando il pagamento su questo sito accetta i termini descritti di seguito.',
+  'legal.terms.s1.h': 'Balconi: cosa include la prenotazione',
   'legal.terms.s1.p': 'Prenota l’uso privato di un balcone che fa parte di una delle 9 camere reali dell’hotel (la camera intera, bagno incluso) durante la fascia dalle 13:00 alle 15:00 del giorno di mascletà scelto, con vista sulla Plaza del Ayuntamiento e Snack Pack incluso. Non è una prenotazione di alloggio e non include il pernottamento.',
-  'legal.terms.s2.h': 'Occupazione e prezzo',
+  'legal.terms.s2.h': 'Balconi: occupazione e prezzo',
   'legal.terms.s2.p':
     'Ogni camera ospita fino a 4 persone. Il prezzo mostrato dipende dal numero di ospiti indicato al momento della prenotazione (2, 3 o 4) ed è sempre calcolato dall’hotel, mai indicato dal cliente.',
-  'legal.terms.s3.h': 'Conferma della prenotazione',
+  'legal.terms.s3.h': 'Spazi: cosa include l’affitto',
   'legal.terms.s3.p':
-    'La sua prenotazione si conferma nel momento in cui si completa il pagamento online. Può prenotare solo le camere che il sistema mostra come disponibili in quell’istante: non c’è una richiesta preventiva che l’hotel debba approvare in seguito.',
-  'legal.terms.s4.h': 'Accesso il giorno dell’esperienza',
+    'Oltre ai balconi, l’hotel affitta spazi privati (camere senza arredamento, con bagno a uso esclusivo) che si prenotano per intero, non per persona, per vedere la mascletà con vista su Plaza del Ayuntamiento. La capacità massima di ogni spazio è indicata nella sua scheda e non può essere superata. L’affitto è per giorno, dalle 13:00 alle 15:00, e il prezzo indicato (IVA inclusa) è quello di quel giorno; è sempre calcolato dall’hotel, mai indicato dal cliente. L’affitto non include il pernottamento né permette di trascorrervi la notte. Se serve tempo aggiuntivo per preparare lo spazio (allestimento di un catering, decorazione o altri servizi), è possibile richiedere l’accesso anticipato, soggetto a disponibilità e a previa conferma da parte dell’hotel. Le immagini sono indicative: la decorazione, l’arredamento o le finiture (compresa la carta da parati) possono cambiare senza alterare le caratteristiche principali dello spazio.',
+  'legal.terms.s4.h': 'Conferma della prenotazione',
   'legal.terms.s4.p':
-    'Si presenti alla reception dell’hotel entro la fascia oraria prenotata, con un documento d’identità valido. In caso di ritardo, il tempo di accesso restante non viene esteso.',
-  'legal.terms.s5.h': 'Modifiche e cancellazioni',
+    'La sua prenotazione si conferma nel momento in cui si completa il pagamento online. Può prenotare solo i balconi o gli spazi che il sistema mostra come disponibili in quell’istante: non c’è una richiesta preventiva che l’hotel debba approvare in seguito.',
+  'legal.terms.s5.h': 'Accesso il giorno dell’esperienza',
   'legal.terms.s5.p':
-    'Le condizioni di modifica e cancellazione, incluso il carattere non rimborsabile dell’importo pagato, sono dettagliate nella nostra {cancellationLink}.',
-  'legal.terms.s6.h': 'Circostanze indipendenti dall’hotel',
+    'Si presenti alla reception dell’hotel entro la fascia oraria prenotata, con un documento d’identità valido. In caso di ritardo, il tempo di accesso restante non viene esteso.',
+  'legal.terms.s6.h': 'Modifiche e cancellazioni',
   'legal.terms.s6.p':
-    'La mascletà è organizzata dal Comune di Valencia e può essere influenzata da motivi di sicurezza, meteorologici o di altro tipo indipendenti dall’hotel. In tal caso si applicherà quanto previsto nella {cancellationLink}.',
-  'legal.terms.s7.h': 'Uso dello spazio',
+    'Le condizioni di modifica e cancellazione, incluso il carattere non rimborsabile dell’importo pagato, sono dettagliate nella nostra {cancellationLink}.',
+  'legal.terms.s7.h': 'Circostanze indipendenti dall’hotel',
   'legal.terms.s7.p':
-    'La camera prenotata è uno spazio reale dell’hotel messo a sua disposizione durante l’esperienza. La preghiamo di avere cura dell’arredamento e delle strutture; l’hotel potrà addebitare il costo di eventuali danni causati durante la sua fascia di accesso.',
+    'La mascletà è organizzata dal Comune di Valencia e può essere influenzata da motivi di sicurezza, meteorologici o di altro tipo indipendenti dall’hotel. In tal caso si applicherà quanto previsto nella {cancellationLink}.',
+  'legal.terms.s8.h': 'Uso della camera o dello spazio',
+  'legal.terms.s8.p':
+    'La camera o lo spazio prenotato è uno spazio reale dell’hotel messo a sua disposizione durante la fascia prenotata. La preghiamo di avere cura dell’arredamento e delle strutture; l’hotel potrà addebitare il costo di eventuali danni causati durante la sua fascia di accesso.',
   'legal.terms.contact': 'Domande su queste condizioni? Ci scriva:',
 
   'legal.cancellation.h1': 'Politica di cancellazione',
   'legal.cancellation.intro':
-    'Prima di confermare la prenotazione del balcone privato, tenga presente che si tratta di un’esperienza con posti limitati per un giorno e una fascia oraria specifici.',
+    'Prima di confermare la prenotazione del balcone privato o di uno spazio, tenga presente che si tratta di un’esperienza con posti limitati per un giorno e una fascia oraria specifici.',
   'legal.cancellation.s1.h': 'Pagamenti non rimborsabili',
   'legal.cancellation.s1.p':
-    'L’importo pagato per la prenotazione del balcone privato non è rimborsabile, qualunque sia il motivo o il preavviso con cui si richiede la cancellazione.',
-  'legal.cancellation.s2.h': 'Data e camera fisse',
+    'L’importo pagato per la prenotazione del balcone privato o dello spazio non è rimborsabile, qualunque sia il motivo o il preavviso con cui si richiede la cancellazione.',
+  'legal.cancellation.s2.h': 'Data e camera o spazio fissi',
   'legal.cancellation.s2.p':
-    'Il suo balcone privato resta prenotato per la data e la camera esatte scelte al momento della conferma: non sono ammesse modifiche successive.',
+    'Il suo balcone privato o spazio resta prenotato per la data e la camera o lo spazio esatti scelti al momento della conferma: non sono ammesse modifiche successive.',
   'legal.cancellation.s3.h': 'Se non si presenta',
   'legal.cancellation.s3.p':
     'Se non si presenta entro la fascia oraria prenotata (13:00–15:00), la prenotazione si considera utilizzata: non dà diritto a rimborso né a cambio data.',
@@ -1430,38 +1439,41 @@ const fr: Dict = {
   'legal.nav.aria': 'Autres pages légales',
   'legal.home': 'Accueil',
   'legal.terms.h1': 'Conditions de réservation',
-  'legal.terms.intro': 'Ces conditions régissent la réservation d’un balcon privé, partie d’une chambre de l’hôtel, pour les mascletàs de mars 2027 à l’Hôtel Venecia Plaza Centro. En effectuant le paiement depuis ce site, vous acceptez les conditions décrites ci-dessous.',
-  'legal.terms.s1.h': 'Ce qu’inclut la réservation',
+  'legal.terms.intro': 'Ces conditions régissent la réservation d’un balcon privé, partie d’une chambre de l’hôtel, et la location d’un espace privé entier, pour les mascletàs de mars 2027 à l’Hôtel Venecia Plaza Centro. En effectuant le paiement depuis ce site, vous acceptez les conditions décrites ci-dessous.',
+  'legal.terms.s1.h': 'Balcons : ce qu’inclut la réservation',
   'legal.terms.s1.p': 'Vous réservez l’usage privé d’un balcon faisant partie de l’une des 9 chambres réelles de l’hôtel (la chambre entière, salle de bain comprise) pendant la plage 13h00-15h00 le jour de mascletà choisi, avec vue sur la Plaza del Ayuntamiento et Snack Pack inclus. Il ne s’agit pas d’une réservation d’hébergement et cela n’inclut pas de nuitée.',
-  'legal.terms.s2.h': 'Occupation et prix',
+  'legal.terms.s2.h': 'Balcons : occupation et prix',
   'legal.terms.s2.p':
     'Chaque chambre accueille jusqu’à 4 personnes. Le prix affiché dépend du nombre de personnes indiqué au moment de la réservation (2, 3 ou 4) et est toujours calculé par l’hôtel, jamais saisi par le client.',
-  'legal.terms.s3.h': 'Confirmation de la réservation',
+  'legal.terms.s3.h': 'Espaces : ce qu’inclut la location',
   'legal.terms.s3.p':
-    'Votre réservation est confirmée dès que le paiement en ligne est effectué. Vous ne pouvez réserver que les chambres affichées comme disponibles par le système à cet instant précis : il n’y a pas de demande préalable que l’hôtel devrait approuver ultérieurement.',
-  'legal.terms.s4.h': "Accès le jour de l'expérience",
+    'Outre les balcons, l’hôtel loue des espaces privés (chambres sans mobilier, avec salle de bain à usage exclusif) qui se réservent en entier, et non par personne, pour voir la mascletà avec vue sur la Plaza del Ayuntamiento. La capacité maximale de chaque espace figure sur sa fiche et ne peut être dépassée. La location est à la journée, de 13h00 à 15h00, et le prix indiqué (TVA incluse) est celui de ce jour ; il est toujours calculé par l’hôtel, jamais saisi par le client. La location n’inclut pas l’hébergement et n’autorise pas à y passer la nuit. Si vous avez besoin de temps supplémentaire pour préparer l’espace (installation d’un traiteur, décoration ou autres services), un accès anticipé peut être demandé, sous réserve de disponibilité et de confirmation préalable de l’hôtel. Les images sont indicatives : la décoration, le mobilier ou les finitions (y compris les papiers peints) peuvent changer sans affecter les caractéristiques principales de l’espace.',
+  'legal.terms.s4.h': 'Confirmation de la réservation',
   'legal.terms.s4.p':
-    'Merci de vous présenter à la réception de l’hôtel dans la plage horaire réservée, muni d’une pièce d’identité valide. En cas de retard, le temps d’accès restant n’est pas prolongé.',
-  'legal.terms.s5.h': 'Modifications et annulations',
+    'Votre réservation est confirmée dès que le paiement en ligne est effectué. Vous ne pouvez réserver que les balcons ou espaces affichés comme disponibles par le système à cet instant précis : il n’y a pas de demande préalable que l’hôtel devrait approuver ultérieurement.',
+  'legal.terms.s5.h': "Accès le jour de l'expérience",
   'legal.terms.s5.p':
-    'Les conditions de modification et d’annulation, y compris le caractère non remboursable du montant versé, sont détaillées dans notre {cancellationLink}.',
-  'legal.terms.s6.h': "Circonstances indépendantes de l'hôtel",
+    'Merci de vous présenter à la réception de l’hôtel dans la plage horaire réservée, muni d’une pièce d’identité valide. En cas de retard, le temps d’accès restant n’est pas prolongé.',
+  'legal.terms.s6.h': 'Modifications et annulations',
   'legal.terms.s6.p':
-    "La mascletà est organisée par la mairie de Valence et peut être affectée par des raisons de sécurité, météorologiques ou autres, indépendantes de la volonté de l'hôtel. Dans ce cas, la {cancellationLink} s’applique.",
-  'legal.terms.s7.h': "Utilisation de l'espace",
+    'Les conditions de modification et d’annulation, y compris le caractère non remboursable du montant versé, sont détaillées dans notre {cancellationLink}.',
+  'legal.terms.s7.h': "Circonstances indépendantes de l'hôtel",
   'legal.terms.s7.p':
-    'La chambre réservée est un véritable espace de l’hôtel mis à votre disposition pendant l’expérience. Nous vous demandons de prendre soin du mobilier et des installations ; l’hôtel pourra facturer le coût des dommages causés pendant votre créneau d’accès.',
+    "La mascletà est organisée par la mairie de Valence et peut être affectée par des raisons de sécurité, météorologiques ou autres, indépendantes de la volonté de l'hôtel. Dans ce cas, la {cancellationLink} s’applique.",
+  'legal.terms.s8.h': 'Utilisation de la chambre ou de l’espace',
+  'legal.terms.s8.p':
+    'La chambre ou l’espace réservé est un véritable espace de l’hôtel mis à votre disposition pendant le créneau réservé. Nous vous demandons de prendre soin du mobilier et des installations ; l’hôtel pourra facturer le coût des dommages causés pendant votre créneau d’accès.',
   'legal.terms.contact': 'Des questions sur ces conditions ? Écrivez-nous :',
 
   'legal.cancellation.h1': "Politique d'annulation",
   'legal.cancellation.intro':
-    'Avant de confirmer votre réservation de balcon privé, veuillez noter qu’il s’agit d’une expérience à places limitées, pour un jour et un créneau horaire précis.',
+    'Avant de confirmer votre réservation de balcon privé ou d’espace, veuillez noter qu’il s’agit d’une expérience à places limitées, pour un jour et un créneau horaire précis.',
   'legal.cancellation.s1.h': 'Paiements non remboursables',
   'legal.cancellation.s1.p':
-    "Le montant versé pour la réservation de votre balcon privé n'est pas remboursable, quel que soit le motif ou le délai de la demande d’annulation.",
-  'legal.cancellation.s2.h': 'Date et chambre fixes',
+    'Le montant payé pour la réservation de votre balcon privé ou de votre espace n’est pas remboursable, quels que soient le motif ou le délai avec lequel l’annulation est demandée.',
+  'legal.cancellation.s2.h': 'Date et chambre ou espace fixes',
   'legal.cancellation.s2.p':
-    "Votre balcon privé est réservé pour la date et la chambre exactes choisies lors de la confirmation : aucune modification n'est possible par la suite.",
+    'Votre balcon privé ou votre espace est réservé pour la date et la chambre ou l’espace exacts que vous avez choisis lors de la confirmation : aucune modification n’est possible ensuite.',
   'legal.cancellation.s3.h': 'En cas de non-présentation',
   'legal.cancellation.s3.p':
     "Si vous ne vous présentez pas dans le créneau horaire réservé (13h00-15h00), la réservation est considérée comme utilisée : elle n'ouvre droit ni à un remboursement ni à un changement de date.",
@@ -1793,38 +1805,41 @@ const de: Dict = {
   'legal.nav.aria': 'Weitere rechtliche Seiten',
   'legal.home': 'Startseite',
   'legal.terms.h1': 'Buchungsbedingungen',
-  'legal.terms.intro': 'Diese Bedingungen regeln die Buchung eines privaten Balkons, der zu einem Hotelzimmer gehört, für die Mascletàs im März 2027 im Hotel Venecia Plaza Centro. Mit Abschluss der Zahlung auf dieser Website akzeptieren Sie die im Folgenden beschriebenen Bedingungen.',
-  'legal.terms.s1.h': 'Was die Buchung beinhaltet',
+  'legal.terms.intro': 'Diese Bedingungen regeln die Buchung eines privaten Balkons, der zu einem Hotelzimmer gehört, sowie die Anmietung eines ganzen privaten Raums für die Mascletàs im März 2027 im Hotel Venecia Plaza Centro. Mit Abschluss der Zahlung auf dieser Website akzeptieren Sie die im Folgenden beschriebenen Bedingungen.',
+  'legal.terms.s1.h': 'Balkone: Was die Buchung beinhaltet',
   'legal.terms.s1.p': 'Sie buchen die private Nutzung eines Balkons, der zu einem der 9 echten Zimmer des Hotels gehört (das ganze Zimmer samt Bad), während des Zeitfensters von 13:00 bis 15:00 Uhr am gewählten Mascletà-Tag, mit Blick auf die Plaza del Ayuntamiento und inklusive Snack Pack. Es handelt sich nicht um eine Übernachtungsbuchung.',
-  'legal.terms.s2.h': 'Belegung und Preis',
+  'legal.terms.s2.h': 'Balkone: Belegung und Preis',
   'legal.terms.s2.p':
     'Jedes Zimmer fasst bis zu 4 Personen. Der angezeigte Preis richtet sich nach der bei der Buchung angegebenen Personenzahl (2, 3 oder 4) und wird stets vom Hotel berechnet, niemals vom Gast selbst eingegeben.',
-  'legal.terms.s3.h': 'Buchungsbestätigung',
+  'legal.terms.s3.h': 'Räume: Was die Miete beinhaltet',
   'legal.terms.s3.p':
-    'Ihre Buchung wird in dem Moment bestätigt, in dem die Online-Zahlung abgeschlossen ist. Sie können nur Zimmer buchen, die das System in diesem Augenblick als verfügbar anzeigt: Es gibt keine vorherige Anfrage, die das Hotel später genehmigen müsste.',
-  'legal.terms.s4.h': 'Zugang am Tag des Erlebnisses',
+    'Zusätzlich zu den Balkonen vermietet das Hotel private Räume (unmöblierte Zimmer mit Bad zur ausschließlichen Nutzung), die als Ganzes und nicht pro Person gebucht werden, um die Mascletà mit Blick auf die Plaza del Ayuntamiento zu erleben. Die maximale Kapazität jedes Raums steht in seiner Beschreibung und darf nicht überschritten werden. Die Miete gilt pro Tag, von 13:00 bis 15:00 Uhr, und der angegebene Preis (inklusive Mehrwertsteuer) ist der Preis für diesen Tag; er wird stets vom Hotel berechnet, niemals vom Gast eingegeben. Die Miete umfasst keine Übernachtung und erlaubt keinen Aufenthalt über Nacht. Wenn Sie zusätzliche Zeit zur Vorbereitung des Raums benötigen (Aufbau eines Caterings, Dekoration oder andere Leistungen), können Sie früheren Zugang anfragen, vorbehaltlich Verfügbarkeit und vorheriger Bestätigung durch das Hotel. Die Bilder dienen nur zur Orientierung: Dekoration, Möbel oder Oberflächen (einschließlich der Tapeten) können sich ändern, ohne dass dies die wesentlichen Merkmale des Raums beeinträchtigt.',
+  'legal.terms.s4.h': 'Buchungsbestätigung',
   'legal.terms.s4.p':
-    'Bitte melden Sie sich innerhalb des gebuchten Zeitfensters mit einem gültigen Ausweisdokument an der Rezeption des Hotels. Bei verspätetem Erscheinen verlängert sich die verbleibende Zugangszeit nicht.',
-  'legal.terms.s5.h': 'Änderungen und Stornierungen',
+    'Ihre Buchung wird in dem Moment bestätigt, in dem die Online-Zahlung abgeschlossen ist. Sie können nur Balkone oder Räume buchen, die das System in diesem Augenblick als verfügbar anzeigt: Es gibt keine vorherige Anfrage, die das Hotel später genehmigen müsste.',
+  'legal.terms.s5.h': 'Zugang am Tag des Erlebnisses',
   'legal.terms.s5.p':
-    'Die Bedingungen für Änderungen und Stornierungen, einschließlich der Nicht-Erstattung des gezahlten Betrags, sind in unserer {cancellationLink} aufgeführt.',
-  'legal.terms.s6.h': 'Umstände außerhalb der Kontrolle des Hotels',
+    'Bitte melden Sie sich innerhalb des gebuchten Zeitfensters mit einem gültigen Ausweisdokument an der Rezeption des Hotels. Bei verspätetem Erscheinen verlängert sich die verbleibende Zugangszeit nicht.',
+  'legal.terms.s6.h': 'Änderungen und Stornierungen',
   'legal.terms.s6.p':
-    'Die Mascletà wird vom Stadtrat von Valencia organisiert und kann durch Sicherheits-, Wetter- oder andere Gründe außerhalb der Kontrolle des Hotels beeinträchtigt werden. In diesem Fall gilt das in der {cancellationLink} Festgelegte.',
-  'legal.terms.s7.h': 'Nutzung des Raums',
+    'Die Bedingungen für Änderungen und Stornierungen, einschließlich der Nicht-Erstattung des gezahlten Betrags, sind in unserer {cancellationLink} aufgeführt.',
+  'legal.terms.s7.h': 'Umstände außerhalb der Kontrolle des Hotels',
   'legal.terms.s7.p':
-    'Das gebuchte Zimmer ist ein echter Raum des Hotels, der Ihnen für das Erlebnis zur Verfügung gestellt wird. Wir bitten Sie, mit Mobiliar und Einrichtungen sorgsam umzugehen; das Hotel kann die Kosten für während Ihres Zugangsfensters verursachte Schäden in Rechnung stellen.',
+    'Die Mascletà wird vom Stadtrat von Valencia organisiert und kann durch Sicherheits-, Wetter- oder andere Gründe außerhalb der Kontrolle des Hotels beeinträchtigt werden. In diesem Fall gilt das in der {cancellationLink} Festgelegte.',
+  'legal.terms.s8.h': 'Nutzung des Zimmers oder Raums',
+  'legal.terms.s8.p':
+    'Das gebuchte Zimmer bzw. der gebuchte Raum ist ein echter Raum des Hotels, der Ihnen für das gebuchte Zeitfenster zur Verfügung gestellt wird. Wir bitten Sie, mit Mobiliar und Einrichtungen sorgsam umzugehen; das Hotel kann die Kosten für während Ihres Zugangsfensters verursachte Schäden in Rechnung stellen.',
   'legal.terms.contact': 'Fragen zu diesen Bedingungen? Schreiben Sie uns:',
 
   'legal.cancellation.h1': 'Stornierungsbedingungen',
   'legal.cancellation.intro':
-    'Bevor Sie Ihre Buchung für den privaten Balkon bestätigen, beachten Sie bitte, dass es sich um ein Erlebnis mit begrenzten Plätzen für einen bestimmten Tag und ein bestimmtes Zeitfenster handelt.',
+    'Bevor Sie Ihre Buchung für den privaten Balkon oder einen Raum bestätigen, beachten Sie bitte, dass es sich um ein Erlebnis mit begrenzten Plätzen für einen bestimmten Tag und ein bestimmtes Zeitfenster handelt.',
   'legal.cancellation.s1.h': 'Nicht erstattungsfähige Zahlungen',
   'legal.cancellation.s1.p':
-    'Der für die Buchung Ihres privaten Balkons gezahlte Betrag wird unabhängig vom Grund oder der Frist der Stornierung nicht erstattet.',
-  'legal.cancellation.s2.h': 'Festes Datum und festes Zimmer',
+    'Der für die Buchung Ihres privaten Balkons oder Raums gezahlte Betrag wird unabhängig vom Grund oder der Frist der Stornierung nicht erstattet.',
+  'legal.cancellation.s2.h': 'Festes Datum und festes Zimmer bzw. fester Raum',
   'legal.cancellation.s2.p':
-    'Ihr privater Balkon ist für das genaue Datum und Zimmer gebucht, das Sie bei der Bestätigung gewählt haben: Nachträgliche Änderungen sind nicht möglich.',
+    'Ihr privater Balkon oder Raum ist für das genaue Datum und das Zimmer bzw. den Raum gebucht, das Sie bei der Bestätigung gewählt haben: Nachträgliche Änderungen sind nicht möglich.',
   'legal.cancellation.s3.h': 'Bei Nichterscheinen',
   'legal.cancellation.s3.p':
     'Wenn Sie nicht innerhalb des gebuchten Zeitfensters (13:00–15:00 Uhr) erscheinen, gilt die Buchung als verbraucht: Es besteht kein Anspruch auf Erstattung oder Terminänderung.',
