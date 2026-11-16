@@ -19,6 +19,7 @@ const BASE_ID = import.meta.env.AIRTABLE_BASE_ID ?? process.env.AIRTABLE_BASE_ID
 const TABLE = {
   rooms: 'Habitaciones',
   bookings: 'Reservas',
+  spaces: 'Espacios',
 } as const;
 
 export function airtableEnabled(): boolean {
@@ -180,6 +181,66 @@ export async function getRooms(): Promise<Room[]> {
     const recs = await listAll(TABLE.rooms, { filterByFormula: '{Activa}' });
     return recs.map(mapRoom).sort(bySortOrder);
   });
+}
+
+// --- Espacios (alquiler de espacios enteros) -------------------------------
+// Tabla `Espacios` (docs/airtable-espacios.md). Aquí solo viven los datos que
+// edita el hotel; fotos, planos y descripciones están en la web (ver
+// src/lib/spaces.ts, que une las dos cosas).
+
+/** Fila de `Espacios`. Los números vacíos llegan como 0 y las listas como []. */
+export interface SpaceRow {
+  slug: string;
+  capacity: number;
+  price: number;
+  /** Días de marzo en que se puede alquilar. */
+  days: number[];
+  specialPrice: number;
+  specialDays: number[];
+  order: number;
+  active: boolean;
+}
+
+/** Selección múltiple de días ("1", "14"…) → números únicos y ordenados. */
+const dayList = (v: unknown): number[] =>
+  Array.isArray(v)
+    ? [...new Set(v.map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= 31))].sort((a, b) => a - b)
+    : [];
+
+function mapSpaceRow(r: AirtableRecord): SpaceRow {
+  const f = r.fields;
+  return {
+    slug: str(f['Slug']) ?? '',
+    capacity: num(f['Aforo']),
+    price: num(f['Precio']),
+    days: dayList(f['Dias']),
+    specialPrice: num(f['Precio especial']),
+    specialDays: dayList(f['Dias precio especial']),
+    order: num(f['Orden']),
+    active: f['Activo'] === true,
+  };
+}
+
+const SPACES_TTL_MS = 10 * 60_000; // un cambio de precio tarda como mucho ~10 min en verse
+const SPACES_RETRY_MS = 5 * 60_000; // si la tabla no existe o falla: no insistir antes de 5 min
+let spacesFailedAt = 0;
+
+/**
+ * Filas de la tabla `Espacios`, o null si no se puede leer (sin Airtable
+ * conectado, tabla aún sin crear, cuota agotada…): quien llama usa entonces los
+ * datos de ejemplo. Un fallo no se reintenta enseguida para no gastar llamadas
+ * de la API de Airtable, que tienen límite mensual.
+ */
+export async function getSpaceRows(): Promise<SpaceRow[] | null> {
+  if (!airtableEnabled()) return null;
+  if (Date.now() - spacesFailedAt < SPACES_RETRY_MS) return null;
+  try {
+    return await cached('spaces', SPACES_TTL_MS, async () => (await listAll(TABLE.spaces)).map(mapSpaceRow));
+  } catch (err) {
+    spacesFailedAt = Date.now();
+    console.warn('[airtable] no se pudo leer la tabla Espacios; se usan los datos de ejemplo →', err instanceof Error ? err.message : err);
+    return null;
+  }
 }
 
 /**

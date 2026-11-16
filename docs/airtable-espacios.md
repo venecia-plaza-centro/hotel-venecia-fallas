@@ -59,12 +59,30 @@ Una reserva de balcón rellena `Habitacion`; una de espacio rellena `Espacio`
 tal cual: `Fecha`, `Estado`, `Pago`, `Importe total`, `Nombre cliente`…,
 `Pedido Redsys`, `Codigo autorizacion`.
 
-## 3. Comprobaciones
+## 3. Cómo usa la web esos datos
+
+- Solo se muestran los espacios con **`Activo` marcado**. Un registro cuyo `Slug`
+  no exista en la web (no tiene fotos ni descripción) se ignora con un aviso en
+  el registro del servidor. Para añadir un espacio nuevo (p. ej. el 704) hay que
+  preparar antes sus fotos y textos en la web.
+- **Aforo, Precio o Dias vacíos** → la web usa los valores del Excel del hotel
+  (así nunca queda un espacio sin precio por un despiste). **Precio especial y
+  Dias precio especial son opcionales**: vacíos = sin precio especial.
+- Un cambio en Airtable se ve en `/espacios/` en **como máximo ~10-15 minutos**,
+  sin volver a desplegar: la página consulta `/api/spaces` al abrirse y pone al
+  día precios, aforo y días. (Un espacio que se desmarque como `Activo`
+  desaparece; cambiar el `Orden` sí requiere un nuevo despliegue.)
+- Si Airtable no responde o la tabla aún no existe, se usan los datos de ejemplo
+  de `src/lib/spaces.ts` y la web no se rompe.
+- El **precio que se cobra** se calculará siempre en el servidor a partir de esta
+  tabla, nunca con lo que muestra el navegador.
+
+## 4. Comprobaciones al crear la tabla
 
 - El **token** de la web ya tiene acceso a toda la base, así que la tabla
   nueva queda cubierta sin tocar nada. (Si en Airtable el token está limitado
   a tablas concretas, hay que añadirle `Espacios`.)
 - Los estados de `Reservas` (`en pago`, `confirmada`, `cancelada`, `caducada`)
   y el bloqueo de 15 minutos mientras se paga funcionan igual para espacios.
-- Avisar cuando esté creada: la web pasará a leer los datos de `Espacios`, y
-  si Airtable no responde usará los de ejemplo de `src/lib/spaces.ts`.
+- Avisar cuando esté creada: se comprueba que la web lee bien sus datos
+  (`/api/spaces` debe devolver lo de Airtable y no el respaldo).

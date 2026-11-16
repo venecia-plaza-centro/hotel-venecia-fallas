@@ -52,11 +52,11 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     <h2 class="h2" style="text-align:center;margin-bottom:22px">{t('spaces.glance.h')}</h2>
     <ul class="glance-list">
       {spaces.map((s) => (
-        <li>
+        <li data-space={s.number} data-m2={s.m2}>
           <a href={`#espacio-${s.number}`}>
             <span class="glance-name"><strong>{fill(t('spaces.card.title'), { n: s.number })}</strong> · {t(`spaces.floor.${s.floor}`)}</span>
-            <span class="glance-meta">{fill(t('spaces.card.size'), { n: s.m2 })} · {fill(t('spaces.glance.people'), { n: s.capacity })}</span>
-            <span class="glance-price">{money(s.price)}</span>
+            <span class="glance-meta js-g-meta">{fill(t('spaces.card.size'), { n: s.m2 })} · {fill(t('spaces.glance.people'), { n: s.capacity })}</span>
+            <span class="glance-price js-g-price">{money(s.price)}</span>
           </a>
         </li>
       ))}
@@ -69,7 +69,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     {spaces.map((s) => {
       const special = Object.entries(s.priceByDay ?? {}).map(([day, price]) => ({ day: Number(day), price }));
       return (
-        <article class="space" id={`espacio-${s.number}`}>
+        <article class="space" id={`espacio-${s.number}`} data-space={s.number}>
           <div class="space-photo">
             <img
               src={`/images/espacios/${s.number}/foto-1600.webp`}
@@ -88,18 +88,20 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
             <h3>{fill(t('spaces.card.title'), { n: s.number })}</h3>
             <ul class="space-facts">
               <li>{fill(t('spaces.card.size'), { n: s.m2 })}</li>
-              <li>{fill(t('spaces.card.cap'), { n: s.capacity })}</li>
+              <li class="js-cap">{fill(t('spaces.card.cap'), { n: s.capacity })}</li>
             </ul>
             <p class="space-desc">{t(`spaces.desc.${s.number}`)}</p>
-            <p class="space-whole">{fill(t('spaces.card.whole'), { n: s.capacity })}</p>
-            <p class="space-days">{fill(t('spaces.card.days'), { days: dayList(s.days) })}</p>
+            <p class="space-whole js-whole">{fill(t('spaces.card.whole'), { n: s.capacity })}</p>
+            <p class="space-days js-days">{fill(t('spaces.card.days'), { days: dayList(s.days) })}</p>
 
             <div class="space-price">
-              <strong>{money(s.price)}</strong>
+              <strong class="js-price">{money(s.price)}</strong>
               <span>{t('spaces.card.perday')}</span>
-              {special.map((p) => (
-                <em>{fill(t('spaces.card.special'), { date: dayList([p.day]), price: money(spacePriceForDay(s, p.day)) })}</em>
-              ))}
+              <div class="js-special">
+                {special.map((p) => (
+                  <em>{fill(t('spaces.card.special'), { date: dayList([p.day]), price: money(spacePriceForDay(s, p.day)) })}</em>
+                ))}
+              </div>
             </div>
 
             <a class="btn btn-gold btn-arrow" href={`${bookUrl}?espacio=${s.number}`}>
@@ -132,6 +134,19 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     <p class="spaces-outro-q">{t('spaces.outro.q')} <a href={contactUrl}>{t('spaces.outro.link')}</a></p>
   </div>
 </section>
+
+<!-- Textos y formato para que /api/spaces ponga al día precios, aforo y días
+     (ver src/scripts/spaces-live.ts). -->
+<script type="application/json" id="spaces-live-config" set:html={JSON.stringify({
+  lang,
+  locale: LOCALE,
+  strings: Object.fromEntries(
+    ['spaces.days.fmt', 'spaces.card.size', 'spaces.card.cap', 'spaces.card.whole', 'spaces.card.days', 'spaces.card.special', 'spaces.glance.people'].map((k) => [k, t(k)]),
+  ),
+})} />
+<script>
+  import '../../scripts/spaces-live';
+</script>
 
 <style>
   /* Misma línea que la página de Mascletàs: columna centrada, títulos en serif,
@@ -177,7 +192,9 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   .space-price { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 4px; }
   .space-price strong { font-family: var(--ff-display); font-size: 36px; line-height: 1.1; color: var(--navy); }
   .space-price span { color: var(--text-soft); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-  .space-price em { margin-top: 4px; color: var(--gold); font-size: 15px; }
+  .space-price em { display: block; margin-top: 4px; color: var(--gold); font-size: 15px; }
+  .js-special { display: contents; }
+  .space[hidden], .glance-list li[hidden] { display: none; }
   .space-maps { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px; margin: 6px 0 4px; }
   .space-maps figure { margin: 0; text-align: center; max-width: 100%; }
   .space-maps img { display: block; height: 190px; width: auto; max-width: 100%; object-fit: contain; padding: 6px; border-radius: 10px; background: #fff; border: 1px solid var(--cream-dark); }
