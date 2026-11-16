@@ -54,6 +54,8 @@ function init() {
     );
   }
   if (heroLead) heroLead.textContent = T['spaces.book.lead'];
+  // La pestaña del navegador también habla de espacio, no de balcón.
+  if (T['spaces.book.meta.title']) document.title = T['spaces.book.meta.title'];
 
   const panels: Record<Step, HTMLElement> = {
     date: $('[data-sstep-panel="date"]'),
