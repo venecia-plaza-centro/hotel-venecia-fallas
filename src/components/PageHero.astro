@@ -1,13 +1,17 @@
 ---
 import GoldRule from './GoldRule.astro';
 
-interface Props { title: string; lead?: string; leadItalic?: boolean; leadStrong?: boolean; photo?: string; }
-const { title, lead, leadItalic = false, leadStrong = false, photo } = Astro.props;
+interface Props { title: string; lead?: string; leadItalic?: boolean; leadStrong?: boolean; photo?: string; accent?: string; }
+const { title, lead, leadItalic = false, leadStrong = false, photo, accent } = Astro.props;
 
 // "balcón"/"balcony" en cursiva y dorado dentro del título, igual que el
 // acento del h1 de Home (dos de estos títulos la incluyen: Habitaciones y
 // Reservar).
-const titleHtml = title.replace(/\b(balcón|balcony)\b/i, '<em>$1</em>');
+// Con `accent` se marca esa parte exacta del título (p. ej. "Espacios privados").
+const titleHtml =
+  accent && title.includes(accent)
+    ? title.replace(accent, `<em>${accent}</em>`)
+    : title.replace(/\b(balcón|balcony)\b/i, '<em>$1</em>');
 
 // "Plaza del Ayuntamiento" enlaza a Google Maps (con destino ya puesto, para
 // que el móvil calcule la ruta desde la ubicación GPS del usuario) en los

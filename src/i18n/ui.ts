@@ -162,6 +162,7 @@ const es: Dict = {
   'faq.q13': '¿Qué son los espacios y en qué se diferencian de los balcones?',
   'faq.a13':
     'Son habitaciones del hotel sin mobiliario que se alquilan enteras (no por persona), con baño privado y vistas a la Plaza del Ayuntamiento, de 13:00 a 15:00 h. Cada espacio tiene su propia capacidad máxima, su precio por día (IVA incluido) y sus días disponibles, que verá en la página {spacesLink} antes de pagar. No incluyen alojamiento ni pernoctación, y puede solicitar acceso anticipado para el montaje (catering, decoración), sujeto a disponibilidad y a la confirmación del hotel.',
+  'spaces.h1.accent': 'Espacios privados',
   'mascletas.h1': 'Calendario de mascletàs',
   'mascletas.lead':
     'Del 1 al 19 de marzo de 2027, todos los días a las 14:00 {br}en la Plaza del Ayuntamiento.',
@@ -538,6 +539,7 @@ const en: Dict = {
   'faq.q13': 'What are the spaces, and how are they different from the balconies?',
   'faq.a13':
     'They are unfurnished hotel rooms rented as a whole (not per person), with a private bathroom and views over Plaza del Ayuntamiento, from 13:00 to 15:00. Each space has its own maximum capacity, its own price per day (VAT included) and its own available days, which you will see on the {spacesLink} page before paying. They do not include accommodation or overnight stays, and you can request early access to set up (catering, decoration), subject to availability and confirmation by the hotel.',
+  'spaces.h1.accent': 'Private spaces',
   'mascletas.h1': 'Mascletà calendar',
   'mascletas.lead':
     'From 1 to 19 March 2027, every day at 2 pm {br}on Plaza del Ayuntamiento.',
@@ -906,6 +908,7 @@ const it: Dict = {
   'faq.q13': 'Cosa sono gli spazi e in cosa si differenziano dai balconi?',
   'faq.a13':
     'Sono camere dell’hotel senza arredamento che si affittano per intero (non per persona), con bagno privato e vista su Plaza del Ayuntamiento, dalle 13:00 alle 15:00. Ogni spazio ha la sua capacità massima, il suo prezzo per giorno (IVA inclusa) e i suoi giorni disponibili, che vedrà nella pagina {spacesLink} prima di pagare. Non includono il pernottamento, ed è possibile richiedere l’accesso anticipato per l’allestimento (catering, decorazione), soggetto a disponibilità e a conferma da parte dell’hotel.',
+  'spaces.h1.accent': 'Spazi privati',
   'mascletas.h1': 'Calendario delle mascletàs',
   'mascletas.lead':
     'Dal 1 al 19 marzo 2027, tutti i giorni alle 14:00 {br}nella Plaza del Ayuntamiento.',
@@ -1275,6 +1278,7 @@ const fr: Dict = {
   'faq.q13': 'Que sont les espaces et en quoi diffèrent-ils des balcons ?',
   'faq.a13':
     'Ce sont des chambres de l’hôtel sans mobilier, louées en entier (et non par personne), avec salle de bain privée et vue sur la Plaza del Ayuntamiento, de 13h00 à 15h00. Chaque espace a sa propre capacité maximale, son prix par jour (TVA incluse) et ses jours disponibles, que vous verrez sur la page {spacesLink} avant de payer. Ils n’incluent pas l’hébergement, et vous pouvez demander un accès anticipé pour l’installation (traiteur, décoration), sous réserve de disponibilité et de confirmation de l’hôtel.',
+  'spaces.h1.accent': 'Espaces privés',
   'mascletas.h1': 'Calendrier des mascletàs',
   'mascletas.lead':
     'Du 1er au 19 mars 2027, tous les jours à 14h00 {br}sur la Plaza del Ayuntamiento.',
@@ -1645,6 +1649,7 @@ const de: Dict = {
   'faq.q13': 'Was sind die Räume und wie unterscheiden sie sich von den Balkonen?',
   'faq.a13':
     'Es sind unmöblierte Hotelzimmer, die als Ganzes (nicht pro Person) gemietet werden, mit eigenem Bad und Blick auf die Plaza del Ayuntamiento, von 13:00 bis 15:00 Uhr. Jeder Raum hat seine eigene maximale Kapazität, seinen Preis pro Tag (inklusive Mehrwertsteuer) und seine verfügbaren Tage, die Sie vor der Zahlung auf der Seite {spacesLink} sehen. Eine Übernachtung ist nicht inbegriffen; früheren Zugang zum Aufbau (Catering, Dekoration) können Sie anfragen, vorbehaltlich Verfügbarkeit und Bestätigung durch das Hotel.',
+  'spaces.h1.accent': 'Private Räume',
   'mascletas.h1': 'Mascletà-Kalender',
   'mascletas.lead':
     'Vom 1. bis 19. März 2027, täglich um 14:00 Uhr {br}auf der Plaza del Ayuntamiento.',
