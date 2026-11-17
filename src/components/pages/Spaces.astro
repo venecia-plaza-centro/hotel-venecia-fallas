@@ -209,19 +209,22 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   }
   .info-feature h3 { margin: 0 0 6px; font-size: 24px; color: var(--gold-light); }
   .info-feature p { margin: 0; color: rgba(255, 255, 255, .9); font-size: 16px; line-height: 1.65; }
-  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  /* Tarjeta en horizontal: el icono a la izquierda y el título con el texto a la derecha
+     (ocupa menos alto que icono arriba y texto debajo). */
   .info-card {
-    display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 26px 22px 24px; text-align: center;
+    display: grid; grid-template-columns: auto 1fr; column-gap: 16px; row-gap: 4px; align-items: start; align-content: start;
+    padding: 20px 22px; text-align: left;
     background: #fff; border: 1px solid var(--cream-dark); border-radius: 18px; box-shadow: 0 4px 14px rgba(27, 42, 74, .06);
     transition: transform .25s, box-shadow .25s, border-color .25s;
   }
   .info-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 12px 26px rgba(27, 42, 74, .12); }
-  .info-card .ic { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: #F6EFD9; color: #B8923A; }
-  .info-card h3 { margin: 2px 0 0; font-size: 19px; }
+  .info-card .ic { grid-row: 1 / span 2; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: #F6EFD9; color: #B8923A; }
+  .info-card h3 { margin: 2px 0 0; font-size: 18px; align-self: end; }
   .info-card p { margin: 0; color: var(--text-mid); font-size: 15px; line-height: 1.65; }
-  @media (max-width: 900px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) {
-    .info-grid { grid-template-columns: 1fr; gap: 14px; }
+    .info-card { padding: 16px 18px; column-gap: 14px; }
+    .info-card .ic { width: 44px; height: 44px; }
     .info-feature { flex-direction: column; gap: 14px; padding: 26px 22px; text-align: center; }
   }
 
