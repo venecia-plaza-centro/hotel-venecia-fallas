@@ -645,9 +645,15 @@ export async function deliver(d: Delivery): Promise<void> {
   const key = env('RESEND_API_KEY');
   const to = Array.isArray(d.to) ? d.to : [d.to];
   if (!key) {
-    console.info(
-      `[email] (sin proveedor) "${d.subject}" → ${to.join(', ')}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
-    );
+    // En local se imprime el correo entero para poder probar el flujo. En producción
+    // no: llevaría nombre y datos del cliente a los registros de Vercel.
+    if (import.meta.env.DEV) {
+      console.info(
+        `[email] (sin proveedor) "${d.subject}" → ${to.join(', ')}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
+      );
+    } else {
+      console.error(`[email] falta RESEND_API_KEY: no se envió "${d.subject}"`);
+    }
     return;
   }
 
@@ -669,11 +675,13 @@ export async function deliver(d: Delivery): Promise<void> {
         body,
       });
       if (res.ok) return;
-      const detail = (await res.text()).slice(0, 300);
-      console.error(`[email] Resend ${res.status} al enviar "${d.subject}" a ${d.to} (intento ${attempt}): ${detail}`);
+      // Sin destinatario en el mensaje, y con cualquier email que Resend repita en su
+      // respuesta tachado: los registros no deben guardar datos de clientes.
+      const detail = (await res.text()).slice(0, 300).replace(/[^\s<>"',;:()]+@[^\s<>"',;:()]+/g, '[email]');
+      console.error(`[email] Resend ${res.status} al enviar "${d.subject}" (intento ${attempt}): ${detail}`);
       if (res.status < 500 && res.status !== 429) return; // error definitivo, no se reintenta
     } catch (err) {
-      console.error(`[email] fallo de red al enviar "${d.subject}" a ${d.to} (intento ${attempt})`, err);
+      console.error(`[email] fallo de red al enviar "${d.subject}" (intento ${attempt})`, err instanceof Error ? err.message : 'error de red');
     }
   }
 }

@@ -60,7 +60,9 @@ async function airtable(
   });
 
   if (!res.ok) {
-    const body = await res.text();
+    // Airtable a veces repite en el error el valor rechazado (p. ej. un email): se tacha
+    // para que el mensaje, que acaba en los registros, no lleve datos del cliente.
+    const body = (await res.text()).replace(/[^\s<>"',;:()]+@[^\s<>"',;:()]+/g, '[email]');
     throw new AirtableError(
       `Airtable ${res.status} en ${path}: ${body.slice(0, 300)}`,
       res.status === 429 ? 503 : 502,
@@ -577,7 +579,10 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
   if (input.notes) fields.Notas = input.notes;
 
   if (!airtableEnabled()) {
-    console.info('[airtable:ejemplo] reserva no persistida →', { locator, ...fields });
+    // En local se imprimen los campos para probar el flujo; en producción solo el
+    // localizador, porque `fields` lleva nombre, email y teléfono del cliente.
+    if (import.meta.env.DEV) console.info('[airtable:ejemplo] reserva no persistida →', { locator, ...fields });
+    else console.error(`[airtable] sin configurar: la reserva ${locator} no se ha guardado`);
     return { id: `fix-${locator}`, locator };
   }
 
