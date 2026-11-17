@@ -643,16 +643,25 @@ const env = (k: string): string | undefined => import.meta.env?.[k] ?? process.e
  */
 export async function deliver(d: Delivery): Promise<void> {
   const key = env('RESEND_API_KEY');
-  const to = Array.isArray(d.to) ? d.to : [d.to];
+  let to = Array.isArray(d.to) ? d.to : [d.to];
+  let subject = d.subject;
+  // Solo para pruebas (vistas previas): con HOTEL_EMAIL_OVERRIDE definida, los avisos
+  // que irían a los buzones del hotel van a esas direcciones y el asunto lo indica.
+  // Los correos al cliente no se tocan. En producción no se define y no hace nada.
+  const override = (env('HOTEL_EMAIL_OVERRIDE') ?? '').split(',').map((a) => a.trim()).filter(Boolean);
+  if (override.length && to.some((a) => HOTEL_RECIPIENTS.includes(a))) {
+    to = [...new Set(to.flatMap((a) => (HOTEL_RECIPIENTS.includes(a) ? override : [a])))];
+    subject = `[PRUEBA · iría al hotel] ${d.subject}`;
+  }
   if (!key) {
     // En local se imprime el correo entero para poder probar el flujo. En producción
     // no: llevaría nombre y datos del cliente a los registros de Vercel.
     if (import.meta.env.DEV) {
       console.info(
-        `[email] (sin proveedor) "${d.subject}" → ${to.join(', ')}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
+        `[email] (sin proveedor) "${subject}" → ${to.join(', ')}${d.html ? ' (HTML listo, ' + d.html.length + ' bytes)' : ''}\n${d.text.replace(/^/gm, '  ')}`,
       );
     } else {
-      console.error(`[email] falta RESEND_API_KEY: no se envió "${d.subject}"`);
+      console.error(`[email] falta RESEND_API_KEY: no se envió "${subject}"`);
     }
     return;
   }
@@ -662,7 +671,7 @@ export async function deliver(d: Delivery): Promise<void> {
     from,
     to,
     reply_to: SITE.email,
-    subject: d.subject,
+    subject,
     text: d.text,
     ...(d.html ? { html: d.html } : {}),
   });
@@ -678,10 +687,10 @@ export async function deliver(d: Delivery): Promise<void> {
       // Sin destinatario en el mensaje, y con cualquier email que Resend repita en su
       // respuesta tachado: los registros no deben guardar datos de clientes.
       const detail = (await res.text()).slice(0, 300).replace(/[^\s<>"',;:()]+@[^\s<>"',;:()]+/g, '[email]');
-      console.error(`[email] Resend ${res.status} al enviar "${d.subject}" (intento ${attempt}): ${detail}`);
+      console.error(`[email] Resend ${res.status} al enviar "${subject}" (intento ${attempt}): ${detail}`);
       if (res.status < 500 && res.status !== 429) return; // error definitivo, no se reintenta
     } catch (err) {
-      console.error(`[email] fallo de red al enviar "${d.subject}" (intento ${attempt})`, err instanceof Error ? err.message : 'error de red');
+      console.error(`[email] fallo de red al enviar "${subject}" (intento ${attempt})`, err instanceof Error ? err.message : 'error de red');
     }
   }
 }
