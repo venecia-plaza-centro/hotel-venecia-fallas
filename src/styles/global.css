@@ -253,6 +253,8 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 @media (prefers-reduced-motion: reduce) { .page-hero h1 em.shine { animation: none; } }
 .page-hero .gold-rule { margin: 24px auto 22px; }
+/* Sin adorno bajo el título (prop `rule={false}`): se deja el mismo aire entre título y texto. */
+.page-hero.no-rule h1 { margin-bottom: 22px; }
 .page-hero .lead { color: rgba(255, 255, 255, .72); max-width: 620px; margin: 0 auto; }
 .page-hero .lead a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 2px; }
 .page-hero .lead a:hover { color: #fff; }
