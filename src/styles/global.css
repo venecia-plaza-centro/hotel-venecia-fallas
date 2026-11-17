@@ -210,7 +210,8 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   }
 }
 @media (min-width: 901px) {
-  .page-hero.is-tall { min-height: clamp(520px, 74vh, 760px); display: flex; align-items: center; padding: 150px 0 56px; }
+  /* En escritorio la cabecera con foto ocupa TODA la pantalla (ancho y alto), como la portada. */
+  .page-hero.is-tall { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 150px 0 56px; }
   .page-hero.is-tall.has-scroll { padding-bottom: 92px; }
   .page-hero.is-tall > .container { width: 100%; }
   .page-hero.is-tall.has-photo::after {
