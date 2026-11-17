@@ -40,9 +40,9 @@ const ICONS: Record<string, string> = {
 const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
 ---
 
-<PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall />
+<PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall scrollLabel={t('home.discover')} scrollHref="#espacios-info" />
 
-<section class="section spaces-info">
+<section class="section spaces-info" id="espacios-info">
   <div class="container" style="max-width:1040px">
     <p class="spaces-intro">{t('spaces.intro')}</p>
 
@@ -197,7 +197,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   /* Poco aire entre la foto de la cabecera y el texto: el bloque va pegado a la foto. */
   .spaces-info { text-align: center; padding-top: 34px; padding-bottom: 8px; }
   @media (max-width: 768px) { .spaces-info { padding-top: 26px; } }
-  .spaces-intro { color: var(--text-mid); font-size: 17px; line-height: 1.75; max-width: 640px; margin: 0 auto; }
+  .spaces-intro { color: var(--text-mid); font-size: 17px; font-weight: 600; font-style: italic; line-height: 1.75; max-width: 640px; margin: 0 auto; }
   .spaces-info h2 { font-size: clamp(22px, 3vw, 28px); margin: 44px 0 18px; }
   .spaces-info h2 { margin-bottom: 26px; }
   .info-feature {

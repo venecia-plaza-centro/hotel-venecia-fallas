@@ -156,11 +156,43 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .page-hero.has-photo h1,
 .page-hero.has-photo .lead { text-shadow: 0 2px 14px rgba(8, 14, 30, .7); }
+/* Botón redondo con una flecha animada, pegado al borde inferior de la cabecera (prop
+   `scrollLabel`): invita a bajar. Círculo dorado fino y translúcido, con un anillo que late
+   y la flecha que baja y sube. El texto del enlace no se ve (el lead de arriba ya invita a
+   descubrir), pero queda para lectores de pantalla. Deja hueco abajo para no pisar el texto. */
+.page-hero.has-scroll { padding-bottom: 76px; }
+.page-hero-scroll {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 2;
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
+  color: var(--gold-light); text-decoration: none;
+  border: 1.5px solid rgba(201, 162, 70, .75);
+  background: rgba(20, 31, 56, .38); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  box-shadow: 0 4px 16px rgba(8, 14, 30, .45), inset 0 0 0 1px rgba(255, 255, 255, .06);
+  transition: background .25s, color .25s, border-color .25s;
+}
+.page-hero-scroll::after {
+  content: ''; position: absolute; inset: -2px; border-radius: 50%;
+  border: 1.5px solid rgba(201, 162, 70, .6); animation: pageHeroScrollRing 2.2s ease-out infinite;
+}
+.page-hero-scroll:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+.page-hero-scroll svg { width: 22px; height: 22px; animation: pageHeroScrollBounce 1.6s ease-in-out infinite; }
+.page-hero-scroll span {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+@keyframes pageHeroScrollBounce { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+@keyframes pageHeroScrollRing { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .page-hero-scroll svg, .page-hero-scroll::after { animation: none; }
+  .page-hero-scroll::after { display: none; }
+}
+#espacios-info { scroll-margin-top: 70px; }
 /* Variante "alta" (prop `tall`, solo en escritorio): la cabecera ocupa más pantalla y el
    degradado es más suave, para que se vea la foto. El texto sigue leyéndose gracias a la
    sombra de arriba y a que el degradado se oscurece hacia abajo, donde está. */
 @media (min-width: 901px) {
   .page-hero.is-tall { min-height: clamp(520px, 74vh, 760px); display: flex; align-items: center; padding: 150px 0 56px; }
+  .page-hero.is-tall.has-scroll { padding-bottom: 92px; }
   .page-hero.is-tall > .container { width: 100%; }
   .page-hero.is-tall.has-photo::after {
     background: linear-gradient(180deg, rgba(20, 31, 56, .28) 0%, rgba(20, 31, 56, .52) 48%, rgba(20, 31, 56, .72) 100%);
