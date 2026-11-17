@@ -75,7 +75,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
       {spaces.map((s) => (
         <li data-space={s.number} data-m2={s.m2}>
           <a href={`#espacio-${s.number}`}>
-            <span class="glance-name"><strong>{fill(t('spaces.card.title'), { n: s.number })}</strong> · {t(`spaces.floor.${s.floor}`)}</span>
+            <span class="glance-name"><strong>{fill(t('spaces.card.title'), { n: s.number })}</strong><span class="glance-floor"><span class="glance-dot"> · </span>{t(`spaces.floor.${s.floor}`)}</span></span>
             <span class="glance-meta js-g-meta">{fill(t('spaces.card.size'), { n: s.m2 })} · {fill(t('spaces.glance.people'), { n: s.capacity })}</span>
             <span class="glance-price js-g-price">{money(s.price)}</span>
           </a>
@@ -189,6 +189,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
 <script>
   import '../../scripts/spaces-live';
   import '../../scripts/space-gallery';
+  import '../../scripts/glance-wrap';
 </script>
 
 <style>
@@ -238,6 +239,11 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     transition: background .2s;
   }
   .glance-list a:hover { background: rgba(201, 162, 70, .08); }
+  /* «1ª planta» nunca se parte: si no cabe junto a «Espacio 109», baja entero a la línea de abajo
+     (y el punto se oculta; lo marca src/scripts/glance-wrap.ts). */
+  .glance-floor { white-space: nowrap; }
+  .glance-name.is-stacked .glance-dot { display: none; }
+  .glance-name.is-stacked .glance-floor { display: block; }
   .glance-meta { color: var(--gold); font-style: italic; text-align: center; }
   .glance-price { color: var(--navy); font-weight: 700; text-align: right; }
   @media (max-width: 600px) {
