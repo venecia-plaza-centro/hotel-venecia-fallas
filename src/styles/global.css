@@ -156,6 +156,17 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 .page-hero.has-photo h1,
 .page-hero.has-photo .lead { text-shadow: 0 2px 14px rgba(8, 14, 30, .7); }
+/* Variante "alta" (prop `tall`, solo en escritorio): la cabecera ocupa más pantalla y el
+   degradado es más suave, para que se vea la foto. El texto sigue leyéndose gracias a la
+   sombra de arriba y a que el degradado se oscurece hacia abajo, donde está. */
+@media (min-width: 901px) {
+  .page-hero.is-tall { min-height: clamp(520px, 74vh, 760px); display: flex; align-items: center; padding: 150px 0 56px; }
+  .page-hero.is-tall > .container { width: 100%; }
+  .page-hero.is-tall.has-photo::after {
+    background: linear-gradient(180deg, rgba(20, 31, 56, .28) 0%, rgba(20, 31, 56, .52) 48%, rgba(20, 31, 56, .72) 100%);
+  }
+  .page-hero.is-tall .lead { color: rgba(255, 255, 255, .95); font-weight: 500; text-shadow: 0 1px 3px rgba(8, 14, 30, .9), 0 2px 18px rgba(8, 14, 30, .85); }
+}
 /* Cabeceras sin foto: fondo de azulejos valencianos (estrella de ocho puntas,
    flor central y pétalos en las esquinas, azul y oro sobre el azul marino).
    El degradado de encima los apaga hacia los bordes y deja el título limpio. */

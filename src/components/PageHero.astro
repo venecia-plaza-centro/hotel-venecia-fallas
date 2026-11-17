@@ -1,8 +1,8 @@
 ---
 import GoldRule from './GoldRule.astro';
 
-interface Props { title: string; lead?: string; leadItalic?: boolean; leadStrong?: boolean; photo?: string; accent?: string; shine?: boolean; }
-const { title, lead, leadItalic = false, leadStrong = false, photo, accent, shine = false } = Astro.props;
+interface Props { title: string; lead?: string; leadItalic?: boolean; leadStrong?: boolean; photo?: string; accent?: string; shine?: boolean; tall?: boolean; }
+const { title, lead, leadItalic = false, leadStrong = false, photo, accent, shine = false, tall = false } = Astro.props;
 
 // "balcón"/"balcony"/"balcone"/"Balkon" en cursiva y dorado dentro del título,
 // igual que el acento del h1 de Home (lo llevan Balcones y Reservar). Con `accent`
@@ -26,7 +26,7 @@ const leadHtml = lead?.replace(/\{br\}/g, '<br class="lead-br">').replace(
 );
 ---
 
-<section class={`page-hero${photo ? ' has-photo' : ''}`}>
+<section class={`page-hero${photo ? ' has-photo' : ''}${photo && tall ? ' is-tall' : ''}`}>
   {photo && <img class="page-hero-photo" src={photo} alt="" aria-hidden="true" />}
   <div class="container">
     <h1 set:html={titleHtml} />
