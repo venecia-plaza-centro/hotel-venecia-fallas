@@ -37,11 +37,10 @@ export const PAGES: PageDef[] = [
   {
     id: 'spaces',
     slug: { es: 'espacios', en: 'spaces', it: 'spazi', fr: 'espaces', de: 'raeume' },
-    // OCULTA hasta que la página esté completa (reserva, Airtable, emails):
-    // fuera del menú y del pie, y en NOINDEX_PAGES (sin indexar ni sitemap).
-    // Al lanzarla: inNav/inFooter a true y quitar 'spaces' de NOINDEX_PAGES.
-    inNav: false,
-    inFooter: false,
+    // Lanzada: en el menú y en el pie, e indexable. Las ventas las abre el interruptor
+    // SPACES_OPEN de Vercel (ver src/lib/sales.ts), no esta lista.
+    inNav: true,
+    inFooter: true,
   },
   {
     id: 'rooms',
@@ -124,7 +123,7 @@ export const PAGES: PageDef[] = [
 ];
 
 /** Páginas que no se indexan (legales, y «espacios» mientras esté oculta): `noindex` en la página y fuera del sitemap. */
-export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice', 'spaces'];
+export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice'];
 
 export const PAGE_BY_ID = Object.fromEntries(PAGES.map((p) => [p.id, p])) as Record<PageId, PageDef>;
 
