@@ -20,8 +20,10 @@ const isBook = pageId === 'book';
 // La página de Balcones usa la cabecera de Home ya "scrolleada" desde el
 // principio: marca a la izquierda y botón Reservar siempre visible.
 const isRooms = pageId === 'rooms';
-// "Reservar" (cabecera y menú móvil) lleva siempre a la página de reserva.
-const bookHref = pagePath('book', lang);
+// "Reservar" (cabecera y menú móvil) lleva a la página de reserva de balcones, salvo en la
+// página de Espacios: ahí baja a la lista de espacios, donde cada uno tiene su propio
+// botón «Reservar este espacio» (el alquiler de un espacio se reserva por espacio).
+const bookHref = pageId === 'spaces' ? '#espacios-vistazo' : pagePath('book', lang);
 ---
 
 <nav class={`nav${isHome || isRooms ? ' nav-home' : ''}${isBook ? ' nav-minimal' : ''}${isRooms ? ' is-scrolled' : ''}`} data-always-scrolled={isRooms ? 'true' : undefined}>
