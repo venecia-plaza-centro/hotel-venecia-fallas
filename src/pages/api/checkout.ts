@@ -12,7 +12,7 @@ import { clientIp, isRateLimited } from '../../lib/rate-limit';
 
 export const prerender = false;
 
-const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const EMAIL_RE = /^[^@\s,;<>\"()]+@[^@\s,;<>\"()]+\.[^@\s,;<>\"()]+$/;
 const str = (v: unknown, max = 200) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 
 // Mismos topes que viajan en los datos del pago (ver `cut` más abajo): así lo

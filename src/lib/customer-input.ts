@@ -8,7 +8,7 @@
 import { DEFAULT_LOCALE, type Locale } from '../consts';
 import { isLocale } from './booking';
 
-const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const EMAIL_RE = /^[^@\s,;<>\"()]+@[^@\s,;<>\"()]+\.[^@\s,;<>\"()]+$/;
 const MAX = { name: 60, email: 100, phone: 30, country: 40, notes: 200 } as const;
 const str = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 

@@ -283,7 +283,7 @@ function init() {
     const bad: string[] = [];
     if (!payload.firstName) bad.push('firstName');
     if (!payload.lastName) bad.push('lastName');
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(payload.email)) bad.push('email');
+    if (!/^[^@\s,;<>\"()]+@[^@\s,;<>\"()]+\.[^@\s,;<>\"()]+$/.test(payload.email)) bad.push('email');
     if (payload.phone.replace(/\D/g, '').length < 6) bad.push('phone');
     const mark = (names: string[]) => names.forEach((n) => form.querySelector(`[name="${n}"]`)?.classList.add('invalid'));
     if (bad.length) {
