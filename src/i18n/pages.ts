@@ -37,12 +37,11 @@ export const PAGES: PageDef[] = [
   {
     id: 'spaces',
     slug: { es: 'espacios', en: 'spaces', it: 'spazi', fr: 'espaces', de: 'raeume' },
-    // OCULTA otra vez hasta nueva orden: fuera del menú y del pie, y en NOINDEX_PAGES (sin
-    // indexar ni sitemap). La página sigue existiendo para quien tenga el enlace directo, y no
-    // se puede pagar mientras SPACES_OPEN no sea true en Vercel (ver src/lib/sales.ts).
-    // Para lanzarla: inNav/inFooter a true y quitar 'spaces' de NOINDEX_PAGES.
-    inNav: false,
-    inFooter: false,
+    // VISIBLE: en el menú, en el pie y indexable. Se puede pagar solo si SPACES_OPEN=true en
+    // Vercel (ver src/lib/sales.ts). Para ocultarla otra vez: inNav/inFooter a false y añadir
+    // 'spaces' a NOINDEX_PAGES.
+    inNav: true,
+    inFooter: true,
   },
   {
     id: 'rooms',
@@ -124,8 +123,8 @@ export const PAGES: PageDef[] = [
   },
 ];
 
-/** Páginas que no se indexan (legales, y «espacios» mientras esté oculta): `noindex` en la página y fuera del sitemap. */
-export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice', 'spaces'];
+/** Páginas que no se indexan (legales): `noindex` en la página y fuera del sitemap. */
+export const NOINDEX_PAGES: PageId[] = ['terms', 'cancellation', 'privacy', 'legalnotice'];
 
 export const PAGE_BY_ID = Object.fromEntries(PAGES.map((p) => [p.id, p])) as Record<PageId, PageDef>;
 
