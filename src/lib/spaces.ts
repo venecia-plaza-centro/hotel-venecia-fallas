@@ -32,6 +32,8 @@ export interface Space {
   days: number[];
   /** Hay recorte de fachada con la ubicación del espacio. */
   hasFacade: boolean;
+  /** Hay plano del espacio (por defecto sí). En false no se enseña la pestaña «Plano». */
+  hasPlan?: boolean;
   /** Orden en el listado (menor primero). La descripción de cada espacio es la
    *  clave `spaces.desc.<número>` en src/i18n/ui.ts. */
   order: number;
@@ -52,7 +54,7 @@ const FIXTURES: Space[] = [
   { slug: 'espacio-704', number: '704', floor: 7, m2: 20, capacity: 20, price: 1350, days: [1, 2], hasFacade: true, order: 8 },
   { slug: 'espacio-800', number: '800', floor: 8, m2: 18, capacity: 15, price: 975, days: [8, 9, 10, 11], hasFacade: true, order: 9 },
   { slug: 'espacio-801', number: '801', floor: 8, m2: 18, capacity: 15, price: 975, days: [], hasFacade: true, order: 10 },
-  { slug: 'espacio-802', number: '802', floor: 8, m2: 18, capacity: 15, price: 975, days: [2, 3, 4, 8, 9], hasFacade: true, order: 11 },
+  { slug: 'espacio-802', number: '802', floor: 8, m2: 18, capacity: 15, price: 975, days: [2, 3, 4, 8, 9], hasFacade: true, hasPlan: false, order: 11 }, // plano real pendiente
 ];
 
 /**

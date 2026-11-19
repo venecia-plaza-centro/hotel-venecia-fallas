@@ -127,7 +127,9 @@ const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
                 {s.hasFacade && (
                   <img class="contain" src={`/images/espacios/${s.number}/fachada.webp`} alt={fill(t('spaces.card.facade.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
                 )}
-                <img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
+                {s.hasPlan !== false && (
+                  <img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt={fill(t('spaces.card.plan.alt'), { n: s.number })} aria-hidden="true" loading="lazy" decoding="async" />
+                )}
               </div>
               <div class="thumbs">
                 <button type="button" class="thumb on" aria-pressed="true">
@@ -140,10 +142,12 @@ const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
                     <span class="t">{t('spaces.card.facade.short')}</span>
                   </button>
                 )}
-                <button type="button" class="thumb" aria-pressed="false">
-                  <span class="im"><img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt="" loading="lazy" decoding="async" /></span>
-                  <span class="t">{t('spaces.card.plan')}</span>
-                </button>
+                {s.hasPlan !== false && (
+                  <button type="button" class="thumb" aria-pressed="false">
+                    <span class="im"><img class="contain" src={`/images/espacios/${s.number}/plano.webp`} alt="" loading="lazy" decoding="async" /></span>
+                    <span class="t">{t('spaces.card.plan')}</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
