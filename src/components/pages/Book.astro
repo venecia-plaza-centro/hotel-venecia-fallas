@@ -3,6 +3,7 @@ import { FALLAS, type Locale } from '../../consts';
 import { pagePath } from '../../i18n/pages';
 import { dictFor, useT } from '../../i18n/ui';
 import { FIRST_DAY, LAST_DAY } from '../../lib/booking';
+import { turnstileSiteKey } from '../../lib/turnstile';
 import PageHero from '../PageHero.astro';
 import SpaceBook from '../SpaceBook.astro';
 
@@ -22,6 +23,8 @@ const config = {
   accessStart: FALLAS.accessStart,
   accessEnd: FALLAS.accessEnd,
   mascletaTime: FALLAS.mascletaTime,
+  // Clave pública de Cloudflare Turnstile ('' = captcha desactivado).
+  turnstileSiteKey: turnstileSiteKey(),
   urls: {
     terms: pagePath('terms', lang),
     privacy: pagePath('privacy', lang),
@@ -149,6 +152,7 @@ const windowSentences = t('book.date.window')
                 .replace('{terms}', `<a href="${config.urls.terms}" target="_blank" rel="noopener">${t('book.details.consent.terms')}</a>`)
                 .replace('{privacy}', `<a href="${config.urls.privacy}" target="_blank" rel="noopener">${t('book.details.consent.privacy')}</a>`)} />
             </label>
+            <div class="ts-box" id="ts-room"></div>
             <p class="err" data-err="details" role="alert"></p>
             <div class="actions">
               <button type="button" class="btn btn-ghost" data-nav="room">{t('book.details.back')}</button>
@@ -219,6 +223,7 @@ const windowSentences = t('book.date.window')
   import '../../scripts/room-carousel';
   // Reserva de espacios (?espacio=…): en ese modo este script de balcones no arranca.
   import '../../scripts/space-book';
+  import { setupTurnstile } from '../../scripts/turnstile';
   import { isSpaceMode } from '../../scripts/space-mode';
 
   // Astro empaqueta este script junto al de otros componentes (Nav, RoomCard...)
@@ -229,6 +234,7 @@ const windowSentences = t('book.date.window')
   if (document.getElementById('book-config') && !isSpaceMode()) {
   const cfg = JSON.parse(document.getElementById('book-config').textContent);
   const T = JSON.parse(document.getElementById('book-i18n').textContent);
+  const captcha = setupTurnstile(document.getElementById('ts-room'), cfg.turnstileSiteKey, cfg.locale);
 
   const fmt = (key, vars = {}) =>
     (T[key] || key).replace(/\{(\w+)\}/g, (_, k) => (k in vars ? vars[k] : ''));
@@ -710,6 +716,7 @@ const windowSentences = t('book.date.window')
       notes: (fd.get('notes') || '').trim(),
       consent: fd.get('consent') === 'on',
       lang: cfg.locale,
+      turnstileToken: captcha.token(),
     };
 
     const bad = [];
@@ -722,6 +729,7 @@ const windowSentences = t('book.date.window')
       return setErr('details', T['book.details.err.fields']);
     }
     if (!payload.consent) return setErr('details', T['book.details.err.consent']);
+    if (captcha.active && !payload.turnstileToken) return setErr('details', T['book.err.captcha']);
 
     const btn = $('#details-submit');
     loading(btn, true, T['book.details.sending']);
@@ -768,12 +776,15 @@ const windowSentences = t('book.date.window')
         showTaken('details');
       } else if (data.error === 'servicio') {
         setErr('details', T['book.err.service']);
+      } else if (data.error === 'captcha') {
+        setErr('details', T['book.err.captcha']);
       } else {
         setErr('details', T['book.err.generic']);
       }
     } catch {
       setErr('details', T['book.err.service']);
     } finally {
+      captcha.reset();
       loading(btn, false);
     }
   });

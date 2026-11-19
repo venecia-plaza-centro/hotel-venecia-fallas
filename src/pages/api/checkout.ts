@@ -9,6 +9,7 @@ import { handleError, json } from '../../lib/api';
 import { salesStatus } from '../../lib/sales';
 import { spaceCheckout } from '../../lib/space-booking';
 import { clientIp, isRateLimited } from '../../lib/rate-limit';
+import { verifyTurnstile } from '../../lib/turnstile';
 
 export const prerender = false;
 
@@ -65,6 +66,9 @@ export const POST: APIRoute = async ({ request, url }) => {
   } catch {
     return json({ ok: false, error: 'json' }, 400);
   }
+
+  // Captcha (Cloudflare Turnstile), si está activo: sin token válido no se bloquea nada.
+  if (!(await verifyTurnstile(body.turnstileToken, clientIp(request)))) return json({ ok: false, error: 'captcha' }, 403);
 
   // Alquiler de un espacio entero: flujo propio (lib/space-booking.ts); el de balcones, más abajo, no cambia.
   if (body.kind === 'space') return spaceCheckout(body, url);

@@ -165,6 +165,7 @@ const drinks = t('spaces.catering.drinks').split('|');
             <button type="button" class="btn btn-gold taken-cta" id="space-taken-cta">{t('spaces.taken.cta')}</button>
           </div>
 
+          <div class="ts-box" id="ts-space"></div>
           <p class="err" id="space-err-details" role="alert"></p>
           <div class="actions">
             <button type="button" class="btn btn-ghost" data-sback>{t('book.details.back')}</button>
@@ -284,6 +285,8 @@ const drinks = t('spaces.catering.drinks').split('|');
     .book .cat-drink { flex-direction: column; gap: 4px; text-align: center; font-size: 10px; letter-spacing: .05em; }
     .book .cat-band-item { flex-direction: column; gap: 4px; text-align: center; font-size: 10.5px; letter-spacing: .08em; }
   }
+  /* Captcha de Cloudflare (solo existe si hay claves): centrado sobre el botón de pago. */
+  .book .ts-box:not(:empty) { display: flex; justify-content: center; margin: 18px 0 0; }
   .space-uniform { display: none; }
   /* Móvil, todos los días al mismo precio: casillas compactas de 4 en 4 (el precio y el mes van arriba, una sola vez). */
   @media (max-width: 600px) {

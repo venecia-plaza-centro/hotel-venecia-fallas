@@ -5,6 +5,7 @@
  * enseña. El flujo de balcones (Book.astro) no se toca: en modo espacio no arranca.
  */
 import { isSpaceMode, spaceNumberFromUrl } from './space-mode';
+import { setupTurnstile } from './turnstile';
 
 interface Day { date: string; price: number; available: boolean }
 interface Offer { slug: string; number: string; capacity: number; cateringPrice?: number; cateringMin?: number; days: Day[] }
@@ -80,6 +81,7 @@ function init() {
   let selected: Day | null = null;
 
   const taken = $('#space-taken');
+  const captcha = setupTurnstile(document.getElementById('ts-space'), cfg.turnstileSiteKey, cfg.locale);
 
   // ---- Catering opcional ---------------------------------------------------
   const catBox = $('#space-catering');
@@ -279,6 +281,7 @@ function init() {
       cateringGuests: cateringGuests(),
       consent: fd.get('consent') === 'on',
       lang: cfg.locale,
+      turnstileToken: captcha.token(),
     };
     const bad: string[] = [];
     if (!payload.firstName) bad.push('firstName');
@@ -291,6 +294,7 @@ function init() {
       return setErr('space-err-details', T['book.details.err.fields']);
     }
     if (!payload.consent) return setErr('space-err-details', T['book.details.err.consent']);
+    if (captcha.active && !payload.turnstileToken) return setErr('space-err-details', T['book.err.captcha']);
 
     const btn = $<HTMLButtonElement>('#space-submit');
     const label = btn.textContent;
@@ -341,12 +345,15 @@ function init() {
         setErr('space-err-details', T['book.err.ratelimit']);
       } else if (data.error === 'servicio') {
         setErr('space-err-details', T['book.err.service']);
+      } else if (data.error === 'captcha') {
+        setErr('space-err-details', T['book.err.captcha']);
       } else {
         setErr('space-err-details', T['book.err.generic']);
       }
     } catch {
       setErr('space-err-details', T['book.err.service']);
     } finally {
+      captcha.reset();
       btn.disabled = false;
       btn.textContent = label;
     }

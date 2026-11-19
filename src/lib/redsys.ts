@@ -37,6 +37,14 @@ const CONSUMER_LANGUAGE: Record<string, string> = { es: '001', en: '002', fr: '0
 
 // --- firma -------------------------------------------------------------
 
+/** El token de vuelta del pago caduca a las 24 h (la pantalla de confirmación se pinta al volver del banco). */
+const RETURN_TOKEN_TTL_MS = 24 * 60 * 60_000;
+
+/** Clave propia del token de vuelta, derivada de la del comercio: así la clave de Redsys no se usa tal cual para otra cosa. */
+function returnTokenKey(): Buffer {
+  return createHmac('sha256', requireKey()).update('fallas-return-token-v1').digest();
+}
+
 function requireKey(): string {
   if (!SECRET_KEY) throw new Error('REDSYS_SECRET_KEY no configurada');
   return SECRET_KEY;
@@ -232,19 +240,28 @@ export function maskEmail(email: string): string {
  *  Viajan en la URL firmados con la clave del comercio: no se pueden
  *  inventar ni alterar. */
 export function signReturnToken(data: Record<string, unknown>): string {
-  const body = Buffer.from(JSON.stringify(data), 'utf8').toString('base64url');
-  const sig = createHmac('sha256', requireKey()).update(body).digest('base64url');
+  const body = Buffer.from(JSON.stringify({ ...data, exp: Date.now() + RETURN_TOKEN_TTL_MS }), 'utf8').toString('base64url');
+  const sig = createHmac('sha256', returnTokenKey()).update(body).digest('base64url');
   return `${body}.${sig}`;
 }
 
 export function readReturnToken(token: string): Record<string, any> | null {
   const [body, sig] = token.split('.');
   if (!body || !sig) return null;
-  const expected = createHmac('sha256', requireKey()).update(body).digest('base64url');
-  if (!safeEqual(sig, expected)) return null;
+  let data: Record<string, any>;
   try {
-    return JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
+    data = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
   } catch {
     return null;
   }
+  const ok = safeEqual(sig, createHmac('sha256', returnTokenKey()).update(body).digest('base64url'));
+  // TRANSITORIO (quitar a partir del 2026-11-22): tokens emitidos antes de este cambio,
+  // firmados con la clave directa y sin caducidad, de clientes que estaban pagando al desplegar.
+  const legacy =
+    !ok &&
+    data.exp === undefined &&
+    safeEqual(sig, createHmac('sha256', requireKey()).update(body).digest('base64url'));
+  if (!ok && !legacy) return null;
+  if (typeof data.exp === 'number' && data.exp < Date.now()) return null;
+  return data;
 }
