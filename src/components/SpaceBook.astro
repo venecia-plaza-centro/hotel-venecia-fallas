@@ -49,6 +49,11 @@ const drinks = t('spaces.catering.drinks').split('|');
       <div data-sstep-panel="date" class="panel space-panel">
         <h2 tabindex="-1">{t('book.date.title')}</h2>
         <p class="hint space-notice" id="space-notice"></p>
+        <!-- Solo en móvil y cuando todos los días cuestan lo mismo: precio y mes una sola vez. -->
+        <div class="space-uniform" id="space-uniform" hidden>
+          <p class="space-uniform-price"><b id="space-uniform-amount"></b><span>{t('spaces.card.perday')}</span></p>
+          <p class="space-uniform-month" id="space-uniform-month"></p>
+        </div>
         <div class="space-days" id="space-days" role="group" aria-label={t('book.date.date')}></div>
         <p class="err" id="space-err-date" role="alert"></p>
         <div class="actions">
@@ -278,6 +283,19 @@ const drinks = t('spaces.catering.drinks').split('|');
     .book .cat-list li { font-size: 12px; letter-spacing: .1em; }
     .book .cat-drink { flex-direction: column; gap: 4px; text-align: center; font-size: 10px; letter-spacing: .05em; }
     .book .cat-band-item { flex-direction: column; gap: 4px; text-align: center; font-size: 10.5px; letter-spacing: .08em; }
+  }
+  .space-uniform { display: none; }
+  /* Móvil, todos los días al mismo precio: casillas compactas de 4 en 4 (el precio y el mes van arriba, una sola vez). */
+  @media (max-width: 600px) {
+    .space-uniform:not([hidden]) { display: block; margin-top: 16px; }
+    .space-uniform-price { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 0 12px; padding: 9px 12px; background: #FBF8F1; border: 1px solid #D9D2BD; border-radius: 12px; font-size: 13px; color: var(--text-mid); }
+    .space-uniform-price b { font-family: var(--ff-display); font-size: 22px; color: var(--navy); }
+    .space-uniform-month { margin: 0 0 8px; text-align: center; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--text-mid); }
+    .space-days.is-uniform { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin-top: 0; }
+    .space-days.is-uniform .space-day { min-width: 0; flex: none; padding: 6px 0; gap: 0; border-radius: 12px; }
+    .space-days.is-uniform .space-day .sd-wd { font-size: 10px; letter-spacing: .08em; }
+    .space-days.is-uniform .space-day .sd-n { font-size: 24px; }
+    .space-days.is-uniform .space-day .sd-m, .space-days.is-uniform .space-day .sd-p { display: none; }
   }
   @media (max-width: 480px) { .space-day { min-width: 0; flex: 1 1 130px; } .book .space-panel .actions .btn { flex: 1 1 100%; } }
 </style>

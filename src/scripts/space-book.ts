@@ -121,6 +121,16 @@ function init() {
   function renderDays() {
     const box = $('#space-days');
     box.replaceChildren();
+    // Todos los días al mismo precio: en móvil el precio y el mes salen una vez arriba (ver el CSS).
+    const uniform = offer!.days.length > 1 && offer!.days.every((d) => d.price === offer!.days[0].price);
+    box.classList.toggle('is-uniform', uniform);
+    const uni = $('#space-uniform');
+    uni.hidden = !uniform;
+    if (uniform) {
+      $('#space-uniform-amount').textContent = money(offer!.days[0].price);
+      const m = new Intl.DateTimeFormat(cfg.locale, { month: 'long', year: 'numeric' }).format(new Date(`${offer!.days[0].date}T00:00:00`));
+      $('#space-uniform-month').textContent = m;
+    }
     for (const d of offer!.days) {
       const dt = new Date(`${d.date}T00:00:00`);
       const b = document.createElement('button');
