@@ -1,0 +1,5 @@
+Nombre,Slug,Numero,Aforo,Precio,Dias,Precio especial,Dias precio especial,Orden,Activo
+Espacio 704,espacio-704,704,20,1350,"1,2",,,8,
+Espacio 800,espacio-800,800,15,975,"8,9,10,11",,,9,
+Espacio 801,espacio-801,801,15,975,,,,10,
+Espacio 802,espacio-802,802,15,975,"2,3,4,8,9",,,11,

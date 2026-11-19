@@ -102,6 +102,44 @@ En Vercel (Settings → Environment Variables):
 
 Después hay que **volver a desplegar** para que Vercel la lea (igual que `SALES_OPEN`).
 
+## 6. Ampliación: espacios 704, 800, 801 y 802 (pendiente de datos del hotel)
+
+La web ya tiene sus fotos, planos (falta el de la 802), fachadas y textos.
+Aún **no existen en Airtable**, así que no se muestran. Para añadirlos:
+
+1. Importar `docs/espacios-nuevos.csv` en la tabla `Espacios` (*Import data →
+   CSV file → Add to an existing table*) o crear las 4 filas a mano. **Los
+   `Dias` hay que dejarlos como Multiple select** (si se importan como número,
+   aparecen mal).
+2. Rellenar **`Aforo` y `Precio`** de cada uno con los datos del hotel. Si se
+   dejan vacíos, la web usa valores provisionales de `src/lib/spaces.ts`
+   (marcados como PROVISIONAL): no activar ninguno sin haberlos rellenado.
+3. Con todo confirmado (también los m² en `src/lib/spaces.ts` y en los textos
+   de la 800-802), marcar **`Activo`**.
+
+Datos definitivos del hotel (`Habitaciones y disponibilidad 19.11.xlsx`). Ya están
+cargados en Airtable; los espacios nuevos (704, 800, 801, 802) están creados
+**sin marcar `Activo`**.
+
+| Espacio | Precio | Aforo | Días de marzo |
+|---|---|---|---|
+| 109 | 750 | 12 | 1 al 9 |
+| 208 | 750 | 12 | 1, 2, 4 y 7 |
+| 209 y 210 | — | — | **Quitados de la venta** (siguen en el Excel del hotel; el 210 está en Airtable con `Activo` desmarcado) |
+| 408 | 900 | 15 | 14 |
+| 506 | 1300 | 20 | 1 y 2 |
+| 602 | 400 | 8 | 1 al 8 y 10 al 19 |
+| 605 | 1300 | 20 | 1 y 2 |
+| 704 | 1350 | 20 | 1 y 2 |
+| 800 | 975 | 15 | 8, 9, 10 y 11 |
+| 801 | 975 | 15 | ninguno de momento |
+| 802 | 975 | 15 | 2, 3, 4, 8 y 9 |
+
+**Cerrar todos los días de un espacio:** desmarcar `Activo`. Si se deja `Dias` vacío,
+la web usa los días de respaldo de `src/lib/spaces.ts`.
+
+Catering aparte: 28 € por persona (nota del Excel).
+
 ### Lista para el lanzamiento
 1. Tabla `Espacios` creada y campo `Espacio` en `Reservas` (apartados 1 y 2).
 2. `/api/spaces` devuelve los datos de Airtable (no el respaldo).

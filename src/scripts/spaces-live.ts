@@ -69,6 +69,18 @@ export function applyLive(spaces: LiveSpace[], cfg: LiveConfig, root: Document =
   root.querySelectorAll<HTMLElement>('article.space').forEach((a) => a.classList.toggle('is-first', a === visible[0]));
 }
 
+/** Marca como «Sin disponibilidad» los espacios que no tienen ningún día libre (o ningún día). */
+interface AvailSpace { number: string; days: { available: boolean }[] }
+export function applySoldOut(spaces: AvailSpace[], root: Document = document) {
+  const soldOut = new Set(spaces.filter((s) => s.days.every((d) => !d.available)).map((s) => s.number));
+  root.querySelectorAll<HTMLElement>('[data-space]').forEach((el) => {
+    const out = soldOut.has(el.dataset.space || '');
+    el.classList.toggle('is-soldout', out);
+    const badge = el.querySelector<HTMLElement>('.glance-soldout, .space-soldout');
+    if (badge) badge.hidden = !out;
+  });
+}
+
 const cfgEl = document.getElementById('spaces-live-config');
 if (cfgEl) {
   const cfg = JSON.parse(cfgEl.textContent || '{}') as LiveConfig;
@@ -79,3 +91,10 @@ if (cfgEl) {
     })
     .catch(() => {});
 }
+
+fetch('/api/space-availability')
+  .then((r) => r.json())
+  .then((data) => {
+    if (data?.ok && Array.isArray(data.spaces)) applySoldOut(data.spaces);
+  })
+  .catch(() => {});

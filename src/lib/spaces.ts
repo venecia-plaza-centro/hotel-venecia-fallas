@@ -37,15 +37,22 @@ export interface Space {
   order: number;
 }
 
-/** Datos del Excel del hotel: base y respaldo. */
+/** Datos del Excel del hotel (19/11/2026, definitivo): base y respaldo. */
 const FIXTURES: Space[] = [
-  { slug: 'espacio-109', number: '109', floor: 1, m2: 16, capacity: 12, price: 750, days: [1, 2], hasFacade: true, order: 1 },
-  { slug: 'espacio-208', number: '208', floor: 2, m2: 16, capacity: 12, price: 750, days: [1, 2], hasFacade: true, order: 2 },
-  { slug: 'espacio-210', number: '210', floor: 2, m2: 10, capacity: 8, price: 480, priceByDay: { 14: 500 }, days: [1, 2, 3, 14], hasFacade: true, order: 3 },
-  { slug: 'espacio-408', number: '408', floor: 4, m2: 30, capacity: 15, price: 920, days: [14], hasFacade: true, order: 4 },
+  { slug: 'espacio-109', number: '109', floor: 1, m2: 16, capacity: 12, price: 750, days: [1, 2, 3, 4, 5, 6, 7, 8, 9], hasFacade: true, order: 1 },
+  { slug: 'espacio-208', number: '208', floor: 2, m2: 16, capacity: 12, price: 750, days: [1, 2, 4, 7], hasFacade: true, order: 2 },
+  { slug: 'espacio-408', number: '408', floor: 4, m2: 30, capacity: 15, price: 900, days: [14], hasFacade: true, order: 4 },
   { slug: 'espacio-506', number: '506', floor: 5, m2: 35, capacity: 20, price: 1300, days: [1, 2], hasFacade: false, order: 5 },
-  { slug: 'espacio-602', number: '602', floor: 6, m2: 20, capacity: 8, price: 480, days: [1, 2, 3], hasFacade: true, order: 6 },
+  { slug: 'espacio-602', number: '602', floor: 6, m2: 20, capacity: 8, price: 400, days: [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], hasFacade: true, order: 6 },
   { slug: 'espacio-605', number: '605', floor: 6, m2: 40, capacity: 20, price: 1300, days: [1, 2], hasFacade: true, order: 7 },
+  // 704, 800, 801 y 802: precio, aforo y días ya son los del hotel. PROVISIONAL: solo los
+  // m² de 800, 801 y 802 (el hotel da «15-22 m²» sin concretar): confirmarlos antes de
+  // activar estos espacios en Airtable (hasta entonces no se muestran). El 801 no tiene
+  // ningún día libre de momento.
+  { slug: 'espacio-704', number: '704', floor: 7, m2: 20, capacity: 20, price: 1350, days: [1, 2], hasFacade: true, order: 8 },
+  { slug: 'espacio-800', number: '800', floor: 8, m2: 18, capacity: 15, price: 975, days: [8, 9, 10, 11], hasFacade: true, order: 9 },
+  { slug: 'espacio-801', number: '801', floor: 8, m2: 18, capacity: 15, price: 975, days: [], hasFacade: true, order: 10 },
+  { slug: 'espacio-802', number: '802', floor: 8, m2: 18, capacity: 15, price: 975, days: [2, 3, 4, 8, 9], hasFacade: true, order: 11 },
 ];
 
 /**

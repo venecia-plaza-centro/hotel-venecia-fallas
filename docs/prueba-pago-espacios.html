@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Prueba de pago de Espacios</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm; }
+  * { box-sizing: border-box; }
+  body { font: 10.4px/1.38 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #1a1a2e; margin: 0; }
+  h1 { font: 700 19px/1.1 Georgia, serif; margin: 0 0 2px; color: #1B2A4A; }
+  .sub { color: #5a6478; margin: 0 0 8px; font-size: 10.5px; }
+  .warn { background: #FFF4D6; border: 1px solid #C9A246; border-radius: 6px; padding: 5px 9px; margin: 0 0 8px; font-weight: 600; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+  .box { border: 1px solid #d9d2bd; border-radius: 7px; padding: 6px 9px 7px; break-inside: avoid; }
+  .box h2 { font: 700 11px/1.2 Georgia, serif; margin: 0 0 4px; color: #1B2A4A; text-transform: uppercase; letter-spacing: .04em; }
+  table { border-collapse: collapse; width: 100%; }
+  td { padding: 1.5px 0; vertical-align: top; }
+  td:first-child { color: #5a6478; width: 38%; padding-right: 6px; }
+  td b, .mono { font-family: "SF Mono", Menlo, monospace; font-size: 10px; }
+  ol, ul { margin: 0; padding-left: 15px; }
+  li { margin: 1.5px 0; }
+  .full { grid-column: 1 / -1; }
+  .ok { color: #1b7a3d; font-weight: 700; }
+  .no { color: #b3261e; font-weight: 700; }
+  .check { list-style: none; padding-left: 0; }
+  .check li::before { content: "☐ "; }
+  footer { margin-top: 7px; color: #7a8294; font-size: 9px; }
+</style>
+</head>
+<body>
+
+<h1>Prueba de pago de Espacios</h1>
+<p class="sub">Entorno de pruebas de Redsys: no se cobra nada. Hotel Venecia Plaza Centro · Mascletàs 2027</p>
+
+<p class="warn">Antes de empezar: avisar al hotel de que recibirá un aviso «[Reserva pagada] Nuevo espacio…» en fallas@ y reservas@. Es de prueba.</p>
+
+<div class="grid">
+
+  <div class="box">
+    <h2>1 · Dónde se prueba</h2>
+    <table>
+      <tr><td>Página</td><td><b>hotel-venecia-fallas-git-feat-46c48d-karlcoonibz-6640s-projects.vercel.app/espacios/</b></td></tr>
+      <tr><td>Antes de pagar</td><td>La página del banco debe empezar por <b>sis-t.redsys.es:25443</b></td></tr>
+      <tr><td>Si pone</td><td><span class="no">sis.redsys.es</span> (sin la «-t») = <span class="no">modo real: NO meter tarjeta</span></td></tr>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>2 · Tarjeta de prueba (Redsys)</h2>
+    <table>
+      <tr><td>Pago autorizado</td><td><b>4548 8100 0000 0003</b> (Visa)</td></tr>
+      <tr><td>Caducidad</td><td><b>12/49</b></td></tr>
+      <tr><td>CVV</td><td><b>123</b></td></tr>
+      <tr><td>Pago denegado</td><td>La misma tarjeta con CVV <b>999</b></td></tr>
+      <tr><td>Autenticación</td><td>En el simulador, elegir «autenticar con éxito». No hay clave.</td></tr>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>3 · Reserva a hacer</h2>
+    <table>
+      <tr><td>Prueba 1</td><td>Espacio <b>602</b>, día <b>1</b> de marzo · <b>480 €</b></td></tr>
+      <tr><td>Prueba 2 (precio especial)</td><td>Espacio <b>210</b>, día <b>14</b> · <b>500 €</b></td></tr>
+      <tr><td>Nombre</td><td>Prueba Hotel</td></tr>
+      <tr><td>Email</td><td>el de quien prueba (llega la confirmación)</td></tr>
+      <tr><td>Teléfono, país</td><td>cualquiera</td></tr>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>4 · Pagos de prueba, en orden</h2>
+    <ol>
+      <li><b>Autorizado</b>: CVV 123 → debe confirmarse.</li>
+      <li><b>Denegado</b>: CVV 999 → no debe confirmarse.</li>
+      <li><b>Bloqueo</b>: con un pago a medias, abrir la web en otro navegador y pedir el mismo espacio y día → debe salir «ya no disponible».</li>
+    </ol>
+  </div>
+
+  <div class="box full">
+    <h2>5 · Qué debe pasar tras el pago autorizado</h2>
+    <ul class="check">
+      <li>Vuelve a la web con la pantalla de confirmación y un localizador <b>FAL-xxx</b>.</li>
+      <li><b>Airtable → Reservas</b>: Estado <b>confirmada</b>, Pago <b>pagado</b>, Importe total <b>480</b>, campo <b>Espacio</b> = Espacio 602, y rellenados <b>Pedido Redsys</b> y <b>Codigo autorizacion</b>.</li>
+      <li><b>Email al cliente</b>: «Espacio reservado FAL-xxx · Mascletàs 2027».</li>
+      <li><b>Email al hotel</b> (fallas@ y reservas@): «[Reserva pagada] Nuevo espacio FAL-xxx · 2027-03-01 · esp. 602».</li>
+      <li><b>Panel de cobros</b> (Airtable → Interfaces → Cobros): el total y las reservas pagadas suben.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>6 · Tras el pago denegado</h2>
+    <ul class="check">
+      <li>Vuelve a la web con el aviso de pago cancelado.</li>
+      <li>En Airtable la reserva <b>no</b> queda como confirmada y pagada.</li>
+      <li>El espacio vuelve a poder reservarse (el bloqueo dura 15 minutos).</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>7 · Al terminar</h2>
+    <ul class="check">
+      <li>Poner las reservas de prueba como <b>cancelada</b> en Airtable (si no, suman en el panel de cobros).</li>
+      <li>Reactivar la protección en Vercel: Settings → Deployment Protection → hotel-venecia-fallas.</li>
+      <li>Comprobar en el portal de pruebas de Redsys (Consultas) que figuran las operaciones.</li>
+    </ul>
+  </div>
+
+  <div class="box full">
+    <h2>8 · Si algo falla</h2>
+    <table>
+      <tr><td>El banco rechaza al entrar</td><td>Casi seguro la <b>clave de firma</b> de Redsys en Vercel (variable de Preview). Copiar la de pruebas y redesplegar.</td></tr>
+      <tr><td>Pago bien, reserva sin confirmar</td><td>El aviso del banco no llega: ver Redsys → Consultas → Notificación, y que la protección de Vercel esté desactivada.</td></tr>
+      <tr><td>No llegan correos</td><td>Revisar <span class="mono">RESEND_API_KEY</span> y <span class="mono">EMAIL_FROM</span> en las variables de <b>Preview</b>.</td></tr>
+      <tr><td>La página no abre o sale cerrada</td><td>Revisar <span class="mono">SPACES_OPEN</span> y <span class="mono">SALES_OPEN</span> = true en Preview, y que el despliegue de <span class="mono">feature/espacios</span> esté en Ready.</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>Comercio de pruebas Redsys 263100000 · terminal 72 · Portal de pruebas: https://sis-t.redsys.es:25443/canales · La clave de firma y las contraseñas no se escriben aquí.</footer>
+
+</body>
+</html>

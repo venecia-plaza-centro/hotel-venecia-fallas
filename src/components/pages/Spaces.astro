@@ -38,6 +38,9 @@ const ICONS: Record<string, string> = {
   decor: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-9 9"/>',
 };
 const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
+// «Espacio exclusivo»: dos frases; en escritorio van cada una en su línea (en móvil fluye como un párrafo).
+const wholeText = fill(t('spaces.info.whole.t'), hoursVars).replace(/^./, (c) => c.toUpperCase());
+const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
 ---
 
 <PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall scrollLabel={t('home.discover')} scrollHref="#espacios-info" rule={false} />
@@ -53,7 +56,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
       <span class="ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS.whole} /></span>
       <div>
         <h3>{t('spaces.info.whole.l')}</h3>
-        <p>{fill(t('spaces.info.whole.t'), hoursVars).replace(/^./, (c) => c.toUpperCase())}</p>
+        <p>{wholeParts ? <>{wholeParts[1]}<br class="lines-br" /> {wholeParts[2]}</> : wholeText}</p>
       </div>
     </div>
     <div class="info-grid">
@@ -73,11 +76,12 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     <h2 class="h2" style="text-align:center;margin-bottom:22px">{t('spaces.glance.h')}</h2>
     <ul class="glance-list">
       {spaces.map((s) => (
-        <li data-space={s.number} data-m2={s.m2}>
+        <li data-space={s.number} data-m2={s.m2} class={s.days.length === 0 ? 'is-soldout' : undefined}>
           <a href={`#espacio-${s.number}`}>
             <span class="glance-name"><strong>{fill(t('spaces.card.title'), { n: s.number })}</strong><span class="glance-floor"><span class="glance-dot"> · </span>{t(`spaces.floor.${s.floor}`)}</span></span>
             <span class="glance-meta js-g-meta">{fill(t('spaces.card.size'), { n: s.m2 })} · {fill(t('spaces.glance.people'), { n: s.capacity })}</span>
             <span class="glance-price js-g-price">{money(s.price)}</span>
+            <span class="glance-soldout" hidden={s.days.length > 0}>{t('spaces.soldout.badge')}</span>
           </a>
         </li>
       ))}
@@ -90,7 +94,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
     {spaces.map((s, i) => {
       const special = Object.entries(s.priceByDay ?? {}).map(([day, price]) => ({ day: Number(day), price }));
       return (
-        <article class={`space${i === 0 ? ' is-first' : ''}`} id={`espacio-${s.number}`} data-space={s.number}>
+        <article class={`space${i === 0 ? ' is-first' : ''}${s.days.length === 0 ? ' is-soldout' : ''}`} id={`espacio-${s.number}`} data-space={s.number}>
           <!-- Adorno entre un espacio y el siguiente: el balcón forjado de la marca entre dos líneas. -->
           <div class="space-sep" aria-hidden="true">
             <span></span>
@@ -145,6 +149,7 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
           </div>
 
           <div class="space-body">
+            <p class="space-soldout" hidden={s.days.length > 0}>{t('spaces.soldout.badge')}</p>
             <p class="space-desc">{t(`spaces.desc.${s.number}`)}</p>
             <p class="space-whole js-whole">{fill(t('spaces.card.whole'), { n: s.capacity })}</p>
             <p class="space-days js-days">{fill(t('spaces.card.days'), { days: dayList(s.days) })}</p>
@@ -212,6 +217,8 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   }
   .info-feature h3 { margin: 0 0 6px; font-size: 24px; color: var(--gold-light); }
   .info-feature p { margin: 0; color: rgba(255, 255, 255, .9); font-size: 16px; line-height: 1.65; }
+  .info-feature .lines-br { display: none; }
+  @media (min-width: 901px) { .info-feature .lines-br { display: inline; } }
   /* Condiciones con la disposición de la página de Contacto: sin cajas, icono beige redondo,
      etiqueta pequeña en dorado y mayúsculas, y el texto debajo, todo centrado. Ocupa mucho menos
      alto que una tarjeta por fila: 3 por fila en escritorio, 2 en tablet y 1 en móvil. */
@@ -252,6 +259,20 @@ const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
   .glance-floor { white-space: nowrap; }
   .glance-name.is-stacked .glance-dot { display: none; }
   .glance-name.is-stacked .glance-floor { display: block; }
+  /* Espacio sin días libres (lo marca src/scripts/spaces-live.ts): una etiqueta en forma de píldora,
+     en granate suave con un puntito, en vez del precio y del botón; la foto se apaga un poco. */
+  .glance-soldout, .space-soldout {
+    display: inline-flex; align-items: center; gap: 7px; width: fit-content;
+    padding: 5px 13px; border-radius: 999px; background: #FBEFEC; border: 1px solid #E6C3BD; color: #9B2C24;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; white-space: nowrap;
+  }
+  .glance-soldout::before, .space-soldout::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #C0392B; flex: none; }
+  .glance-soldout[hidden], .space-soldout[hidden] { display: none; }
+  .glance-soldout { justify-self: end; }
+  .space-soldout { margin: 0 0 14px; font-size: 11.5px; padding: 6px 15px; box-shadow: 0 2px 8px rgba(155, 44, 36, .1); }
+  li.is-soldout .glance-price, article.is-soldout .space-price, article.is-soldout .space-days, article.is-soldout .space-body .btn { display: none; }
+  li.is-soldout .glance-name, li.is-soldout .glance-meta { opacity: .55; }
+  article.is-soldout .space-gallery .stage img.cover { filter: grayscale(.4) brightness(.94); }
   .glance-meta { color: var(--gold); font-style: italic; text-align: center; }
   .glance-price { color: var(--navy); font-weight: 700; text-align: right; }
   @media (max-width: 600px) {
