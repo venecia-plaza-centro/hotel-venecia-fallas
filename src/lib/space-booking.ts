@@ -16,7 +16,7 @@ import { readCustomer } from './customer-input';
 import { buildPayment, isAuthorised, maskEmail, newOrder, redsysEnabled, refundOrder, signReturnToken } from './redsys';
 import { spacesSalesStatus } from './sales';
 import { sendSpaceBookingEmails, sendSpaceRefundedNotice } from './space-email';
-import { getSpace, getSpaces, isSpaceDate, priceForSpaceDate, spaceDates, type Space } from './spaces';
+import { getSpace, getSpaces, cateringMin, isCateringGuests, isSpaceDate, priceForSpaceDate, spaceDates, type Space } from './spaces';
 import { isLocale } from './booking';
 
 /** Días de cada espacio con precio y si siguen libres. `fresh` = leer en directo. */
@@ -26,6 +26,8 @@ export async function getSpaceDayOffers(opts: { fresh?: boolean; excludeLocator?
     slug: s.slug,
     number: s.number,
     capacity: s.capacity,
+    cateringPrice: s.cateringPrice,
+    cateringMin: cateringMin(s.capacity),
     days: spaceDates(s).map((date) => ({
       date,
       price: priceForSpaceDate(s, date),
@@ -62,9 +64,17 @@ export async function spaceCheckout(body: Record<string, unknown>, url: URL): Pr
     if (!isSpaceDate(space, date)) return json({ ok: false, error: 'fecha', detail: 'fuera-de-ventana' }, 400);
     if (!(await isFree(space, date))) return json({ ok: false, error: 'sin-disponibilidad' }, 409);
 
-    const total = priceForSpaceDate(space, date);
+    // Catering opcional: comensales del mínimo (10; 8 en el 602) hasta el aforo, a lo que cueste hoy por persona.
+    // Cualquier otra cosa (0 = sin catering) se trata como «sin catering» solo si viene vacía.
+    const wantsCatering = body.cateringGuests !== undefined && body.cateringGuests !== 0 && body.cateringGuests !== null;
+    if (wantsCatering && (space.cateringPrice <= 0 || !isCateringGuests(space, body.cateringGuests))) {
+      return json({ ok: false, error: 'datos', fields: ['catering'] }, 400);
+    }
+    const catering = wantsCatering ? { guests: body.cateringGuests as number, unitPrice: space.cateringPrice } : undefined;
+    const spacePrice = priceForSpaceDate(space, date);
+    const total = spacePrice + (catering ? catering.guests * catering.unitPrice : 0);
     // En un espacio no se cuentan personas: se guarda el aforo máximo.
-    const booking = { date, space, guests: space.capacity, total, ...c, country: c.country || undefined, notes: c.notes || undefined };
+    const booking = { date, space, guests: space.capacity, total, catering, ...c, country: c.country || undefined, notes: c.notes || undefined };
 
     if (!redsysEnabled()) {
       // Demo: sin TPV conectado se crea la reserva sin cobrar nada.
@@ -72,7 +82,7 @@ export async function spaceCheckout(body: Record<string, unknown>, url: URL): Pr
       await sendSpaceBookingEmails({ ...booking, locator, paid: false }).catch((err) =>
         console.error('[space-checkout] fallo al enviar correos', err),
       );
-      return json({ ok: true, mode: 'demo', locator, persisted: airtableEnabled(), paid: false, date, space: { number: space.number, slug: space.slug }, quote: { total, currency: 'EUR' } });
+      return json({ ok: true, mode: 'demo', locator, persisted: airtableEnabled(), paid: false, date, space: { number: space.number, slug: space.slug }, quote: { total, currency: 'EUR' }, catering: catering ? { guests: catering.guests, total: catering.guests * catering.unitPrice } : null });
     }
 
     const locator = await newLocator();
@@ -94,6 +104,7 @@ export async function spaceCheckout(body: Record<string, unknown>, url: URL): Pr
         locator,
         date,
         spaceSlug: space.slug,
+        ...(catering ? { cat: catering.guests, catP: catering.unitPrice } : {}),
         firstName: cut(c.firstName, 60),
         lastName: cut(c.lastName, 60),
         email: cut(c.email, 100),
@@ -111,6 +122,7 @@ export async function spaceCheckout(body: Record<string, unknown>, url: URL): Pr
         spaceSlug: space.slug,
         capacity: space.capacity,
         total,
+        ...(catering ? { cateringGuests: catering.guests, cateringTotal: catering.guests * catering.unitPrice } : {}),
         email: maskEmail(c.email),
       })}`,
       koUrl: `${url.origin}${bookPath}?canceled=1&espacio=${space.number}`,
@@ -150,7 +162,13 @@ export async function spaceNotification(params: Record<string, string>, m: Recor
     if (existing?.estado === 'confirmada') return ok('duplicada');
 
     const space = await getSpace(m.spaceSlug ?? '');
-    const price = space && isSpaceDate(space, date) ? priceForSpaceDate(space, date) : 0;
+    const spacePrice = space && isSpaceDate(space, date) ? priceForSpaceDate(space, date) : 0;
+    // Catering: comensales y precio por persona tal como se cobraron (van en los datos firmados del pago).
+    const cg = Number(m.cat);
+    const cu = Number(m.catP);
+    const catering =
+      space && Number.isInteger(cg) && cg >= cateringMin(space.capacity) && cg <= space.capacity && Number.isFinite(cu) && cu > 0 ? { guests: cg, unitPrice: cu } : undefined;
+    const price = spacePrice > 0 ? spacePrice + (catering ? catering.guests * catering.unitPrice : 0) : 0;
     const free = space && price > 0 ? await isFree(space, date, { excludeLocator: m.locator }) : false;
     const underpaid = price > 0 && amountCents < Math.round(price * 100);
 
@@ -175,6 +193,7 @@ export async function spaceNotification(params: Record<string, string>, m: Recor
       space,
       guests: space.capacity,
       total: price,
+      catering,
       firstName: m.firstName ?? '',
       lastName: m.lastName ?? '',
       email: m.email ?? '',

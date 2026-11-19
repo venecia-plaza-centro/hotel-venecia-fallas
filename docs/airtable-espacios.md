@@ -138,7 +138,7 @@ cargados en Airtable; los espacios nuevos (704, 800, 801, 802) están creados
 **Cerrar todos los días de un espacio:** desmarcar `Activo`. Si se deja `Dias` vacío,
 la web usa los días de respaldo de `src/lib/spaces.ts`.
 
-Catering aparte: 28 € por persona (nota del Excel).
+Catering: ver el apartado 7 (opcional al reservar, 29 € por persona).
 
 ### Lista para el lanzamiento
 1. Tabla `Espacios` creada y campo `Espacio` en `Reservas` (apartados 1 y 2).
@@ -148,3 +148,22 @@ Catering aparte: 28 € por persona (nota del Excel).
 5. Hacer visible la página: `inNav`/`inFooter` a `true` y quitar `'spaces'` de `NOINDEX_PAGES` en `src/i18n/pages.ts`.
    (La cabecera apila «Preguntas frecuentes» en dos líneas sola en cuanto «Espacios» entra en el menú; no hay que tocar nada más.)
 6. `SPACES_OPEN=true` y redespliegue.
+
+## 7. Catering opcional (29 € por persona)
+
+Al reservar un espacio, el cliente puede añadir el catering del hotel (aperitivo + bebidas,
+sin servicio de camarero) con un mínimo de 10 comensales (el de la propuesta del hotel) y hasta el aforo del espacio. En el 602 (aforo 8) el mínimo es 8: se contrata para todo el grupo. Se cobra en
+el mismo pago que el espacio (espacio + comensales × precio por persona). El hotel lo ve en
+el correo «[Reserva pagada]», en el del cliente y en Airtable.
+
+**Campos nuevos en Airtable** (la web funciona sin ellos, pero hay que crearlos):
+
+| Tabla | Campo | Tipo | Notas |
+|---|---|---|---|
+| `Espacios` | `Precio catering` | Currency (EUR) | Precio por persona. **Vacío = 29 €.** Poner **0** para que ese espacio no ofrezca catering. |
+| `Reservas` | `Catering personas` | Number (entero) | Lo rellena la web. |
+| `Reservas` | `Importe catering` | Currency (EUR) | Lo rellena la web. Ya está incluido en `Importe total`. |
+
+Si `Catering personas` / `Importe catering` no existen, la reserva se guarda igual y el catering
+queda anotado al principio de `Notas` («[CATERING: 12 personas × 29 € = 348 €]»). Un cambio
+en `Precio catering` se ve en la web en ~10 minutos; lo que se cobra lo calcula siempre el servidor.

@@ -37,10 +37,18 @@ export interface Space {
   /** Orden en el listado (menor primero). La descripción de cada espacio es la
    *  clave `spaces.desc.<número>` en src/i18n/ui.ts. */
   order: number;
+  /** Catering opcional: precio por comensal (IVA incluido). 0 = este espacio no lo ofrece. */
+  cateringPrice: number;
 }
 
+/** Precio del catering por persona si en Airtable (`Precio catering`) no se pone otro. */
+export const DEFAULT_CATERING_PRICE = 29;
+/** Mínimo de comensales del catering (propuesta del hotel): 10, o el aforo entero si es menor (el 602, 8). */
+export const CATERING_MIN_GUESTS = 10;
+export const cateringMin = (capacity: number) => Math.min(CATERING_MIN_GUESTS, capacity);
+
 /** Datos del Excel del hotel (19/11/2026, definitivo): base y respaldo. */
-const FIXTURES: Space[] = [
+const FIXTURES: Space[] = ([
   { slug: 'espacio-109', number: '109', floor: 1, m2: 16, capacity: 12, price: 750, days: [1, 2, 3, 4, 5, 6, 7, 8, 9], hasFacade: true, order: 1 },
   { slug: 'espacio-208', number: '208', floor: 2, m2: 16, capacity: 12, price: 750, days: [1, 2, 4, 7], hasFacade: true, order: 2 },
   { slug: 'espacio-408', number: '408', floor: 4, m2: 30, capacity: 15, price: 900, days: [14], hasFacade: true, order: 4 },
@@ -55,7 +63,7 @@ const FIXTURES: Space[] = [
   { slug: 'espacio-800', number: '800', floor: 8, m2: 18, capacity: 15, price: 975, days: [8, 9, 10, 11], hasFacade: true, order: 9 },
   { slug: 'espacio-801', number: '801', floor: 8, m2: 18, capacity: 15, price: 975, days: [], hasFacade: true, order: 10 },
   { slug: 'espacio-802', number: '802', floor: 8, m2: 18, capacity: 15, price: 975, days: [2, 3, 4, 8, 9], hasFacade: true, hasPlan: false, order: 11 }, // plano real pendiente
-];
+] as Omit<Space, 'cateringPrice'>[]).map((s) => ({ ...s, cateringPrice: DEFAULT_CATERING_PRICE }));
 
 /**
  * Une las filas de Airtable con los datos fijos de la web. Reglas:
@@ -84,6 +92,8 @@ export function mergeSpaceRows(rows: SpaceRow[] | null): Space[] {
       days: r.days.length ? r.days : base.days,
       priceByDay: special.length ? Object.fromEntries(special.map((d) => [d, r.specialPrice])) : undefined,
       order: r.order || base.order,
+      // `Precio catering` vacío = el precio de siempre; 0 = este espacio no ofrece catering.
+      cateringPrice: r.cateringPrice ?? DEFAULT_CATERING_PRICE,
     });
   }
   return out.sort((a, b) => a.order - b.order);
@@ -91,6 +101,11 @@ export function mergeSpaceRows(rows: SpaceRow[] | null): Space[] {
 
 export async function getSpaces(): Promise<Space[]> {
   return mergeSpaceRows(await getSpaceRows());
+}
+
+/** Comensales del catering: del mínimo (10, o 8 en el 602) hasta el aforo del espacio. */
+export function isCateringGuests(s: Space, n: unknown): n is number {
+  return typeof n === 'number' && Number.isInteger(n) && n >= cateringMin(s.capacity) && n <= s.capacity;
 }
 
 /** Precio de un espacio un día concreto de marzo. */

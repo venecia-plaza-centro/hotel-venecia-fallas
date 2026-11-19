@@ -17,6 +17,8 @@ export interface SpaceBookingEmail {
   /** Aforo máximo del espacio (no se cuentan personas). */
   guests: number;
   total: number;
+  /** Catering contratado (comensales y precio por persona). `total` ya lo incluye. */
+  catering?: { guests: number; unitPrice: number };
   firstName: string;
   lastName: string;
   email: string;
@@ -39,6 +41,11 @@ interface SpaceCopy {
   hours: string;
   vat: string;
   early: string;
+  /** Fila del catering: "Catering" y su valor ("{n} comensales × {price} = {total}"). */
+  catering: string;
+  cateringValue: string;
+  /** Aviso del catering contratado, con lo que incluye. */
+  cateringNote: string;
 }
 
 const COPY: Record<Locale, SpaceCopy> = {
@@ -53,6 +60,9 @@ const COPY: Record<Locale, SpaceCopy> = {
     hours: 'Horario',
     vat: 'IVA incluido',
     early: '¿Necesita acceso anticipado para el montaje (catering, decoración u otros servicios)? Responda a este correo indicándonos qué necesita: está sujeto a disponibilidad y a la confirmación previa del hotel.',
+    catering: 'Catering',
+    cateringValue: '{n} comensales · {price} por persona = {total}',
+    cateringNote: 'Catering contratado: aperitivo (jamón ibérico, quesos, ensaladilla rusa, mini empanadillas, tortilla de patata trufada y papas con fuet y piparras) y bebidas (3 cervezas, 1 refresco y 1 agua por persona; 5 botellas de vino blanco y 5 de tinto cada 10 comensales). Sin servicio de camarero. El hotel se pondrá en contacto con usted para concretar la hora de entrega.',
   },
   en: {
     subject: 'Space booked {locator} · Mascletàs 2027',
@@ -65,6 +75,9 @@ const COPY: Record<Locale, SpaceCopy> = {
     hours: 'Hours',
     vat: 'VAT included',
     early: 'Need early access to set up (catering, decoration or other services)? Reply to this email telling us what you need: it is subject to availability and prior confirmation by the hotel.',
+    catering: 'Catering',
+    cateringValue: '{n} guests · {price} per person = {total}',
+    cateringNote: 'Catering booked: appetisers (Iberian ham, assorted cheeses, Russian salad skewer, mini Argentine empanadas, truffled potato omelette and potatoes with fuet and piparras) and drinks (3 beers, 1 soft drink and 1 water per person; 5 bottles of white wine and 5 of red wine for every 10 guests). No waiter service. The hotel will contact you to arrange the delivery time.',
   },
   it: {
     subject: 'Spazio prenotato {locator} · Mascletàs 2027',
@@ -77,6 +90,9 @@ const COPY: Record<Locale, SpaceCopy> = {
     hours: 'Orario',
     vat: 'IVA inclusa',
     early: 'Le serve l’accesso anticipato per l’allestimento (catering, decorazione o altri servizi)? Risponda a questa email indicandoci di cosa ha bisogno: è soggetto a disponibilità e a previa conferma da parte dell’hotel.',
+    catering: 'Catering',
+    cateringValue: '{n} commensali · {price} a persona = {total}',
+    cateringNote: 'Catering prenotato: aperitivo (prosciutto iberico, formaggi assortiti, spiedino di insalata russa, mini empanadas argentine, frittata di patate al tartufo e patate con fuet e piparras) e bevande (3 birre, 1 bibita e 1 acqua a persona; 5 bottiglie di vino bianco e 5 di rosso ogni 10 commensali). Senza servizio di cameriere. L’hotel la contatterà per concordare l’orario di consegna.',
   },
   fr: {
     subject: 'Espace réservé {locator} · Mascletàs 2027',
@@ -89,6 +105,9 @@ const COPY: Record<Locale, SpaceCopy> = {
     hours: 'Horaires',
     vat: 'TVA incluse',
     early: 'Besoin d’un accès anticipé pour l’installation (traiteur, décoration ou autres services) ? Répondez à cet email en nous indiquant ce qu’il vous faut : sous réserve de disponibilité et de confirmation préalable de l’hôtel.',
+    catering: 'Traiteur',
+    cateringValue: '{n} convives · {price} par personne = {total}',
+    cateringNote: 'Traiteur réservé : apéritif (jambon ibérique, fromages variés, brochette de salade russe, mini empanadas argentines, tortilla de pommes de terre à la truffe et pommes de terre au fuet et piparras) et boissons (3 bières, 1 boisson gazeuse et 1 eau par personne ; 5 bouteilles de vin blanc et 5 de vin rouge pour 10 convives). Sans service de serveur. L’hôtel vous contactera pour convenir de l’heure de livraison.',
   },
   de: {
     subject: 'Raum gebucht {locator} · Mascletàs 2027',
@@ -101,6 +120,9 @@ const COPY: Record<Locale, SpaceCopy> = {
     hours: 'Zeiten',
     vat: 'inkl. MwSt.',
     early: 'Benötigen Sie früheren Zugang zum Aufbau (Catering, Dekoration oder andere Leistungen)? Antworten Sie auf diese E-Mail und teilen Sie uns mit, was Sie brauchen: vorbehaltlich Verfügbarkeit und vorheriger Bestätigung durch das Hotel.',
+    catering: 'Catering',
+    cateringValue: '{n} Gäste · {price} pro Person = {total}',
+    cateringNote: 'Gebuchtes Catering: Aperitif (iberischer Schinken, verschiedene Käsesorten, Russischer-Salat-Spieß, kleine argentinische Empanadas, Trüffel-Kartoffeltortilla und Kartoffeln mit Fuet und Piparras) und Getränke (3 Bier, 1 Erfrischungsgetränk und 1 Wasser pro Person; 5 Flaschen Weißwein und 5 Flaschen Rotwein je 10 Gäste). Ohne Kellnerservice. Das Hotel setzt sich mit Ihnen in Verbindung, um die Lieferzeit abzustimmen.',
   },
 };
 
@@ -150,6 +172,9 @@ function details(data: SpaceBookingEmail) {
       [copy.space, nb(fill(t['spaces.card.title'], { n: data.space.number }))],
       [copy.capacity, fill(copy.people, { n: data.space.capacity })],
       [copy.hours, noDot(fill(t['spaces.info.hours.t'], hoursVars))],
+      ...(data.catering
+        ? ([[copy.catering, fill(copy.cateringValue, { n: data.catering.guests, price: money(data.catering.unitPrice, data.lang), total: money(data.catering.guests * data.catering.unitPrice, data.lang) })]] as [string, string][])
+        : []),
     ] as [string, string][],
     conditions: INFO.map((k) => ({ l: t[`spaces.info.${k}.l`], t: fill(t[`spaces.info.${k}.t`], hoursVars) })),
     terms: sameTerms(data.lang),
@@ -221,6 +246,7 @@ function customerHtml(data: SpaceBookingEmail): string {
               <tr><td style="padding:16px 20px;font-size:15px;line-height:1.65;color:#1B2A4A;font-weight:bold">${copy.early}</td></tr>
             </table>
           </td></tr>
+          ${data.catering ? `<tr><td style="padding:14px 28px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FBFAF6;border-left:4px solid #1B2A4A;border-radius:6px"><tr><td style="padding:14px 20px;font-size:14px;line-height:1.65;color:#1B2A4A">${copy.cateringNote}</td></tr></table></td></tr>` : ''}
           <tr><td style="padding:26px 28px 0">
             <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#C9A246;font-weight:bold;margin-bottom:8px">${base.arrivalTitle}</div>
             <p style="margin:0 0 10px;font-size:14px;line-height:1.7;color:#4A5568">${base.arrival}</p>
@@ -278,6 +304,7 @@ function customerText(data: SpaceBookingEmail): string {
     '',
     copy.early,
     '',
+    ...(data.catering ? [copy.cateringNote, ''] : []),
     base.arrival,
     base.entrances,
     '',
@@ -302,7 +329,10 @@ function hotelHtml(data: SpaceBookingEmail): string {
     ['Fecha', `${formatDate(data.date, 'es')} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`],
     ['Espacio', `Espacio ${data.space.number} · ${data.space.floor}ª planta · ${data.space.m2} m² · aforo máx. ${data.space.capacity}`],
     ['Idioma', LANG_NAME[data.lang] ?? data.lang],
-    ['Total', `${money(data.total, 'es')} · IVA incluido`],
+    ...(data.catering
+      ? ([['Catering', `<b>${data.catering.guests} comensales</b> × ${money(data.catering.unitPrice, 'es')} = ${money(data.catering.guests * data.catering.unitPrice, 'es')}`]] as [string, string][])
+      : []),
+    ['Total', `${money(data.total, 'es')} · IVA incluido${data.catering ? ' (espacio + catering)' : ''}`],
     ...(data.payment
       ? ([
           ['Pago', 'Cobrado por Redsys · Caixa Popular'],
@@ -346,7 +376,8 @@ export async function sendSpaceBookingEmails(data: SpaceBookingEmail): Promise<v
     `Fecha: ${data.date} · acceso ${FALLAS.accessStart}–${FALLAS.accessEnd}h (mascletà ${FALLAS.mascletaTime}h)`,
     `Espacio ${data.space.number} · ${data.space.floor}ª planta · aforo máx. ${data.space.capacity}`,
     `Idioma del cliente: ${LANG_NAME[data.lang] ?? data.lang}`,
-    `Total: ${money(data.total, 'es')} · IVA incluido`,
+    data.catering ? `CATERING: ${data.catering.guests} comensales × ${money(data.catering.unitPrice, 'es')} = ${money(data.catering.guests * data.catering.unitPrice, 'es')}` : null,
+    `Total: ${money(data.total, 'es')} · IVA incluido${data.catering ? ' (espacio + catering)' : ''}`,
     data.payment ? `Pago: Redsys · pedido ${data.payment.order}${data.payment.authCode ? ` · autorización ${data.payment.authCode}` : ''}` : null,
     data.notes ? `Notas: ${data.notes}` : null,
     !data.paid ? '⚠️ Modo demostración: no se ha cobrado nada de verdad.' : null,

@@ -32,6 +32,7 @@ export const GET: APIRoute = async ({ url }) => {
       ? { roomNumber: String(m.spaceNumber ?? ''), slug: String(m.spaceSlug ?? '') }
       : { roomNumber: String(m.roomNumber ?? ''), slug: String(m.roomSlug ?? '') },
     quote: { total: Number(m.total), currency: 'EUR' },
+    catering: isSpace && Number(m.cateringGuests) > 0 ? { guests: Number(m.cateringGuests), total: Number(m.cateringTotal) } : null,
     email: String(m.email ?? ''),
   });
 };

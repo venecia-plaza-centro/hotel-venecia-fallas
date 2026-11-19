@@ -7,7 +7,7 @@
 import { isSpaceMode, spaceNumberFromUrl } from './space-mode';
 
 interface Day { date: string; price: number; available: boolean }
-interface Offer { slug: string; number: string; capacity: number; days: Day[] }
+interface Offer { slug: string; number: string; capacity: number; cateringPrice?: number; cateringMin?: number; days: Day[] }
 type Step = 'date' | 'details' | 'done';
 
 function init() {
@@ -81,6 +81,43 @@ function init() {
 
   const taken = $('#space-taken');
 
+  // ---- Catering opcional ---------------------------------------------------
+  const catBox = $('#space-catering');
+  const catOn = $<HTMLInputElement>('#catering-on');
+  const catN = $<HTMLInputElement>('#catering-n');
+  const catOptions = $('#catering-options');
+  const totalLine = $('#space-totalline');
+  const cateringPrice = () => offer?.cateringPrice ?? 0;
+  /** Mínimo de comensales (lo manda el servidor: 10, u 8 en el 602). */
+  const cateringMin = () => offer?.cateringMin ?? 10;
+  /** Comensales elegidos (1..aforo) o 0 si no se contrata catering. */
+  const cateringGuests = () => {
+    if (!offer || !cateringPrice() || !catOn.checked) return 0;
+    return Math.min(offer.capacity, Math.max(cateringMin(), Math.floor(Number(catN.value)) || cateringMin()));
+  };
+  function renderRecap() {
+    if (!offer || !selected) return;
+    const n = cateringGuests();
+    $('#space-recap').innerHTML = `<strong>${fmt('spaces.card.title', { n: offer.number })}</strong> · ${longDate(selected.date)} · ${money(selected.price)} <small>${vat()}</small>`;
+    totalLine.hidden = n === 0;
+    if (n) {
+      const cat = n * cateringPrice();
+      totalLine.innerHTML = `${fmt('spaces.catering.line', { space: money(selected.price), catering: money(cat) })}<br />${T['book.summary.total']}: <strong>${money(selected.price + cat)}</strong> <small>${vat()}</small>`;
+    }
+  }
+  function setCateringN(v: number) {
+    catN.value = String(Math.min(offer!.capacity, Math.max(cateringMin(), Math.floor(v) || cateringMin())));
+    renderRecap();
+  }
+  catOn.addEventListener('change', () => {
+    catOptions.hidden = !catOn.checked;
+    renderRecap();
+  });
+  $('#catering-minus').addEventListener('click', () => setCateringN(Number(catN.value) - 1));
+  $('#catering-plus').addEventListener('click', () => setCateringN(Number(catN.value) + 1));
+  catN.addEventListener('input', renderRecap);
+  catN.addEventListener('change', () => setCateringN(Number(catN.value)));
+
   function renderDays() {
     const box = $('#space-days');
     box.replaceChildren();
@@ -122,7 +159,7 @@ function init() {
   }
 
   // ---- Vuelta del banco: pago hecho ------------------------------------------
-  function renderDone(data: { locator: string; date: string; room: { roomNumber: string }; guests: number; quote: { total: number }; email: string }, paid: boolean, persisted = true) {
+  function renderDone(data: { locator: string; date: string; room: { roomNumber: string }; guests: number; quote: { total: number }; email: string; catering?: { guests: number; total: number } | null }, paid: boolean, persisted = true) {
     $('#space-done-title').textContent = T['book.done.title'];
     $('#space-done-body').textContent = fmt('book.done.body.email', { email: data.email });
     $('#space-done-locator').textContent = data.locator;
@@ -132,6 +169,7 @@ function init() {
       // "Espacio" en singular: el título de la ficha sin su número ("Espacio {n}").
       row(fmt('spaces.card.title', { n: '' }).trim(), fmt('spaces.card.title', { n: data.room.roomNumber })) +
       row(T['book.summary.guests'], fmt('spaces.glance.people', { n: data.guests })) +
+      (data.catering ? row(T['spaces.catering.summary'], fmt('spaces.catering.summary.value', { n: data.catering.guests, amount: money(data.catering.total) })) : '') +
       `<div class="sum-total"><span>${T['book.summary.total']}</span><strong>${money(data.quote.total)}</strong></div>`;
     $('#space-done-demo-payment').hidden = paid;
     $('#space-done-demo').hidden = persisted;
@@ -180,6 +218,16 @@ function init() {
         `<strong>${fmt('spaces.card.whole', { n: offer.capacity })}</strong><br />` +
         `${T['spaces.info.hours.l']}: ${fmt('spaces.info.hours.t', { start: cfg.accessStart, end: cfg.accessEnd }).replace(/\.$/, '')} · ${vat()}`;
       if (!offer.days.some((d) => d.available)) setErr('space-err-date', T['spaces.book.soldout']);
+      if (cateringPrice() > 0) {
+        $('#catering-price').textContent = fmt('spaces.catering.price', { price: money(cateringPrice()) });
+        $('#catering-hint').textContent =
+          cateringMin() >= offer.capacity ? fmt('spaces.glance.people', { n: offer.capacity }) : fmt('spaces.catering.guests.hint', { min: cateringMin(), n: offer.capacity });
+        catN.min = String(cateringMin());
+        $('#catering-band-min').innerHTML = fmt('spaces.catering.band.min', { n: cateringMin() }).split('|').join('<br />');
+        catN.max = String(offer.capacity);
+        catN.value = String(offer.capacity);
+        catBox.hidden = false;
+      }
       renderDays();
     })
     .catch(() => {
@@ -189,7 +237,7 @@ function init() {
 
   ($('#space-next') as HTMLButtonElement).addEventListener('click', () => {
     if (!selected) return setErr('space-err-date', T['book.date.err.generic']);
-    $('#space-recap').innerHTML = `<strong>${fmt('spaces.card.title', { n: offer!.number })}</strong> · ${longDate(selected.date)} · ${money(selected.price)} <small>${vat()}</small>`;
+    renderRecap();
     taken.hidden = true;
     show('details');
   });
@@ -218,6 +266,7 @@ function init() {
       phone: val('phone'),
       country: val('country'),
       notes: val('notes'),
+      cateringGuests: cateringGuests(),
       consent: fd.get('consent') === 'on',
       lang: cfg.locale,
     };
@@ -259,7 +308,7 @@ function init() {
       if (data.ok) {
         // Modo demostración (sin TPV): reserva creada sin cobrar.
         renderDone(
-          { locator: data.locator, date: data.date, room: { roomNumber: data.space.number }, guests: offer!.capacity, quote: data.quote, email: payload.email },
+          { locator: data.locator, date: data.date, room: { roomNumber: data.space.number }, guests: offer!.capacity, quote: data.quote, catering: data.catering, email: payload.email },
           false,
           data.persisted,
         );

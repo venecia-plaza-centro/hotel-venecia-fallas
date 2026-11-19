@@ -204,6 +204,8 @@ export interface SpaceRow {
   specialDays: number[];
   order: number;
   active: boolean;
+  /** `Precio catering` por persona; null = campo vacío (precio por defecto), 0 = sin catering. */
+  cateringPrice: number | null;
 }
 
 /** Selección múltiple de días ("1", "14"…) → números únicos y ordenados. */
@@ -224,6 +226,7 @@ function mapSpaceRow(r: AirtableRecord): SpaceRow {
     specialDays: dayList(f['Dias precio especial']),
     order: num(f['Orden']),
     active: f['Activo'] === true,
+    cateringPrice: typeof f['Precio catering'] === 'number' && f['Precio catering'] >= 0 ? (f['Precio catering'] as number) : null,
   };
 }
 
@@ -534,6 +537,8 @@ export interface BookingCreate {
    * false = modo demostración sin Redsys conectado, no se ha cobrado nada.
    */
   paid: boolean;
+  /** Catering opcional contratado con el espacio: comensales y precio por persona. `total` ya lo incluye. */
+  catering?: { guests: number; unitPrice: number };
   /** Datos del pago de Redsys (solo en reservas pagadas), para localizar la
    *  operación en el portal del banco si hay que devolverla. */
   payment?: PaymentRef;
@@ -576,7 +581,17 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
   };
   Object.assign(fields, paymentFields(input.payment));
   if (input.country) fields.Pais = input.country;
-  if (input.notes) fields.Notas = input.notes;
+  // Catering: va en sus dos campos y, además, escrito en Notas, que sí existe siempre
+  // (si la base aún no tiene los campos nuevos, la reserva se guarda igual solo con la nota).
+  const cateringFields: Record<string, number> = {};
+  let notes = input.notes ?? '';
+  if (input.catering) {
+    const { guests, unitPrice } = input.catering;
+    cateringFields['Catering personas'] = guests;
+    cateringFields['Importe catering'] = guests * unitPrice;
+    notes = `[CATERING: ${guests} personas × ${unitPrice} € = ${guests * unitPrice} €]${notes ? ` ${notes}` : ''}`;
+  }
+  if (notes) fields.Notas = notes;
 
   if (!airtableEnabled()) {
     // En local se imprimen los campos para probar el flujo; en producción solo el
@@ -586,10 +601,17 @@ export async function createBooking(input: BookingCreate): Promise<BookingResult
     return { id: `fix-${locator}`, locator };
   }
 
-  const created = await airtable(encodeURIComponent(TABLE.bookings), {
-    method: 'POST',
-    body: JSON.stringify({ fields, typecast: true }),
-  });
+  const post = (f: Record<string, unknown>) =>
+    airtable(encodeURIComponent(TABLE.bookings), { method: 'POST', body: JSON.stringify({ fields: f, typecast: true }) });
+  let created;
+  try {
+    created = await post({ ...fields, ...cateringFields });
+  } catch (err) {
+    // Campos de catering aún sin crear en Airtable (422): se guarda sin ellos, con la nota.
+    if (!(err instanceof AirtableError) || !err.message.includes('Airtable 422') || !Object.keys(cateringFields).length) throw err;
+    console.error('[airtable] faltan los campos de catering en Reservas; se guarda solo en Notas', err.message);
+    created = await post(fields);
+  }
   forgetBookings();
   return { id: created.id as string, locator };
 }
