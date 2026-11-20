@@ -3,11 +3,11 @@ import { FALLAS, type Locale } from '../../consts';
 import { pagePath } from '../../i18n/pages';
 import { useT } from '../../i18n/ui';
 import { getRooms } from '../../lib/airtable';
+import { GUEST_OPTIONS } from '../../lib/booking';
 import { getSpaces } from '../../lib/spaces';
+import { FALLAS as F } from '../../consts';
 import GoldRule from '../GoldRule.astro';
 import Icon from '../Icon.astro';
-import RoomMinis from '../RoomMinis.astro';
-import SpaceMinis from '../SpaceMinis.astro';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
@@ -17,10 +17,29 @@ const rooms = await getRooms();
 const roomsUrl = pagePath('rooms', lang);
 const spacesUrl = pagePath('spaces', lang);
 
-// Los espacios que el hotel tiene activos en Airtable, en pequeño (como los balcones). Se dejan
-// fuera el 801 y el 802 para que la rejilla de tres en tres cierre sin huecos; se ven todos en /espacios/.
-const HOME_HIDDEN = ['801', '802'];
-const spaceList = (await getSpaces()).filter((s) => !HOME_HIDDEN.includes(s.number));
+// Datos de las dos tarjetas de debajo del hero (se leen al construir la web: Airtable manda).
+const INTL: Record<string, string> = { es: 'es-ES', en: 'en-GB', it: 'it-IT', fr: 'fr-FR', de: 'de-DE' };
+const money = (n: number) =>
+  new Intl.NumberFormat(INTL[lang] ?? 'es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' } as Intl.NumberFormatOptions).format(n);
+const fill = (str: string, v: Record<string, string | number>) => str.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''));
+// Balcones: «desde X € por persona» = el precio más bajo por persona, entre semana o en fin de semana.
+const minPerPerson = Math.min(
+  ...rooms.flatMap((r) => [...GUEST_OPTIONS.map((g) => r.prices.weekday[g] / g), ...GUEST_OPTIONS.map((g) => r.prices.weekend[g] / g)]),
+);
+const maxGuests = Math.max(...rooms.map((r) => r.capacity));
+// Espacios: el más barato por día y el rango de aforos de los espacios activos.
+const spaceList = await getSpaces();
+const minSpacePrice = Math.min(...spaceList.map((sp) => sp.price));
+const minCap = Math.min(...spaceList.map((sp) => sp.capacity));
+const maxCap = Math.max(...spaceList.map((sp) => sp.capacity));
+
+// Franja bajo el hero: lo que es común a balcones y espacios (el Snack Pack es solo de los balcones y NO va aquí).
+// Iconos propios (public/icons/*.webp, recortados de la lámina dorada del cliente).
+const strip = [
+  { icon: 'clock', t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
+  { icon: 'sparkle', t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
+  { icon: 'key', t: t('home.strip.private.t'), v: t('home.strip.private.v') },
+];
 
 // Las 3 frases del kicker del hero, una debajo de otra en vez de en párrafo.
 // "Mascletàs, más cerca que nunca": en pantallas pequeñas la segunda parte
@@ -51,14 +70,6 @@ const HERO_VIDEO = '/video/hero-mascleta.mp4';
 // reproducir (p. ej. modo ahorro de batería), en vez de un vídeo parado.
 const HERO_POSTER = '/video/hero-mascleta-poster.webp';
 
-// Franja beige justo debajo del hero. Iconos propios
-// (public/icons/*.webp, recortados de la lámina dorada del cliente).
-const strip = [
-  { icon: 'clock', t: t('home.strip.schedule.t'), v: t('home.strip.schedule.v') },
-  { icon: 'sparkle', t: t('home.strip.mascleta.t'), v: t('home.strip.mascleta.v') },
-  { icon: 'key', t: t('home.strip.private.t'), v: t('home.strip.private.v') },
-  { icon: 'tray-strip', t: t('home.strip.snack.t'), v: t('home.strip.snack.v') },
-];
 ---
 
 <section class="hero">
@@ -75,7 +86,7 @@ const strip = [
       </a>
       <a class="btn btn-hero-ghost" href={`${spacesUrl}#espacios-vistazo`}>{t('home.cta.spaces')}</a>
     </div>
-    <a class="hero-scroll" href="#tradicion">
+    <a class="hero-scroll" href="#elige">
       <span>{t('home.discover')}</span>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
     </a>
@@ -120,52 +131,39 @@ const strip = [
   </div>
 </section>
 
-<section class="section tradicion" id="tradicion">
-  <div class="container tradicion-grid">
-    <div class="tradicion-text">
-      <span class="eyebrow">{t('home.tradicion.eyebrow')}</span>
-      <h2>{t('home.tradicion.h2.pre')} <em>{t('home.tradicion.h2.accent')}</em></h2>
-      <p>{t('home.tradicion.p1')}</p>
-      <p>{t('home.tradicion.p3')}</p>
-      <p class="tradicion-strong">{t('home.tradicion.p2')}</p>
-    </div>
-    <div class="tradicion-media">
-      <img class="tradicion-photo" src="/images/home/tradicion-mascleta.webp" alt={t('home.tradicion.photo.alt')} loading="lazy" />
-      <span class="tradicion-tagline">{t('home.tradicion.tagline')}</span>
-    </div>
-  </div>
-</section>
-
-<section class="section section-alt room-picker">
+<section class="section choose" id="elige">
   <div class="container">
-    <div class="room-picker-head">
-      <h2 class="h2">{t('home.rooms.h2.pre')} <em>{t('home.rooms.h2.accent')}</em></h2>
-      <p class="lead">{t('rooms.intro')}</p>
-      <p class="lead">{t('home.rooms.lead')}</p>
-    </div>
-    <div id="rooms">
-      <RoomMinis rooms={rooms} lang={lang} />
-    </div>
-    <div class="room-picker-more">
-      <a class="btn btn-ghost" href={roomsUrl}>{t('home.rooms.seeall')}</a>
+    <h2 class="h2 choose-h">{t('home.choose.h2.pre')} <em>{t('home.choose.h2.accent')}</em></h2>
+    <div class="choose-grid">
+      <a class="pick" href={roomsUrl}>
+        <span class="pick-photo"><img src="/images/rooms/410/balcon.webp" width="640" height="480" alt="" loading="lazy" decoding="async" /></span>
+        <span class="pick-body">
+          <strong class="pick-title">{t('nav.rooms')}</strong>
+          <ul class="pick-facts">
+            <li>{fill(t('home.choice.rooms.line'), { n: maxGuests })}</li>
+            <li>{t('roomcard.bath')}</li>
+            <li class="pick-incl">{t('home.choice.rooms.incl')}</li>
+          </ul>
+          <span class="pick-price">{fill(t('home.choice.rooms.price'), { price: money(minPerPerson) })}</span>
+          <span class="pick-btn">{t('home.choice.rooms.cta')} <Icon name="arrow-right" size={14} /></span>
+        </span>
+      </a>
+      <a class="pick" href={spacesUrl}>
+        <span class="pick-photo"><img src="/images/espacios/704/foto-800.webp" width="800" height="450" alt="" loading="lazy" decoding="async" /></span>
+        <span class="pick-body">
+          <strong class="pick-title">{t('nav.spaces')}</strong>
+          <ul class="pick-facts">
+            <li>{fill(t('home.choice.spaces.line'), { min: minCap, max: maxCap })}</li>
+            <li>{t('roomcard.bath')}</li>
+            <li class="pick-incl">{t('home.choice.spaces.incl')}</li>
+          </ul>
+          <span class="pick-price">{fill(t('home.choice.spaces.price'), { price: money(minSpacePrice) })}</span>
+          <span class="pick-btn">{t('home.choice.spaces.cta')} <Icon name="arrow-right" size={14} /></span>
+        </span>
+      </a>
     </div>
   </div>
 </section>
-
-{spaceList.length > 0 && (
-  <section class="section home-spaces" id="espacios">
-    <div class="container">
-      <div class="room-picker-head">
-        <h2 class="h2">{t('home.spaces.h2.pre')} <em>{t('home.spaces.h2.accent')}</em></h2>
-        <p class="lead">{t('home.spaces.lead')}</p>
-      </div>
-      <SpaceMinis spaces={spaceList} lang={lang} />
-      <div class="room-picker-more">
-        <a class="btn btn-ghost" href={spacesUrl}>{t('home.spaces.seeall')}</a>
-      </div>
-    </div>
-  </section>
-)}
 
 <style>
   /* ── hero ── */
@@ -396,38 +394,6 @@ const strip = [
     .hero-panel h1 { font-size: clamp(27px, 7.2vw, 34px); }
   }
 
-  /* ── tradición ── */
-  .tradicion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; text-align: center; }
-  @media (max-width: 860px) {
-    .tradicion-grid { grid-template-columns: 1fr; }
-  }
-  .tradicion-text h2 { margin: 12px 0 18px; font-size: clamp(26px, 3.4vw, 36px); }
-  .tradicion-text h2 em { font-style: italic; color: var(--gold); }
-  /* En escritorio, el acento ("desde dentro.") baja a su propia línea. */
-  @media (min-width: 861px) { .tradicion-text h2 em { display: block; } }
-  .tradicion-text p { color: var(--text-mid); font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
-  .tradicion-strong { color: var(--navy) !important; font-weight: 600; }
-
-  .tradicion-media { position: relative; }
-  .tradicion-photo {
-    aspect-ratio: 4/3; width: 100%; display: block; border-radius: var(--r-lg);
-    object-fit: cover;
-  }
-  .tradicion-tagline {
-    position: absolute; right: 18px; bottom: -14px; font-family: 'Caveat', cursive;
-    font-size: 26px; color: var(--gold-light); background: var(--navy); padding: 4px 14px;
-    border-radius: 999px; box-shadow: var(--sh-sm); transform: rotate(2deg);
-  }
-
-  /* ── room picker ── */
-  .room-picker-head { max-width: 640px; margin: 0 auto 44px; text-align: center; }
-  .room-picker-head h2 em { font-style: italic; color: var(--gold); }
-  .room-picker-head .lead { margin-top: 14px; }
-  /* scroll-margin-top: ancla #rooms (enlaces internos); sin esto quedaría
-     tapada por el nav fijo. */
-  #rooms { scroll-margin-top: 96px; }
-  .room-picker-more { text-align: center; margin-top: 8px; }
-
   /* Sello del hero: latido sutil (heartBeat de Animate.css: doble pulso)
      una vez cada 15 s; el resto del ciclo está quieto, para que cuando
      late llame la atención. Primer latido a los 4 s de cargar la página.
@@ -443,48 +409,76 @@ const strip = [
   }
   @media (prefers-reduced-motion: reduce) { .hero-badge { animation: none; } }
 
-  /* ── escritorio: la primera pantalla es hero + franja beige ──
-     El hero mide el alto de la ventana menos el de la franja (118 px =
-     36 + 46 + 36 de padding e icono), así la franja queda justo en el borde
-     inferior y se ve entera sin hacer scroll. */
+  /* ── escritorio: el hero mide el alto de la ventana menos ~120 px, así el título de «Elija…» asoma
+     justo debajo y invita a bajar. ── */
   .hero, .strip { --strip-h: 118px; }
-  /* En móvil y tablet pequeña, "Descúbralo" baja hasta dejar la franja beige
-     entera arriba, justo debajo de la cápsula del header (12 px + 64 px de
-     alto + un poco de aire). En escritorio sigue llevando a #tradicion. */
-  @media (max-width: 860px) { .strip { scroll-margin-top: 88px; } }
   @media (min-width: 861px) {
     .hero { min-height: calc(100vh - var(--strip-h)); min-height: calc(100dvh - var(--strip-h)); }
     .hero-panel { min-height: calc(100vh - var(--strip-h)); min-height: calc(100dvh - var(--strip-h)); }
-    /* Altura fija: si una etiqueta se parte en dos líneas (FR/DE/IT en
-       ventanas estrechas), la franja no crece y se mantiene en el borde. */
+  }
+  #elige { scroll-margin-top: 70px; }
+  @media (min-width: 861px) {
+    /* Altura fija: si una etiqueta se parte en dos líneas (FR/DE/IT), la franja no crece. */
     .strip { height: var(--strip-h); padding: 0; display: flex; align-items: center; box-sizing: border-box; }
     .strip .strip-grid { width: 100%; }
   }
 
-  /* ── franja bajo el hero ── */
-  /* Fondo beige (crema), justa: mismo aire arriba y abajo. El sello del
-     hero solo asoma unos px sobre la franja (bottom negativo pequeño, menor
-     que este padding), así no tapa ningún texto. */
-  .strip { background: var(--cream); padding: 36px 0; }
-  @media (max-width: 860px) { .strip { padding: 28px 0; } }
-  .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; justify-items: center; }
+  /* ── franja bajo el hero: horario, mascletà y espacio privado ── */
+  .strip { background: var(--cream); padding: 36px 0; border-bottom: 1px solid var(--cream-dark); }
+  @media (max-width: 860px) { .strip { padding: 24px 0; } }
+  .strip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; justify-items: center; }
   .strip-item { display: flex; align-items: center; gap: 12px; color: var(--navy); }
   .strip-icon { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
   .strip-t { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-soft); }
   .strip-v { font-size: 14px; font-weight: 600; }
-  /* Van DESPUÉS de las bases de arriba: con la misma especificidad, si
-     fueran antes las pisarían siempre. */
   @media (max-width: 860px) {
-    .strip-grid { justify-items: center; }
+    .strip-grid { gap: 10px; }
     .strip-item { flex-direction: column; text-align: center; gap: 8px; }
+    .strip-t { font-size: 10px; }
+    .strip-v { font-size: 13px; }
   }
-  @media (max-width: 760px) { .strip-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* ── debajo del hero: dos tarjetas con lo propio de cada uno ── */
+  .choose { background: var(--cream); padding: 56px 0 64px; }
+  .choose-h { text-align: center; margin-bottom: 30px; }
+  .choose-h em { font-style: italic; color: var(--gold); }
+  .choose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; max-width: 880px; margin: 0 auto; }
+  .pick {
+    display: flex; flex-direction: column; overflow: hidden; background: #fff; color: inherit; text-decoration: none;
+    border: 1px solid var(--cream-dark); border-radius: 18px; box-shadow: var(--sh-sm);
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .pick:hover { transform: translateY(-4px); box-shadow: var(--sh-md); border-color: var(--gold); }
+  .pick-photo { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--navy); }
+  .pick-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+  .pick:hover .pick-photo img { transform: scale(1.05); }
+  .pick-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
+  .pick-title { font-family: var(--ff-display); font-size: 24px; letter-spacing: .06em; text-transform: uppercase; color: var(--navy); }
+  .pick-facts { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 5px; }
+  .pick-facts li { position: relative; padding-left: 16px; font-size: 14.5px; line-height: 1.45; color: var(--text-mid); }
+  .pick-facts li::before { content: '◆'; position: absolute; left: 0; top: 4px; font-size: 8px; color: var(--gold); }
+  .pick-facts .pick-incl { font-weight: 700; color: var(--navy); }
+  .pick-price { margin-top: auto; padding-top: 14px; font-size: 15px; color: var(--navy); font-weight: 600; }
+  .pick-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; padding: 12px 16px;
+    background: var(--gold); color: var(--navy); border-radius: 999px; font-size: 12.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  }
+  .choose-common { margin: 26px 0 0; text-align: center; font-size: 14px; color: var(--text-soft); }
+  @media (max-width: 700px) {
+    .choose { padding: 40px 0 48px; }
+    .choose-grid { grid-template-columns: 1fr; gap: 18px; }
+    /* Móvil: la foto arriba, a todo el ancho de la tarjeta, y los datos debajo. */
+    .pick-photo { aspect-ratio: 16 / 9; }
+    .pick-body { padding: 16px 18px 18px; }
+    .pick-title { font-size: 22px; }
+    .pick-facts li { font-size: 14px; }
+  }
 
   /* En móvil muy estrecho, los párrafos en negrita (texto centrado a
      ancho casi completo) pueden quedar tapados por los FABs de Llamar
      y WhatsApp; se acortan un poco las líneas con este padding lateral. */
   @media (max-width: 480px) {
-    .hero-strong, .tradicion-strong { padding: 0 60px; }
+    .hero-strong { padding: 0 60px; }
   }
 </style>
 
@@ -514,15 +508,4 @@ const strip = [
       window.addEventListener(ev, play, { once: true, passive: true });
     }
   }
-
-  // Móvil y tablet pequeña (≤860 px): "Descúbralo" lleva a la franja beige
-  // (#info), no a #tradicion. En escritorio, o sin JS, el enlace normal
-  // (#tradicion) sigue funcionando.
-  document.querySelector<HTMLAnchorElement>('.hero-scroll')?.addEventListener('click', (e) => {
-    if (!window.matchMedia('(max-width: 860px)').matches) return;
-    const strip = document.getElementById('info');
-    if (!strip) return;
-    e.preventDefault();
-    strip.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
 </script>
