@@ -24,9 +24,9 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
 );
 ---
 
-<PageHero title={t('rooms.h1')} photo="/images/rooms/410/balcon.webp" lead={capacityNoteHtml} leadStrong shine />
+<PageHero title={t('rooms.h1')} photo="/images/rooms/410/balcon.webp" lead={capacityNoteHtml} leadStrong shine tall scrollLabel={t('home.discover')} scrollHref="#balcones-info" rule={false} bottom />
 
-<section class="section">
+<section class="section" id="balcones-info">
   <div class="container">
     <!-- PRUEBA: lo que es igual en todos los balcones, una sola vez arriba (no repetido en cada ficha). -->
     <div class="rooms-incl">
@@ -50,6 +50,8 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
 </script>
 
 <style>
+  /* El cuadro y las fichas empiezan más arriba, pegados a la cabecera. */
+  #balcones-info { padding-top: 28px; }
   .rooms-incl { max-width: 720px; margin: 0 auto 30px; padding: 18px 22px 16px; background: #fff; border: 1px solid var(--cream-dark); border-radius: 16px; box-shadow: var(--sh-sm); }
   .rooms-incl ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
   .rooms-incl li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--text-mid); }
