@@ -193,6 +193,19 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
 }
 @keyframes pageHeroScrollBounce { 0%, 100% { transform: translateY(-4px); } 50% { transform: translateY(5px); } }
 @keyframes pageHeroScrollRing { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(1.9); opacity: 0; } }
+/* Móvil: la flecha más discreta (más pequeña, sin relleno ni resplandor y con un solo anillo suave). */
+@media (max-width: 700px) {
+  .page-hero-scroll {
+    bottom: 18px; width: 42px; height: 42px; color: var(--gold-light);
+    border: 1.5px solid rgba(232, 201, 106, .7); background: rgba(20, 31, 56, .45);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    box-shadow: 0 3px 12px rgba(8, 14, 30, .4);
+  }
+  .page-hero-scroll::before { display: none; }
+  .page-hero-scroll::after { border-width: 1.5px; border-color: rgba(232, 201, 106, .5); }
+  .page-hero-scroll:hover { transform: translateX(-50%); box-shadow: 0 3px 12px rgba(8, 14, 30, .4); }
+  .page-hero-scroll svg { width: 20px; height: 20px; stroke-width: 2; }
+}
 @media (prefers-reduced-motion: reduce) {
   .page-hero-scroll svg, .page-hero-scroll::before, .page-hero-scroll::after { animation: none; }
   .page-hero-scroll::before, .page-hero-scroll::after { display: none; }
