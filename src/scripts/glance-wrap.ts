@@ -1,6 +1,6 @@
 /**
- * «Los espacios de un vistazo»: si «Espacio 109 · 1ª planta» no cabe en una línea,
- * «1ª planta» baja ENTERO a la línea de debajo (nunca se parte «1ª / planta») y el
+ * «Los espacios de un vistazo»: si en algún espacio «Espacio 109 · 1ª planta» no cabe en
+ * una línea, en TODOS «1ª planta» baja ENTERO a la línea de debajo (nunca se parte «1ª / planta») y el
  * punto de separación se oculta, porque ya no separa nada.
  *
  * El navegador no dice si una línea se ha partido, así que se mide: se muestra el
@@ -9,13 +9,17 @@
  * antes de pintar, para que no parpadee.
  */
 function update(): void {
-  document.querySelectorAll<HTMLElement>('.glance-name').forEach((name) => {
+  const names = [...document.querySelectorAll<HTMLElement>('.glance-name')];
+  // Primero todos en una línea; si en alguno la planta no cabe, TODOS la bajan: así la
+  // lista se ve igual de ordenada (si solo la bajaran los largos, «Espacio 109 · 1ª planta»
+  // quedaría en una línea y «Espacio 208 / 2ª planta» en dos).
+  names.forEach((name) => name.classList.remove('is-stacked'));
+  const anyWraps = names.some((name) => {
     const title = name.querySelector<HTMLElement>('strong');
     const floor = name.querySelector<HTMLElement>('.glance-floor');
-    if (!title || !floor) return;
-    name.classList.remove('is-stacked');
-    if (floor.offsetTop > title.offsetTop + 2) name.classList.add('is-stacked');
+    return Boolean(title && floor && floor.offsetTop > title.offsetTop + 2);
   });
+  if (anyWraps) names.forEach((name) => name.classList.add('is-stacked'));
 }
 
 update();
