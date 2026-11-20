@@ -37,14 +37,15 @@ const es: Dict = {
 
   // home · hero
   'home.h1.pre': 'Viva la mascletà desde su',
-  'home.h1.accent': 'balcón privado',
-  'home.kicker': 'La Plaza del Ayuntamiento. Su propio balcón. Y la mascletà justo delante.',
+  'home.h1.accent': 'balcón o espacio privado',
+  'home.kicker': 'La Plaza del Ayuntamiento. Su balcón o su espacio privado. Y la mascletà justo delante.',
   'home.p1':
     'Durante Fallas, algunas de nuestras habitaciones se convierten durante unas horas en espacios privados para disfrutar de la mascletà desde primera línea, sin aglomeraciones y con todas las comodidades del hotel.',
   'home.p2':
     'Todos los espacios son habitaciones del Hotel Venecia, con su mobiliario habitual, baño privado y balcón o mirador con vistas a la Plaza del Ayuntamiento.',
   'home.p3': 'Además, su reserva incluye un Snack Pack para acompañar la experiencia.',
   'home.cta': 'Ver balcones disponibles',
+  'home.cta.spaces': 'Ver espacios privados',
   'home.discover': 'Descúbralo',
   'home.tagline': 'Mascletàs, más cerca que nunca',
   'home.badge': 'Una experiencia única en Valencia',
@@ -76,6 +77,10 @@ const es: Dict = {
   'home.rooms.h2.accent': 'balcón privado',
   'home.rooms.lead': 'Elija la fecha, el balcón y el número de personas. Cada balcón es una habitación del hotel que será solo suya durante la mascletà.',
   'home.rooms.seeall': 'Ver los 9 balcones',
+  'home.spaces.h2.pre': 'Alquile un',
+  'home.spaces.h2.accent': 'espacio privado',
+  'home.spaces.lead': 'Habitaciones sin mobiliario, con baño y vistas a la Plaza del Ayuntamiento, que se alquilan enteras para su grupo, de 13:00 a 15:00 h.',
+  'home.spaces.seeall': 'Ver todos los espacios',
   'home.minis.count': '{n} balcones privados, cada uno en una habitación del Hotel Venecia',
   'home.minis.bath': 'Baño privado',
 
@@ -451,14 +456,15 @@ const en: Dict = {
   'footer.webCredit': 'Web design',
 
   'home.h1.pre': 'Experience the mascletà from your',
-  'home.h1.accent': 'private balcony',
-  'home.kicker': 'Plaza del Ayuntamiento. Your own balcony. The mascletà right in front of you.',
+  'home.h1.accent': 'private balcony or space',
+  'home.kicker': 'Plaza del Ayuntamiento. Your own balcony or private space. The mascletà right in front of you.',
   'home.p1':
     'During Fallas, some of our rooms become private spaces for a few hours so you can enjoy the mascletà front row, away from the crowds and with all the hotel’s comforts.',
   'home.p2':
     'Every space is a real room at Hotel Venecia, with its usual furniture, a private bathroom, and a balcony or viewpoint over Plaza del Ayuntamiento.',
   'home.p3': 'Your booking also includes a Snack Pack to enjoy the experience.',
   'home.cta': 'See available balconies',
+  'home.cta.spaces': 'See private spaces',
   'home.discover': 'Discover',
   'home.tagline': 'Mascletàs, closer than ever',
   'home.badge': 'A unique experience in Valencia',
@@ -487,6 +493,10 @@ const en: Dict = {
   'home.rooms.h2.accent': 'private balcony',
   'home.rooms.lead': 'Choose the date, your balcony and the number of guests. Every balcony is a hotel room that will be yours alone during the mascletà.',
   'home.rooms.seeall': 'See all 9 balconies',
+  'home.spaces.h2.pre': 'Rent a',
+  'home.spaces.h2.accent': 'private space',
+  'home.spaces.lead': 'Unfurnished rooms with a bathroom and views over Plaza del Ayuntamiento, rented as a whole for your group, from 13:00 to 15:00.',
+  'home.spaces.seeall': 'See all spaces',
   'home.minis.count': '{n} private balconies, each in a Hotel Venecia room',
   'home.minis.bath': 'Private bathroom',
 
@@ -851,14 +861,15 @@ const it: Dict = {
   'footer.webCredit': 'Web design',
 
   'home.h1.pre': 'Vivi la mascletà dal suo',
-  'home.h1.accent': 'balcone privato',
-  'home.kicker': 'La Plaza del Ayuntamiento. Il suo balcone. E la mascletà proprio davanti.',
+  'home.h1.accent': 'balcone o spazio privato',
+  'home.kicker': 'La Plaza del Ayuntamiento. Il suo balcone o il suo spazio privato. E la mascletà proprio davanti.',
   'home.p1':
     'Durante le Fallas, alcune delle nostre camere diventano per alcune ore spazi privati per godersi la mascletà in prima fila, senza folla e con tutte le comodità dell’hotel.',
   'home.p2':
     'Tutti gli spazi sono camere vere dell’Hotel Venecia, con il loro arredamento abituale, bagno privato e balcone o terrazzino con vista sulla Plaza del Ayuntamiento.',
   'home.p3': 'Inoltre, la sua prenotazione include uno Snack Pack per accompagnare l’esperienza.',
   'home.cta': 'Vedi balconi disponibili',
+  'home.cta.spaces': 'Vedi spazi privati',
   'home.discover': 'Scoprire',
   'home.tagline': 'Mascletàs, più vicine che mai',
   'home.badge': 'Un’esperienza unica a Valencia',
@@ -887,6 +898,10 @@ const it: Dict = {
   'home.rooms.h2.accent': 'balcone privato',
   'home.rooms.lead': 'Scelga la data, il balcone e il numero di persone. Ogni balcone è una camera dell’hotel che sarà solo sua durante la mascletà.',
   'home.rooms.seeall': 'Vedi tutti i 9 balconi',
+  'home.spaces.h2.pre': 'Affitti uno',
+  'home.spaces.h2.accent': 'spazio privato',
+  'home.spaces.lead': 'Camere senza arredamento, con bagno e vista su Plaza del Ayuntamiento, che si affittano per intero per il suo gruppo, dalle 13:00 alle 15:00.',
+  'home.spaces.seeall': 'Vedi tutti gli spazi',
   'home.minis.count': '{n} balconi privati, ciascuno in una camera dell’Hotel Venecia',
   'home.minis.bath': 'Bagno privato',
 
@@ -1252,14 +1267,15 @@ const fr: Dict = {
   'footer.webCredit': 'Conception web',
 
   'home.h1.pre': 'Vivez la mascletà depuis votre',
-  'home.h1.accent': 'balcon privé',
-  'home.kicker': 'La Plaza del Ayuntamiento. Votre propre balcon. Et la mascletà juste devant.',
+  'home.h1.accent': 'balcon ou espace privé',
+  'home.kicker': 'La Plaza del Ayuntamiento. Votre balcon ou votre espace privé. Et la mascletà juste devant.',
   'home.p1':
     'Pendant les Fallas, certaines de nos chambres deviennent, le temps de quelques heures, des espaces privés pour profiter de la mascletà aux premières loges, sans foule et avec tout le confort de l’hôtel.',
   'home.p2':
     "Chaque espace est une véritable chambre de l'Hôtel Venecia, avec son mobilier habituel, une salle de bain privée et un balcon ou un mirador avec vue sur la Plaza del Ayuntamiento.",
   'home.p3': 'Votre réservation inclut également un Snack Pack pour accompagner l’expérience.',
   'home.cta': 'Voir les balcons disponibles',
+  'home.cta.spaces': 'Voir les espaces privés',
   'home.discover': 'Découvrir',
   'home.tagline': 'Les mascletàs, plus proches que jamais',
   'home.badge': 'Une expérience unique à Valence',
@@ -1288,6 +1304,10 @@ const fr: Dict = {
   'home.rooms.h2.accent': 'balcon privé',
   'home.rooms.lead': 'Choisissez la date, votre balcon et le nombre de personnes. Chaque balcon est une chambre de l’hôtel qui sera à vous seul pendant la mascletà.',
   'home.rooms.seeall': 'Voir les 9 balcons',
+  'home.spaces.h2.pre': 'Louez un',
+  'home.spaces.h2.accent': 'espace privé',
+  'home.spaces.lead': 'Chambres non meublées, avec salle de bain et vue sur la Plaza del Ayuntamiento, louées en entier pour votre groupe, de 13 h à 15 h.',
+  'home.spaces.seeall': 'Voir tous les espaces',
   'home.minis.count': '{n} balcons privés, chacun dans une chambre de l’Hôtel Venecia',
   'home.minis.bath': 'Salle de bain privée',
 
@@ -1654,14 +1674,15 @@ const de: Dict = {
   'footer.webCredit': 'Webdesign',
 
   'home.h1.pre': 'Erleben Sie die Mascletà von Ihrem',
-  'home.h1.accent': 'privaten Balkon',
-  'home.kicker': 'Die Plaza del Ayuntamiento. Ihr eigener Balkon. Und die Mascletà direkt vor Ihnen.',
+  'home.h1.accent': 'privaten Balkon oder Raum',
+  'home.kicker': 'Die Plaza del Ayuntamiento. Ihr eigener Balkon oder Raum. Und die Mascletà direkt vor Ihnen.',
   'home.p1':
     'Während der Fallas werden einige unserer Zimmer für ein paar Stunden zu privaten Räumen, in denen Sie die Mascletà hautnah erleben können, ohne Gedränge und mit dem gesamten Komfort des Hotels.',
   'home.p2':
     'Jeder dieser Räume ist ein echtes Zimmer des Hotel Venecia mit seiner üblichen Einrichtung, eigenem Bad und Balkon oder Erker mit Blick auf die Plaza del Ayuntamiento.',
   'home.p3': 'Ihre Buchung beinhaltet außerdem ein Snack Pack, um das Erlebnis zu begleiten.',
   'home.cta': 'Verfügbare Balkone ansehen',
+  'home.cta.spaces': 'Private Räume ansehen',
   'home.discover': 'Entdecken',
   'home.tagline': 'Mascletàs, näher als je zuvor',
   'home.badge': 'Ein einzigartiges Erlebnis in Valencia',
@@ -1690,6 +1711,10 @@ const de: Dict = {
   'home.rooms.h2.accent': 'privaten Balkon',
   'home.rooms.lead': 'Wählen Sie Datum, Balkon und Personenzahl. Jeder Balkon gehört zu einem Hotelzimmer, das während der Mascletà ganz Ihnen gehört.',
   'home.rooms.seeall': 'Alle 9 Balkone ansehen',
+  'home.spaces.h2.pre': 'Mieten Sie einen',
+  'home.spaces.h2.accent': 'privaten Raum',
+  'home.spaces.lead': 'Unmöblierte Zimmer mit Bad und Blick auf die Plaza del Ayuntamiento, die als Ganzes für Ihre Gruppe gemietet werden, von 13:00 bis 15:00 Uhr.',
+  'home.spaces.seeall': 'Alle Räume ansehen',
   'home.minis.count': '{n} private Balkone, jeder in einem Zimmer des Hotels Venecia',
   'home.minis.bath': 'Eigenes Bad',
 
