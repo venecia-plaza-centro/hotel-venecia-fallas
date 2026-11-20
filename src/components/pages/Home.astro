@@ -33,8 +33,8 @@ const minSpacePrice = Math.min(...spaceList.map((sp) => sp.price));
 const minCap = Math.min(...spaceList.map((sp) => sp.capacity));
 const maxCap = Math.max(...spaceList.map((sp) => sp.capacity));
 
-// Título de las tarjetas: «¿Balcón o espacio privado?» con «balcón» y «espacio privado» en dorado.
-const chooseTitleHtml = `${t('home.choose.h2.pre').replace(/\b(balcón|balcony|balcone|balcon|Balkon)\b/i, '<em>$1</em>')} <em>${t('home.choose.h2.accent')}</em>`;
+// Título de las tarjetas: «¿Balcón o espacio privado?» todo en azul (sin acento dorado).
+const chooseTitle = `${t('home.choose.h2.pre')} ${t('home.choose.h2.accent')}`;
 
 // Franja bajo el hero: lo que es común a balcones y espacios (el Snack Pack es solo de los balcones y NO va aquí).
 // Iconos propios (public/icons/*.webp, recortados de la lámina dorada del cliente).
@@ -136,7 +136,7 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
 
 <section class="section choose" id="elige">
   <div class="container">
-    <h2 class="h2 choose-h" set:html={chooseTitleHtml} />
+    <h2 class="h2 choose-h">{chooseTitle}</h2>
     <div class="choose-grid">
       <a class="pick" href={roomsUrl}>
         <span class="pick-photo"><img src="/images/rooms/410/balcon.webp" width="640" height="480" alt="" loading="lazy" decoding="async" /></span>
@@ -444,8 +444,6 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
   /* ── debajo del hero: dos tarjetas con lo propio de cada uno ── */
   .choose { background: var(--cream); padding: 56px 0 64px; }
   .choose-h { text-align: center; margin-bottom: 30px; }
-  /* :global porque el título se inyecta con set:html (sin la marca de estilos de este componente). */
-  .choose-h :global(em) { font-style: italic; color: var(--gold); }
   .choose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; max-width: 880px; margin: 0 auto; }
   .pick {
     display: flex; flex-direction: column; overflow: hidden; background: #fff; color: inherit; text-decoration: none;
