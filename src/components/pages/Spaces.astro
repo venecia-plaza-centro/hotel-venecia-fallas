@@ -4,6 +4,7 @@ import { useT } from '../../i18n/ui';
 import { pagePath } from '../../i18n/pages';
 import { getSpaces, spacePriceForDay } from '../../lib/spaces';
 import PageHero from '../PageHero.astro';
+import InfoModal from '../InfoModal.astro';
 import Icon from '../Icon.astro';
 
 interface Props { lang: Locale; }
@@ -43,18 +44,17 @@ const wholeText = fill(t('spaces.info.whole.t'), hoursVars).replace(/^./, (c) =>
 const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
 ---
 
-<PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall scrollLabel={t('home.discover')} scrollHref="#espacios-info" rule={false}>
+<PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall scrollLabel={t('home.discover')} scrollHref="#espacios-vistazo" rule={false}>
   <div class="hero-pills">
-    <a class="hero-pill" href="#espacios-info">{t('spaces.hero.info')}</a>
+    <button type="button" class="hero-pill" data-info-open="info-espacios">{t('spaces.hero.info')}</button>
     <a class="hero-pill" href="#espacios-vistazo">{t('spaces.hero.spaces')}</a>
   </div>
 </PageHero>
 
-<section class="section spaces-info" id="espacios-info">
-  <div class="container" style="max-width:1040px">
+<InfoModal id="info-espacios" label={t('spaces.info.h')} closeLabel={t('nav.close')}>
+<div class="spaces-info">
+  <div>
     <p class="spaces-intro">{t('spaces.intro')}</p>
-
-    <h2>{t('spaces.info.h')}</h2>
 
     <!-- «Espacio exclusivo» destacado (lo más importante) y el resto en tarjetas con icono. -->
     <div class="info-feature">
@@ -74,7 +74,8 @@ const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
       ))}
     </div>
   </div>
-</section>
+</div>
+</InfoModal>
 
 <section class="section spaces-glance" id="espacios-vistazo">
   <div class="container" style="max-width:760px">
@@ -233,6 +234,8 @@ const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
   /* Poco aire entre la foto de la cabecera y el texto: el bloque va pegado a la foto. */
   .spaces-info { text-align: center; padding-top: 34px; padding-bottom: 8px; }
   @media (max-width: 768px) { .spaces-info { padding-top: 26px; } }
+  /* Sin título entre la introducción y el cuadro destacado (dentro de la ventana de «Información»). */
+  .spaces-intro + .info-feature { margin-top: 28px; }
   .spaces-intro { color: var(--text-mid); font-size: 17px; font-weight: 600; font-style: italic; line-height: 1.75; max-width: 640px; margin: 0 auto; }
   .spaces-info h2 { font-size: clamp(22px, 3vw, 28px); margin: 44px 0 18px; }
   .spaces-info h2 { margin-bottom: 26px; }

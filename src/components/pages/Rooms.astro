@@ -1,6 +1,7 @@
 ---
 import { FALLAS, SITE, type Locale } from '../../consts';
 import Icon from '../Icon.astro';
+import InfoModal from '../InfoModal.astro';
 import { useT } from '../../i18n/ui';
 import { getRooms } from '../../lib/airtable';
 import PageHero from '../PageHero.astro';
@@ -24,25 +25,28 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
 );
 ---
 
-<PageHero title={t('rooms.h1')} photo="/images/rooms/410/balcon.webp" lead={capacityNoteHtml} leadStrong shine tall scrollLabel={t('home.discover')} scrollHref="#balcones-info" rule={false}>
+<PageHero title={t('rooms.h1')} photo="/images/rooms/410/balcon.webp" lead={capacityNoteHtml} leadStrong shine tall scrollLabel={t('home.discover')} scrollHref="#balcones-lista" rule={false}>
   <div class="hero-pills">
-    <a class="hero-pill" href="#balcones-info">{t('spaces.hero.info')}</a>
+    <button type="button" class="hero-pill" data-info-open="info-balcones">{t('spaces.hero.info')}</button>
     <a class="hero-pill" href="#balcones-lista">{t('nav.rooms')}</a>
   </div>
 </PageHero>
 
-<section class="section" id="balcones-info">
+<!-- «Información»: lo que es igual en todos los balcones, en una ventana emergente (no escrito en la página). -->
+<InfoModal id="info-balcones" label={t('spaces.hero.info')} closeLabel={t('nav.close')}>
+  <div class="rooms-incl">
+    <ul>
+      <li><Icon name="shower" size={20} /><span>{t('roomcard.bath')}</span></li>
+      <li><Icon name="sparkle" size={20} /><span>{t('roomcard.balcony')}</span></li>
+      <li><Icon name="clock" size={20} /><span>{fmt('roomcard.hours', { start: FALLAS.accessStart, end: FALLAS.accessEnd })}</span></li>
+      <li><Icon name="gift" size={20} /><span>{t('roomcard.snack')}</span></li>
+    </ul>
+    <p>{t('roomcard.private')}</p>
+  </div>
+</InfoModal>
+
+<section class="section" id="balcones-lista-sec">
   <div class="container">
-    <!-- PRUEBA: lo que es igual en todos los balcones, una sola vez arriba (no repetido en cada ficha). -->
-    <div class="rooms-incl">
-      <ul>
-        <li><Icon name="shower" size={20} /><span>{t('roomcard.bath')}</span></li>
-        <li><Icon name="sparkle" size={20} /><span>{t('roomcard.balcony')}</span></li>
-        <li><Icon name="clock" size={20} /><span>{fmt('roomcard.hours', { start: FALLAS.accessStart, end: FALLAS.accessEnd })}</span></li>
-        <li><Icon name="gift" size={20} /><span>{t('roomcard.snack')}</span></li>
-      </ul>
-      <p>{t('roomcard.private')}</p>
-    </div>
     <div class="rooms-list" id="balcones-lista">
       {rooms.map((r) => <RoomCard room={r} lang={lang} />)}
     </div>
@@ -56,9 +60,9 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
 
 <style>
   /* El cuadro y las fichas empiezan más arriba, pegados a la cabecera. */
-  #balcones-info { padding-top: 28px; scroll-margin-top: 70px; }
+  #balcones-lista-sec { padding-top: 28px; }
   #balcones-lista { scroll-margin-top: 90px; }
-  .rooms-incl { max-width: 720px; margin: 0 auto 30px; padding: 18px 22px 16px; background: #fff; border: 1px solid var(--cream-dark); border-radius: 16px; box-shadow: var(--sh-sm); }
+  .rooms-incl { max-width: 720px; margin: 0 auto; padding: 0; }
   .rooms-incl ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
   .rooms-incl li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--text-mid); }
   .rooms-incl li :global(svg) { flex: none; margin-top: 1px; color: var(--gold); }

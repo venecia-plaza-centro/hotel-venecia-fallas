@@ -255,6 +255,7 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
    iguales en Espacios y Balcones. */
 .hero-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
 .hero-pill {
+  font-family: inherit; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
   padding: 12px 30px; border-radius: 999px; border: 1.5px solid var(--gold);
   background: rgba(14, 22, 42, .4); color: #fff; font-size: 13px; font-weight: 700;
