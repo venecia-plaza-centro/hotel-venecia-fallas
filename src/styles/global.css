@@ -238,6 +238,18 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   }
   .page-hero.is-tall .lead { color: rgba(255, 255, 255, .95); font-weight: 500; text-shadow: 0 1px 3px rgba(8, 14, 30, .9), 0 2px 18px rgba(8, 14, 30, .85); }
 }
+/* Pastillas de la cabecera (Información / Espacios / Balcones): dos botones redondeados bajo el texto,
+   iguales en Espacios y Balcones. */
+.hero-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
+.hero-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px 30px; border-radius: 999px; border: 1.5px solid var(--gold);
+  background: rgba(14, 22, 42, .4); color: #fff; font-size: 13px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  transition: background .25s, color .25s, transform .25s;
+}
+.hero-pill:hover { background: var(--gold); color: #fff; transform: translateY(-1px); }
+
 /* Cabeceras sin foto: fondo de azulejos valencianos (estrella de ocho puntas,
    flor central y pétalos en las esquinas, azul y oro sobre el azul marino).
    El degradado de encima los apaga hacia los bordes y deja el título limpio. */

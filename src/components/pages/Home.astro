@@ -190,9 +190,9 @@ const strip = [
   .hero-panel .eyebrow { margin-bottom: 4px; }
   .hero-panel h1 {
     /* Crece con la pantalla: 34 px en el límite con el móvil (481 px) y de ahí
-       ~6vw: ~51 px en tablet vertical, ~66 px en tablet horizontal, ~82 px en
-       portátil, hasta 100 px en pantallas grandes. */
-    color: #fff; font-size: clamp(34px, calc(6vw + 5px), 100px); line-height: 1.15; margin-bottom: 4px;
+       ~6vw: ~51 px en tablet vertical, ~66 px en tablet horizontal y tope de 76 px
+       (portátil y pantallas grandes: más no hace falta y se veía desmesurado). */
+    color: #fff; font-size: clamp(34px, calc(6vw + 5px), 76px); line-height: 1.15; margin-bottom: 4px;
   }
   .hero-panel h1 em { font-style: italic; color: var(--gold-light); }
   .hero-panel p { font-size: 14.5px; line-height: 1.7; color: rgba(255,255,255,.72); }
