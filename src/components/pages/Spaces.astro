@@ -38,14 +38,18 @@ const ICONS: Record<string, string> = {
   decor: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-9 9"/>',
 };
 const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
+// Evita palabras sueltas en la última línea: «14:00 h» no se separa de la «h» y las dos últimas palabras
+// de cada frase van pegadas (espacio duro), así nunca queda «h» u «hotel» solo en una línea.
+const glue = (txt: string) => txt.replace(/(\d{1,2}:\d{2}) (h|Uhr)\b/g, '$1\u00A0$2').replace(/ (\S+)$/, '\u00A0$1');
 // «Información» (ventana emergente): una frase corta por dato.
 const quick = [
-  { icon: 'whole', text: t('spaces.quick.whole') },
-  { icon: 'hours', text: fill(t('spaces.quick.hours'), { ...hoursVars, time: FALLAS.mascletaTime }) },
-  { icon: 'rates', text: t('spaces.quick.rates') },
-  { icon: 'bath', text: t('spaces.quick.bath') },
-  { icon: 'use', text: t('spaces.quick.use') },
-  { icon: 'early', text: t('spaces.quick.early') },
+  { icon: 'whole', text: glue(t('spaces.quick.whole')) },
+  // Horario en dos líneas: «Horario de 13:00 a 15:00 h» y «Mascletà a las 14:00 h» (la frase lleva « · » entre las dos).
+  { icon: 'hours', text: fill(t('spaces.quick.hours'), { ...hoursVars, time: FALLAS.mascletaTime }).split(' · ').map(glue).join('\n') },
+  { icon: 'rates', text: glue(t('spaces.quick.rates')) },
+  { icon: 'bath', text: glue(t('spaces.quick.bath')) },
+  { icon: 'use', text: glue(t('spaces.quick.use')) },
+  { icon: 'early', text: glue(t('spaces.quick.early')) },
 ];
 ---
 
@@ -63,7 +67,7 @@ const quick = [
       {quick.map((q) => (
         <li>
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS[q.icon]} />
-          <span>{q.text}</span>
+          <span>{q.text.split('\n').map((line, i) => <>{i > 0 && <br />}{line}</>)}</span>
         </li>
       ))}
     </ul>
@@ -259,7 +263,8 @@ const quick = [
   li.is-soldout .glance-name, li.is-soldout .glance-meta { opacity: .55; }
   article.is-soldout .space-gallery .stage img.cover { filter: grayscale(.4) brightness(.94); }
   .glance-meta { color: var(--gold); font-style: italic; text-align: center; }
-  .glance-price { color: var(--navy); font-weight: 700; text-align: right; }
+  /* Mismo tipo de letra que el precio de cada ficha (Playfair), en un tamaño propio de la lista. */
+  .glance-price { font-family: var(--ff-display); font-size: 21px; line-height: 1.1; color: var(--navy); font-weight: 700; text-align: right; }
   @media (max-width: 600px) {
     .glance-list a { grid-template-columns: 1fr auto; gap: 2px 12px; }
     .glance-meta { grid-column: 1 / -1; grid-row: 2; text-align: left; font-size: 14px; }
