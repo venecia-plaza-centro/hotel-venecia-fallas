@@ -74,6 +74,13 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
   .rooms-list :global(.room-card-private) { display: none; }
   .rooms-list :global(.room-card-body) { padding: 20px 22px 22px; }
   .rooms-list :global(.room-card-facts) { margin-top: 10px; gap: 6px; }
+  /* Tablet y escritorio: el precio y el botón también van más pegados a la planta y la capacidad. */
+  @media (min-width: 761px) {
+    .rooms-list :global(.room-card-grid .room-card-body) { padding: 18px 20px 20px; }
+    .rooms-list :global(.room-card-grid .room-card-facts) { margin-top: 8px; gap: 4px; }
+    .rooms-list :global(.room-card-grid .room-card-footer) { margin-top: 4px; padding-top: 0; gap: 10px; }
+    .rooms-list :global(.room-card-grid .room-card-price) { line-height: 1.2; margin: 0; }
+  }
   /* Móvil: cada balcón en una tarjeta con la foto arriba (a todo el ancho) y los datos debajo, centrados. */
   @media (max-width: 760px) {
     .rooms-list { gap: 18px; }
