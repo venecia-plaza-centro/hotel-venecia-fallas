@@ -231,22 +231,6 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   }
   .page-hero.is-tall .lead { color: rgba(255, 255, 255, .95); font-weight: 500; text-shadow: 0 1px 3px rgba(8, 14, 30, .9), 0 2px 18px rgba(8, 14, 30, .85); }
 }
-/* Variante `bottom` (Balcones): el texto va pegado a la parte de abajo de la cabecera, encima de la flecha,
-   y deja libre la foto de arriba. En móvil la foto llena toda la pantalla (en vez de ir en una franja
-   16:9 arriba) con el texto abajo sobre un degradado, como la portada. */
-@media (min-width: 901px) {
-  .page-hero.is-tall.is-bottom { align-items: flex-end; padding-top: 150px; padding-bottom: 44px; }
-  .page-hero.is-tall.is-bottom.has-scroll { padding-bottom: 96px; }
-}
-@media (max-width: 900px) {
-  .page-hero.is-tall.is-bottom { padding-top: 0; justify-content: flex-end; padding-bottom: 100px; }
-  .page-hero.is-tall.is-bottom .page-hero-photo { inset: auto; top: 0; left: 0; right: 0; height: 100vh; height: 100lvh; aspect-ratio: auto; -webkit-mask-image: none; mask-image: none; }
-  .page-hero.is-tall.is-bottom.has-photo::after {
-    inset: 0; height: auto; aspect-ratio: auto; -webkit-mask-image: none; mask-image: none;
-    background: linear-gradient(180deg, rgba(20, 31, 56, .10) 0%, rgba(20, 31, 56, .35) 42%, rgba(20, 31, 56, .88) 100%);
-  }
-}
-
 /* Cabeceras sin foto: fondo de azulejos valencianos (estrella de ocho puntas,
    flor central y pétalos en las esquinas, azul y oro sobre el azul marino).
    El degradado de encima los apaga hacia los bordes y deja el título limpio. */
