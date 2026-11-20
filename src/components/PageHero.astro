@@ -15,6 +15,14 @@ const titleHtml =
     ? title.replace(accent, `${emTag}${accent}</em>`)
     : title.replace(BALCONY, `${emTag}$1</em>`);
 
+// Cada palabra del título va en su <span class="hw"> (con su turno --i): entran una a una, como en el
+// título de la portada (ver «Título animado» en global.css). Solo se envuelve el texto, no las etiquetas.
+let wordN = 0;
+const animatedTitleHtml = titleHtml
+  .split(/(<[^>]+>)/)
+  .map((part) => (part.startsWith('<') ? part : part.replace(/\S+/g, (w) => `<span class="hw" style="--i:${wordN++}">${w}</span>`)))
+  .join('');
+
 // "Plaza del Ayuntamiento" enlaza a Google Maps (con destino ya puesto, para
 // que el móvil calcule la ruta desde la ubicación GPS del usuario) en los
 // leads que la mencionan (Habitaciones, Mascletàs).
@@ -29,7 +37,7 @@ const leadHtml = lead?.replace(/\{br\}/g, '<br class="lead-br">').replace(
 <section class={`page-hero${photo ? ' has-photo' : ''}${photo && tall ? ' is-tall' : ''}${scrollLabel ? ' has-scroll' : ''}${rule ? '' : ' no-rule'}`}>
   {photo && <img class="page-hero-photo" src={photo} alt="" aria-hidden="true" />}
   <div class="container">
-    <h1 set:html={titleHtml} />
+    <h1 set:html={animatedTitleHtml} />
     {rule && <GoldRule />}
     {leadHtml && (
       <p class={`lead${leadItalic ? ' lead-italic' : ''}${leadStrong ? ' lead-strong' : ''}`} set:html={leadHtml} />
