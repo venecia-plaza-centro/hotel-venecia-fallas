@@ -74,20 +74,21 @@ const capacityNoteHtml = t('rooms.capacity_note').replace(
   .rooms-list :global(.room-card-private) { display: none; }
   .rooms-list :global(.room-card-body) { padding: 20px 22px 22px; }
   .rooms-list :global(.room-card-facts) { margin-top: 10px; gap: 6px; }
-  /* Móvil: una fila por balcón (foto a la izquierda, datos a la derecha). */
+  /* Móvil: cada balcón en una tarjeta con la foto arriba (a todo el ancho) y los datos debajo, centrados. */
   @media (max-width: 760px) {
-    .rooms-list { gap: 14px; }
-    .rooms-list :global(.room-card-grid) { grid-template-columns: 40% 1fr; align-items: stretch; }
-    .rooms-list :global(.room-card-grid .room-card-media) { order: 1; aspect-ratio: auto; height: 100%; min-height: 170px; }
-    .rooms-list :global(.room-card-grid .room-card-body) { order: 2; text-align: left; padding: 14px 14px 14px; justify-content: center; }
-    .rooms-list :global(.room-card-grid .room-card-body h3) { text-align: left; font-size: 18px; line-height: 1.2; }
-    .rooms-list :global(.room-card-grid .room-card-facts) { max-width: none; margin: 8px 0 0; grid-template-columns: 1fr; }
-    .rooms-list :global(.room-card-grid .room-card-facts li) { font-size: 13px; }
-    .rooms-list :global(.room-card-grid .room-card-footer) { margin-top: 10px; flex-direction: column; align-items: flex-start; gap: 8px; }
-    .rooms-list :global(.room-card-grid .room-card-price) { justify-content: flex-start; font-size: 13px; }
-    .rooms-list :global(.room-card-grid .room-card-price strong) { font-size: 22px; }
-    .rooms-list :global(.room-card-grid .btn) { padding: 10px 10px; font-size: 11.5px; letter-spacing: .04em; width: 100%; justify-content: center; text-align: center; }
-    .rooms-list :global(.room-card-grid .btn .btn-ic) { display: none; }
+    .rooms-list { gap: 18px; }
+    .rooms-list :global(.room-card-grid) { grid-template-columns: 1fr; }
+    .rooms-list :global(.room-card-grid .room-card-media) { order: 1; aspect-ratio: 16 / 10; height: auto; min-height: 0; }
+    .rooms-list :global(.room-card-grid .room-card-body) { order: 2; text-align: center; padding: 16px 18px 18px; }
+    .rooms-list :global(.room-card-grid .room-card-body h3) { text-align: center; font-size: 22px; line-height: 1.2; }
+    .rooms-list :global(.room-card-grid .room-card-facts) { max-width: none; margin: 8px 0 0; grid-template-columns: 1fr; justify-items: center; }
+    .rooms-list :global(.room-card-grid .room-card-facts li) { font-size: 14px; justify-content: center; }
+    /* El precio va pegado a la planta y la capacidad (sin el hueco de antes) y el botón justo debajo. */
+    .rooms-list :global(.room-card-grid .room-card-facts) { margin-bottom: 0; }
+    .rooms-list :global(.room-card-grid .room-card-footer) { margin-top: 6px; padding-top: 0; flex-direction: column; align-items: stretch; gap: 10px; }
+    .rooms-list :global(.room-card-grid .room-card-price) { justify-content: center; font-size: 14px; line-height: 1.2; margin: 0; }
+    .rooms-list :global(.room-card-grid .room-card-price strong) { font-size: 24px; }
+    .rooms-list :global(.room-card-grid .btn) { width: 100%; justify-content: center; text-align: center; }
   }
   .rooms-outro { max-width: 680px; margin: 44px auto 0; text-align: center; color: var(--text-mid); font-size: 15px; line-height: 1.7; }
   .rooms-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 0 auto; }
