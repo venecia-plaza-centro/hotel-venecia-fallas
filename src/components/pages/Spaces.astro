@@ -27,7 +27,6 @@ const dayList = (days: number[]) =>
 
 const bookUrl = pagePath('book', lang);
 const contactUrl = pagePath('contact', lang);
-const infoKeys = ['hours', 'rates', 'early', 'bath', 'use', 'decor'] as const;
 // Iconos de línea (24×24) de cada tarjeta de condiciones; «whole» es la destacada.
 const ICONS: Record<string, string> = {
   whole: '<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-7h6v7"/>',
@@ -39,9 +38,15 @@ const ICONS: Record<string, string> = {
   decor: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-9 9"/>',
 };
 const hoursVars = { start: FALLAS.accessStart, end: FALLAS.accessEnd };
-// «Espacio exclusivo»: dos frases; en escritorio van cada una en su línea (en móvil fluye como un párrafo).
-const wholeText = fill(t('spaces.info.whole.t'), hoursVars).replace(/^./, (c) => c.toUpperCase());
-const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
+// «Información» (ventana emergente): una frase corta por dato.
+const quick = [
+  { icon: 'whole', text: t('spaces.quick.whole') },
+  { icon: 'hours', text: fill(t('spaces.quick.hours'), { ...hoursVars, time: FALLAS.mascletaTime }) },
+  { icon: 'rates', text: t('spaces.quick.rates') },
+  { icon: 'bath', text: t('spaces.quick.bath') },
+  { icon: 'use', text: t('spaces.quick.use') },
+  { icon: 'early', text: t('spaces.quick.early') },
+];
 ---
 
 <PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall scrollLabel={t('home.discover')} scrollHref="#espacios-vistazo" rule={false}>
@@ -51,30 +56,19 @@ const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
   </div>
 </PageHero>
 
-<InfoModal id="info-espacios" label={t('spaces.info.h')} closeLabel={t('nav.close')}>
-<div class="spaces-info">
-  <div>
-    <p class="spaces-intro">{t('spaces.intro')}</p>
-
-    <!-- «Espacio exclusivo» destacado (lo más importante) y el resto en tarjetas con icono. -->
-    <div class="info-feature">
-      <span class="ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS.whole} /></span>
-      <div>
-        <h3>{t('spaces.info.whole.l')}</h3>
-        <p>{wholeParts ? <>{wholeParts[1]}<br class="lines-br" /> {wholeParts[2]}</> : wholeText}</p>
-      </div>
-    </div>
-    <div class="info-grid">
-      {infoKeys.map((k) => (
-        <div class="info-card">
-          <span class="ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS[k]} /></span>
-          <h3>{t(`spaces.info.${k}.l`)}</h3>
-          <p>{fill(t(`spaces.info.${k}.t`), hoursVars).replace(/^./, (c) => c.toUpperCase())}</p>
-        </div>
+<InfoModal id="info-espacios" label={t('spaces.hero.info')} closeLabel={t('nav.close')}>
+  <!-- «Información» a un vistazo: un icono y una frase corta por dato (como la ventana de Balcones). -->
+  <div class="space-quick">
+    <ul>
+      {quick.map((q) => (
+        <li>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICONS[q.icon]} />
+          <span>{q.text}</span>
+        </li>
       ))}
-    </div>
+    </ul>
+    <p>{t('spaces.quick.note')}</p>
   </div>
-</div>
 </InfoModal>
 
 <section class="section spaces-glance" id="espacios-vistazo">
@@ -229,55 +223,13 @@ const wholeParts = /^(.+?[.!?])\s+(.+)$/.exec(wholeText);
 
 <style>
   #espacios-vistazo { scroll-margin-top: 70px; }
-  /* Misma línea que la página de Mascletàs: columna centrada, títulos en serif,
-     rombos dorados en las listas y filas con línea fina. */
-  /* Poco aire entre la foto de la cabecera y el texto: el bloque va pegado a la foto. */
-  .spaces-info { text-align: center; padding-top: 34px; padding-bottom: 8px; }
-  @media (max-width: 768px) { .spaces-info { padding-top: 26px; } }
-  /* Sin título entre la introducción y el cuadro destacado (dentro de la ventana de «Información»). */
-  .spaces-intro + .info-feature { margin-top: 28px; }
-  .spaces-intro { color: var(--text-mid); font-size: 17px; font-weight: 600; font-style: italic; line-height: 1.75; max-width: 640px; margin: 0 auto; }
-  .spaces-info h2 { font-size: clamp(22px, 3vw, 28px); margin: 44px 0 18px; }
-  .spaces-info h2 { margin-bottom: 26px; }
-  .info-feature {
-    display: flex; align-items: center; gap: 24px; text-align: left; margin-bottom: 22px; padding: 28px 34px;
-    background: linear-gradient(135deg, #1B2A4A, #243459); border: 1px solid rgba(201, 162, 70, .45);
-    border-radius: 20px; box-shadow: 0 14px 34px rgba(27, 42, 74, .22); color: #fff;
-  }
-  .info-feature .ic {
-    flex: none; width: 66px; height: 66px; border-radius: 50%; display: grid; place-items: center;
-    background: rgba(201, 162, 70, .16); border: 1px solid rgba(201, 162, 70, .55); color: var(--gold-light);
-  }
-  .info-feature h3 { margin: 0 0 6px; font-size: 24px; color: var(--gold-light); }
-  .info-feature p { margin: 0; color: rgba(255, 255, 255, .9); font-size: 16px; line-height: 1.65; }
-  .info-feature .lines-br { display: none; }
-  @media (min-width: 901px) { .info-feature .lines-br { display: inline; } }
-  /* Condiciones con la disposición de la página de Contacto: sin cajas, icono beige redondo,
-     etiqueta pequeña en dorado y mayúsculas, y el texto debajo, todo centrado. Ocupa mucho menos
-     alto que una tarjeta por fila: 3 por fila en escritorio, 2 en tablet y 1 en móvil. */
-  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px 34px; margin-top: 8px; }
-  .info-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0; }
-  .info-card .ic { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: #F6EFD9; color: #B8923A; flex-shrink: 0; }
-  .info-card h3 { margin: 0; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
-  .info-card p { margin: -4px 0 0; color: var(--text-mid); font-size: 14px; line-height: 1.55; max-width: 300px; }
-  /* Tablet y móvil (≤900 px): tarjetas en horizontal, una por fila, con el icono beige a la
-     izquierda y el título con el texto a la derecha. En escritorio se queda el diseño de arriba. */
-  @media (max-width: 900px) {
-    .info-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 0; }
-    .info-card {
-      display: grid; grid-template-columns: auto 1fr; column-gap: 16px; row-gap: 4px; align-items: start; align-content: start;
-      text-align: left; padding: 20px 22px;
-      background: #fff; border: 1px solid var(--cream-dark); border-radius: 18px; box-shadow: 0 4px 14px rgba(27, 42, 74, .06);
-    }
-    .info-card .ic { grid-row: 1 / span 2; }
-    .info-card h3 { margin: 2px 0 0; font-family: var(--ff-display); font-size: 18px; font-weight: 700; letter-spacing: normal; text-transform: none; color: var(--navy); align-self: end; }
-    .info-card p { margin: 0; font-size: 15px; line-height: 1.65; max-width: none; }
-  }
-  @media (max-width: 600px) {
-    .info-card { padding: 16px 18px; column-gap: 14px; }
-    .info-card .ic { width: 44px; height: 44px; }
-    .info-feature { flex-direction: column; gap: 14px; padding: 26px 22px; text-align: center; }
-  }
+  /* Ventana «Información»: lista corta de iconos y frases, como la de Balcones. */
+  .space-quick { max-width: 760px; margin: 0 auto; }
+  .space-quick ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+  .space-quick li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.45; color: var(--text-mid); text-align: left; }
+  .space-quick li :global(svg) { flex: none; margin-top: 1px; color: var(--gold); }
+  .space-quick p { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--cream-dark); text-align: center; font-size: 13.5px; font-weight: 600; color: var(--navy); }
+  @media (max-width: 640px) { .space-quick ul { grid-template-columns: 1fr; gap: 12px; } }
 
   .spaces-glance { padding-top: 48px; padding-bottom: 8px; }
   .glance-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
