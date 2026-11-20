@@ -1,0 +1,67 @@
+---
+/**
+ * Los espacios de un vistazo, en pequeño, como los balcones de RoomMinis.astro:
+ * una casilla cuadrada por espacio con su foto, planta, número y precio. Cada una
+ * lleva a su ficha en /espacios/. Los espacios sin ningún día libre salen en gris.
+ */
+import type { Locale } from '../consts';
+import { pagePath } from '../i18n/pages';
+import { useT } from '../i18n/ui';
+import type { Space } from '../lib/spaces';
+
+interface Props { spaces: Space[]; lang: Locale; }
+const { spaces, lang } = Astro.props;
+const t = useT(lang);
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''));
+const INTL: Record<string, string> = { es: 'es-ES', en: 'en-GB', it: 'it-IT', fr: 'fr-FR', de: 'de-DE' };
+const money = (n: number) =>
+  new Intl.NumberFormat(INTL[lang] ?? 'es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' } as Intl.NumberFormatOptions).format(n);
+const spacesUrl = pagePath('spaces', lang);
+---
+
+<ul class="space-minis-grid">
+  {spaces.map((s) => (
+    <li>
+      <a class={`space-mini${s.days.length === 0 ? ' is-soldout' : ''}`} href={`${spacesUrl}#espacio-${s.number}`} aria-label={fill(t('spaces.card.title'), { n: s.number })}>
+        <img src={`/images/espacios/${s.number}/foto-800.webp`} alt="" width="320" height="320" loading="lazy" decoding="async" />
+        <span class="space-mini-badge">{t('spaces.soldout.badge')}</span>
+        <span class="space-mini-info">
+          <span class="space-mini-floor">{t(`spaces.floor.${s.floor}`)}</span>
+          <span class="space-mini-n">{s.number}</span>
+          <span class="space-mini-price">{money(s.price)}</span>
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .space-minis-grid { list-style: none; margin: 0 auto 36px; padding: 0; max-width: 540px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 480px) { .space-minis-grid { gap: 8px; } }
+  .space-mini {
+    position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 12px;
+    background: var(--navy); container-type: inline-size; box-shadow: var(--sh-sm);
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  @media (hover: hover) { .space-mini:hover { transform: translateY(-4px); box-shadow: var(--sh-md); } }
+  .space-mini img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* Degradado azul abajo para que número y precio se lean sobre cualquier foto. */
+  .space-mini::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20, 31, 56, 0) 28%, rgba(20, 31, 56, .94) 100%);
+  }
+  .space-mini-info {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 0 4px 8px;
+    display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.1;
+  }
+  .space-mini-floor { font-size: clamp(8px, 6cqw, 10px); letter-spacing: .06em; text-transform: uppercase; color: var(--gold-light); font-weight: 600; text-shadow: 0 1px 6px rgba(8, 14, 30, .8); }
+  .space-mini-n { font-family: var(--ff-display); font-weight: 700; color: #fff; font-size: clamp(18px, 20cqw, 28px); margin: 2px 0; text-shadow: 0 1px 8px rgba(8, 14, 30, .6); }
+  .space-mini-price { font-size: clamp(9px, 7cqw, 12px); color: rgba(255, 255, 255, .92); text-shadow: 0 1px 6px rgba(8, 14, 30, .8); }
+  .space-mini-badge {
+    display: none; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); z-index: 2;
+    background: #fff; color: var(--navy); font-size: clamp(8px, 6.5cqw, 11px); font-weight: 700;
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .space-mini.is-soldout img { filter: grayscale(1); opacity: .6; }
+  .space-mini.is-soldout .space-mini-badge { display: block; }
+</style>
