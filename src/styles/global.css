@@ -315,8 +315,9 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   h2.reveal.is-in { opacity: 1; transform: none; }
 }
 @keyframes titleGoldSweep {
-  0% { background-position: 0% 0; }
-  45%, 100% { background-position: 100% 0; }
+  /* El destello viaja de izquierda a derecha (la banda blanca empieza a la izquierda de la palabra y sale por la derecha). */
+  0% { background-position: 100% 0; }
+  45%, 100% { background-position: 0% 0; }
 }
 @media (prefers-reduced-motion: reduce) { .page-hero h1 em.shine { animation: none; } }
 .page-hero .gold-rule { margin: 24px auto 22px; }

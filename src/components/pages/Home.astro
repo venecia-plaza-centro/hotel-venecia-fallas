@@ -224,8 +224,9 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
      animación de entrada no la borre al terminar. */
   .hero-panel h1 em { filter: drop-shadow(0 2px 10px rgba(8, 14, 30, .55)); }
   @keyframes goldSweep {
-    0% { background-position: 0% 0; }
-    45%, 100% { background-position: 100% 0; }
+    /* El destello viaja de izquierda a derecha. */
+    0% { background-position: 100% 0; }
+    45%, 100% { background-position: 0% 0; }
   }
   /* Siempre en dos líneas ("Viva la mascletà desde" / "su balcón privado"): con la letra grande, en una sola línea quedaría cortada de forma torpe. */
   .hero-panel h1 .h1-tail { display: block; }

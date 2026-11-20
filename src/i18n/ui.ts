@@ -444,9 +444,9 @@ const es: Dict = {
   'legal.legalnotice.h1': 'Aviso legal',
 
   // meta
-  'meta.home.title': 'Balcón mascletà Fallas 2027 · Hotel Venecia Plaza Centro',
+  'meta.home.title': 'Balcones y espacios para la mascletà · Fallas 2027 · Hotel Venecia',
   'meta.home.desc':
-    'Reserve online un balcón privado para ver la mascletà de Fallas 2027 en la Plaza del Ayuntamiento de València. Hotel Venecia Plaza Centro, Snack Pack incluido.',
+    'Reserve online un balcón o alquile un espacio privado para ver la mascletà de Fallas 2027 en la Plaza del Ayuntamiento de València. Hotel Venecia Plaza Centro.',
 };
 
 const en: Dict = {
@@ -867,9 +867,9 @@ const en: Dict = {
   'legal.privacy.h1': 'Privacy policy',
   'legal.legalnotice.h1': 'Legal notice',
 
-  'meta.home.title': 'Mascletà balcony · Fallas 2027 · Hotel Venecia Plaza Centro',
+  'meta.home.title': 'Balconies and private spaces for the mascletà · Fallas 2027 · Hotel Venecia',
   'meta.home.desc':
-    'Book a private balcony online to watch the Fallas 2027 mascletà on València’s Plaza del Ayuntamiento. Hotel Venecia Plaza Centro, Snack Pack included.',
+    'Book a balcony online or rent a private space to watch the Fallas 2027 mascletà on València’s Plaza del Ayuntamiento. Hotel Venecia Plaza Centro.',
 };
 
 const it: Dict = {
@@ -1291,9 +1291,9 @@ const it: Dict = {
   'legal.privacy.h1': 'Informativa sulla privacy',
   'legal.legalnotice.h1': 'Note legali',
 
-  'meta.home.title': 'Balcone mascletà Fallas 2027 · Hotel Venecia Plaza Centro',
+  'meta.home.title': 'Balconi e spazi privati per la mascletà · Fallas 2027 · Hotel Venecia',
   'meta.home.desc':
-    'Prenoti online un balcone privato per vedere la mascletà delle Fallas 2027 in Plaza del Ayuntamiento a València. Hotel Venecia Plaza Centro, Snack Pack incluso.',
+    'Prenoti online un balcone o affitti uno spazio privato per vedere la mascletà delle Fallas 2027 in Plaza del Ayuntamiento a València. Hotel Venecia Plaza Centro.',
 };
 
 const fr: Dict = {
@@ -1716,9 +1716,9 @@ const fr: Dict = {
   'legal.privacy.h1': 'Politique de confidentialité',
   'legal.legalnotice.h1': 'Mentions légales',
 
-  'meta.home.title': 'Balcon mascletà Fallas 2027 · Hôtel Venecia Plaza Centro',
+  'meta.home.title': 'Balcons et espaces privés pour la mascletà · Fallas 2027 · Hôtel Venecia',
   'meta.home.desc':
-    'Réservez en ligne un balcon privé pour voir la mascletà des Fallas 2027 sur la Plaza del Ayuntamiento de València. Hôtel Venecia Plaza Centro, Snack Pack inclus.',
+    'Réservez en ligne un balcon ou louez un espace privé pour voir la mascletà des Fallas 2027 sur la Plaza del Ayuntamiento de València. Hôtel Venecia Plaza Centro.',
 };
 
 const de: Dict = {
@@ -2140,9 +2140,9 @@ const de: Dict = {
   'legal.privacy.h1': 'Datenschutzerklärung',
   'legal.legalnotice.h1': 'Impressum',
 
-  'meta.home.title': 'Balkon Mascletà Fallas 2027 · Hotel Venecia Plaza Centro',
+  'meta.home.title': 'Balkone und private Räume für die Mascletà · Fallas 2027 · Hotel Venecia',
   'meta.home.desc':
-    'Buchen Sie online einen privaten Balkon, um die Fallas-Mascletà 2027 an der Plaza del Ayuntamiento in València zu erleben. Hotel Venecia Plaza Centro, Snack Pack inklusive.',
+    'Buchen Sie online einen Balkon oder mieten Sie einen privaten Raum, um die Fallas-Mascletà 2027 an der Plaza del Ayuntamiento in València zu erleben.',
 };
 
 const DICTS: Record<Locale, Dict> = {
