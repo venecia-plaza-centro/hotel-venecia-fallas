@@ -149,11 +149,17 @@ function init() {
         selected = d;
         setErr('space-err-date');
         renderDays();
-        ($('#space-next') as HTMLButtonElement).disabled = false;
+        // Elegir el día lleva directo al paso de datos (sin botón «Continuar»).
+        goToDetails();
       });
       box.appendChild(b);
     }
-    ($('#space-next') as HTMLButtonElement).disabled = !selected;
+  }
+
+  function goToDetails() {
+    renderRecap();
+    taken.hidden = true;
+    show('details');
   }
 
   function showClosed(opensAt?: string) {
@@ -247,12 +253,6 @@ function init() {
       location.replace(cfg.urls.spaces);
     });
 
-  ($('#space-next') as HTMLButtonElement).addEventListener('click', () => {
-    if (!selected) return setErr('space-err-date', T['book.date.err.generic']);
-    renderRecap();
-    taken.hidden = true;
-    show('details');
-  });
   document.querySelectorAll<HTMLElement>('[data-sback]').forEach((b) => b.addEventListener('click', () => show('date')));
   $('#space-taken-cta').addEventListener('click', () => {
     taken.hidden = true;
