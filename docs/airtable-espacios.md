@@ -125,7 +125,8 @@ cargados en Airtable; los espacios nuevos (704, 800, 801, 802) están creados
 |---|---|---|---|
 | 109 | 750 | 12 | 1 al 9 |
 | 208 | 750 | 12 | 1, 2, 4 y 7 |
-| 209 y 210 | — | — | **Quitados de la venta** (siguen en el Excel del hotel; el 210 está en Airtable con `Activo` desmarcado) |
+| 209 | — | — | **Quitada de la venta** (sigue en el Excel del hotel, pero no se vende en la web) |
+| 210 | 480 | 8 | 1, 2, 3 y 14 (480 € todos los días; sin precio especial) |
 | 408 | 900 | 15 | 14 |
 | 506 | 1300 | 20 | 1 y 2 |
 | 602 | 400 | 8 | 1 al 8 y 10 al 19 |

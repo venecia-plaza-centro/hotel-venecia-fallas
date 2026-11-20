@@ -51,6 +51,7 @@ export const cateringMin = (capacity: number) => Math.min(CATERING_MIN_GUESTS, c
 const FIXTURES: Space[] = ([
   { slug: 'espacio-109', number: '109', floor: 1, m2: 16, capacity: 12, price: 750, days: [1, 2, 3, 4, 5, 6, 7, 8, 9], hasFacade: true, order: 1 },
   { slug: 'espacio-208', number: '208', floor: 2, m2: 16, capacity: 12, price: 750, days: [1, 2, 4, 7], hasFacade: true, order: 2 },
+  { slug: 'espacio-210', number: '210', floor: 2, m2: 10, capacity: 8, price: 480, days: [1, 2, 3, 14], hasFacade: true, order: 3 },
   { slug: 'espacio-408', number: '408', floor: 4, m2: 30, capacity: 15, price: 900, days: [14], hasFacade: true, order: 4 },
   { slug: 'espacio-506', number: '506', floor: 5, m2: 35, capacity: 20, price: 1300, days: [1, 2], hasFacade: false, order: 5 },
   { slug: 'espacio-602', number: '602', floor: 6, m2: 20, capacity: 8, price: 400, days: [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], hasFacade: true, order: 6 },
