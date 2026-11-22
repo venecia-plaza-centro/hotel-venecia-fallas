@@ -39,16 +39,24 @@ document.addEventListener(
 );
 
 /**
- * Apertura automática (`data-auto` en el <dialog>): cada vez que se entra en la página sale la ventana
- * de información, pasado un instante para que se vea antes la cabecera. No sale si el visitante llega a
- * una sección concreta (enlace con #ancla) ni si ya hay otra ventana abierta.
+ * Apertura automática (`data-auto` en el <dialog>): al entrar en la web sale la ventana de información de
+ * la página (Balcones o Espacios), UNA sola vez por visita en toda la web (sessionStorage, compartido por
+ * las dos páginas): si ya salió en una, no vuelve a salir en la otra ni al recargar o volver atrás. Vuelve
+ * a salir cuando el visitante entra de nuevo (pestaña o sesión nueva). Pasado un instante, para que se vea
+ * antes la cabecera. No sale si el visitante llega a una sección concreta (enlace con #ancla) ni si hay
+ * otra ventana abierta. Si el navegador no deja guardar, sale igualmente.
  */
+const AUTO_KEY = 'info-auto-shown';
 document.querySelectorAll<HTMLDialogElement>('dialog.info-modal[data-auto]').forEach((dlg) => {
+  try {
+    if (sessionStorage.getItem(AUTO_KEY)) return;
+  } catch { /* sin almacenamiento: se abre igualmente */ }
   if (location.hash) return;
   window.setTimeout(() => {
     if (document.querySelector('dialog[open]') || typeof dlg.showModal !== 'function') return;
     dlg.showModal();
     document.body.style.overflow = 'hidden';
     dlg.querySelector<HTMLElement>('.info-modal-body')?.scrollTo({ top: 0 });
+    try { sessionStorage.setItem(AUTO_KEY, '1'); } catch { /* ignorar */ }
   }, 900);
 });
