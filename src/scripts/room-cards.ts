@@ -47,3 +47,4 @@ const photosExpire = [...document.querySelectorAll<HTMLElement>('.room-card-medi
 // El carrusel de fotos (flechas y deslizar) es un módulo compartido con la
 // página de Reservar, que crea estas fichas con JavaScript.
 import './room-carousel';
+import './lightbox';
