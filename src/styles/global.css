@@ -247,6 +247,14 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
   .page-hero.is-tall { padding-top: calc(80vw + 6px); }
   .page-hero.is-tall .page-hero-photo,
   .page-hero.is-tall.has-photo::after { aspect-ratio: 5 / 4; }
+  /* iPhone (≈ 400 × 680 visibles en Safari): foto, título, texto, botones y flecha caben en la primera pantalla
+     (Balcones y Espacios): letra del texto un poco menor, menos aire entre bloques y flecha más pegada abajo. */
+  .page-hero.is-tall h1 { font-size: 30px; }
+  .page-hero.is-tall .lead { font-size: 15px; line-height: 1.4; }
+  .page-hero.is-tall .hero-pills { margin-top: 14px; gap: 10px; }
+  .page-hero.is-tall .hero-pill { padding: 10px 24px; }
+  .page-hero.is-tall.has-scroll { padding-bottom: 74px; }
+  .page-hero.is-tall .page-hero-scroll { bottom: 14px; }
 }
 @media (min-width: 901px) {
   /* En escritorio la cabecera con foto ocupa TODA la pantalla (ancho y alto), como la portada. */
