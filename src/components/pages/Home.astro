@@ -83,10 +83,7 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
     <GoldRule style="margin:0 0 4px" />
     <p class="hero-kicker" set:html={kickerHtml} />
     <div class="hero-ctas">
-      <a class="btn btn-gold btn-arrow" href={roomsUrl}>
-        {t('home.cta')}
-        <span class="btn-ic"><Icon name="arrow-right" size={16} /></span>
-      </a>
+      <a class="btn btn-gold btn-hero-main" href={roomsUrl}>{t('home.cta.rooms')}</a>
       <a class="btn btn-hero-ghost" href={spacesUrl}>{t('home.cta.spaces')}</a>
     </div>
     <a class="hero-scroll" href="#elige">
@@ -263,6 +260,8 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
   /* Dos botones: balcones (dorado, el principal) y espacios (transparente con borde claro). */
   .hero-ctas { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .hero-ctas .btn { margin-top: 10px; }
+  .hero-panel .btn-hero-main { box-shadow: 0 8px 22px rgba(201, 162, 70, .28); }
+  .hero-panel .btn-hero-main:hover { background: var(--gold-light); border-color: var(--gold-light); color: var(--navy); }
   .hero-panel .btn-hero-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1.5px solid rgba(255,255,255,.6); text-shadow: 0 1px 8px rgba(8,14,30,.5); }
   .hero-panel .btn-hero-ghost:hover { background: rgba(255,255,255,.18); border-color: var(--gold-light); color: #fff; }
 
