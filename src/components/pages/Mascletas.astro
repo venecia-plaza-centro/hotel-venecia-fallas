@@ -78,6 +78,10 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
   /* Todo centrado: foto arriba y texto debajo, en una columna. */
   .mascletas-info { text-align: center; }
   .mascletas-info p, .mascletas-info li { margin-left: auto; margin-right: auto; }
+  /* Frases repartidas por igual entre líneas: ninguna se queda con una palabra suelta en la segunda. */
+  /* Los párrafos largos (más de 6 líneas, donde «balance» no actúa) usan «pretty», que evita la palabra suelta final. */
+  .mascletas-info li { text-wrap: balance; }
+  .mascletas-info p { text-wrap: pretty; }
   .mascletas-info ul { list-style: none; padding-left: 0; max-width: 620px; margin: 0 auto; }
   .mascletas-info li::before { content: '◆'; display: block; color: var(--gold); font-size: 9px; line-height: 1; margin-bottom: 6px; }
   .mascletas-what { display: flex; flex-direction: column; align-items: center; gap: 24px; }
