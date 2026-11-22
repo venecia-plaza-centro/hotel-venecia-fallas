@@ -19,7 +19,7 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
 </PageHero>
 
 <section class="section mascletas-info">
-  <div class="container" style="max-width:760px">
+  <div class="container mascletas-info-box">
     <div class="mascletas-what">
       <div class="mascletas-what-text">
         <h2>{t('mascletas.what.h')}</h2>
@@ -83,6 +83,17 @@ const tips = [1, 2, 3, 4, 5].map((n) => t(`mascletas.tips.${n}`));
   .mascletas-what { display: flex; flex-direction: column; align-items: center; gap: 24px; }
   .mascletas-what .mascletas-what-text h2 { margin-top: 0; }
   .mascletas-what img { order: -1; width: 100%; max-width: 480px; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; box-shadow: var(--sh-md); }
+  .mascletas-info-box { max-width: 760px; }
+  /* Escritorio: «¿Qué es una mascletà?» a ancho amplio con la foto a la izquierda y el texto a la derecha;
+     el resto de la página (consejos, calendario…) sigue en su columna de 760 px. */
+  @media (min-width: 900px) {
+    .mascletas-info-box { max-width: 1040px; }
+    .mascletas-info-box > :not(.mascletas-what) { max-width: 760px; margin-left: auto; margin-right: auto; }
+    .mascletas-what { flex-direction: row; align-items: center; gap: 56px; margin-bottom: 36px; }
+    .mascletas-what img { order: 0; flex: 0 0 48%; width: 48%; max-width: none; }
+    .mascletas-what .mascletas-what-text { flex: 1; text-align: left; }
+    .mascletas-what .mascletas-what-text p { margin-left: 0; }
+  }
   @media (max-width: 760px) {
     .mascletas-what { gap: 20px; }
     .mascletas-what img { height: 200px; aspect-ratio: auto; }
