@@ -30,6 +30,9 @@ const maxGuests = Math.max(...rooms.map((r) => r.capacity));
 // Espacios: el más barato por día y el rango de aforos de los espacios activos.
 const spaceList = await getSpaces();
 const minSpacePrice = Math.min(...spaceList.map((sp) => sp.price));
+// Fotos que van cambiando en cada tarjeta: los balcones (el 410 primero, que es la que ya había) y los espacios (el 704 primero).
+const roomSlides = ['410', ...rooms.map((r) => String(r.roomNumber)).filter((n) => n !== '410')].map((n) => `/images/rooms/${n}/balcon.webp`);
+const spaceSlides = ['704', ...spaceList.map((sp) => sp.number).filter((n) => n !== '704')].map((n) => `/images/espacios/${n}/foto-800.webp`);
 const minCap = Math.min(...spaceList.map((sp) => sp.capacity));
 const maxCap = Math.max(...spaceList.map((sp) => sp.capacity));
 
@@ -135,7 +138,9 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
   <div class="container">
     <div class="choose-grid">
       <a class="pick" href={roomsUrl}>
-        <span class="pick-photo"><img src="/images/rooms/410/balcon.webp" width="640" height="480" alt="" loading="lazy" decoding="async" /></span>
+        <span class="pick-photo pick-slides" data-slides>
+          {roomSlides.map((src, i) => <img src={src} width="640" height="480" alt="" class={i === 0 ? 'on' : undefined} loading="lazy" decoding="async" />)}
+        </span>
         <span class="pick-body">
           <strong class="pick-title">{t('nav.rooms')}</strong>
           <ul class="pick-facts">
@@ -148,7 +153,9 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
         </span>
       </a>
       <a class="pick" href={spacesUrl}>
-        <span class="pick-photo"><img src="/images/espacios/704/foto-800.webp" width="800" height="450" alt="" loading="lazy" decoding="async" /></span>
+        <span class="pick-photo pick-slides" data-slides data-delay="1800">
+          {spaceSlides.map((src, i) => <img src={src} width="800" height="450" alt="" class={i === 0 ? 'on' : undefined} loading="lazy" decoding="async" />)}
+        </span>
         <span class="pick-body">
           <strong class="pick-title">{t('nav.spaces')}</strong>
           <ul class="pick-facts">
@@ -450,15 +457,19 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
   .pick-photo { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--navy); }
   .pick-photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
   .pick:hover .pick-photo img { transform: scale(1.05); }
+  /* Las fotos de cada tarjeta se van fundiendo una en otra (ver el script del final). */
+  .pick-slides { position: relative; }
+  .pick-slides img { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease, transform .6s; }
+  .pick-slides img.on { opacity: 1; }
   .pick-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; text-align: center; }
   .pick-title { font-family: var(--ff-display); font-size: 24px; letter-spacing: .06em; text-transform: uppercase; color: var(--navy); }
   .pick-facts { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 5px; }
   .pick-facts li { font-size: 14.5px; line-height: 1.45; color: var(--text-mid); }
   .pick-facts .pick-incl { font-weight: 700; color: var(--navy); }
-  .pick-price { margin-top: auto; padding-top: 14px; font-size: 15px; color: var(--navy); font-weight: 600; }
+  .pick-price { margin-top: auto; padding-top: 14px; font-family: var(--ff-display); font-size: 22px; line-height: 1.15; color: var(--navy); font-weight: 700; }
   .pick-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; padding: 12px 16px;
-    background: var(--gold); color: var(--navy); border-radius: 999px; font-size: 12.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    background: var(--gold); color: var(--navy); border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   }
   @media (max-width: 700px) {
     .choose { padding: 40px 0 48px; }
@@ -503,5 +514,33 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
     for (const ev of ['touchstart', 'pointerdown', 'scroll', 'click', 'keydown'] as const) {
       window.addEventListener(ev, play, { once: true, passive: true });
     }
+  }
+
+  // Fotos que cambian en las tarjetas de Balcones y Espacios: cada 4 s se funde la siguiente
+  // (la segunda tarjeta arranca 1,8 s después para que no cambien a la vez). Solo corre mientras
+  // la tarjeta se ve en pantalla, se detiene si la pestaña está oculta y no se anima si el
+  // visitante tiene activado «reducir movimiento».
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-slides]').forEach((box) => {
+      const imgs = Array.from(box.querySelectorAll<HTMLImageElement>('img'));
+      if (imgs.length < 2) return;
+      let i = 0;
+      let timer: number | undefined;
+      let starter: number | undefined;
+      const next = () => {
+        if (document.hidden) return;
+        imgs[i].classList.remove('on');
+        i = (i + 1) % imgs.length;
+        imgs[i].classList.add('on');
+        // Se piden las dos siguientes con antelación para que el fundido no llegue a una foto sin cargar.
+        [1, 2].forEach((k) => { imgs[(i + k) % imgs.length].loading = 'eager'; });
+      };
+      const start = () => {
+        if (timer || starter) return;
+        starter = window.setTimeout(() => { starter = undefined; next(); timer = window.setInterval(next, 4000); }, 2600 + Number(box.dataset.delay || 0));
+      };
+      const stop = () => { clearTimeout(starter); clearInterval(timer); starter = timer = undefined; };
+      new IntersectionObserver((entries) => entries.forEach((e) => (e.isIntersecting ? start() : stop())), { threshold: 0.25 }).observe(box);
+    });
   }
 </script>

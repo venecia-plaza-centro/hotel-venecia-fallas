@@ -1,5 +1,5 @@
 ---
-import { FALLAS, type Locale } from '../../consts';
+import { FALLAS, SITE, type Locale } from '../../consts';
 import { useT } from '../../i18n/ui';
 import { pagePath } from '../../i18n/pages';
 import { getSpaces, spacePriceForDay } from '../../lib/spaces';
@@ -51,7 +51,57 @@ const quick = [
   { icon: 'use', text: glue(t('spaces.quick.use')) },
   { icon: 'early', text: glue(t('spaces.quick.early')) },
 ];
+// Datos estructurados (JSON-LD): el hotel, cada espacio como oferta (precio, aforo, m², foto) y la ruta de migas.
+// Se generan con los mismos datos que se ven en la página, así que no pueden contradecirla.
+const origin = SITE.origin;
+const pageUrl = origin + pagePath('spaces', lang);
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Hotel',
+      '@id': `${SITE.mainSite}/#hotel`,
+      name: SITE.name,
+      url: SITE.mainSite,
+      telephone: SITE.phone,
+      email: SITE.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Plaza del Ayuntamiento, 3',
+        postalCode: '46002',
+        addressLocality: 'València',
+        addressCountry: 'ES',
+      },
+      makesOffer: spaces.map((s) => ({
+        '@type': 'Offer',
+        url: `${pageUrl}#espacio-${s.number}`,
+        price: s.price,
+        priceCurrency: 'EUR',
+        priceValidUntil: '2027-03-19',
+        availability: s.days.length > 0 ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+        itemOffered: {
+          '@type': 'Accommodation',
+          name: `${fill(t('spaces.card.title'), { n: s.number })} · ${SITE.name}`,
+          description: t(`spaces.desc.${s.number}`),
+          floorLevel: String(s.floor),
+          floorSize: { '@type': 'QuantitativeValue', value: s.m2, unitCode: 'MTK' },
+          occupancy: { '@type': 'QuantitativeValue', maxValue: s.capacity },
+          image: `${origin}/images/espacios/${s.number}/foto-1600.webp`,
+        },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: t('brand.name'), item: origin + pagePath('home', lang) },
+        { '@type': 'ListItem', position: 2, name: t('nav.spaces'), item: pageUrl },
+      ],
+    },
+  ],
+}).replace(/</g, '\\u003c');
 ---
+
+<script type="application/ld+json" set:html={jsonLd} />
 
 <PageHero title={t('spaces.h1')} accent={t('spaces.h1.accent')} lead={t('spaces.lead')} photo="/images/espacios/506/foto-1600.webp" tall scrollLabel={t('home.discover')} scrollHref="#espacios-vistazo" rule={false}>
   <div class="hero-pills">
@@ -95,6 +145,7 @@ const quick = [
 
 <section class="section spaces-cards">
   <div class="container">
+    <h2 class="sr-only">{t('spaces.cards.h')}</h2>
     {spaces.map((s, i) => {
       const special = Object.entries(s.priceByDay ?? {}).map(([day, price]) => ({ day: Number(day), price }));
       return (
