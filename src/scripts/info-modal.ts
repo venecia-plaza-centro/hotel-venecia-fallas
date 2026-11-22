@@ -12,6 +12,8 @@ document.addEventListener('click', (e) => {
   if (opener) {
     const dlg = document.getElementById(opener.dataset.infoOpen || '') as HTMLDialogElement | null;
     if (dlg && typeof dlg.showModal === 'function' && !dlg.open) {
+      // Si el botón es un enlace (p. ej. «Reservar»), se abre la ventana en vez de seguir el enlace.
+      e.preventDefault();
       dlg.showModal();
       document.body.style.overflow = 'hidden';
       dlg.querySelector<HTMLElement>('.info-modal-body')?.scrollTo({ top: 0 });

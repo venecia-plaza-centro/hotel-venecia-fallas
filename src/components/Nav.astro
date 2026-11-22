@@ -2,6 +2,7 @@
 import { LOCALES, LOCALE_NAMES, type Locale } from '../consts';
 import { PAGES, pagePath, type PageId } from '../i18n/pages';
 import { useT } from '../i18n/ui';
+import InfoModal from './InfoModal.astro';
 
 interface Props { lang: Locale; pageId: PageId; }
 const { lang, pageId } = Astro.props;
@@ -67,7 +68,7 @@ const bookHref = pageId === 'spaces' ? '#espacios-vistazo' : pageId === 'home' ?
           ))}
         </div>
       </div>
-      {!isBook && <a class="btn btn-gold" href={bookHref}>{t('nav.book')}</a>}
+      {!isBook && <a class="btn btn-gold" href={bookHref} data-info-open="reservar-choice">{t('nav.book')}</a>}
       <button type="button" class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-nav" aria-label={t('nav.menu')}>
         <span></span><span></span><span></span>
       </button>
@@ -86,7 +87,7 @@ const bookHref = pageId === 'spaces' ? '#espacios-vistazo' : pageId === 'home' ?
   {navItems.map((item) => (
     <a href={pagePath(item.id, lang)}>{t(`nav.${item.id}`)}</a>
   ))}
-  {!isBook && <a href={bookHref} class="mobile-nav-cta">{t('nav.book')}</a>}
+  {!isBook && <a href={bookHref} class="mobile-nav-cta" data-info-open="reservar-choice">{t('nav.book')}</a>}
   <div class="mobile-nav-langs">
     {LOCALES.map((l) => (
       <a href={pagePath(pageId, l)} hreflang={l} class={l === lang ? 'is-active' : ''}>
@@ -95,6 +96,26 @@ const bookHref = pageId === 'spaces' ? '#espacios-vistazo' : pageId === 'home' ?
     ))}
   </div>
 </div>
+
+{/* «Reservar» (cabecera y menú móvil) abre esta ventana para elegir entre balcones y espacios; sin JavaScript,
+    el botón sigue llevando a `bookHref`. */}
+{!isBook && (
+  <InfoModal id="reservar-choice" narrow label={t('nav.book')} closeLabel={t('nav.close')}>
+    <h2 class="choice-title">{t('nav.choose.title')}</h2>
+    <div class="choice-grid">
+      <a class="choice" href={pagePath('rooms', lang)}>
+        <span class="choice-photo"><img src="/images/rooms/410/balcon.webp" width="640" height="480" alt="" loading="lazy" decoding="async" /></span>
+        <strong class="choice-name">{t('nav.rooms')}</strong>
+        <span class="choice-btn">{t('home.cta.rooms')}</span>
+      </a>
+      <a class="choice" href={pagePath('spaces', lang)}>
+        <span class="choice-photo"><img src="/images/espacios/704/foto-800.webp" width="800" height="450" alt="" loading="lazy" decoding="async" /></span>
+        <strong class="choice-name">{t('nav.spaces')}</strong>
+        <span class="choice-btn">{t('home.cta.spaces')}</span>
+      </a>
+    </div>
+  </InfoModal>
+)}
 
 <script>
   const langDd = document.getElementById('lang-dd');
@@ -153,3 +174,23 @@ const bookHref = pageId === 'spaces' ? '#espacios-vistazo' : pageId === 'home' ?
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 </script>
+
+<style>
+  .choice-title { margin: 0 0 18px; text-align: center; font-family: var(--ff-display); font-size: 26px; line-height: 1.2; color: var(--navy); }
+  .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .choice { display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; border: 1px solid var(--cream-dark); background: #fff; box-shadow: var(--sh-sm); text-align: center; text-decoration: none; transition: transform .25s, box-shadow .25s, border-color .25s; }
+  .choice:hover, .choice:focus-visible { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: var(--gold); }
+  .choice-photo { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--navy); }
+  .choice-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .choice-name { padding: 14px 12px 0; font-family: var(--ff-display); font-size: 22px; letter-spacing: .06em; text-transform: uppercase; color: var(--navy); }
+  .choice-btn { margin: 12px 14px 16px; padding: 10px 14px; border-radius: 999px; background: var(--gold); border: 2px solid var(--gold); color: var(--navy); font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transition: background .3s, color .3s, border-color .3s; }
+  .choice:hover .choice-btn, .choice:focus-visible .choice-btn { background: var(--navy); border-color: var(--navy); color: var(--gold-light); }
+  @media (max-width: 520px) {
+    .choice-grid { grid-template-columns: 1fr; gap: 12px; }
+    .choice-title { font-size: 22px; }
+    .choice { display: grid; grid-template-columns: 40% 1fr; grid-template-areas: 'photo name' 'photo btn'; align-items: center; }
+    .choice-photo { grid-area: photo; aspect-ratio: auto; height: 100%; min-height: 112px; }
+    .choice-name { grid-area: name; padding: 12px 12px 0; font-size: 19px; align-self: end; }
+    .choice-btn { grid-area: btn; margin: 10px 12px 14px; padding: 9px 10px; font-size: 11.5px; align-self: start; }
+  }
+</style>

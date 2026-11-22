@@ -4,11 +4,11 @@
  * (los de «Información» de las cabeceras de Balcones y Espacios) y se cierra con la X, con Esc o
  * pulsando fuera. Con `auto` se abre sola al entrar en la página (ver info-modal.ts). Es un <dialog> nativo: accesible, con foco atrapado y sin librerías.
  */
-interface Props { id: string; label: string; closeLabel: string; auto?: boolean; }
-const { id, label, closeLabel, auto = false } = Astro.props;
+interface Props { id: string; label: string; closeLabel: string; auto?: boolean; narrow?: boolean; }
+const { id, label, closeLabel, auto = false, narrow = false } = Astro.props;
 ---
 
-<dialog id={id} class="info-modal" aria-label={label} data-auto={auto ? 'true' : undefined}>
+<dialog id={id} class={`info-modal${narrow ? ' info-modal-sm' : ''}`} aria-label={label} data-auto={auto ? 'true' : undefined}>
   <div class="info-modal-box">
     <button type="button" class="info-modal-close" data-info-close aria-label={closeLabel}>&times;</button>
     <div class="info-modal-body">
@@ -27,6 +27,7 @@ const { id, label, closeLabel, auto = false } = Astro.props;
     margin: auto; width: min(94vw, 960px); max-height: 88vh; max-height: 88dvh; padding: 0; border: 0; border-radius: 20px;
     background: #fff; color: var(--text-dark, #1a1a2e); box-shadow: 0 30px 80px rgba(8, 14, 30, .55); overflow: hidden;
   }
+  .info-modal-sm { width: min(94vw, 640px); }
   .info-modal[open] { animation: infoModalBeat .95s cubic-bezier(.3, .7, .3, 1) both; }
   .info-modal::backdrop { background: rgba(8, 14, 30, .68); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   .info-modal-box { position: relative; max-height: inherit; }

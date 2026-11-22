@@ -18,6 +18,7 @@ const es: Dict = {
   'nav.book': 'Reservar',
   'nav.menu': 'Menú',
   'nav.close': 'Cerrar menú',
+  'nav.choose.title': '¿Qué desea reservar?',
 
   // fabs
   'fab.call.aria': 'Llamar al hotel',
@@ -462,6 +463,7 @@ const en: Dict = {
   'nav.book': 'Book now',
   'nav.menu': 'Menu',
   'nav.close': 'Close menu',
+  'nav.choose.title': 'What would you like to book?',
 
   'fab.call.aria': 'Call the hotel',
   'fab.contact.aria': 'Contact by phone or WhatsApp',
@@ -889,6 +891,7 @@ const it: Dict = {
   'nav.book': 'Prenota',
   'nav.menu': 'Menu',
   'nav.close': 'Chiudi menu',
+  'nav.choose.title': 'Cosa desidera prenotare?',
 
   'fab.call.aria': 'Chiama l’hotel',
   'fab.contact.aria': 'Contatta per telefono o WhatsApp',
@@ -1317,6 +1320,7 @@ const fr: Dict = {
   'nav.book': 'Réserver',
   'nav.menu': 'Menu',
   'nav.close': 'Fermer le menu',
+  'nav.choose.title': 'Que souhaitez-vous réserver ?',
 
   'fab.call.aria': "Appeler l'hôtel",
   'fab.contact.aria': 'Contacter par téléphone ou WhatsApp',
@@ -1746,6 +1750,7 @@ const de: Dict = {
   'nav.book': 'Jetzt buchen',
   'nav.menu': 'Menü',
   'nav.close': 'Menü schließen',
+  'nav.choose.title': 'Was möchten Sie buchen?',
 
   'fab.call.aria': 'Hotel anrufen',
   'fab.contact.aria': 'Per Telefon oder WhatsApp kontaktieren',
