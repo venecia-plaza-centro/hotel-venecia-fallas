@@ -39,22 +39,16 @@ document.addEventListener(
 );
 
 /**
- * Apertura automática (`data-auto` en el <dialog>): al entrar en la página sale la ventana de
- * información, una sola vez por visita (sessionStorage), pasado un instante para que se vea antes la
- * cabecera. No sale si el visitante llega a una sección concreta (enlace con #ancla, p. ej. «Reservar»
- * en la cabecera) ni si hay otra ventana abierta. Si el navegador no deja guardar, sale igualmente.
+ * Apertura automática (`data-auto` en el <dialog>): cada vez que se entra en la página sale la ventana
+ * de información, pasado un instante para que se vea antes la cabecera. No sale si el visitante llega a
+ * una sección concreta (enlace con #ancla) ni si ya hay otra ventana abierta.
  */
 document.querySelectorAll<HTMLDialogElement>('dialog.info-modal[data-auto]').forEach((dlg) => {
-  const key = `info-seen-${dlg.id}`;
-  try {
-    if (sessionStorage.getItem(key)) return;
-  } catch { /* sin almacenamiento: se abre igualmente */ }
   if (location.hash) return;
   window.setTimeout(() => {
     if (document.querySelector('dialog[open]') || typeof dlg.showModal !== 'function') return;
     dlg.showModal();
     document.body.style.overflow = 'hidden';
     dlg.querySelector<HTMLElement>('.info-modal-body')?.scrollTo({ top: 0 });
-    try { sessionStorage.setItem(key, '1'); } catch { /* ignorar */ }
   }, 900);
 });
