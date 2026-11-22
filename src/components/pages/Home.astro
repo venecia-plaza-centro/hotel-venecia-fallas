@@ -395,10 +395,25 @@ const HERO_POSTER = '/video/hero-mascleta-poster.webp';
      de quedar centrado en todo el alto de la pantalla; la frase
      manuscrita, el sello y "Descúbrelo" se quedan donde están. */
   @media (max-width: 480px) {
+    /* iPhone (≈ 400 × 680 visibles en Safari): todo el bloque cabe en la primera pantalla, sin que la frase
+       manuscrita, el sello ni «Descúbrelo» queden tapados por la barra del navegador. Menos aire arriba y
+       entre bloques, y el balcón dorado más pequeño. */
+    .hero-panel { padding-top: calc(88px + 14px); padding-bottom: 150px; gap: 10px; }
+    .hero-panel .gold-rule { width: 92px; margin-bottom: 0 !important; }
+    .hero-panel p.hero-kicker { line-height: 1.5; }
+    .hero-ctas { gap: 0; }
+    .hero-ctas .btn { margin-top: 8px; }
     .hero-panel { justify-content: flex-start; }
     /* Título un poco más compacto para que "Viva la mascletà desde su" quepa
        en una línea (sin "su" suelto en la segunda) y "balcón privado" baje. */
     .hero-panel h1 { font-size: clamp(27px, 7.2vw, 34px); }
+  }
+  /* iPhone con la barra del navegador y poco alto visible (≈ 650 px o menos): se aprieta un poco más. */
+  @media (max-width: 480px) and (max-height: 680px) {
+    .hero-panel { padding-top: calc(88px + 6px); gap: 6px; }
+    .hero-panel .gold-rule { width: 70px; }
+    .hero-panel p.hero-kicker { font-size: 13.5px; }
+    .hero-ctas .btn { margin-top: 6px; padding-top: 12px; padding-bottom: 12px; }
   }
 
   /* Sello del hero: latido sutil (heartBeat de Animate.css: doble pulso)
