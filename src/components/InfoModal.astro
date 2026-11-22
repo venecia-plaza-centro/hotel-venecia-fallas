@@ -28,7 +28,7 @@ const { id, label, closeLabel, auto = false, narrow = false } = Astro.props;
     background: #fff; color: var(--text-dark, #1a1a2e); box-shadow: 0 30px 80px rgba(8, 14, 30, .55); overflow: hidden;
   }
   .info-modal-sm { width: min(94vw, 640px); }
-  .info-modal[open] { animation: infoModalBeat .95s cubic-bezier(.3, .7, .3, 1) both; }
+  .info-modal[open] { animation: infoModalPulse 1.3s cubic-bezier(.22, .8, .3, 1) both; }
   .info-modal::backdrop { background: rgba(8, 14, 30, .68); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   .info-modal-box { position: relative; max-height: inherit; }
   .info-modal-body { max-height: 88vh; max-height: 88dvh; overflow-y: auto; overscroll-behavior: contain; padding: 22px 30px 30px; }
@@ -40,15 +40,14 @@ const { id, label, closeLabel, auto = false, narrow = false } = Astro.props;
     display: grid; place-items: center; transition: background .2s, color .2s, border-color .2s;
   }
   .info-modal-close:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
-  /* Efecto latido: aparece y da dos latidos seguidos («lub-dub») antes de quedarse quieta. */
-  @keyframes infoModalBeat {
-    0%   { opacity: 0; transform: scale(.82); }
-    18%  { opacity: 1; transform: scale(1.06); }
-    32%  { transform: scale(.975); }
-    48%  { transform: scale(1.04); }
-    64%  { transform: scale(.99); }
-    80%  { transform: scale(1.012); }
-    100% { opacity: 1; transform: none; }
+  /* Efecto pulso: aparece con un pequeño empujón y de ella sale un anillo dorado que se expande y se apaga, dos veces. */
+  @keyframes infoModalPulse {
+    0%   { opacity: 0; transform: scale(.9); box-shadow: 0 30px 80px rgba(8, 14, 30, .55), 0 0 0 0 rgba(201, 162, 70, .65); }
+    22%  { opacity: 1; transform: scale(1.025); }
+    40%  { transform: scale(1); box-shadow: 0 30px 80px rgba(8, 14, 30, .55), 0 0 0 26px rgba(201, 162, 70, 0); }
+    41%  { box-shadow: 0 30px 80px rgba(8, 14, 30, .55), 0 0 0 0 rgba(201, 162, 70, .5); }
+    75%  { transform: scale(1); box-shadow: 0 30px 80px rgba(8, 14, 30, .55), 0 0 0 30px rgba(201, 162, 70, 0); }
+    100% { opacity: 1; transform: none; box-shadow: 0 30px 80px rgba(8, 14, 30, .55); }
   }
   @media (prefers-reduced-motion: reduce) { .info-modal[open] { animation: none; } }
   @media (max-width: 600px) { .info-modal-body { padding: 20px 16px 22px; } .info-modal-logo { width: 48px; height: 48px; } }
