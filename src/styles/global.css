@@ -241,12 +241,12 @@ h1, h2, h3 { font-family: var(--ff-display); font-weight: 700; line-height: 1.15
     -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent 100%); mask-image: linear-gradient(180deg, #000 74%, transparent 100%);
   }
 }
-/* Móviles (pantalla estrecha y alta): la foto sube a cuadrada 1:1 (en vez de 16:9) para que se vea más grande; se recorta
+/* Móviles (pantalla estrecha y alta): la foto sube a 5:4 (en vez de 16:9) para que se vea más grande; se recorta
    un poco por los lados. Tablet (601–900 px) se queda en 16:9. El título empieza justo debajo de la foto. */
 @media (max-width: 600px) {
-  .page-hero.is-tall { padding-top: calc(100vw + 6px); }
+  .page-hero.is-tall { padding-top: calc(80vw + 6px); }
   .page-hero.is-tall .page-hero-photo,
-  .page-hero.is-tall.has-photo::after { aspect-ratio: 1 / 1; }
+  .page-hero.is-tall.has-photo::after { aspect-ratio: 5 / 4; }
 }
 @media (min-width: 901px) {
   /* En escritorio la cabecera con foto ocupa TODA la pantalla (ancho y alto), como la portada. */
