@@ -127,6 +127,8 @@ section{padding:100px 0}
 
 /* destacados */
 .feat{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.fallas-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-top:8px}
+.fallas-btns .btn{min-width:200px}
 .feat .ph{aspect-ratio:16/11}
 @media(max-width:820px){.feat{grid-template-columns:1fr}}
 
@@ -213,7 +215,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 <nav class="nav">
   <div class="nav-inner">
     <a class="brand" href="#"><img src="img/logo-hotel-venecia.png" alt=""><span class="brand-text"><strong>Hotel <b>Venecia</b><br>Plaza Centro</strong><small>Eventos</small></span></a>
-    <div class="links"><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Su evento</a><a href="#contacto">Contacto</a></div>
+    <div class="links"><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Tu evento</a><a href="#contacto">Contacto</a></div>
     <div class="nav-right"><span class="lang">ES ▾</span><a class="btn" href="#contacto">Consultar</a><button class="burger" aria-label="Menú"><span></span><span></span><span></span></button></div>
   </div>
 </nav>
@@ -222,18 +224,17 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 <header class="hero">
   <div class="hero-bg"></div>
   <div class="wrap hero-in">
-    <span class="hand">momentos para recordar</span>
-    <h1>Viva los <em>eventos</em> desde el corazón de Valencia</h1>
+    <h1>Organiza tu <em>evento</em> en el centro de Valencia</h1>
     <p class="lead">Balcones sobre la mascletà, espacios privados y experiencias únicas en un hotel histórico frente a la Plaza del Ayuntamiento.</p>
-    <div class="hero-cta"><a class="btn" href="#fallas">Fallas 2027</a><a class="btn btn-light" href="#proximos">Ver próximos eventos</a></div>
+    <div class="hero-cta"><a class="btn" href="https://fallas.hotelvenecia.com/">Fallas 2027</a><a class="btn btn-light" href="#proximos">Ver próximos eventos</a></div>
   </div>
-  <a class="scroll" href="#fallas">Descúbralo ↓</a>
+  <a class="scroll" href="#fallas">Descúbrelo ↓</a>
 </header>
 
 <div class="strip"><div class="wrap">
   <div><strong>Plaza del Ayuntamiento</strong><span>Ubicación única</span></div>
   <div><strong>Salones privados</strong><span>Con vistas a la plaza</span></div>
-  <div><strong>Eventos a su medida</strong><span>Todo el año</span></div>
+  <div><strong>Eventos a tu medida</strong><span>Todo el año</span></div>
   <div><strong>Hasta 20 personas</strong><span>Aforo máximo</span></div>
 </div></div>
 </div>
@@ -242,16 +243,20 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
   <div class="wrap">
     <div class="head">
       <span class="eyebrow">Fallas 2027</span>
-      <h2>La mascletà, <em>a pie de balcón</em></h2>
+      <h2>La mascletà, <em>en primera línea</em></h2>
       <div class="rule"><i></i></div>
-      <p>Dos formas de vivir el estruendo más famoso del mundo desde un hotel con vistas privilegiadas a la plaza.</p>
     </div>
-    <div class="feat">
+    <div class="fallas-btns">
+      <a class="btn" href="https://fallas.hotelvenecia.com/balcones/">Balcones</a>
+      <a class="btn btn-ghost" href="https://fallas.hotelvenecia.com/espacios/">Espacios</a>
+    </div>
+    <!-- Tarjetas de Balcón y Espacio: ocultas por ahora (se sustituyen por los dos botones de arriba). Para volver a verlas, quitar style="display:none". -->
+    <div class="feat" style="display:none">
       <article class="card">
         <div class="ph"><span class="tag live">Reservas abiertas</span><img src="img/vista-balcon.webp" alt="" style="object-position:50% 60%"></div>
         <div class="body">
           <h3>Balcón <em>privado</em></h3>
-          <p>Su propio balcón sobre la plaza para ver cada mascletà de las Fallas, con todo incluido.</p>
+          <p>Tu propio balcón sobre la plaza para ver cada mascletà de las Fallas, con todo incluido.</p>
           <div class="pills"><span class="pill">Del 1 al 19 de marzo</span><span class="pill">Vistas a la plaza</span><span class="pill">Pago online</span></div>
           <div class="foot"><span class="price">desde<b>95 €</b>por persona<small>¡quedan pocos!</small></span><a class="btn" href="#">Reservar balcón</a></div>
         </div>
@@ -260,7 +265,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
         <div class="ph"><span class="tag">Reservas · pronto</span><img src="img/espacio-408.webp" alt=""></div>
         <div class="body">
           <h3>Espacio <em>exclusivo</em></h3>
-          <p>Un salón entero del hotel, solo para usted y sus invitados, para ver la mascletà con total privacidad.</p>
+          <p>Un salón entero del hotel, solo para ti y tus invitados, para ver la mascletà con total privacidad.</p>
           <div class="pills"><span class="pill">Hasta 20 personas</span><span class="pill">7 espacios</span><span class="pill">IVA incluido</span></div>
           <div class="foot"><span class="price">desde<b>480 €</b>al día<small>espacio entero</small></span><a class="btn btn-ghost" href="#">Ver espacios</a></div>
         </div>
@@ -287,10 +292,9 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 <section id="proximos" class="cream">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">Agenda del hotel</span>
       <h2>Próximos <em>eventos</em></h2>
       <div class="rule"><i></i></div>
-      <p>Retiros, celebraciones y experiencias especiales. Un calendario vivo que el hotel actualiza cuando quiera.</p>
+      <p>Reuniones, celebraciones y experiencias especiales.</p>
     </div>
     <div class="chips" id="chips">
       <button class="chip on" data-f="all">Todos</button>
@@ -331,8 +335,8 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
       </article>
       <article class="card soon">
         <img src="img/balcon-forjado.webp" alt="">
-        <span class="hand">¿tiene una idea?</span>
-        <h3>Su próximo evento, aquí</h3>
+        <span class="hand">¿tienes una idea?</span>
+        <h3>Tu próximo evento, aquí</h3>
         <p>Catas, presentaciones, talleres… El hotel irá añadiendo nuevas propuestas durante el año.</p>
         <a class="btn" href="#contacto">Proponer una idea</a>
       </article>
@@ -349,12 +353,12 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
     </div>
     <div>
       <span class="eyebrow">Eventos privados</span>
-      <h2 style="margin-top:12px">Organice <em>su propio evento</em> con nosotros</h2>
+      <h2 style="margin-top:12px">Organiza <em>tu propio evento</em> con nosotros</h2>
       <div class="rule" style="margin:4px auto 20px"><i></i></div>
-      <p>Salones con carácter, en un edificio señorial de la Plaza del Ayuntamiento. Le ayudamos a diseñar el evento a su medida.</p>
+      <p>Salones con carácter, en un edificio señorial de la Plaza del Ayuntamiento. Te ayudamos a diseñar el evento a tu medida.</p>
       <ul class="ticks">
         <li>Espacios de 10 a 40 m² con luz natural y vistas</li>
-        <li>Alojamiento en el mismo hotel para sus invitados</li>
+        <li>Alojamiento en el mismo hotel para tus invitados</li>
         <li>Propuesta personalizada en menos de 48 horas</li>
       </ul>
       <span class="hand" style="margin-bottom:14px">desde 480 € al día</span>
@@ -365,10 +369,10 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 
 <section class="cream">
   <div class="wrap">
-    <div class="head"><span class="eyebrow">Muy sencillo</span><h2>Cómo <em>funciona</em></h2><div class="rule"><i></i></div></div>
+    <div class="head"><h2>Cómo <em>funciona</em></h2><div class="rule"><i></i></div></div>
     <div class="steps">
-      <div class="step"><h3>Elija su evento</h3><p>Explore las Fallas, los próximos eventos o cuéntenos su idea.</p></div>
-      <div class="step"><h3>Reserva o consulta</h3><p>Pague online en los eventos con reserva directa o escríbanos para los demás.</p></div>
+      <div class="step"><h3>Elige tu evento</h3><p>Explora las Fallas, los próximos eventos o cuéntanos tu idea.</p></div>
+      <div class="step"><h3>Reserva o consulta</h3><p>Paga online en los eventos con reserva directa o escríbenos para los demás.</p></div>
       <div class="step"><h3>Disfruta</h3><p>Nos ocupamos de todo para que solo tengas que vivirlo.</p></div>
     </div>
   </div>
@@ -377,9 +381,9 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 <section id="contacto" class="contact">
   <div class="wrap">
     <span class="hand">hablemos</span>
-    <h2>¿Tiene una <em>idea</em> en mente?</h2>
+    <h2>¿Tienes una <em>idea</em> en mente?</h2>
     <div class="rule" style="margin-bottom:20px"><i></i></div>
-    <p>Cuéntenos qué quiere celebrar y le respondemos con una propuesta a su medida.</p>
+    <p>Cuéntanos qué quieres celebrar y te respondemos con una propuesta a tu medida.</p>
     <div class="hero-cta"><a class="btn" href="mailto:#">Escribir al hotel</a><a class="btn btn-light" href="tel:#">Llamar +34 963 52 42 67</a></div>
   </div>
 </section>
@@ -387,7 +391,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 <footer>
   <div class="wrap">
     <div><a class="flogo" href="#"><img src="img/logo-hotel-venecia.png" alt="Hotel Venecia Plaza Centro"></a><strong>Hotel <b>Venecia</b> Plaza Centro</strong>Plaza del Ayuntamiento, 3 · 46002 Valencia</div>
-    <div><strong>Eventos</strong><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Su evento</a></div>
+    <div><strong>Eventos</strong><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Tu evento</a></div>
     <div><strong>Legal</strong><a href="#">Condiciones de reserva</a><a href="#">Privacidad</a><a href="#">Aviso legal</a></div>
     <div class="copy">© 2026 Hotel Venecia Plaza Centro · eventos.hotelvenecia.com</div>
   </div>
