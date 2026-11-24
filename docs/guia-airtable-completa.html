@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guía fácil de Airtable y reservas</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font: 11.6px/1.5 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #1a1a2e; margin: 0; }
+  h1 { font: 700 27px/1.1 Georgia, serif; margin: 0 0 4px; color: #1B2A4A; }
+  .sub { color: #5a6478; margin: 0 0 14px; font-size: 12px; }
+  h2 { font: 700 16px/1.2 Georgia, serif; margin: 20px 0 6px; color: #1B2A4A; break-after: avoid; border-top: 1px solid #d9d2bd; padding-top: 12px; }
+  h2:first-of-type { border-top: 0; padding-top: 0; }
+  h3 { font: 700 12.6px/1.2 Georgia, serif; margin: 13px 0 4px; color: #1B2A4A; break-after: avoid; }
+  p { margin: 0 0 6px; }
+  ol, ul { margin: 0 0 6px; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 8px; break-inside: avoid; }
+  td, th { padding: 5px 8px; vertical-align: top; text-align: left; border: 1px solid #d9d2bd; }
+  th { background: #F6EFD9; color: #1B2A4A; font-size: 10.4px; text-transform: uppercase; letter-spacing: .04em; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 10.6px; background: #F6EFD9; padding: 0 3px; border-radius: 3px; }
+  li, p { break-inside: avoid; }
+  p:has(+ table), p:has(+ ol), p:has(+ ul) { break-after: avoid; }
+</style>
+</head>
+<body>
+
+<h1>Guía fácil de Airtable y reservas</h1>
+<p class="sub">Hotel Venecia · Fallas 2027 · noviembre de 2026</p>
+
+<h2>1. Qué es Airtable y cómo entrar</h2>
+<p>Airtable es la hoja de cálculo donde se guardan todas las reservas de la web de Fallas. Tú solo tienes que abrirla, mirar las reservas y, de vez en cuando, cambiar un precio o un día. La web se actualiza sola.</p>
+<ol>
+  <li>Entra en airtable.com con el correo del hotel (fallas@hotelvenecia.com).</li>
+  <li>Abre el espacio de trabajo y, dentro, la base de Fallas.</li>
+  <li>Arriba a la izquierda verás las pestañas: <b>Habitaciones</b>, <b>Espacios</b> y <b>Reservas</b>.</li>
+</ol>
+<p>Usa siempre la cuenta del hotel, y no compartas la contraseña por correo ni por WhatsApp.</p>
+
+<h2>2. Las tres tablas</h2>
+<p>Hay tres pestañas y cada una tiene un trabajo claro.</p>
+<table>
+  <tr><th>Tabla</th><th>Qué contiene</th><th>Qué puedes hacer aquí</th></tr>
+  <tr><td><b>Habitaciones</b></td><td>Los balcones que se alquilan para ver la mascletà (número, planta, precios para 2, 3 y 4 personas, entre semana y fin de semana)</td><td>Cambiar precios, o quitar uno de la venta desmarcando <b>Activa</b></td></tr>
+  <tr><td><b>Espacios</b></td><td>Las habitaciones que se alquilan enteras por día (aforo, precio, días de marzo disponibles)</td><td>Cambiar precio, aforo y días; quitar uno de la venta desmarcando <b>Activo</b></td></tr>
+  <tr><td><b>Reservas</b></td><td>Una fila por cada reserva: quién, qué día, cuánto ha pagado y en qué estado está</td><td>Mirar, filtrar, cancelar o añadir una reserva a mano</td></tr>
+</table>
+<p>En <b>Reservas</b> no hace falta escribir nada para las reservas de la web: se rellenan solas cuando el cliente paga. Cada reserva tiene un código que empieza por FAL, por ejemplo FAL-050. Es el que el cliente recibe en su correo, así que sirve para encontrarla rápido.</p>
+
+<h2>3. Qué pasa cuando alguien reserva</h2>
+<p>El hotel no tiene que aprobar nada: el pago online es lo que confirma la reserva.</p>
+<ol>
+  <li>El cliente elige balcón o espacio y un día en la web.</li>
+  <li>Al pulsar pagar, la web <b>bloquea</b> esa habitación y ese día durante 15 minutos. Nadie más puede cogerla mientras tanto. En Airtable aparece una fila en estado <b>en pago</b>.</li>
+  <li>El cliente paga con tarjeta en la pasarela segura del banco (Redsys).</li>
+  <li>Si el pago sale bien, la fila pasa a <b>confirmada</b> y <b>pagado</b>. El cliente recibe un correo con su código FAL, y el hotel recibe otro cuyo asunto empieza por <b>[Reserva pagada]</b>.</li>
+  <li>Si no paga a tiempo, el bloqueo se libera solo y, pasada una hora, la fila se marca <b>caducada</b>.</li>
+</ol>
+<p>Si dos clientes pagan a la vez el mismo espacio, solo se queda uno. Al otro se le devuelve el dinero automáticamente y recibe un correo explicándolo; el hotel recibe un aviso con el asunto <b>[Reembolso automático]</b>.</p>
+
+<h2>4. Los estados de una reserva</h2>
+<p>La columna <b>Estado</b> de la tabla Reservas es la más importante. Solo <b>en pago</b> y <b>confirmada</b> ocupan la habitación.</p>
+<table>
+  <tr><th>Estado</th><th>Qué significa</th><th>¿Ocupa el día?</th><th>¿Qué hago?</th></tr>
+  <tr><td><b>confirmada</b></td><td>Pagada. Es una reserva buena.</td><td>Sí</td><td>Nada, solo prepararla</td></tr>
+  <tr><td><b>en pago</b></td><td>El cliente está pagando ahora mismo (máximo 15 minutos)</td><td>Sí, temporalmente</td><td>Esperar. No tocar</td></tr>
+  <tr><td><b>caducada</b></td><td>El cliente empezó y no pagó</td><td>No</td><td>Nada</td></tr>
+  <tr><td><b>cancelada</b></td><td>Anulada (por el cliente, por el hotel o por una prueba)</td><td>No</td><td>Nada</td></tr>
+  <tr><td><b>solicitada</b></td><td>Solo aparece en pruebas sin cobro</td><td>Sí</td><td>Avisar si la ves en una reserva real</td></tr>
+</table>
+<p>La columna <b>Pago</b> dice <b>pagado</b> o <b>pendiente</b>. Una reserva real de la web siempre es confirmada y pagada.</p>
+
+<h2>5. Tareas del día a día, paso a paso</h2>
+<p>Los cambios de precio, aforo y días tardan como máximo <b>10-15 minutos</b> en verse en la web. No hay que avisar a nadie.</p>
+
+<h3>Ver las reservas de un día</h3>
+<ol>
+  <li>Abre la tabla <b>Reservas</b>.</li>
+  <li>Pulsa <b>Filter</b> (arriba) y elige <i>Fecha</i> → <i>es</i> → el día que quieras.</li>
+  <li>Añade otro filtro <i>Estado</i> → <i>es</i> → <i>confirmada</i> para ver solo las buenas.</li>
+</ol>
+
+<h3>Cambiar el precio de un espacio</h3>
+<ol>
+  <li>Abre la tabla <b>Espacios</b>.</li>
+  <li>Haz clic en la casilla <b>Precio</b> del espacio y escribe el nuevo importe (IVA incluido).</li>
+  <li>Pulsa Intro. En unos minutos la web lo muestra.</li>
+</ol>
+<p>Para un día con precio distinto (por ejemplo el 14 de marzo), rellena <b>Precio especial</b> y marca ese día en <b>Dias precio especial</b>.</p>
+
+<h3>Abrir o cerrar días de un espacio</h3>
+<ol>
+  <li>En <b>Espacios</b>, haz clic en la casilla <b>Dias</b> del espacio.</li>
+  <li>Marca los días de marzo en que se puede alquilar y desmarca los demás.</li>
+  <li>Si quieres cerrar un día porque ya lo has alquilado por otro canal, basta con desmarcarlo.</li>
+</ol>
+
+<h3>Quitar un espacio o un balcón de la venta</h3>
+<p>Desmarca la casilla <b>Activo</b> (en Espacios) o <b>Activa</b> (en Habitaciones). Desaparece de la web, pero no se pierde nada y puedes volver a marcarla cuando quieras.</p>
+
+<h3>Bloquear un día que ya está alquilado fuera de la web</h3>
+<p>Si alquilas una habitación por teléfono o por correo y no quieres que la web la venda también, tienes dos formas:</p>
+<ul>
+  <li><b>La más fácil (espacios):</b> quita ese día de <b>Dias</b> en la tabla Espacios.</li>
+  <li><b>Para balcones, o si prefieres dejar constancia:</b> en <b>Reservas</b> crea una fila nueva con <i>Localizador</i> <code>BLOQUEO-</code> + número de habitación (por ejemplo <code>BLOQUEO-109-01</code>), <i>Estado</i> <b>confirmada</b>, la <i>Fecha</i>, y la habitación o espacio enlazado. Pago puede quedarse en <b>pendiente</b> y sin importe.</li>
+</ul>
+
+<h3>Anotar una reserva hecha por teléfono o correo</h3>
+<p>Crea una fila en <b>Reservas</b> con <i>Localizador</i> (por ejemplo FAL-051), <i>Estado</i> <b>confirmada</b>, <i>Fecha</i>, la habitación o espacio, los datos del cliente y <i>Origen</i> <b>telefono</b> o <b>email</b>. Mientras esté confirmada, la web ya no vende ese día.</p>
+
+<h3>Cancelar una reserva</h3>
+<ol>
+  <li>Busca la fila por su código FAL o por el nombre del cliente.</li>
+  <li>Cambia <b>Estado</b> a <b>cancelada</b>. El día queda libre otra vez al instante.</li>
+  <li><b>Importante:</b> esto no devuelve el dinero. Si hay que reembolsar, se hace aparte, en el panel de Redsys del banco.</li>
+</ol>
+<p>No borres nunca la fila: así queda constancia de lo que pasó.</p>
+
+<h3>Comprobar los cobros</h3>
+<p>En Airtable, menú <b>Interfaces</b> → <b>Cobros</b>, hay un panel con las reservas pagadas y su importe, más fácil de leer que la tabla.</p>
+
+<h2>6. Reglas de oro: lo que no hay que tocar</h2>
+<p>La web lee estas tablas por el nombre exacto de cada columna. Si se cambia algo de lo que sigue, la web puede dejar de funcionar.</p>
+<ul>
+  <li><b>No cambies el nombre</b> de las tablas ni de las columnas.</li>
+  <li><b>No borres columnas</b>, aunque parezcan vacías.</li>
+  <li><b>No cambies el Slug</b> de ningún espacio o habitación (es un código interno, como <code>espacio-109</code>).</li>
+  <li><b>No cambies los nombres</b> de las opciones de Estado (confirmada, en pago, caducada, cancelada).</li>
+  <li><b>No borres reservas</b>: cancélalas.</li>
+  <li><b>No inventes un espacio nuevo</b> en la tabla Espacios: cada espacio necesita fotos y textos preparados en la web. Si el hotel quiere añadir uno, avisa antes.</li>
+  <li><b>No des acceso de edición a más personas</b> sin hablarlo: cada usuario con permiso de edición se paga aparte. Para que alguien solo mire, basta el permiso de lectura, que es gratis.</li>
+  <li><b>No compartas ninguna clave</b> (la contraseña de Airtable ni los códigos que empiezan por <code>pat</code>).</li>
+</ul>
+
+<h2>7. Problemas frecuentes</h2>
+<table>
+  <tr><th>Qué ves</th><th>Qué significa</th><th>Qué hacer</th></tr>
+  <tr><td>Una fila en <b>en pago</b> durante más de 20 minutos</td><td>El cliente no ha terminado de pagar, o el banco no ha avisado a la web</td><td>Esperar una hora: si no se confirma, pasa sola a <b>caducada</b>. Si el cliente dice que pagó, comprobarlo en Redsys y avisar</td></tr>
+  <tr><td>Correo <b>[Reembolso automático]</b></td><td>Dos clientes pagaron el mismo día y la web ya devolvió el dinero al segundo</td><td>Nada. Es informativo</td></tr>
+  <tr><td>Correo <b>[REEMBOLSO MANUAL]</b></td><td>La devolución automática no ha funcionado</td><td>Hay que devolver el pago a mano en el panel de Redsys y avisar al cliente</td></tr>
+  <tr><td>Una fila sin código ni estado (en blanco)</td><td>Un registro vacío sin importancia</td><td>Se puede borrar</td></tr>
+  <tr><td>Un precio o un día cambiado que no se ve en la web</td><td>Tarda hasta 10-15 minutos</td><td>Esperar y recargar la página</td></tr>
+  <tr><td>La web dice que no hay disponibilidad o falla al reservar</td><td>Puede haberse agotado el límite mensual de Airtable, o un fallo temporal</td><td>Avisar enseguida a quien mantiene la web</td></tr>
+</table>
+<p>Airtable está en un plan de pago (Team), que permite unas 100.000 consultas al mes. Es de sobra para la venta normal, pero conviene no crear automatizaciones o programas que consulten la tabla cada pocos minutos.</p>
+<p><b>Ante cualquier duda, no toques nada y pregunta.</b> Si te equivocas, pulsa Ctrl+Z (Cmd+Z en Mac) justo después, o abre la fila y mira su historial de cambios. Aun así, es mejor avisar antes.</p>
+
+</body>
+</html>

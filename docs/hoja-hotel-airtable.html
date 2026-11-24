@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Airtable y reservas: guía de una página</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm; }
+  * { box-sizing: border-box; }
+  body { font: 11.6px/1.42 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #1a1a2e; margin: 0; }
+  h1 { font: 700 23px/1.1 Georgia, serif; margin: 0 0 2px; color: #1B2A4A; }
+  .sub { color: #5a6478; margin: 0 0 8px; font-size: 10.4px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 12px; }
+  .box { border: 1px solid #d9d2bd; border-radius: 7px; padding: 8px 11px 9px; break-inside: avoid; }
+  .box h2 { font: 700 12.4px/1.2 Georgia, serif; margin: 0 0 4px; color: #1B2A4A; text-transform: uppercase; letter-spacing: .04em; }
+  .full { grid-column: 1 / -1; }
+  ol, ul { margin: 0; padding-left: 15px; }
+  li { margin: 1.5px 0; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { padding: 2px 6px 2px 0; vertical-align: top; text-align: left; }
+  th { color: #5a6478; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid #d9d2bd; }
+  b.f { font-family: "SF Mono", Menlo, monospace; font-size: 10.6px; background: #F6EFD9; padding: 0 3px; border-radius: 3px; }
+  .no { color: #b3261e; font-weight: 700; }
+  .warn { background: #FFF4D6; border: 1px solid #C9A246; border-radius: 6px; padding: 5px 9px; }
+  p { margin: 0; }
+  footer { margin-top: 7px; color: #7a8294; font-size: 9px; }
+</style>
+</head>
+<body>
+
+<h1>Airtable y reservas: guía de una página</h1>
+<p class="sub">Hotel Venecia · Fallas 2027 · entra con la cuenta del hotel en airtable.com</p>
+
+<div class="grid">
+
+  <div class="box full">
+    <h2>Lo esencial</h2>
+    <p>Airtable es donde se guardan las reservas de la web. Las reservas se rellenan <b>solas</b> cuando el cliente paga: no hay que aprobar nada. Cualquier cambio que hagáis tarda <b>hasta 10-15 minutos</b> en verse en la web. Tres pestañas: <b>Habitaciones</b> (balcones), <b>Espacios</b> y <b>Reservas</b>. Cada reserva tiene un código <b>FAL-0xx</b>, el mismo que recibe el cliente en su correo.</p>
+  </div>
+
+  <div class="box">
+    <h2>Qué pasa cuando alguien reserva</h2>
+    <ol>
+      <li>El cliente elige día y paga; la web <b>bloquea</b> la habitación 15 minutos (<b class="f">en pago</b>).</li>
+      <li>Si paga, la fila pasa a <b class="f">confirmada</b> + <b class="f">pagado</b>. El cliente recibe su correo y el hotel otro con asunto <b>[Reserva pagada]</b>.</li>
+      <li>Si no paga, el bloqueo se libera solo y la fila acaba en <b class="f">caducada</b>.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h2>Estados de una reserva</h2>
+    <table>
+      <tr><th>Estado</th><th>Significa</th><th>¿Ocupa el día?</th></tr>
+      <tr><td><b class="f">confirmada</b></td><td>Pagada, reserva buena</td><td>Sí</td></tr>
+      <tr><td><b class="f">en pago</b></td><td>Pagando ahora (máx. 15 min)</td><td>Temporal</td></tr>
+      <tr><td><b class="f">caducada</b></td><td>No llegó a pagar</td><td>No</td></tr>
+      <tr><td><b class="f">cancelada</b></td><td>Anulada</td><td>No</td></tr>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>Tabla «Espacios» y «Habitaciones»</h2>
+    <table>
+      <tr><th>Si queréis…</th><th>Cambiad…</th></tr>
+      <tr><td>Abrir / cerrar un día</td><td>Añadirlo / quitarlo en <b class="f">Dias</b></td></tr>
+      <tr><td>Cambiar el precio</td><td><b class="f">Precio</b> (IVA incluido)</td></tr>
+      <tr><td>Precio distinto un día</td><td><b class="f">Precio especial</b> + <b class="f">Dias precio especial</b></td></tr>
+      <tr><td>Cambiar el aforo</td><td><b class="f">Aforo</b></td></tr>
+      <tr><td>Quitar de la venta</td><td>Desmarcar <b class="f">Activo</b> / <b class="f">Activa</b></td></tr>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>Tabla «Reservas»: tareas</h2>
+    <ul>
+      <li><b>Ver un día:</b> <b>Filter</b> → <b class="f">Fecha</b> es ese día, y <b class="f">Estado</b> es confirmada.</li>
+      <li><b>Cancelar:</b> busca el FAL-0xx y pon <b class="f">Estado</b> = cancelada. El día queda libre al instante. <b>No devuelve el dinero</b>: eso se hace aparte en Redsys.</li>
+      <li><b>Reserva por teléfono o correo:</b> fila nueva con <b class="f">Estado</b> = confirmada, <b class="f">Fecha</b>, la habitación o espacio, los datos y <b class="f">Origen</b> = telefono / email.</li>
+    </ul>
+  </div>
+
+  <div class="box full">
+    <h2>Bloquear un día alquilado fuera de la web</h2>
+    <p>Lo más fácil en espacios: <b>quitar ese día de <b class="f">Dias</b></b>. Para balcones, o para dejar constancia: en <b>Reservas</b> crea una fila con <b class="f">Localizador</b> = BLOQUEO-109-01 (número de habitación + 01), <b class="f">Estado</b> = confirmada, la <b class="f">Fecha</b> y la habitación o espacio enlazado. Pago puede quedarse en pendiente y sin importe.</p>
+  </div>
+
+  <div class="box">
+    <h2>Avisos por correo</h2>
+    <ul>
+      <li><b>[Reserva pagada]</b>: nueva reserva. Preparar.</li>
+      <li><b>[Reembolso automático]</b>: dos clientes pagaron lo mismo; la web ya devolvió el dinero al segundo. Informativo.</li>
+      <li><b>[REEMBOLSO MANUAL]</b>: la devolución falló. <b>Hay que devolver el pago en Redsys</b> y avisar al cliente.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>Reglas de oro</h2>
+    <ul>
+      <li><span class="no">No</span> cambiéis nombres de tablas, columnas ni opciones de Estado.</li>
+      <li><span class="no">No</span> borréis columnas ni reservas: <b>cancelad</b>.</li>
+      <li><span class="no">No</span> cambiéis el <b class="f">Slug</b> (código interno, p. ej. espacio-109).</li>
+      <li><span class="no">No</span> compartáis claves ni deis edición a más gente (cada editor se paga).</li>
+      <li>Fila en blanco sin código: se puede borrar.</li>
+    </ul>
+  </div>
+
+  <div class="box full warn">
+    <p><b>Si algo no cuadra</b> (la web dice «sin disponibilidad», falla al reservar, una fila lleva más de 20 minutos en <b class="f">en pago</b>): <b>no toquéis nada y avisad enseguida</b> a quien mantiene la web. Si os equivocáis, Ctrl+Z (Cmd+Z en Mac) o abrid la fila y mirad su historial.</p>
+  </div>
+
+</div>
+
+
+</body>
+</html>

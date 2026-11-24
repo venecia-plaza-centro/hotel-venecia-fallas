@@ -112,7 +112,6 @@ const es: Dict = {
   'rooms.h1': 'Balcones privados para la mascletà',
   'rooms.h1.accent': 'Balcones privados',
   'rooms.intro': 'Viva las mascletàs en primera fila desde un balcón privado sobre la plaza. Cada balcón forma parte de una habitación real del hotel, con baño privado: un espacio exclusivo para su grupo, con vistas espectaculares para no perderse ni un momento.',
-  'rooms.capacity_note': 'Estas habitaciones con balcón pueden ser ocupadas por un máximo de 4 personas (de la misma reserva). Si necesitan balcones a la mascletà para más personas, pónganse en contacto con nosotros: fallas@hotelvenecia.com',
 
   // mascletas
   'nav.spaces': 'Espacios',
@@ -549,7 +548,6 @@ const en: Dict = {
   'rooms.h1': 'Private balconies for the mascletà',
   'rooms.h1.accent': 'Private balconies',
   'rooms.intro': 'Experience the mascletàs front row from a private balcony over the square. Every balcony is part of a real hotel room, with a private bathroom: an exclusive space for your group, with spectacular views so you don’t miss a moment.',
-  'rooms.capacity_note': 'These rooms with a balcony can be occupied by a maximum of 4 people (from the same booking). If you need balconies for the mascletà for more people, please get in touch with us: fallas@hotelvenecia.com',
 
   'nav.spaces': 'Spaces',
   'meta.spaces.title': 'Private spaces overlooking Plaza del Ayuntamiento · Hotel Venecia',
@@ -977,7 +975,6 @@ const it: Dict = {
   'rooms.h1': 'Balconi privati per la mascletà',
   'rooms.h1.accent': 'Balconi privati',
   'rooms.intro': 'Viva le mascletàs in prima fila da un balcone privato sulla piazza. Ogni balcone fa parte di una camera reale dell’hotel, con bagno privato: uno spazio esclusivo per il suo gruppo, con viste spettacolari per non perdere nemmeno un momento.',
-  'rooms.capacity_note': 'Queste camere con balcone possono ospitare un massimo di 4 persone (della stessa prenotazione). Se avete bisogno di balconi per la mascletà per più persone, contattateci: fallas@hotelvenecia.com',
 
   'nav.spaces': 'Spazi',
   'meta.spaces.title': 'Spazi privati sulla Plaza del Ayuntamiento · Hotel Venecia',
@@ -1406,7 +1403,6 @@ const fr: Dict = {
   'rooms.h1': 'Balcons privés pour la mascletà',
   'rooms.h1.accent': 'Balcons privés',
   'rooms.intro': 'Vivez les mascletàs aux premières loges depuis un balcon privé sur la place. Chaque balcon fait partie d’une vraie chambre de l’hôtel, avec salle de bain privée : un espace exclusif pour votre groupe, avec des vues spectaculaires pour ne rien manquer.',
-  'rooms.capacity_note': 'Ces chambres avec balcon peuvent accueillir un maximum de 4 personnes (de la même réservation). Si vous avez besoin de balcons pour la mascletà pour plus de personnes, contactez-nous : fallas@hotelvenecia.com',
 
   'nav.spaces': 'Espaces',
   'meta.spaces.title': 'Espaces privés sur la Plaza del Ayuntamiento · Hôtel Venecia',
@@ -1836,7 +1832,6 @@ const de: Dict = {
   'rooms.h1': 'Private Balkone für die Mascletà',
   'rooms.h1.accent': 'Private Balkone',
   'rooms.intro': 'Erleben Sie die Mascletàs in der ersten Reihe von einem privaten Balkon zum Platz. Jeder Balkon gehört zu einem echten Hotelzimmer mit eigenem Bad: ein exklusiver Raum für Ihre Gruppe, mit spektakulärem Blick, damit Ihnen kein Moment entgeht.',
-  'rooms.capacity_note': 'Diese Zimmer mit Balkon können von maximal 4 Personen (derselben Buchung) belegt werden. Falls Sie Balkone zur Mascletà für mehr Personen benötigen, kontaktieren Sie uns bitte: fallas@hotelvenecia.com',
 
   'nav.spaces': 'Räume',
   'meta.spaces.title': 'Private Räume an der Plaza del Ayuntamiento · Hotel Venecia',
