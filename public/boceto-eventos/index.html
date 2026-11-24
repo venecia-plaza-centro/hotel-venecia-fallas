@@ -27,6 +27,8 @@ em{font-style:italic}
 .btn:hover{background:transparent;color:var(--gold)}
 .btn-ghost{background:transparent;color:var(--navy);border-color:var(--navy)}
 .btn-ghost:hover{background:var(--navy);color:#fff}
+.btn-navy{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-navy:hover{background:transparent;color:var(--navy)}
 .btn-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
 .btn-light:hover{background:#fff;color:var(--navy);border-color:#fff}
 
@@ -231,6 +233,7 @@ section{padding:100px 0}
 .q .qnav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px}
 .q .qnav .btn{padding:12px 26px}
 .q .qnav .spacer{flex:1}
+.q .backrow{display:flex;justify-content:center;margin-top:14px}.q .backrow .btn{padding:12px 26px}
 .q .sum{background:var(--cream);border-radius:12px;padding:14px 18px;margin:4px 0 20px;font-size:14px;color:var(--text);line-height:1.55}
 .q .sum b{color:var(--navy)}
 .q .sum ul{margin:6px 0 0;padding-left:18px}
@@ -482,8 +485,9 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
       </div>
       <div class="send hide" id="q-send">
         <button type="button" class="btn" id="q-wa">Enviar por WhatsApp</button>
-        <button type="button" class="btn btn-ghost" id="q-mail">Enviar por email</button>
+        <button type="button" class="btn btn-navy" id="q-mail">Enviar por email</button>
       </div>
+      <div class="backrow hide" id="q-backrow"><button type="button" class="btn btn-ghost" id="q-back2">Atrás</button></div>
       <p class="note hide" id="q-note">Se abrirá WhatsApp o tu correo con el mensaje ya escrito; solo tienes que enviarlo.</p>
     </form>
     <p class="tel">¿Prefieres escribirnos directamente? <a href="mailto:eventos@hotelvenecia.com">eventos@hotelvenecia.com</a> · <a href="https://wa.me/34691201717" target="_blank" rel="noopener">WhatsApp +34 691 20 17 17</a><br>¿O llamar? <a href="tel:+34963524267">+34 963 52 42 67</a></p>
@@ -545,8 +549,8 @@ document.getElementById('chips').addEventListener('click',e=>{
     steps.forEach(function(s,k){s.classList.toggle('on',k===i)});
     [].slice.call($('q-prog').children).forEach(function(d,k){d.classList.toggle('on',k<=i)});
     $('q-stepname').textContent='Paso '+(i+1)+' de 4 · '+names[i];
-    $('q-back').classList.toggle('hide',i===0);
     var last=i===steps.length-1;
+    $('q-back').classList.toggle('hide',i===0||last); $('q-backrow').classList.toggle('hide',!last);
     $('q-next').classList.toggle('hide',last); $('q-send').classList.toggle('hide',!last); $('q-note').classList.toggle('hide',!last);
     if(last){ $('q-sum').innerHTML='<b>Tu solicitud</b><ul>'+lines().filter(function(l){return !/^Nombre|^Teléfono|^Email|^Prefiero|^Comentarios/.test(l)}).map(function(l){return '<li>'+l.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</li>'}).join('')+'</ul>'; }
     var top=f.getBoundingClientRect().top+window.scrollY-90; window.scrollTo({top:top,behavior:'smooth'});
@@ -557,6 +561,7 @@ document.getElementById('chips').addEventListener('click',e=>{
     if(err) err.classList.remove('on'); show(cur+1);
   });
   $('q-back').addEventListener('click',function(){show(cur-1)});
+  $('q-back2').addEventListener('click',function(){show(cur-1)});
   f.addEventListener('change',function(e){
     var err=f.querySelector('[data-err="'+(cur+1)+'"]'); if(err&&!missing(cur)) err.classList.remove('on');
     if(e.target.name==='interes') $('q-cat').classList.toggle('hide',all('interes').indexOf('Catering')<0);
