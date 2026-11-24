@@ -355,13 +355,13 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
         <div class="pills"><span class="pill">7 dic · 17–20 h</span><span class="pill">8 dic · 10–13 h y 17–20 h</span></div>
         <div class="foot"><span class="price"><b>55 €</b>por persona</span><a class="btn btn-ghost" href="#contacto">Más info</a></div></div>
       </article>
-      <article class="card" data-c="bienestar">
+      <article class="card soldout" data-c="bienestar">
         <div class="ph"><span class="tag">Bienestar</span><div class="date"><b>09</b><span>Dic</span></div><img src="img/spicy-pilates.webp" alt="" style="object-position:50% 55%"></div>
         <div class="body"><h3>Spicy pilates &amp; Brunch by Brutal cafe</h3><p>Una sesión de pilates con sorpresas de bienvenida y un delicioso postentreno con brunch y bebidas de la mano de Brutal Valencia.</p>
         <div class="pills"><span class="pill">11:00 h</span><span class="pill">17:00 h (English Class)</span><span class="pill">19:00 h</span></div>
         <div class="foot"><span class="btn btn-ghost" style="opacity:.55;pointer-events:none">Sold out</span></div></div>
       </article>
-      <article class="card" data-c="celebraciones">
+      <article class="card own" data-c="celebraciones">
         <div class="ph"><span class="tag">Celebraciones</span><img src="img/evento-despedida.webp" alt=""></div>
         <div class="body"><h3>Organiza tu evento con nosotros</h3>
         <div class="foot"><a class="btn btn-ghost" href="#contacto">Consultar</a></div></div>
@@ -416,7 +416,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
       <div class="qstep on" data-step="1">
         <fieldset data-req="tipo">
           <legend>¿Qué quieres organizar o reservar?</legend>
-          <div class="opts"><label><input type="radio" name="tipo" value="Pilates &amp; coronas navideñas (7 y 8 de diciembre)"><span>Pilates &amp; coronas navideñas</span></label><label class="off"><input type="radio" name="tipo" value="Spicy pilates &amp; Brunch" disabled><span>Spicy pilates &amp; Brunch · Sold out</span></label><label><input type="radio" name="tipo" value="Reunión de empresa"><span>Reunión de empresa</span></label><label><input type="radio" name="tipo" value="Cumpleaños"><span>Cumpleaños</span></label><label><input type="radio" name="tipo" value="Despedida"><span>Despedida</span></label><label><input type="radio" name="tipo" value="Celebración familiar"><span>Celebración familiar</span></label><label><input type="radio" name="tipo" value="Comida o cena privada"><span>Comida o cena privada</span></label><label><input type="radio" name="tipo" value="Presentación o taller"><span>Presentación o taller</span></label><label><input type="radio" name="tipo" value="Sesión de fotos"><span>Sesión de fotos</span></label><label><input type="radio" name="tipo" value="Otro"><span>Otro</span></label></div>
+          <div class="opts" id="q-tipos"></div>
         </fieldset>
         <fieldset data-req="personas">
           <legend>¿Cuántas personas sois?</legend>
@@ -516,6 +516,23 @@ document.getElementById('chips').addEventListener('click',e=>{
 (function(){
   var EMAIL='eventos@hotelvenecia.com', WA='34691201717';
   var f=document.getElementById('q'); if(!f) return;
+  // Las opciones de «¿Qué quieres organizar o reservar?» salen de las tarjetas de «Próximos eventos»:
+  // si el hotel añade, quita o marca como agotado un evento ahí, el cuestionario se actualiza solo.
+  (function(){
+    var box=document.getElementById('q-tipos'); if(!box) return;
+    function add(label,value,off){
+      var l=document.createElement('label'); if(off) l.className='off';
+      var i=document.createElement('input'); i.type='radio'; i.name='tipo'; i.value=value; if(off) i.disabled=true;
+      var sp=document.createElement('span'); sp.textContent=label+(off?' · Sold out':'');
+      l.appendChild(i); l.appendChild(sp); box.appendChild(l);
+    }
+    [].slice.call(document.querySelectorAll('.grid3 .card:not(.own)')).forEach(function(c){
+      var h=c.querySelector('h3'); if(!h) return;
+      var t=h.textContent.trim(), d=c.querySelector('.date'), fe=d?[].slice.call(d.children).map(function(x){return x.textContent.trim()}).join(' '):'';
+      add(t, fe?t+' ('+fe+')':t, c.classList.contains('soldout'));
+    });
+    add('Organizar mi propio evento','Organizar mi propio evento',false);
+  })();
   var steps=[].slice.call(f.querySelectorAll('.qstep')), cur=0;
   var names=['Tu evento','Cuándo','Qué necesitas','Tus datos'];
   var $=function(id){return document.getElementById(id)};
