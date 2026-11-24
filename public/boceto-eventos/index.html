@@ -206,6 +206,7 @@ section{padding:100px 0}
 .q .opts input{position:absolute;opacity:0;pointer-events:none}
 .q .opts span{display:inline-block;padding:10px 18px;border-radius:999px;border:1.5px solid var(--cream-dark);background:#fff;color:var(--navy);font-size:14.5px;font-weight:600;transition:all .2s}
 .q .opts label:hover span{border-color:var(--gold)}
+.q .opts label.off{cursor:not-allowed}.q .opts label.off span{opacity:.5}.q .opts label.off:hover span{border-color:var(--cream-dark)}
 .q .opts input:checked+span{background:var(--navy);color:var(--gold-light);border-color:var(--navy)}
 .q .opts input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
 .q .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px}
@@ -414,8 +415,8 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
 
       <div class="qstep on" data-step="1">
         <fieldset data-req="tipo">
-          <legend>¿Qué quieres organizar?</legend>
-          <div class="opts"><label><input type="radio" name="tipo" value="Reunión de empresa"><span>Reunión de empresa</span></label><label><input type="radio" name="tipo" value="Cumpleaños"><span>Cumpleaños</span></label><label><input type="radio" name="tipo" value="Despedida"><span>Despedida</span></label><label><input type="radio" name="tipo" value="Celebración familiar"><span>Celebración familiar</span></label><label><input type="radio" name="tipo" value="Comida o cena privada"><span>Comida o cena privada</span></label><label><input type="radio" name="tipo" value="Presentación o taller"><span>Presentación o taller</span></label><label><input type="radio" name="tipo" value="Sesión de fotos"><span>Sesión de fotos</span></label><label><input type="radio" name="tipo" value="Otro"><span>Otro</span></label></div>
+          <legend>¿Qué quieres organizar o reservar?</legend>
+          <div class="opts"><label><input type="radio" name="tipo" value="Pilates &amp; coronas navideñas (7 y 8 de diciembre)"><span>Pilates &amp; coronas navideñas</span></label><label class="off"><input type="radio" name="tipo" value="Spicy pilates &amp; Brunch" disabled><span>Spicy pilates &amp; Brunch · Sold out</span></label><label><input type="radio" name="tipo" value="Reunión de empresa"><span>Reunión de empresa</span></label><label><input type="radio" name="tipo" value="Cumpleaños"><span>Cumpleaños</span></label><label><input type="radio" name="tipo" value="Despedida"><span>Despedida</span></label><label><input type="radio" name="tipo" value="Celebración familiar"><span>Celebración familiar</span></label><label><input type="radio" name="tipo" value="Comida o cena privada"><span>Comida o cena privada</span></label><label><input type="radio" name="tipo" value="Presentación o taller"><span>Presentación o taller</span></label><label><input type="radio" name="tipo" value="Sesión de fotos"><span>Sesión de fotos</span></label><label><input type="radio" name="tipo" value="Otro"><span>Otro</span></label></div>
         </fieldset>
         <fieldset data-req="personas">
           <legend>¿Cuántas personas sois?</legend>
