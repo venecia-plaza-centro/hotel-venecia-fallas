@@ -361,7 +361,7 @@ footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-to
         <div class="pills"><span class="pill">11:00 h</span><span class="pill">17:00 h (English Class)</span><span class="pill">19:00 h</span></div>
         <div class="foot"><span class="btn btn-ghost" style="opacity:.55;pointer-events:none">Sold out</span></div></div>
       </article>
-      <article class="card own" data-c="celebraciones">
+      <article class="card propio" data-c="celebraciones">
         <div class="ph"><span class="tag">Celebraciones</span><img src="img/evento-despedida.webp" alt=""></div>
         <div class="body"><h3>Organiza tu evento con nosotros</h3>
         <div class="foot"><a class="btn btn-ghost" href="#contacto">Consultar</a></div></div>
@@ -528,7 +528,7 @@ document.getElementById('chips').addEventListener('click',e=>{
       var sp=document.createElement('span'); sp.textContent=label+(off?' · Sold out':'');
       l.appendChild(i); l.appendChild(sp); box.appendChild(l);
     }
-    [].slice.call(document.querySelectorAll('.grid3 .card:not(.own)')).forEach(function(c){
+    [].slice.call(document.querySelectorAll('.grid3 .card:not(.propio)')).forEach(function(c){
       var h=c.querySelector('h3'); if(!h) return;
       var t=h.textContent.trim(), d=c.querySelector('.date'), fe=d?[].slice.call(d.children).map(function(x){return x.textContent.trim()}).join(' '):'';
       add(t, fe?t+' ('+fe+')':t, c.classList.contains('soldout'));
