@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Boceto · Eventos Hotel Venecia</title>
+<title>Eventos · Hotel Venecia Plaza Centro</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#1B2A4A">
 <script>document.documentElement.className+=' js'</script>
 <style>
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/playfair-latin-var.woff2) format('woff2')}
@@ -45,20 +51,31 @@ em{font-style:italic}
 .brand{display:flex;align-items:center;gap:10px;line-height:1.1}
 .brand img{width:52px;height:52px;object-fit:contain}
 .brand-text{text-align:center}
-.brand strong{display:block;font-family:var(--ff-display);color:#fff;font-size:16px}
+.brand strong{display:block;font-family:var(--ff-display);color:#fff;font-size:19px}
 .brand strong b{color:var(--gold)}
-.brand small{display:block;font-size:9.5px;letter-spacing:.3em;padding-left:.3em;text-transform:uppercase;color:var(--gold-light);margin-top:2px}
+.brand small{display:block;font-size:11px;letter-spacing:.3em;padding-left:.3em;text-transform:uppercase;color:var(--gold-light);margin-top:2px}
 .links{display:flex;gap:30px}
-.links a{font-size:12.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.88);position:relative;padding:4px 0}
+.links a{font-size:14.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.88);position:relative;padding:4px 0}
 .links a::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .3s var(--ease)}
 .links a:hover{color:var(--gold-light)}.links a:hover::after{transform:scaleX(1)}
 .nav-right{display:flex;align-items:center;gap:14px}
-.lang{border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;padding:6px 10px;border-radius:4px}
-.nav .btn{padding:10px 20px;font-size:11px}
+.lang{border:1px solid rgba(255,255,255,.3);color:#fff;font-size:13px;font-weight:700;letter-spacing:.08em;padding:6px 10px;border-radius:4px}
+.nav .btn{padding:11px 22px;font-size:13px}
 .burger{display:none;width:34px;height:34px;flex-direction:column;justify-content:center;gap:5px;background:none;border:0}
 .burger span{display:block;height:2px;background:var(--gold);border-radius:2px}
-@media(max-width:980px){.links,.lang{display:none}.burger{display:flex}}
-@media(max-width:480px){.nav{left:10px;right:10px}.nav-inner{padding:0 16px;gap:8px}.brand img{width:40px;height:40px}.brand strong{font-size:13px}.brand small{font-size:8px}.nav .btn{padding:8px 12px;font-size:10px}}
+.burger span{transition:transform .3s var(--ease),opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.menu{display:none;position:absolute;top:calc(100% + 10px);left:0;right:0;background:var(--navy);border:1px solid rgba(201,162,70,.55);border-radius:28px;box-shadow:0 18px 44px rgba(10,18,36,.45);padding:10px 22px;text-align:center;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s var(--ease),transform .25s var(--ease),visibility 0s .25s}
+.menu.open{opacity:1;visibility:visible;transform:none;transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.menu a{display:block;padding:15px 8px;font-family:var(--ff-display);font-size:21px;font-weight:700;color:#fff;border-bottom:1px solid rgba(201,162,70,.22)}
+.menu a:last-child{border-bottom:0}
+.menu a:hover,.menu a:focus-visible{color:var(--gold-light)}
+.menu .menu-web{font-family:var(--ff-body);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light)}
+@media(max-width:980px){.links,.lang{display:none}.burger{display:flex}.menu{display:block}}
+@media(max-width:480px){.nav{left:10px;right:10px}.nav-inner{padding:0 16px;gap:8px}.brand img{width:40px;height:40px}.brand strong{font-size:15px}.brand small{font-size:9px}.nav .btn{padding:8px 12px;font-size:11.5px}}
+@media(max-width:360px){.brand img{width:34px;height:34px}.brand strong{font-size:13px}.brand small{font-size:8px;letter-spacing:.22em}.nav .btn{padding:7px 10px;font-size:10.5px}.nav-inner{gap:6px;padding:0 12px}}
 
 /* ── hero ── */
 .first{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
@@ -280,6 +297,15 @@ footer a{display:block;margin-top:5px}footer a:hover{color:var(--gold-light)}
 footer .copy{flex:0 0 100%;border-top:1px solid rgba(255,255,255,.12);padding-top:22px;margin-top:6px;font-size:12px}
 @media(max-width:700px){footer .wrap{flex-direction:column;align-items:center}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+/* ── título del hero: las palabras suben y aparecen una a una ── */
+.js .hero h1{opacity:0;animation:h1show .01s 1.6s forwards}
+.js .hero h1.ready{opacity:1;animation:none}
+@keyframes h1show{to{opacity:1}}
+.hero h1 .w{display:inline-block;opacity:0;transform:translateY(.5em);animation:wordIn .95s var(--ease) forwards;animation-delay:calc(var(--i)*120ms + 150ms)}
+.hero h1 em.w{animation:wordIn .95s var(--ease) forwards,sweep 7s ease-in-out 1.2s infinite;animation-delay:calc(var(--i)*120ms + 150ms),1.6s}
+@keyframes wordIn{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.js .hero h1{opacity:1}.hero h1 .w{opacity:1;transform:none}}
+
 /* ── movimiento: títulos y tarjetas aparecen al hacer scroll ── */
 .js .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -299,9 +325,16 @@ section:not(.contact) h2 em{background:linear-gradient(110deg,#C9A246 0%,#C9A246
 
 <nav class="nav">
   <div class="nav-inner">
-    <a class="brand" href="#"><img src="img/logo-hotel-venecia.png" alt=""><span class="brand-text"><strong>Hotel <b>Venecia</b><br>Plaza Centro</strong><small>Eventos</small></span></a>
+    <a class="brand" href="./" aria-label="Ir arriba"><img src="img/logo-hotel-venecia.png" alt=""><span class="brand-text"><strong>Hotel <b>Venecia</b><br>Plaza Centro</strong><small>Eventos</small></span></a>
     <div class="links"><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Tu evento</a><a href="#contacto">Contacto</a></div>
-    <div class="nav-right"><span class="lang">ES ▾</span><a class="btn" href="#contacto">Consultar</a><button class="burger" aria-label="Menú"><span></span><span></span><span></span></button></div>
+    <div class="nav-right"><span class="lang">ES ▾</span><a class="btn" href="#contacto">Consultar</a><button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button></div>
+  </div>
+  <div class="menu" id="menu" role="navigation" aria-label="Menú principal">
+    <a href="#fallas">Fallas 2027</a>
+    <a href="#proximos">Próximos eventos</a>
+    <a href="#tu-evento">Tu evento</a>
+    <a href="#contacto">Contacto</a>
+    <a class="menu-web" href="https://hotelvenecia.com" target="_blank" rel="noopener">Web del hotel</a>
   </div>
 </nav>
 
@@ -555,7 +588,7 @@ section:not(.contact) h2 em{background:linear-gradient(110deg,#C9A246 0%,#C9A246
 
 <footer>
   <div class="wrap">
-    <div><a class="flogo" href="#"><img src="img/logo-hotel-venecia.png" alt="Hotel Venecia Plaza Centro"></a><strong>Hotel <b>Venecia</b> Plaza Centro</strong>Plaza del Ayuntamiento, 3 · 46002 Valencia</div>
+    <div><a class="flogo" href="./" aria-label="Ir arriba"><img src="img/logo-hotel-venecia.png" alt="Hotel Venecia Plaza Centro"></a><strong>Hotel <b>Venecia</b> Plaza Centro</strong>Plaza del Ayuntamiento, 3 · 46002 Valencia</div>
     <div><strong>Eventos</strong><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Tu evento</a></div>
     <div><strong>Legal</strong><a href="#">Condiciones de reserva</a><a href="#">Privacidad</a><a href="#">Aviso legal</a></div>
     <div class="copy">© 2026 Hotel Venecia Plaza Centro · eventos.hotelvenecia.com</div>
@@ -702,6 +735,48 @@ document.getElementById('chips').addEventListener('click',e=>{
   },{threshold:.15,rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
 })();
+
+// Menú desplegable (móvil y tablet): se abre con la hamburguesa y se cierra al elegir una opción, con Esc o al tocar fuera.
+(function(){
+  var b=document.getElementById('burger'), m=document.getElementById('menu');
+  if(!b||!m) return;
+  function set(open){ m.classList.toggle('open',open); b.setAttribute('aria-expanded',open?'true':'false'); b.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú'); }
+  b.addEventListener('click',function(e){ e.stopPropagation(); set(!m.classList.contains('open')); });
+  m.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
+  document.addEventListener('click',function(e){ if(!m.contains(e.target)&&!b.contains(e.target)) set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&m.classList.contains('open')){ set(false); b.focus(); } });
+  matchMedia('(min-width:981px)').addEventListener('change',function(q){ if(q.matches) set(false); });
+})();
+
+// Título del hero: cada palabra entra con un pequeño movimiento (sin tocar el título al terminar, así no hay saltos).
+(function(){
+  var h=document.querySelector('.hero h1');
+  if(!h) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ h.classList.add('ready'); return; }
+  var n=0;
+  [].slice.call(h.childNodes).forEach(function(node){
+    if(node.nodeType===3){
+      var frag=document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach(function(part){
+        if(!part) return;
+        if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(' ')); return; }
+        var w=document.createElement('span'); w.className='w'; w.style.setProperty('--i',n++); w.textContent=part; frag.appendChild(w);
+      });
+      node.parentNode.replaceChild(frag,node);
+    } else if(node.nodeType===1 && node.tagName==='EM'){ node.classList.add('w'); node.style.setProperty('--i',n++); }
+  });
+  h.classList.add('ready');
+})();
+
+// Los logos suben arriba del todo sin dejar «#» en la dirección.
+document.querySelectorAll('a.brand, a.flogo').forEach(function(a){
+  a.addEventListener('click',function(e){
+    if(e.metaKey||e.ctrlKey||e.shiftKey) return;
+    e.preventDefault();
+    history.replaceState(null,'',location.pathname+location.search);
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
 </script>
 </body>
 </html>

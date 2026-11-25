@@ -70,7 +70,8 @@ export const PAGES: PageDef[] = [
   {
     id: 'faq',
     slug: { es: 'faq', en: 'faq', it: 'faq', fr: 'faq', de: 'faq' },
-    inNav: true,
+    // Oculta por ahora en la cabecera y en el menú móvil (25/11/2026); para volver a mostrarla, inNav: true.
+    inNav: false,
     inFooter: true,
   },
   {
