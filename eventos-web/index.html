@@ -11,6 +11,13 @@
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#1B2A4A">
+<link rel="canonical" href="https://eventos.hotelvenecia.com/">
+<link rel="alternate" hreflang="es" href="https://eventos.hotelvenecia.com/">
+<link rel="alternate" hreflang="en" href="https://eventos.hotelvenecia.com/en/">
+<link rel="alternate" hreflang="it" href="https://eventos.hotelvenecia.com/it/">
+<link rel="alternate" hreflang="fr" href="https://eventos.hotelvenecia.com/fr/">
+<link rel="alternate" hreflang="de" href="https://eventos.hotelvenecia.com/de/">
+<link rel="alternate" hreflang="x-default" href="https://eventos.hotelvenecia.com/">
 <script>document.documentElement.className+=' js'</script>
 <style>
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/playfair-latin-var.woff2) format('woff2')}
@@ -73,9 +80,20 @@ em{font-style:italic}
 .menu a:last-child{border-bottom:0}
 .menu a:hover,.menu a:focus-visible{color:var(--gold-light)}
 .menu .menu-web{font-family:var(--ff-body);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light)}
-@media(max-width:980px){.links,.lang{display:none}.burger{display:flex}.menu{display:block}}
+.lang-dd{position:relative}
+button.lang{background:none;cursor:pointer;font-family:inherit;line-height:1.4}
+.lang-list{position:absolute;right:0;top:calc(100% + 14px);min-width:150px;background:var(--navy);border:1px solid rgba(201,162,70,.55);border-radius:14px;padding:6px;box-shadow:0 18px 44px rgba(10,18,36,.45);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .2s,visibility 0s .2s}
+.lang-dd.open .lang-list{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
+.lang-list a{display:block;padding:9px 14px;border-radius:9px;color:#fff;font-size:13.5px;text-align:left}
+.lang-list a:hover,.lang-list a:focus-visible{background:rgba(255,255,255,.08)}
+.lang-list a.on{color:var(--gold-light);font-weight:700}
+.menu .menu-langs{display:flex;justify-content:center;gap:8px;padding:14px 0 6px;border-top:1px solid rgba(201,162,70,.22)}
+.menu .menu-langs a{padding:8px 11px;border:1px solid rgba(255,255,255,.3);border-radius:6px;font-family:var(--ff-body);font-size:12px;font-weight:700;letter-spacing:.06em;color:#fff}
+.menu .menu-langs a.on{background:var(--gold);border-color:var(--gold)}
+.menu .menu-web{border-bottom:0}
+@media(max-width:1180px){.links,.lang-dd{display:none}.burger{display:flex}.menu{display:block;left:auto;width:min(100%,440px)}}
 @media(max-width:480px){.nav{left:10px;right:10px}.nav-inner{padding:0 16px;gap:8px}.brand img{width:40px;height:40px}.brand strong{font-size:15px}.brand small{font-size:9px}.nav .btn{padding:8px 12px;font-size:11.5px}}
-@media(max-width:360px){.brand img{width:34px;height:34px}.brand strong{font-size:13px}.brand small{font-size:8px;letter-spacing:.22em}.nav .btn{padding:7px 10px;font-size:10.5px}.nav-inner{gap:6px;padding:0 12px}}
+@media(max-width:360px){.brand img{width:34px;height:34px}.brand strong{font-size:12.5px;white-space:nowrap}.brand small{font-size:8px;letter-spacing:.22em}.nav .btn{padding:7px 10px;font-size:10.5px}.nav-inner{gap:6px;padding:0 12px}}
 
 /* ── hero ── */
 .first{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
@@ -327,7 +345,7 @@ section:not(.contact) h2 em{background:linear-gradient(110deg,#C9A246 0%,#C9A246
   <div class="nav-inner">
     <a class="brand" href="./" aria-label="Ir arriba"><img src="img/logo-hotel-venecia.png" alt=""><span class="brand-text"><strong>Hotel <b>Venecia</b><br>Plaza Centro</strong><small>Eventos</small></span></a>
     <div class="links"><a href="#fallas">Fallas 2027</a><a href="#proximos">Próximos eventos</a><a href="#tu-evento">Tu evento</a><a href="#contacto">Contacto</a></div>
-    <div class="nav-right"><span class="lang">ES ▾</span><a class="btn" href="#contacto">Consultar</a><button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button></div>
+    <div class="nav-right"><div class="lang-dd" id="lang-dd"><button type="button" class="lang" id="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma">ES ▾</button><div class="lang-list"><!--LANGS--><a href="./" hreflang="es" lang="es" class="on">Español</a><a href="en/" hreflang="en" lang="en">English</a><a href="it/" hreflang="it" lang="it">Italiano</a><a href="fr/" hreflang="fr" lang="fr">Français</a><a href="de/" hreflang="de" lang="de">Deutsch</a><!--/LANGS--></div></div><a class="btn" href="#contacto">Consultar</a><button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button></div>
   </div>
   <div class="menu" id="menu" role="navigation" aria-label="Menú principal">
     <a href="#fallas">Fallas 2027</a>
@@ -335,6 +353,7 @@ section:not(.contact) h2 em{background:linear-gradient(110deg,#C9A246 0%,#C9A246
     <a href="#tu-evento">Tu evento</a>
     <a href="#contacto">Contacto</a>
     <a class="menu-web" href="https://hotelvenecia.com" target="_blank" rel="noopener">Web del hotel</a>
+    <div class="menu-langs"><!--MLANGS--><a href="./" hreflang="es" lang="es" class="on">ES</a><a href="en/" hreflang="en" lang="en">EN</a><a href="it/" hreflang="it" lang="it">IT</a><a href="fr/" hreflang="fr" lang="fr">FR</a><a href="de/" hreflang="de" lang="de">DE</a><!--/MLANGS--></div>
   </div>
 </nav>
 
@@ -630,7 +649,7 @@ document.getElementById('chips').addEventListener('click',e=>{
   function val(n){var e=f.elements[n]; if(!e) return ''; if(e.length!==undefined&&!e.tagName){var c=[].slice.call(e).filter(function(x){return x.checked}); return c.length?c[0].value:''} return (e.value||'').trim()}
   function all(n){return [].slice.call(f.querySelectorAll('[name='+n+']:checked')).map(function(x){return x.value})}
   function fecha(){var d=val('dia'),m=val('mes'); if(d){var p=d.split('-'); var t=p[2]+'/'+p[1]+'/'+p[0]; return m&&m.indexOf('Fallas')===0?t+' (Fallas 2027)':t} return m}
-  function lines(){
+  function lines(soloEvento){
     var L=[]; L.push('Tipo de evento: '+val('tipo')); L.push('Personas: '+val('personas'));
     var fe=fecha(); if(fe) L.push('Fecha: '+fe);
     if(val('semana')) L.push('Día: '+val('semana'));
@@ -638,6 +657,7 @@ document.getElementById('chips').addEventListener('click',e=>{
     if(all('interes').length) L.push('Me interesa: '+all('interes').join(', '));
     if(all('catering').length) L.push('Catering: '+all('catering').join(', '));
     if(val('presupuesto')) L.push('Presupuesto: '+val('presupuesto'));
+    if(soloEvento) return L;
     L.push('Nombre: '+val('nombre'));
     if(val('telefono')) L.push('Teléfono: '+val('telefono'));
     if(val('email')) L.push('Email: '+val('email'));
@@ -661,7 +681,7 @@ document.getElementById('chips').addEventListener('click',e=>{
     var last=i===steps.length-1;
     $('q-back').classList.toggle('hide',i===0||last); $('q-backrow').classList.toggle('hide',!last);
     $('q-next').classList.toggle('hide',last); $('q-send').classList.toggle('hide',!last); $('q-note').classList.toggle('hide',!last);
-    if(last){ $('q-sum').innerHTML='<b>Tu solicitud</b><ul>'+lines().filter(function(l){return !/^Nombre|^Teléfono|^Email|^Prefiero|^Comentarios/.test(l)}).map(function(l){return '<li>'+l.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</li>'}).join('')+'</ul>'; }
+    if(last){ $('q-sum').innerHTML='<b>Tu solicitud</b><ul>'+lines(true).map(function(l){return '<li>'+l.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</li>'}).join('')+'</ul>'; }
     var top=f.getBoundingClientRect().top+window.scrollY-90; window.scrollTo({top:top,behavior:'smooth'});
   }
   $('q-next').addEventListener('click',function(){
@@ -745,7 +765,7 @@ document.getElementById('chips').addEventListener('click',e=>{
   m.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
   document.addEventListener('click',function(e){ if(!m.contains(e.target)&&!b.contains(e.target)) set(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&m.classList.contains('open')){ set(false); b.focus(); } });
-  matchMedia('(min-width:981px)').addEventListener('change',function(q){ if(q.matches) set(false); });
+  matchMedia('(min-width:1181px)').addEventListener('change',function(q){ if(q.matches) set(false); });
 })();
 
 // Título del hero: cada palabra entra con un pequeño movimiento (sin tocar el título al terminar, así no hay saltos).
@@ -777,6 +797,16 @@ document.querySelectorAll('a.brand, a.flogo').forEach(function(a){
     window.scrollTo({top:0,behavior:'smooth'});
   });
 });
+
+// Selector de idioma (ordenador): se abre al pulsar y se cierra al tocar fuera o con Esc.
+(function(){
+  var d=document.getElementById('lang-dd'), b=document.getElementById('lang-btn');
+  if(!d||!b) return;
+  function set(open){ d.classList.toggle('open',open); b.setAttribute('aria-expanded',open?'true':'false'); }
+  b.addEventListener('click',function(e){ e.stopPropagation(); set(!d.classList.contains('open')); });
+  document.addEventListener('click',function(e){ if(!d.contains(e.target)) set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&d.classList.contains('open')){ set(false); b.focus(); } });
+})();
 </script>
 </body>
 </html>
